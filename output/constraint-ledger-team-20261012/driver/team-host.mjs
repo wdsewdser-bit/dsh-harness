@@ -102,7 +102,8 @@ if (process.argv.includes('--prepare')) {
   }
   const baseline = productionSignatures()
   write(root + '/' + run + '-production-signatures.json', JSON.stringify([...baseline]))
-  const fd = fs.openSync(root + (run === 'initial' ? '/host.log' : '/' + run + '-host.log'), 'wx')
+  const logFile = root + (run === 'initial' ? '/host.log' : '/' + run + '-host.log')
+  const fd = fs.openSync(logFile, 'wx')
   const host = spawn(process.execPath, [prod + '/app/node_modules/@deepseek-ai/dsh/lib/bin.js', 'web', '--no-open', '--port', '40124'],
     { cwd: root, env: { ...process.env, DSH_HOME: home }, windowsHide: true, stdio: ['ignore', fd, fd] })
   fs.closeSync(fd)
@@ -120,6 +121,8 @@ if (process.argv.includes('--prepare')) {
     try {
       tick += 1
       if (fs.existsSync(stopFile)) return stop('requested-stop')
+      // A plugin that fails to import leaves the host running without it; a run in that state validates nothing.
+      if (tick <= 60 && tick % 5 === 0 && fs.readFileSync(logFile, 'utf8').includes('failed to import')) return stop('plugin-import-failed')
       if (Date.now() - start > minutes * 60000) return stop('bounded-timeout')
       if (tick % 15 === 0 && terminals() > maxRequests) return stop('request-cap')
       // The production tree is large; a full signature pass every five seconds is enough to catch a stray write.
