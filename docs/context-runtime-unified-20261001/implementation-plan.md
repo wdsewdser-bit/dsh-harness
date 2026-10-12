@@ -1,5 +1,7 @@
 # DSH 上下文、恢复、验收与即时转向统一施工规范
 
+> 当前状态入口：[docs/CURRENT_STATE.md](../CURRENT_STATE.md)（2026-10-12 起）。下面到第 1 节之前的各段“补充”是按时间倒序保留的历史记录，其中的回归数字和启用状态都已被后续覆盖；本文件里仍然有效的状态只看第 16 节的登记表。
+
 2026-10-05 07:03 UTC 补充：P1-06 的持久门禁补上此前 WeakMap/WeakSet 无法跨冷恢复的缺口。五条原始反例分两轮实红；现在先持久化 session 的 policy/目标验收要求，再提交控制面 binding。冷恢复缺插件、门禁降级、目标改变沿用或重绑旧计划均拒绝；暂停/恢复且目标未变保持合法。真实 JSONL、故障边界、Team tool、原生 GoalService 及实际 Typert UI Remote 完成入口联合83项通过，日志 `context-runtime-goal-durable-final-r1-20261005.log` SHA256 `083D427E8CB7FE717D5DD07ED2C2225A9F45BD10CDB11A472C5C13BFF05FAFA7`。这是核心服务/远程入口验证，不冒称普通会话完整轻量计划接线、无goal最终文本门禁或浏览器验收完成。新共享源码须新全量；生产仍未部署/HMR，整体partial。
 
 2026-10-04 23:17 UTC 补充：四角色自然family八请求及独立Jsonl回读accepted，role-A/B下一轮、原生flat parent与实际tier、当前身份hash、八终态usage与canonical逐字段一致；全部completionAllowed=false。root+三后代Total236649，费用/cacheWrite/reasoning未知。黄金15类篡改与预算联合19项通过；详见 `team-family-identity-usage-20261005.md`。这是身份版本对照，非成本A/B，common动态语义与非Team/UI最终门禁等仍partial；不重复成功provider实验。r13不包含后加的黄金测试，运行时共享source未变。
@@ -27,6 +29,8 @@
 2026-10-03 20:08最新状态：当前源码适用全量r6为197入口、1101tests/1100pass/0fail/1原有skip，日志`D:/dsh-test/output/context-runtime-canonical-regression-r6-20261003.log`，SHA256`BC1CF968158F1E71183F6E9ADE9245FB1B9F5D12116F42EB115F636C8A1983F5`。服务端history assemble已通过真实NodePTC父子调用、实际原文包adapter投递和控制面读取债务解除；自然DS4.1F受限4请求及独立回读均accepted，证据`staging/context-runtime-unified-20261001/lab-runs/natural-history-assembly-20261003-2003/offline-verification.json`。原有同输入单对SDK恢复质量A/B仍是历史证据，不把新单case称为整套A/B。这不是完整自然链、W2、Instant/UI或生产接受，整体仍partial/未部署。下方各旧回归为历史阶段记录，不能当最新状态。
 
 2026-10-03 15:52补充：最新完成全量r4为194入口、1073tests/1072pass/0fail/1原有skip，日志context-runtime-canonical-regression-r4-20261003.log，SHA256 C15CB0BAC3DF46497B2AB0B63756690B4C29226DE65E1E97BC76D81AAE2678DE。随后W1 forwarded actor/checkpoint安全边界补丁已通过45项聚焦，未重跑全量；整体仍partial、生产未部署。自然W0官方PTC四dispatch/two turns及独立exact恢复已accepted，W1自然协议/质量未accepted。下方旧全量描述为历史阶段证据，不代表最新源码全量覆盖。
+
+> 【已过期，2026-10-12 标注】下一段的“W2/Instant尚未启用”是 2026-10-03 的状态。W2 多段窗口已在生产以名单模式启用（1 个会话），Instant + PTC 后台已在 staging 验收、生产未部署。原文保留如下。
 
 版本：2026-10-01 / reviewed-2，施工状态更新至2026-10-03。计划状态：**reviewed，E1/E2 staging canonical回归通过；真实隔离主机消费验证准备中，W2/Instant尚未启用**。本文件是施工规范，不是实施完成报告。已完成针对数据一致性、投递与副作用竞态的一次独立审查，按第16节记录接口前置阻断；E1正确性修复可继续，W2/Instant不能跳过接口证明。不增加一次用户批准环节。
 

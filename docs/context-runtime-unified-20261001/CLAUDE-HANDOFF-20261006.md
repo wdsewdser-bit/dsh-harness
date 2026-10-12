@@ -1,5 +1,7 @@
 # Handoff: DSH 统一上下文运行时与交付门禁
 
+> 历史材料（2026-10-12 标注）：最新交接是 [CLAUDE-HANDOFF-20261011.md](CLAUDE-HANDOFF-20261011.md)，当前状态入口是 [docs/CURRENT_STATE.md](../CURRENT_STATE.md)。
+
 更新时间：2026-10-06 01:31，Asia/Singapore。面向没有本聊天历史的 Claude。本文件是交接快照，后续持续登记仍用既有 execution-ledger.md，不另建施工台账。
 
 ## Status
