@@ -1,12 +1,20 @@
 import { spawn } from 'node:child_process'
-import { closeSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs'
+import { closeSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, rmSync, statSync } from 'node:fs'
 import { resolve, relative, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { randomUUID } from 'node:crypto'
 
 export const stage = resolve(fileURLToPath(new URL('../', import.meta.url)))
 const testDirectory = /^(native|architecture|usage|phase(?:[1-9]|1[01]))-tests$/
-export function discoverTests(root = stage) {
+// Slow files (real hosts, subprocess death, real git, production-data replays) are listed in tools/regression-slow.json
+// with the reason. They stay runnable: --slow adds them to the full run, --only-slow runs just those.
+export function slowTests(root = stage) {
+  const manifest = resolve(root, 'tools/regression-slow.json')
+  if (!existsSync(manifest)) return new Set()
+  const rows = JSON.parse(readFileSync(manifest, 'utf8')).slow ?? {}
+  return new Set(Object.keys(rows).map(path => resolve(root, path)))
+}
+export function discoverTests(root = stage, slow = 'exclude') {
   const files = []
   const visit = directory => {
     for (const entry of readdirSync(directory, { withFileTypes: true })) {
@@ -16,17 +24,26 @@ export function discoverTests(root = stage) {
     }
   }
   for (const entry of readdirSync(root, { withFileTypes: true })) if (entry.isDirectory() && testDirectory.test(entry.name)) visit(resolve(root, entry.name))
-  return files.sort()
+  const listed = slowTests(root), sorted = files.sort()
+  return slow === 'include' ? sorted : slow === 'only' ? sorted.filter(path => listed.has(path)) : sorted.filter(path => !listed.has(path))
 }
 const clip = (value, max) => String(value ?? '').replace(/[\r\n]+/g, ' ').slice(0, max)
 
 export async function runRegression(args) {
   if (args.includes('--help')) {
-    console.log('node tools/run-regression.mjs [--files path.test.mjs ...]\nDefault: all canonical offline tests. Full logs stay on disk; stdout is bounded.')
+    console.log('node tools/run-regression.mjs [--slow | --only-slow] [--keep-logs] [--files path.test.mjs ...]\nDefault: all canonical offline tests except the slow group listed in tools/regression-slow.json. --slow adds the slow group; --only-slow runs only it.\nstdout prints failures and one summary; the full log is kept only when the run fails (or with --keep-logs).')
     return 0
   }
-  if (args.length && (args[0] !== '--files' || args.length < 2)) throw new Error('Use --files followed by exact .test.mjs paths, or omit arguments for the full suite.')
-  const files = args.length ? args.slice(1).map(path => resolve(stage, path)) : discoverTests()
+  const filesAt = args.indexOf('--files')
+  const options = filesAt < 0 ? args : args.slice(0, filesAt)
+  const flags = new Set(options)
+  const valid = options.every(arg => ['--slow', '--only-slow', '--keep-logs'].includes(arg))
+  if (!valid || (flags.has('--slow') && flags.has('--only-slow')) || (filesAt >= 0 && (filesAt === args.length - 1 || args.slice(filesAt + 1).some(arg => arg.startsWith('--'))))) {
+    throw new Error('Use [--slow|--only-slow] [--keep-logs] and optionally --files followed by exact .test.mjs paths.')
+  }
+  const slowMode = flags.has('--only-slow') ? 'only' : flags.has('--slow') ? 'include' : 'exclude'
+  const files = filesAt >= 0 ? args.slice(filesAt + 1).map(path => resolve(stage, path)) : discoverTests(stage, slowMode)
+  const skippedSlow = filesAt < 0 && slowMode === 'exclude' ? slowTests(stage).size : 0
   if (!files.length) throw new Error('NO_TEST_FILES')
   for (const file of files) {
     const physical = realpathSync(file)
@@ -39,7 +56,7 @@ export async function runRegression(args) {
     '--test', '--test-concurrency=1', '--test-reporter=spec', '--test-reporter-destination=' + full,
     '--test-reporter=' + new URL('./compact-test-reporter.mjs', import.meta.url).href, '--test-reporter-destination=' + summaryFile,
     ...files.map(path => relative(stage, path))]
-  console.log(`RUN ${files.length} files; concurrency=1; full output -> ${full}`)
+  console.log(`RUN ${files.length} files; concurrency=1${skippedSlow ? `; ${skippedSlow} slow files skipped (--slow to include)` : ''}`)
   const fd = openSync(processLog, 'wx')
   let code, signal, spawnError
   // The operator shell exports the production DSH_HOME, and plugins fall back to it for process-local files. A home the
@@ -48,6 +65,8 @@ export async function runRegression(args) {
   const home = !process.env.DSH_HOME || resolve(process.env.DSH_HOME).toLowerCase() === production ? resolve(directory, 'home') : process.env.DSH_HOME
   mkdirSync(home, { recursive: true })
   const env = { ...process.env, DSH_HOME: home, DSH_LAB_CANONICAL_MODULES: '1', FORCE_COLOR: '0' }
+  // Tests that trim a slow variant of their own can check this; set whenever the slow group is part of the run.
+  if (filesAt >= 0 || slowMode !== 'exclude') env.DSH_REGRESSION_SLOW = '1'
   // A new CLI run is not a nested node:test worker, even in runner self-tests.
   delete env.NODE_TEST_CONTEXT
   try {
@@ -67,7 +86,12 @@ export async function runRegression(args) {
   const failures = summary?.failures ?? []
   for (const failure of failures.slice(0, 6)) console.log(`FAILURE ${clip(failure.name, 180)} | ${failure.file ?? ''}:${failure.line ?? ''} | ${clip(failure.message, 480)}`)
   if (failures.length > 6) console.log(`+ ${failures.length - 6} more failures in summary.json; no details omitted from full.log`)
-  console.log(`SUMMARY ${summaryFile}\nFULL ${full}\nPROCESS_LOG ${processLog}`)
+  if (success && !flags.has('--keep-logs')) {
+    // A passing run has nothing to diagnose; the noisy logs only stay for failures or on request.
+    rmSync(full, { force: true }); rmSync(processLog, { force: true })
+    if (home === resolve(directory, 'home')) rmSync(home, { recursive: true, force: true })
+    console.log(`SUMMARY ${summaryFile}`)
+  } else console.log(`SUMMARY ${summaryFile}\nFULL ${full}\nPROCESS_LOG ${processLog}`)
   return success ? 0 : Number.isInteger(code) && code !== 0 ? code : 1
 }
 

@@ -1,11 +1,11 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
 import reporter from '../tools/compact-test-reporter.mjs'
-import { discoverTests, stage } from '../tools/run-regression.mjs'
+import { discoverTests, slowTests, stage } from '../tools/run-regression.mjs'
 
 test('compact reporter takes only aggregate counters and retains actionable errors', async () => {
   const events = [
@@ -47,13 +47,31 @@ test('actual runner retains noisy full logs, bounds stdout and propagates failin
     assert.equal(result.stdout.includes('NOISE_'), false)
     const summaryPath = result.stdout.match(/^SUMMARY (.+)$/m)?.[1].trim()
     const fullPath = result.stdout.match(/^FULL (.+)$/m)?.[1].trim()
-    assert.ok(summaryPath && fullPath)
+    assert.ok(summaryPath)
     const summary = JSON.parse(readFileSync(summaryPath, 'utf8'))
     assert.equal(summary.complete, true)
     assert.equal(summary.counts.tests, 1200)
     assert.equal(summary.counts.failed, fail ? 1 : 0)
-    assert.ok(readFileSync(fullPath, 'utf8').includes('NOISE_'))
+    // The noisy log is evidence for a failure; a passing run does not leave it behind.
+    if (fail) assert.ok(readFileSync(fullPath, 'utf8').includes('NOISE_'))
+    else { assert.equal(fullPath, undefined); assert.equal(existsSync(join(summaryPath, '..', 'full.log')), false) }
   }
+})
+
+test('slow group is skipped by default and runnable with --slow or --only-slow', { timeout: 60000 }, () => {
+  const root = mkdtempSync(join(stage, 'lab-runs/compact-runner-'))
+  const manifest = join(root, 'tools'), file = name => `import test from 'node:test';test('${name}',()=>{});`
+  mkdirSync(manifest); mkdirSync(join(root, 'native-tests'))
+  writeFileSync(join(root, 'native-tests', 'fast.test.mjs'), file('fast')); writeFileSync(join(root, 'native-tests', 'slow.test.mjs'), file('slow'))
+  writeFileSync(join(manifest, 'regression-slow.json'), JSON.stringify({ slow: { 'native-tests/slow.test.mjs': 'fixture' } }))
+  const names = mode => discoverTests(root, mode).map(path => path.split(/[\\/]/).pop())
+  assert.deepEqual(names('exclude'), ['fast.test.mjs'])
+  assert.deepEqual(names('only'), ['slow.test.mjs'])
+  assert.deepEqual(names('include'), ['fast.test.mjs', 'slow.test.mjs'])
+  assert.deepEqual(slowTests(root), new Set([join(root, 'native-tests', 'slow.test.mjs')]))
+  const bad = spawnSync(process.execPath, [fileURLToPath(new URL('../tools/run-regression.mjs', import.meta.url)), '--slow', '--only-slow'],
+    { cwd: stage, env: { ...process.env, DSH_HOME: join(root, 'home') }, windowsHide: true, encoding: 'utf8', timeout: 12000 })
+  assert.equal(bad.status, 1)
 })
 
 test('actual runner never hands the production home to a test process', { timeout: 30000 }, () => {
