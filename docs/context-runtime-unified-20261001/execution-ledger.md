@@ -2442,3 +2442,12 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 真实验证：`cod1 --run opt1`，14:21:09 启动，14:28:54 UTC requested-stop，26 个请求（上限 500）。结果见 `context-delivery-relevance-live-test-20261012-result.md`：在等验收的两条被补成全文，没有重复，没有误补，新增拒绝 0。
 - 停宿主后核对：40120–40129 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
 - 未做：这两项优化的生产部署；把生产的 `contextPackMaxTokens` 从 32000 提到 80000（用户 14:14 UTC 回复“可以”，执行时被本机的权限检查以生产部署为由拦下，没有改，等用户明确确认）；“每个上限必须有降级路径”的架构测试。
+
+### 检查点 2026-10-12 约 14:40 UTC：交付优化和上下文包上限部署到生产（Claude）
+
+- 授权：用户 14:31 UTC 回复“生产的 contextPackMaxTokens 改成 80000”“部署”。
+- 脚本 `tools-oneoff/deploy-delivery-relevance-20261012.mjs`，写 6 个文件：`home/profiles/{web,headless}/plugins/team-v12-runtime.mjs`（1A1C428F → 86A82128，生产版本 + 两项优化，文件在 `tools-oneoff/relevance-only/`）、`team-v14-context-delivery.mjs`（7F52A10A → BB7FB807，即 staging 版本）、两个 `cordis.patch.yml` 各改一行 `contextPackMaxTokens: 32000 → 80000`。插件是真实续跑里验证过的字节；80000 这个值没有单独做过真实运行。
+- 备份 `D:/dsh-test/backups/context-runtime-production-delivery-relevance-20261012`，回滚 `--rollback`。部署时 40120–40129 无监听。
+- 核对：6 个文件写后哈希相符；两份配置的差异各只有那一行，解析无错误；两个 profile 里这两个插件和导入它们的插件都能导入。
+- `plugin-coupling-baseline.json` 重新接受：`team-v14-context-delivery.mjs` 现在与生产相同，不再出现在报告里。
+- 留下的不一致同前：生产的 `team-v12-runtime.mjs` 不在部署工具清单认可的来历里，staging 版本是它的超集。

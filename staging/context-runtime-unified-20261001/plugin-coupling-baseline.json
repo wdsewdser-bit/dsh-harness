@@ -2,7 +2,6 @@
  "session-plan-delivery.mjs": "coupled: SyntaxError: The requested module './team-v15-delivery-service.mjs' does not provide an export named 'deliveryPlanRequired'",
  "team-tools-v2-r10.mjs": "alone-ok",
  "team-v12-runtime.mjs": "coupled: SyntaxError: The requested module './team-v15-delivery-service.mjs' does not provide an export named 'deliveryPlanRequired'",
- "team-v14-context-delivery.mjs": "alone-ok",
  "team-v15-delivery-presentation.mjs": "alone-ok",
  "team-v15-delivery-service.mjs": "alone-ok",
  "team-v15-goal-delivery.mjs": "alone-ok",
