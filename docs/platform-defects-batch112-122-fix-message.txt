@@ -1,0 +1,11 @@
+DSH 平台缺陷巡检修复结果（第五十七轮，批次 112–122）
+
+新增平台修复：B-213b 按批次 114/117 的建议推广。write-scope-guard.mjs 现在对命令位上的未知 Verb-Noun cmdlet，在参数流含 -Path / -LiteralPath / -FilePath / -Destination / -NewName 时判 opaque 并 fail-closed 拒绝；Start-Process -FilePath、Set-Acl -Path 的原始反例均已从放行改为拒绝。已知只读 cmdlet 使用显式白名单放行，Test-Path -LiteralPath 负控证明没有把正常只读调用误判为 opaque。B-213 的 Join-Path 路径解析保持有效。
+
+B-215 仍按批次 115/116 撤回，不作为平台缺陷；剩余项是部分成员会话 cwd 为仓根的 operator 配置问题。B-207、B-210、B-213 的 source fixed / live pending 结论不变。批次 112–122 其余内容为平台事实、纪律和 RustMc 交付状态，没有新的独立平台缺陷。
+
+验证：node --check 4/4；B-213b 专项 5/5；platform-defects 聚焦 188/188；phase1–phase11 串行 508 项，507 pass / 0 fail / 1 skipped；profile parity 1/1。web/headless/desktop/teamtest 的 write-scope-guard.mjs 哈希一致，均为 30E8740E88F787C283CC184C01F3BBF967D39746734E3368CF5772CF64E6A48F。
+
+未决风险：当前 DSH PID 30948 早于源码修改，B-207/B-210/B-213/B-213b（含推广）仍为 live pending；模式 A 的 C10 样本仍开放，属于 RustMc 产品验证线。未重启 DSH、未中断 active Team、未清理旧备份/spill/telemetry/session。
+
+最终清单：size 1088751，mtime 2026-09-29T19:05:10.4723288Z，SHA256 58CE0C8289F3890B3F98A5EFFF524580EA8958A5C06BF5344D2B328704339466。

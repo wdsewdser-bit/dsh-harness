@@ -1,0 +1,108 @@
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ delivery Git and Cargo child processes stay hidden with unchanged command and result semantics (6.9671ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ current handle carries original lines 2/173/399 without an overlay (7.3221ms)
+✔ evidence retains whitespace, CRLF source line numbers and order (1.846ms)
+✔ stale verified cached handles rebuild by version without deleting archives (6.4022ms)
+✔ actual frozen current tool messages and legacy toolResult preserve identity and source (4.0441ms)
+✔ current tool delayed sends keep the original contract and session isolation (2.2835ms)
+✔ canonical mixed/unknown content and error messages fail open without losing blocks or counting savings (6.9057ms)
+✔ bridge projects frozen current options and leaves native stream mutation hooks absent (42.9012ms)
+✔ real Cordis bridge sends current tool handle to adapter on third request and usage ledger sees identical projection (88.6077ms)
+✔ golden fixture uses five exact frame SDKs and preserves recorded protocol identity (33.4328ms)
+✔ strict golden validator rejects wrong tool args, wrong recorded facts, extra keys or markdown (2.5655ms)
+✔ audited real fixture has exact renderer boundaries and hash (2.1521ms)
+✔ apply candidate strips only identical historical SDK, preserving policy characters and latest SDK exactly (10.6379ms)
+✔ shadow keeps original request and clearly separates actual from candidate savings (9.3935ms)
+✔ real changed SDK versions keep all five full historical sections (25.3761ms)
+✔ explicit latest candidate removes four real historical SDK versions with version hash markers (28.1198ms)
+✔ changed latest requires explicit certificate, and unknown/deleted/required/order/latest changes fail open (32.8782ms)
+✔ multi-system and full tool/reasoning chain retain all unaffected message and block identities (13.9147ms)
+✔ absent, non-PTC, one-shot, auxiliary and unclear boundaries fail open (41.0866ms)
+✔ shadow plugin keeps exact underlying iterable/chunks, next once, HMR never cancels inflight, apply requested is reported unavailable (21.5966ms)
+✔ shadow audit persistence failures never affect next or stream error propagation (12.82ms)
+✔ explicit apply uses the request bridge, shadow leaves messages intact, HMR unregisters without touching streams (33.7895ms)
+✔ real prepared frozen request reaches adapter with ordered messages, original brand and exact other property identities (7.9109ms)
+✔ prepared adapter generation remains A after registration replacement and only one dispatch occurs (1.0834ms)
+✔ entry wrapper preserves internal prepared object and Cordis caller shadow receiver (1.0398ms)
+✔ unrecognized and asynchronous transforms fail open without mutating mutable caller messages (0.8811ms)
+✔ malformed returned messages fail open transactionally between valid transforms (1.5236ms)
+✔ original middleware errors preserve identity and adapter failure normalization stays official (2.036ms)
+✔ unload preserves existing iterator; reload restores transforms without layering methods (1.3003ms)
+✔ real Cordis dependent plugins re-register after provider HMR restart (2.6377ms)
+✔ dispose restores the original own descriptor and never overwrites a later wrapper (0.724ms)
+✖ app runtime uses its own official brand weak set; auxiliary routing attributes remain exact (1.5174ms)
+✖ unsupported runtime is rejected before service provision and duplicate bridge is explicit (0.5008ms)
+✔ canonical usage preserves unknowns and checks disjoint total without adding reasoning twice (2.5758ms)
+✔ payload category estimates have lengths and hashes, retain no body or schema (2.2666ms)
+✔ only explicit Team sources classify user/developer Team injection; non-Team and unknown stay separate (0.2363ms)
+✔ stream uses final snapshot, keeps exact objects, does not mutate frozen options, emits once (0.8986ms)
+✔ concurrent streams keep independent UUIDs and usage state (0.4775ms)
+✔ synchronous/stream errors propagate unchanged with safe code and existing request ID only (0.3112ms)
+✔ abort/failure chunks and early iterator return have one terminal without altering underlying return (0.4825ms)
+✔ iterator return that yields from finally is preserved until real terminal (0.3188ms)
+✔ consumer throw is delegated and recovered underlying result stays transparent (0.3087ms)
+✔ writer/record failure is fail-open, nonblocking and warnings are bounded (0.8831ms)
+✔ identity handles manifest schema, live relationship and unknown nulls (0.3197ms)
+✔ verified global root wins over tier2 immediate membership (0.0955ms)
+✔ new descendants trace live parent chains or a verified manifest ancestor (0.127ms)
+✔ lineage tracing detects cycles, limits depth and never promotes an unresolved parent (0.1654ms)
+✔ route reads array/object live Settings and strips URL secrets, defaults stay unknown (0.198ms)
+✔ HMR detach keeps inflight final usage and one real terminal, never accessing disposed services (19.9188ms)
+✔ projection metadata records only safe runtime receipts, not transform body or credentials (0.5876ms)
+✔ agent events cache header attribution even if the registry is unavailable later (5.411ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ trusted identical snapshot remains recognized beyond the 256-node tail (0.725ms)
+✔ replacement or compaction removing the old node permits reinjection (0.1895ms)
+✔ changed marker, body, completion status, and untrusted source do not deduplicate (0.8395ms)
+✔ pending trusted snapshots and legacy session API retain exact matching (0.2495ms)
+✔ real root seq 69510 prevents the duplicate at seq 70686 (513 bytes) (3900.0975ms)
+ℹ tests 56
+ℹ suites 0
+ℹ pass 54
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8466.5843
+
+✖ failing tests:
+
+test at usage-tests\request-message-projection.test.mjs:235:1
+✖ app runtime uses its own official brand weak set; auxiliary routing attributes remain exact (1.5174ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///D:/dsh-test/usage-tests/request-message-projection.test.mjs:242:10)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at usage-tests\request-message-projection.test.mjs:253:1
+✖ unsupported runtime is rejected before service provision and duplicate bridge is explicit (0.5008ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///D:/dsh-test/usage-tests/request-message-projection.test.mjs:258:10)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'REQUEST_MESSAGE_PROJECTION_LLM_MODULE_MISMATCH' },
+    operator: 'throws',
+    diff: 'simple'
+  }

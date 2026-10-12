@@ -1,0 +1,84 @@
+{
+  "version": 6,
+  "pid": 16440,
+  "startedAt": "2026-10-01T00:26:43.963Z",
+  "status": "failed",
+  "source": "native-hmr-runExclusive-partialReload",
+  "noLoaderExit": true,
+  "requestedModules": [
+    "request-message-projection.mjs",
+    "ptc-sdk-retention.mjs",
+    "observation-pack-v2.mjs",
+    "request-usage-ledger.mjs",
+    "step-compaction-v4.mjs",
+    "team-v13-cache-monitor.mjs",
+    "team-tools-v2-r10.mjs",
+    "team-control-plane.mjs",
+    "team-activity-digest.mjs",
+    "team-v12-evidence-scheduler.mjs",
+    "team-v12-runtime.mjs",
+    "team-query-efficiency.mjs",
+    "team-message-operation.mjs",
+    "context-workspace.mjs"
+  ],
+  "accepted": [
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/request-message-projection.mjs",
+      "sha256": "fb0cbd2b30432921764dd8dfc3ab535c02b5df2a47eb784302e2e9ad2511520c"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/ptc-sdk-retention.mjs",
+      "sha256": "41846b9f499bb6b7a170bdf135412e49e7af3b65350458798e0b64ee4da285c9"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/observation-pack-v2.mjs",
+      "sha256": "1927e6072d140c241b42a6c9d197d6dd8cabb4562df2f75668d45dd6fdf78278"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/request-usage-ledger.mjs",
+      "sha256": "5ae0b570476cfde4430b6c6e5720357ff3e413f89a1371f6fa31e7f49f6cb58a"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/step-compaction-v4.mjs",
+      "sha256": "1939379dd0c23528e4dc35ff2270efaa99d5db67686f54752132146506012335"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v13-cache-monitor.mjs",
+      "sha256": "5634ae5ac8f149ab1a5f30b6cb1043e360609521ab8340de517958098718c0d4"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs",
+      "sha256": "a6ed5321123fc044eca0d4624a45e15981b8d961780fa925f6bb755c82ec2961"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-control-plane.mjs",
+      "sha256": "8071559742aeb62cb8c1efe6813bad3522af97bea8a39abc1be0b911cb9ff10c"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-activity-digest.mjs",
+      "sha256": "46a57f42cd49aca738236a9722987df9c355ffa08df4fdce2aee3bfc83ccf38f"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-evidence-scheduler.mjs",
+      "sha256": "de2ac8658f58fad1a66ca308061192f5dd925a64e16745a7b4007816eea1b776"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-runtime.mjs",
+      "sha256": "3c6bbabdbb431dd213d79bfd669904717f7d9921e4a1f357f3b04f9cab1ecd85"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-query-efficiency.mjs",
+      "sha256": "f9b66e81004d6b90c6054312f0e7cb362b5fb2f385d305fb1a5d270a66e15e31"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-message-operation.mjs",
+      "sha256": "0a9c4924d33b84ca391ec6ac4b3b4ae6d4134ccb53dc0e8fbfcaf075a9d93bbf"
+    },
+    {
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/context-workspace.mjs",
+      "sha256": "679f1d410979c784eadb70224ad17b78a3c298c95a9873574456b93acff75e0d"
+    }
+  ],
+  "error": "REQUEST_MESSAGE_PROJECTION_DUPLICATE_ID",
+  "endedAt": "2026-10-01T00:26:45.034Z"
+}

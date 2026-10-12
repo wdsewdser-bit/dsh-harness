@@ -1,0 +1,10 @@
+{
+  "version": 7,
+  "pid": 16440,
+  "startedAt": "2026-10-01T00:42:52.393Z",
+  "source": "native-hmr-staged-consumer-repair",
+  "steps": [],
+  "status": "failed",
+  "error": "The \"url\" argument must be of type string. Received [Object: null prototype]",
+  "endedAt": "2026-10-01T00:42:52.595Z"
+}

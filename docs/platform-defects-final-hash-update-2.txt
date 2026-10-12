@@ -1,0 +1,5 @@
+DSH 平台缺陷巡检最终指纹再更新（第五十七轮）
+
+批次 123–124 已追加：类型名与引注 baseline 已修正，C10 修复已合入 main=81153825，两道硬门绿；没有新增 DSH profile 平台缺陷，也不改变 B-213b 推广修复与 worktree carrier 回归结论。
+
+最终指纹：size 1096980，mtime 2026-09-29T19:15:37.0874751Z，SHA256 FE2BCAA5105EA8C20427907BCEBA4C90D1EE4B94FA491870B403BBEA3AEDAB54。

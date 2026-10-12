@@ -1,0 +1,28 @@
+第三十四轮平台缺陷修复说明（batch27）
+
+本轮处理 D-新-2、D-新-3、D-新-4、D-新-5、D-新-7；D-新-6 复核后仍归入既有 A-6 partial，无平台修改。
+
+- D-新-2：runtime_facts 默认与 summaryOnly:true 均过滤纯噪声差异，补入 patch-source-unknown；full:true / summaryOnly:false 保留全量，pluginIds 定向保留。
+- D-新-3：write-scope-guard 新增 DSH_HOME/verifier-scratch，仅 verifier membership 可写，产品目录继续拒绝。
+- D-新-4：team_task_create/update 对跨板 blocker 明确返回 cross-board-blocker-unsupported，并列出实际 board。
+- D-新-5：受控字段与普通字段混合 edit 仍原子拒绝，拒绝串明确 no fields were applied by this call 并列出未应用字段。
+- D-新-7：卡面新增 contractRevision、requirementRevision、contractStale，便于识别 requirements 已领先 contract。
+- D-新-6：任意未知子进程的 OS 级写盘无法由当前 Node hook 沙箱覆盖，维持 A-6 partial。
+
+验证：
+- 四份 profile 三个目标文件 node --check：12/12。
+- 新测试：platform-defects-twenty-second-pass.test.mjs 5/5。
+- 原始反例聚焦组合：22/22。
+- v14-profile-parity.test.mjs：1/1。
+- 全量 phase1-phase11：469 tests / 468 pass / 0 fail / 1 skipped。
+- 全量日志 SHA256：7926B70E44317CA7D3F9A8021313BE123C979F8242B40FDDD8C77FAC58530B40。
+
+文件哈希：
+- team-v12-runtime.mjs：E0F2B02280B6618FEB9A519C4E7E4782DFDAA8637AA3F8E1E66E519BF280132F
+- team-tools-v2-r10.mjs：DDF683C8BEFFFCB8DDFFD9F4CFBCF00CE6EEEBFD87ABC19D912006F740052C63
+- write-scope-guard.mjs：221D132EF2A2A26E97FEA9C3FC54A1ED1EB121749C78A6C89625390CC27A7B06
+
+约束与未决风险：
+- DSH PID 124592 / 端口 40123 全程未重启，未中断 active Team，未清理旧备份/spill/telemetry/session，未修改 RustMc 产品仓。
+- 未重启进程，focused / 全量验证已完成，但运行中进程是否已加载新代码仍为 live pending。
+- D-新-4 采用明确拒绝而非跨板解析；D-新-7 只提供 stale/revision 标志，不伪造完整 contract。

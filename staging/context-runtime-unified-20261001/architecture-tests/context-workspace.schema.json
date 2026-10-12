@@ -1,0 +1,164 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "state",
+        "memo_put",
+        "memo_get",
+        "memo_diff",
+        "propose",
+        "preview",
+        "commit",
+        "rollback"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceId": {
+          "type": "string",
+          "maxLength": 96
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "locator": {
+          "type": "string",
+          "maxLength": 256
+        },
+        "expectedRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parentRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "member",
+            "task"
+          ]
+        },
+        "taskId": {
+          "type": "string",
+          "maxLength": 96
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 16384
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sourceId",
+              "revision",
+              "sha256"
+            ],
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "ttlMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2592000000
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "includeDeleted": {
+          "type": "boolean"
+        },
+        "fromRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "toRevision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "proposalId": {
+          "type": "string",
+          "maxLength": 96
+        },
+        "targetRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "operations": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "op",
+              "sourceId",
+              "revision",
+              "sha256"
+            ],
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "select",
+                  "pin",
+                  "exclude",
+                  "replace_summary"
+                ]
+              },
+              "sourceId": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "sha256": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string",
+                "maxLength": 16384
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

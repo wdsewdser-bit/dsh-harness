@@ -1,0 +1,271 @@
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ identity comes from live agent and strict input; members and teams remain private (21.1982ms)
+✔ task scope checks canonical board read and owner; global mirror cannot bypass ACL (37.2935ms)
+✔ CAS exact history, parent chain, hash locators, TTL and soft delete preserve originals (68.0474ms)
+✔ cross-process writers reload under v14 lock; exactly one wins the object CAS (256.1047ms)
+✔ preview is pure; candidates CAS commit at next boundary, pin and verified summary keep refs (68.7333ms)
+✔ shadow unchanged; allowlist apply appends data without role upgrade or history edits (67.0875ms)
+✔ unknown protocol, pending tool chain, corruption and required budget loss fail open (62.3548ms)
+✔ tool schema and plugin registration match live API; no authority writes (16.8387ms)
+✔ fresh non-Team agent gets schema immediately and same agent can join Team later (16.5981ms)
+✔ review regression: unbranded allowlisted session cannot fetch private context (36.0585ms)
+✔ review regression: missing TTL/schema and changed metadata fail closed on get/apply (110.3284ms)
+✔ review regression: rollback rejects corrupted historical view before signing another revision (31.5945ms)
+✔ bounds and missing/truncated recovery anchors reject without request edits (64.2573ms)
+✔ workspace boundary rejects original workspace and traversal (1.4268ms)
+✔ fixture oracle requires exact original line text and checksums (0.8561ms)
+✔ prepare and validate never call RPC; create requires explicit --run (9.5554ms)
+✔ budget combines cached prompt counters and stops unknown usage (1.0092ms)
+✔ lineage approves only fresh lab root and one direct child (0.3839ms)
+✔ canonical tool pairs validate structured receipt, never model success claims (0.6365ms)
+✔ canonical PTC child receipt preserves real subCallId and structured denial (0.3268ms)
+✔ seeded child excludes inherited receipts and usage from ancestor prefix (0.2022ms)
+✔ runtime gate requires fresh live PID exact lab ID and loaded module hash (0.9545ms)
+✔ logical RPC adapter matches every installed rc2 gateway descriptor parameter (140.7258ms)
+✖ stage template is offline, syntactically executable, bounded, and schema-bound (6.0175ms)
+✔ one wait and one roster verification stop before info when child is still active (0.8341ms)
+✔ canonical receipt relationships reject changed message identity and task revision (0.3015ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-v13-cache-monitor] HMR perf38-bounded-anomalies loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ pure preview skips legacy stateful transforms; final prepared plan is adopted once with byte/hash receipt (12.7543ms)
+✔ OP fullSends count only native handoff; preview, uniterated, blocked and canceled do not consume it (61.9059ms)
+✔ observation pack unregisters from native Cordis effect teardown across restart and dispose (17.3469ms)
+✖ app/profile brands remain independent, prepared generation and caller context survive native wrapper (0.9493ms)
+✖ public brand guard uses the bound official WeakSet for canonical prepared requests and projected clones (2.3377ms)
+✔ prepare locks a detached snapshot even for identity transforms and mutable caller messages (3.7244ms)
+✔ prepare cannot lock unknown protocol values and explicitly returns unprepared fail-open dispatch (2.1154ms)
+✔ unknown/image/error shapes fail open and raw safety measurement stays authoritative (4ms)
+✔ transform mutations cannot change mutable caller tools or tool history; final identities are preserved (2.2901ms)
+✔ concurrent unchanged requests sharing an options object retain independent receipts after audit eviction (30.277ms)
+✔ ledger start/terminal and cache attribution share the exact request receipt; unrelated and future events are ignored (12.0414ms)
+✔ compaction SDK policy explicitly requires audited compatibility and retains unknown auxiliary/SDK contracts (128.7167ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-activity-digest] startup-arming active
+[team-activity-digest] intervalMs=30
+PASS unchanged active Team remains silent across multiple timer slots
+PASS new task facts produce one new digest episode
+PASS metadata-only task revision does not create progress followup
+PASS actual responsibility expiry emits one reminder and preserves exact due fact
+PASS delivered fact/episode sequence persisted
+✔ D:\dsh-test\architecture-tests\team-digest-progress.test.mjs (1083.3866ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+PASS operation schema fields belong only to send_message
+PASS compact query schemas are exposed on the intended tools
+PASS snapshot is isolated from live authority
+PASS one buildReadyQueue for whole query including limit=1
+PASS same revision paged row equals legacy full row
+PASS get and list agree on authoritative task values
+PASS compact IDs select exact row, no full description or completion evidence
+PASS changed_since timestamp strictly filters unchanged tasks
+PASS denied read/write creates no reservation/Room
+PASS stale validation precedes Room mutation
+PASS duplicate operation returns same real message/dispatch receipt
+PASS quiet operation injects once without wake
+PASS new event with same text is not permanently deduplicated
+PASS real send_message retries missing dispatch but keeps confirmed notice/injection
+PASS action duplicate preserves real wake/dispatch episode receipt
+PASS same-text action in new completed episode is allowed
+PASS team_wake alias executes without send_message-local identifiers
+PASS reserved-before-effect crash has explicit audited same-op recovery
+PASS crash after Room notice resumes only missing dispatch without a second notice
+PASS partial failure resumes only missing step without replaying notice
+PASS unconfirmed external effect is returned partial without blind replay
+PASS post-delivery crash recovers matching real receipt without redelivery
+PASS concurrent operation has one side effect
+PASS reviewer concurrent recovery race refuses inflight and effects stay one
+PASS operation receipts persisted to actual control snapshot
+PASS evidence ACL filters before metadata projection
+PASS legacy evidence full view preserves original rows
+PASS new evidence filters declared formed
+PASS pure time slots/control timestamps/root digest wake do not change facts
+PASS new blocker changes actionable fact signature
+PASS completion changes fact signature
+PASS actual responsibility deadline changes once at due boundary
+PASS provider blocked suppression unchanged
+PASS identical delivered digest does not advance episode sequence
+PASS checks=41
+✔ D:\dsh-test\architecture-tests\team-efficiency.test.mjs (1887.1726ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ current handle carries original lines 2/173/399 without an overlay (6.6491ms)
+✔ evidence retains whitespace, CRLF source line numbers and order (1.864ms)
+✔ stale verified cached handles rebuild by version without deleting archives (5.8772ms)
+✔ actual frozen current tool messages and legacy toolResult preserve identity and source (4.6241ms)
+✔ current tool delayed sends keep the original contract and session isolation (2.7244ms)
+✔ canonical mixed/unknown content and error messages fail open without losing blocks or counting savings (5.291ms)
+✔ bridge projects frozen current options and leaves native stream mutation hooks absent (37.8646ms)
+✔ real Cordis bridge sends current tool handle to adapter on third request and usage ledger sees identical projection (81.7473ms)
+✔ golden fixture uses five exact frame SDKs and preserves recorded protocol identity (37.2659ms)
+✔ strict golden validator rejects wrong tool args, wrong recorded facts, extra keys or markdown (2.5892ms)
+✔ audited real fixture has exact renderer boundaries and hash (1.9121ms)
+✔ apply candidate strips only identical historical SDK, preserving policy characters and latest SDK exactly (10.1375ms)
+✔ shadow keeps original request and clearly separates actual from candidate savings (9.3598ms)
+✔ real changed SDK versions keep all five full historical sections (22.349ms)
+✔ explicit latest candidate removes four real historical SDK versions with version hash markers (23.052ms)
+✔ changed latest requires explicit certificate, and unknown/deleted/required/order/latest changes fail open (28.3316ms)
+✔ multi-system and full tool/reasoning chain retain all unaffected message and block identities (12.7172ms)
+✔ absent, non-PTC, one-shot, auxiliary and unclear boundaries fail open (35.3631ms)
+✔ shadow plugin keeps exact underlying iterable/chunks, next once, HMR never cancels inflight, apply requested is reported unavailable (20.9189ms)
+✔ shadow audit persistence failures never affect next or stream error propagation (11.0017ms)
+✔ explicit apply uses the request bridge, shadow leaves messages intact, HMR unregisters without touching streams (25.7989ms)
+✔ real prepared frozen request reaches adapter with ordered messages, original brand and exact other property identities (8.3185ms)
+✔ prepared adapter generation remains A after registration replacement and only one dispatch occurs (1.1233ms)
+✔ entry wrapper preserves internal prepared object and Cordis caller shadow receiver (1.6031ms)
+✔ unrecognized and asynchronous transforms fail open without mutating mutable caller messages (1.6607ms)
+✔ malformed returned messages fail open transactionally between valid transforms (1.3488ms)
+✔ original middleware errors preserve identity and adapter failure normalization stays official (1.5044ms)
+✔ unload preserves existing iterator; reload restores transforms without layering methods (1.9119ms)
+✔ real Cordis dependent plugins re-register after provider HMR restart (2.9828ms)
+✔ dispose restores the original own descriptor and never overwrites a later wrapper (0.6975ms)
+✖ app runtime uses its own official brand weak set; auxiliary routing attributes remain exact (1.6917ms)
+✖ unsupported runtime is rejected before service provision and duplicate bridge is explicit (0.8854ms)
+✔ canonical usage preserves unknowns and checks disjoint total without adding reasoning twice (1.4569ms)
+✔ payload category estimates have lengths and hashes, retain no body or schema (1.7648ms)
+✔ only explicit Team sources classify user/developer Team injection; non-Team and unknown stay separate (0.3095ms)
+✔ stream uses final snapshot, keeps exact objects, does not mutate frozen options, emits once (1.123ms)
+✔ concurrent streams keep independent UUIDs and usage state (0.5475ms)
+✔ synchronous/stream errors propagate unchanged with safe code and existing request ID only (0.398ms)
+✔ abort/failure chunks and early iterator return have one terminal without altering underlying return (0.6906ms)
+✔ iterator return that yields from finally is preserved until real terminal (0.4022ms)
+✔ consumer throw is delegated and recovered underlying result stays transparent (0.3527ms)
+✔ writer/record failure is fail-open, nonblocking and warnings are bounded (1.0661ms)
+✔ identity handles manifest schema, live relationship and unknown nulls (0.4ms)
+✔ verified global root wins over tier2 immediate membership (0.1798ms)
+✔ new descendants trace live parent chains or a verified manifest ancestor (0.2151ms)
+✔ lineage tracing detects cycles, limits depth and never promotes an unresolved parent (0.2666ms)
+✔ route reads array/object live Settings and strips URL secrets, defaults stay unknown (0.314ms)
+✔ HMR detach keeps inflight final usage and one real terminal, never accessing disposed services (18.5584ms)
+✔ projection metadata records only safe runtime receipts, not transform body or credentials (0.5991ms)
+✔ agent events cache header attribution even if the registry is unavailable later (5.981ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ trusted identical snapshot remains recognized beyond the 256-node tail (0.6921ms)
+✔ replacement or compaction removing the old node permits reinjection (0.197ms)
+✔ changed marker, body, completion status, and untrusted source do not deduplicate (0.6944ms)
+✔ pending trusted snapshots and legacy session API retain exact matching (0.17ms)
+✔ real root seq 69510 prevents the duplicate at seq 70686 (513 bytes) (3488.7737ms)
+✔ migration duplicates merge both journals and retain version-exclusive requests (2.8025ms)
+✔ usage conflict is explicit; higher version wins and preserves lower known fields (1.2508ms)
+✔ missing token counters are null and reasoning is not added to total (1.6301ms)
+✔ header association follows route changes without claiming wire evidence (0.3656ms)
+✔ root chain resolves, missing ancestors and cycles stay unknown (0.1343ms)
+✔ strict scanning handles multiple frames, embedded magic and truncated tail (3.8322ms)
+✔ attempt and compaction usage are separate counted requests with direct historical route (0.4136ms)
+✔ official timed attempt chunks use the final usage snapshot once without exposing content (0.1913ms)
+✔ same-millisecond independent attempts preserve same-journal multiplicity across migration (0.5211ms)
+✔ only a proven same-file same-sequence copy is a local duplicate (0.2512ms)
+✔ auxiliary search preserves its persisted model and does not borrow parent provider (0.2637ms)
+✔ seeded inherited prefix is retained but excluded from own usage aggregates (0.2592ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ fixture exact line recall passes and an incomplete compact answer fails (1.4857ms)
+✔ paraphrase, wrong line and false success are rejected (0.379ms)
+✔ named quote objects retain the same exact evidence gates as arrays (0.4106ms)
+✔ raw provider totals stay disjoint and absent fields are null (0.8827ms)
+✔ counterbalanced trial plan has 20 calls including both reducer passes (0.3032ms)
+✔ budget guard blocks attempts before another call can be made (0.4343ms)
+✔ disabled continuation uses matched new Team baseline and 22 total calls (0.2203ms)
+✔ execution gate refuses unnotified provider execution without reading credentials (0.6283ms)
+✔ reducer totals include both HTTP rows without re-adding reasoning (0.7777ms)
+✔ report excludes schema contents and marks money/cache limitations (0.4273ms)
+ℹ tests 117
+ℹ suites 0
+ℹ pass 112
+ℹ fail 5
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12503.087
+
+✖ failing tests:
+
+test at architecture-tests\live-lab-runner.test.mjs:128:1
+✖ stage template is offline, syntactically executable, bounded, and schema-bound (6.0175ms)
+  Error: SCHEMA_DRIFT
+      at expect (file:///D:/dsh-test/tools/clm-live-session-lab.mjs:13:45)
+      at validatePlan (file:///D:/dsh-test/tools/clm-live-session-lab.mjs:84:42)
+      at TestContext.<anonymous> (file:///D:/dsh-test/architecture-tests/live-lab-runner.test.mjs:134:18)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7)
+
+test at architecture-tests\request-plan.test.mjs:143:1
+✖ app/profile brands remain independent, prepared generation and caller context survive native wrapper (0.9493ms)
+  AssertionError [ERR_ASSERTION]: Expected "actual" not to be reference-equal to "expected":
+  
+  [class LlmRuntime extends TypertRemoteService]
+      at TestContext.<anonymous> (file:///D:/dsh-test/architecture-tests/request-plan.test.mjs:144:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    operator: 'notStrictEqual',
+    diff: 'simple'
+  }
+
+test at architecture-tests\request-plan.test.mjs:168:1
+✖ public brand guard uses the bound official WeakSet for canonical prepared requests and projected clones (2.3377ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///D:/dsh-test/architecture-tests/request-plan.test.mjs:175:14)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at usage-tests\request-message-projection.test.mjs:235:1
+✖ app runtime uses its own official brand weak set; auxiliary routing attributes remain exact (1.6917ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  
+  true !== false
+  
+      at TestContext.<anonymous> (file:///D:/dsh-test/usage-tests/request-message-projection.test.mjs:242:10)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: true,
+    expected: false,
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at usage-tests\request-message-projection.test.mjs:253:1
+✖ unsupported runtime is rejected before service provision and duplicate bridge is explicit (0.8854ms)
+  AssertionError [ERR_ASSERTION]: Missing expected exception.
+      at TestContext.<anonymous> (file:///D:/dsh-test/usage-tests/request-message-projection.test.mjs:258:10)
+      at async Test.run (node:internal/test_runner/test:1313:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: { code: 'REQUEST_MESSAGE_PROJECTION_LLM_MODULE_MISMATCH' },
+    operator: 'throws',
+    diff: 'simple'
+  }

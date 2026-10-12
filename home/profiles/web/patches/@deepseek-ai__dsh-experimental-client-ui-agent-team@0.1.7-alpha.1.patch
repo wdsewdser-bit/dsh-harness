@@ -1,0 +1,1694 @@
+diff --git a/lib/client.js b/lib/client.js
+index 7d24f90..646e30f 100644
+--- a/lib/client.js
++++ b/lib/client.js
+@@ -1,3 +1,4 @@
++/* dsh-test Team panel compatibility: 0.1.7-alpha.1 */
+ window.__ModuleLoader__.load({
+ 	id: "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+ 	factory: (require) => {
+@@ -6,7 +7,6 @@ window.__ModuleLoader__.load({
+ 		Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+ 		let react_jsx_runtime = require("react/jsx-runtime");
+ 		let react = require("react");
+-		let react_dom = require("react-dom");
+ 		let _deepseek_ai_dsh_client_ui_primitives = require("@deepseek-ai/dsh-client-ui-primitives");
+ 		//#region ../../../node_modules/.pnpm/zod@4.4.3/node_modules/zod/v4/core/core.js
+ 		var _a$1;
+@@ -4047,6 +4047,91 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 		}
+ 		//#endregion
+ 		//#region ../agent-team/lib/typert.remote-client.js
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_0$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_0$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_0$schema$value ??= intersection(string(), unknown());
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_1$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_1$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_1$schema$value ??= object({
++			"subject": string().readonly(),
++			"description": string().readonly(),
++			"blockedBy": array(intersection(string(), unknown())).readonly().optional(),
++			"writeScopes": array(string()).readonly().optional()
++		});
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_result$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_result$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_result$schema$value ??= union([object({
++			"ok": literal(true).readonly(),
++			"value": object({
++				"id": intersection(string(), unknown()).readonly(),
++				"revision": number().readonly(),
++				"subject": string().readonly(),
++				"description": string().readonly(),
++				"status": union([
++					literal("pending"),
++					literal("in_progress"),
++					literal("completed"),
++					literal("deleted")
++				]).readonly(),
++				"blockedBy": array(intersection(string(), unknown())).readonly(),
++				"writeScopes": array(string()).readonly(),
++				"ownerName": string().readonly().optional(),
++				"ready": boolean().readonly(),
++				"writeScopeWarnings": array(string()).readonly()
++			}).readonly()
++		}), object({
++			"ok": literal(false).readonly(),
++			"error": object({
++				"code": union([literal("team-task-conflict"), literal("team-rejected")]).readonly(),
++				"message": string().readonly()
++			}).readonly()
++		})]);
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_0$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_0$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_0$schema$value ??= intersection(string(), unknown());
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_1$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_1$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_1$schema$value ??= object({
++			"taskId": intersection(string(), unknown()).readonly(),
++			"expectedRevision": number().readonly(),
++			"action": union([
++				literal("complete"),
++				literal("edit"),
++				literal("claim"),
++				literal("release"),
++				literal("set_dependencies"),
++				literal("reopen"),
++				literal("reassign"),
++				literal("delete")
++			]).readonly(),
++			"subject": string().readonly().optional(),
++			"description": string().readonly().optional(),
++			"blockedBy": array(intersection(string(), unknown())).readonly().optional(),
++			"writeScopes": array(string()).readonly().optional(),
++			"owner": string().readonly().optional()
++		});
++		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_result$schema$value;
++		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_result$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_result$schema$value ??= union([object({
++			"ok": literal(true).readonly(),
++			"value": object({
++				"id": intersection(string(), unknown()).readonly(),
++				"revision": number().readonly(),
++				"subject": string().readonly(),
++				"description": string().readonly(),
++				"status": union([
++					literal("pending"),
++					literal("in_progress"),
++					literal("completed"),
++					literal("deleted")
++				]).readonly(),
++				"blockedBy": array(intersection(string(), unknown())).readonly(),
++				"writeScopes": array(string()).readonly(),
++				"ownerName": string().readonly().optional(),
++				"ready": boolean().readonly(),
++				"writeScopeWarnings": array(string()).readonly()
++			}).readonly()
++		}), object({
++			"ok": literal(false).readonly(),
++			"error": object({
++				"code": union([literal("team-task-conflict"), literal("team-rejected")]).readonly(),
++				"message": string().readonly()
++			}).readonly()
++		})]);
+ 		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_parameter_0$schema$value;
+ 		const _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_parameter_0$schema = () => _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_parameter_0$schema$value ??= intersection(string(), unknown());
+ 		let _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_result$schema$value;
+@@ -4056,8 +4141,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				"name": string().readonly(),
+ 				"role": union([literal("lead"), literal("teammate")]).readonly(),
+ 				"status": union([
+-					literal("failed"),
+ 					literal("running"),
++					literal("failed"),
++					literal("idle"),
+ 					literal("inactive"),
+ 					literal("provisioning")
+ 				]).readonly(),
+@@ -4073,9 +4159,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				"subject": string().readonly(),
+ 				"description": string().readonly(),
+ 				"status": union([
+-					literal("completed"),
+ 					literal("pending"),
+ 					literal("in_progress"),
++					literal("completed"),
+ 					literal("deleted")
+ 				]).readonly(),
+ 				"blockedBy": array(intersection(string(), unknown())).readonly(),
+@@ -4087,55 +4173,143 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 		});
+ 		const TYPERT_REMOTE = {
+ 			package: "@deepseek-ai/dsh-experimental-agent-team",
+-			descriptors: [{
+-				id: "@deepseek-ai/dsh-experimental-agent-team#agentTeams/view",
+-				service: "agentTeams",
+-				namespace: "agentTeams",
+-				method: "view",
+-				implementation: "remoteView",
+-				invocation: { kind: "direct" },
+-				scope: {
+-					context: "agent",
+-					wire: "agentId"
++			descriptors: [
++				{
++					id: "@deepseek-ai/dsh-experimental-agent-team#agentTeams/createTask",
++					service: "agentTeams",
++					namespace: "agentTeams",
++					method: "createTask",
++					implementation: "remoteCreateTask",
++					invocation: { kind: "direct" },
++					scope: {
++						context: "agent",
++						wire: "agentId"
++					},
++					parameters: [{
++						name: "agent",
++						wire: "agentId",
++						source: "lookup",
++						lookup: "agent",
++						codec: {
++							mode: "strict",
++							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
++							create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_0$schema
++						}
++					}, {
++						name: "request",
++						wire: "request",
++						source: "json",
++						codec: {
++							mode: "strict",
++							typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#CreateTeamTaskRequest",
++							create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_parameter_1$schema
++						}
++					}],
++					result: {
++						mode: "strict",
++						typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#TeamTaskMutationResult",
++						create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_createTask_result$schema
++					},
++					sourceLocation: {
++						"file": "packages/experimental/agent-team/src/index.ts",
++						"line": 257,
++						"column": 3
++					}
+ 				},
+-				parameters: [{
+-					name: "agent",
+-					wire: "agentId",
+-					source: "lookup",
+-					lookup: "agent",
+-					codec: {
++				{
++					id: "@deepseek-ai/dsh-experimental-agent-team#agentTeams/updateTask",
++					service: "agentTeams",
++					namespace: "agentTeams",
++					method: "updateTask",
++					implementation: "remoteUpdateTask",
++					invocation: { kind: "direct" },
++					scope: {
++						context: "agent",
++						wire: "agentId"
++					},
++					parameters: [{
++						name: "agent",
++						wire: "agentId",
++						source: "lookup",
++						lookup: "agent",
++						codec: {
++							mode: "strict",
++							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
++							create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_0$schema
++						}
++					}, {
++						name: "request",
++						wire: "request",
++						source: "json",
++						codec: {
++							mode: "strict",
++							typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#UpdateTeamTaskRequest",
++							create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_parameter_1$schema
++						}
++					}],
++					result: {
+ 						mode: "strict",
+-						typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
+-						create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_parameter_0$schema
++						typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#TeamTaskMutationResult",
++						create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_updateTask_result$schema
++					},
++					sourceLocation: {
++						"file": "packages/experimental/agent-team/src/index.ts",
++						"line": 268,
++						"column": 3
+ 					}
+-				}],
+-				result: {
+-					mode: "strict",
+-					typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#TeamView",
+-					create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_result$schema
+ 				},
+-				sourceLocation: {
+-					"file": "packages/experimental/agent-team/src/index.ts",
+-					"line": 242,
+-					"column": 3
++				{
++					id: "@deepseek-ai/dsh-experimental-agent-team#agentTeams/view",
++					service: "agentTeams",
++					namespace: "agentTeams",
++					method: "view",
++					implementation: "remoteView",
++					invocation: { kind: "direct" },
++					scope: {
++						context: "agent",
++						wire: "agentId"
++					},
++					parameters: [{
++						name: "agent",
++						wire: "agentId",
++						source: "lookup",
++						lookup: "agent",
++						codec: {
++							mode: "strict",
++							typeSymbol: "@deepseek-ai/dsh-session/types#SessionId",
++							create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_parameter_0$schema
++						}
++					}],
++					result: {
++						mode: "strict",
++						typeSymbol: "@deepseek-ai/dsh-experimental-agent-team/client#TeamView",
++						create: _deepseek_ai_dsh_experimental_agent_team_agentTeams_view_result$schema
++					},
++					sourceLocation: {
++						"file": "packages/experimental/agent-team/src/index.ts",
++						"line": 243,
++						"column": 3
++					}
+ 				}
+-			}]
++			]
+ 		};
+ 		//#endregion
+ 		//#region \0dsh-css:/home/runner/work/deepseek-harness/deepseek-harness/packages/experimental/client-ui-agent-team/src/client/TeamAction.module.css.mjs
+-		const css = ".VoX2oq_root{position:relative}.VoX2oq_trigger,.VoX2oq_iconButton{color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:0;border-radius:6px}.VoX2oq_trigger{align-items:center;gap:5px;min-height:28px;padding:3px 7px;font-size:12px;display:inline-flex}.VoX2oq_trigger:hover,.VoX2oq_iconButton:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_count{background:var(--dsw-alias-fill-l2);font-variant-numeric:tabular-nums;text-align:center;border-radius:8px;min-width:16px}.VoX2oq_panel{--dsh-scrollbar-thumb:var(--dsw-alias-scrollbar-bg-l2);--dsh-scrollbar-thumb-hover:var(--dsw-alias-scrollbar-hover-l2);z-index:110;box-sizing:border-box;background:var(--dsw-specific-menu);width:min(560px,100vw - 32px);max-height:min(680px,100vh - 32px);backdrop-filter:var(--dsw-menu-backdrop-filter);--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);box-shadow:var(--dsw-elevation-prominent);border:0;border-radius:12px;padding:10px;position:fixed;overflow:auto}.VoX2oq_toolbar,.VoX2oq_taskTitle{align-items:center;gap:8px;display:flex}.VoX2oq_toolbar{min-height:28px}.VoX2oq_spacer{flex:1}.VoX2oq_iconButton{justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex}.VoX2oq_panel h3{color:var(--dsw-alias-label-secondary);margin:12px 0 6px;font-size:12px;font-weight:500}.VoX2oq_roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;display:grid}.VoX2oq_member{border:.5px solid var(--dsw-alias-border-l1);min-width:0;color:var(--dsw-alias-label-primary);text-align:left;cursor:pointer;background:0 0;border-radius:8px;align-items:flex-start;gap:8px;padding:8px;display:flex}.VoX2oq_member:disabled{cursor:default}.VoX2oq_memberText{flex-direction:column;min-width:0;display:flex}.VoX2oq_memberText small,.VoX2oq_meta{color:var(--dsw-alias-label-tertiary);font-size:11px}.VoX2oq_diagnostic,.VoX2oq_error,.VoX2oq_warning{color:var(--dsw-alias-state-error-primary)}.VoX2oq_tasks{flex-direction:column;gap:7px;display:flex}.VoX2oq_task{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:9px;padding:9px}.VoX2oq_taskState{color:var(--dsw-alias-label-tertiary);align-items:center;gap:6px;margin-left:auto;font-size:11px;display:inline-flex}.VoX2oq_task p{color:var(--dsw-alias-label-secondary);white-space:pre-wrap;margin:5px 0;font-size:12px}.VoX2oq_meta{flex-wrap:wrap;gap:4px 10px;display:flex}.VoX2oq_notice,.VoX2oq_error{align-items:center;gap:6px;padding:9px;font-size:12px;display:flex}";
++		const css = ".VoX2oq_root{position:relative}.VoX2oq_trigger,.VoX2oq_iconButton,.VoX2oq_smallButton,.VoX2oq_taskActions button,.VoX2oq_formActions button{color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:0;border-radius:6px}.VoX2oq_trigger{align-items:center;gap:5px;min-height:28px;padding:3px 7px;font-size:12px;display:inline-flex}.VoX2oq_trigger:hover,.VoX2oq_iconButton:hover,.VoX2oq_smallButton:hover,.VoX2oq_taskActions button:hover,.VoX2oq_formActions button:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_count{background:var(--dsw-alias-fill-l2);font-variant-numeric:tabular-nums;text-align:center;border-radius:8px;min-width:16px}.VoX2oq_panel{--dsh-scrollbar-thumb:var(--dsw-alias-scrollbar-bg-l2);--dsh-scrollbar-thumb-hover:var(--dsw-alias-scrollbar-hover-l2);z-index:110;box-sizing:border-box;background:var(--dsw-specific-menu);background-color:var(--dsw-alias-bg-base);background-image:linear-gradient(var(--dsw-specific-menu),var(--dsw-specific-menu));backdrop-filter:none;--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);width:min(560px,100vw - 32px);max-height:min(680px,100vh - 120px);box-shadow:var(--dsw-elevation-prominent);border:0;border-radius:12px;padding:10px;position:absolute;top:calc(100% + 5px);left:0;display:flex;flex-direction:column;overflow:hidden}.VoX2oq_toolbar,.VoX2oq_sectionTitle,.VoX2oq_taskTitle,.VoX2oq_taskActions,.VoX2oq_formActions{align-items:center;gap:8px;display:flex}.VoX2oq_toolbar{min-height:28px}.VoX2oq_spacer{flex:1}.VoX2oq_iconButton{justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex}.VoX2oq_tabBar{display:flex;align-items:flex-end;gap:2px;flex:0 0 auto;margin:4px 0 8px;padding:0 2px;border-bottom:1px solid var(--dsw-alias-border-l1);overflow-x:auto}.VoX2oq_tab{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:5px 9px;color:var(--dsw-alias-label-secondary);background:0 0;border:0;border-bottom:2px solid transparent;border-radius:6px 6px 0 0;cursor:pointer;font:inherit;font-size:12px;white-space:nowrap}.VoX2oq_tab:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_tabActive{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-fill-l2);border-bottom-color:var(--dsw-alias-brand-primary)}.VoX2oq_tabCount{min-width:16px;padding:0 5px;border-radius:8px;background:var(--dsw-alias-fill-l2);font-size:10px;line-height:16px;text-align:center;font-variant-numeric:tabular-nums}.VoX2oq_tabBody{flex:1 1 auto;min-height:0;overflow:auto;padding-right:2px}.VoX2oq_panel h3{color:var(--dsw-alias-label-secondary);margin:12px 0 6px;font-size:12px;font-weight:500}.VoX2oq_roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;display:grid}.VoX2oq_member{border:.5px solid var(--dsw-alias-border-l1);min-width:0;color:var(--dsw-alias-label-primary);text-align:left;cursor:pointer;background:0 0;border-radius:8px;align-items:flex-start;gap:8px;padding:8px;display:flex}.VoX2oq_member:disabled{cursor:default}.VoX2oq_memberText{flex-direction:column;min-width:0;display:flex}.VoX2oq_memberText small,.VoX2oq_meta{color:var(--dsw-alias-label-tertiary);font-size:11px}.VoX2oq_diagnostic,.VoX2oq_error,.VoX2oq_warning{color:var(--dsw-alias-state-error-primary)}.VoX2oq_smallButton{align-items:center;gap:4px;margin-left:auto;padding:4px 7px;font-size:11px;display:inline-flex}.VoX2oq_tasks{flex-direction:column;gap:7px;display:flex}.VoX2oq_task,.VoX2oq_form{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:9px;padding:9px}.VoX2oq_taskTitle span{color:var(--dsw-alias-label-tertiary);margin-left:auto;font-size:11px}.VoX2oq_task p{color:var(--dsw-alias-label-secondary);white-space:pre-wrap;margin:5px 0;font-size:12px}.VoX2oq_meta{flex-wrap:wrap;gap:4px 10px;display:flex}.VoX2oq_taskActions{flex-wrap:wrap;margin-top:8px}.VoX2oq_taskActions label{color:var(--dsw-alias-label-tertiary);align-items:center;gap:4px;font-size:11px;display:inline-flex}.VoX2oq_taskActions select,.VoX2oq_form input,.VoX2oq_form textarea{box-sizing:border-box;border:.5px solid var(--dsw-alias-border-l4);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font:inherit;border-radius:6px}.VoX2oq_taskActions button,.VoX2oq_formActions button{align-items:center;gap:3px;padding:4px 6px;font-size:11px;display:inline-flex}.VoX2oq_taskActions button:disabled,.VoX2oq_formActions button:disabled{opacity:.45;cursor:default}.VoX2oq_form{gap:6px;margin-bottom:7px;display:grid}.VoX2oq_form input,.VoX2oq_form textarea{width:100%;padding:6px 8px;font-size:12px}.VoX2oq_form textarea{resize:vertical;min-height:58px}.VoX2oq_notice,.VoX2oq_error{padding:9px;font-size:12px}";
+ 		const tagId = "@deepseek-ai/dsh-experimental-client-ui-agent-team/TeamAction.module.css";
+ 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
+ 			const tag = document.createElement("style");
+ 			tag.dataset.plugin = "@deepseek-ai/dsh-experimental-client-ui-agent-team";
+ 			tag.dataset.pluginCss = tagId;
+-			tag.textContent = css;
++			tag.textContent = css + ".VoX2oq_roomRow{grid-column:1/-1;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:7px;border:0;border-top:1px solid var(--dsw-alias-border-l1);background:0 0;color:inherit;text-align:left;cursor:pointer;font:inherit;font-size:11px}.VoX2oq_roomRow:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_roomRowTitle{display:flex;align-items:center;gap:5px;min-width:0}.VoX2oq_roomRowMeta{color:var(--dsw-alias-label-tertiary);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.VoX2oq_roomRowCount{color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;white-space:nowrap}.VoX2oq_roomDetail{display:flex;flex-direction:column;gap:8px}.VoX2oq_roomDetailHeader{display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:1;padding:0 0 5px;background-color:var(--dsw-alias-bg-base);background-image:linear-gradient(var(--dsw-specific-menu),var(--dsw-specific-menu));backdrop-filter:none}.VoX2oq_roomDetailTitle{min-width:0;flex:1}.VoX2oq_roomDetailTitle strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.VoX2oq_roomDetailTitle small{color:var(--dsw-alias-label-tertiary);font-size:10px}.VoX2oq_roomSummary,.VoX2oq_roomRound{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:8px;padding:8px}.VoX2oq_roomSummary p,.VoX2oq_roomRound p{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--dsw-alias-label-secondary);font-size:11px;margin:5px 0 0}.VoX2oq_roomMessages{display:flex;flex-direction:column;gap:6px;margin-top:7px}.VoX2oq_roomMessage{border-left:2px solid var(--dsw-alias-border-l4);padding:5px 7px;background:var(--dsw-alias-fill-l2)}.VoX2oq_roomMessageHead{display:flex;align-items:center;gap:6px;color:var(--dsw-alias-label-tertiary);font-size:10px;margin-bottom:3px}.VoX2oq_roomMessageBody{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--dsw-alias-label-primary);font-size:11px}.VoX2oq_roomList{display:flex;flex-direction:column;gap:4px;margin-top:5px;color:var(--dsw-alias-label-secondary);font-size:11px}.VoX2oq_roomEmpty{color:var(--dsw-alias-label-tertiary);font-size:11px;padding:8px;text-align:center}";
+ 			document.head.appendChild(tag);
+ 		}
+ 		var TeamAction_module_css_default = {
+ 			"count": "VoX2oq_count",
+ 			"diagnostic": "VoX2oq_diagnostic",
+ 			"error": "VoX2oq_error",
++			"form": "VoX2oq_form",
++			"formActions": "VoX2oq_formActions",
+ 			"iconButton": "VoX2oq_iconButton",
+ 			"member": "VoX2oq_member",
+ 			"memberText": "VoX2oq_memberText",
+@@ -4144,17 +4318,55 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			"panel": "VoX2oq_panel",
+ 			"root": "VoX2oq_root",
+ 			"roster": "VoX2oq_roster",
++			"roomDetail": "VoX2oq_roomDetail",
++			"roomDetailHeader": "VoX2oq_roomDetailHeader",
++			"roomDetailTitle": "VoX2oq_roomDetailTitle",
++			"roomEmpty": "VoX2oq_roomEmpty",
++			"roomList": "VoX2oq_roomList",
++			"roomMessage": "VoX2oq_roomMessage",
++			"roomMessageBody": "VoX2oq_roomMessageBody",
++			"roomMessageHead": "VoX2oq_roomMessageHead",
++			"roomMessages": "VoX2oq_roomMessages",
++			"roomRound": "VoX2oq_roomRound",
++			"roomRow": "VoX2oq_roomRow",
++			"roomRowCount": "VoX2oq_roomRowCount",
++			"roomRowMeta": "VoX2oq_roomRowMeta",
++			"roomRowTitle": "VoX2oq_roomRowTitle",
++			"roomSummary": "VoX2oq_roomSummary",
++			"sectionTitle": "VoX2oq_sectionTitle",
++			"smallButton": "VoX2oq_smallButton",
+ 			"spacer": "VoX2oq_spacer",
+ 			"task": "VoX2oq_task",
+-			"taskState": "VoX2oq_taskState",
++			"taskActions": "VoX2oq_taskActions",
+ 			"taskTitle": "VoX2oq_taskTitle",
+ 			"tasks": "VoX2oq_tasks",
++			"tab": "VoX2oq_tab",
++			"tabActive": "VoX2oq_tabActive",
++			"tabBar": "VoX2oq_tabBar",
++			"tabBody": "VoX2oq_tabBody",
++			"tabCount": "VoX2oq_tabCount",
+ 			"toolbar": "VoX2oq_toolbar",
+ 			"trigger": "VoX2oq_trigger",
+ 			"warning": "VoX2oq_warning"
+ 		};
+ 		//#endregion
+ 		//#region lib/types/client/TeamAction.js
++		const EMPTY_DRAFT = {
++			subject: "",
++			description: "",
++			blockers: "",
++			scopes: ""
++		};
++		function items(value) {
++			return [...new Set(value.split(",").map((item) => item.trim()).filter(Boolean))];
++		}
++		function taskIds(value) {
++			return items(value);
++		}
++		/**
++		* One failure line for either carrier: a Remote failure, or a Team business
++		* rejection whose codes stay local to this seam and never ride the wire.
++		*/
+ 		function failureText(error) {
+ 			return `${error.message} (${error.code})`;
+ 		}
+@@ -4170,46 +4382,577 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 		function memberStatusKey(status) {
+ 			switch (status) {
+ 				case "running": return "memberStatus.running";
++				case "idle": return "memberStatus.idle";
+ 				case "inactive": return "memberStatus.inactive";
+ 				case "provisioning": return "memberStatus.provisioning";
+ 				case "failed": return "memberStatus.failed";
+ 			}
+ 		}
+-		function memberDotState(status) {
+-			switch (status) {
+-				case "running":
+-				case "provisioning": return "ongoing";
+-				case "inactive": return "idle";
+-				case "failed": return "error";
++		/** Render the live Team roster and compare-and-set task board. */
++		/**
++		 * Level and group are the v2 policy layer's own vocabulary. The domain
++		 * roster is flat and its Remote payload carries no tier at all, so the
++		 * panel reads them from the operator command channel (/team meta).
++		 */
++		const ROSTER_TIER_TONE = {
++			0: { bg: "rgba(250,173,20,.20)", fg: "#ad6800", border: "rgba(250,173,20,.55)" },
++			1: { bg: "rgba(22,119,255,.18)", fg: "#0958d9", border: "rgba(22,119,255,.50)" },
++			2: { bg: "rgba(82,196,26,.18)", fg: "#389e0d", border: "rgba(82,196,26,.50)" }
++		};
++		const ROSTER_NEUTRAL_TONE = { bg: "rgba(140,140,140,.16)", fg: "inherit", border: "rgba(140,140,140,.42)" };
++		const ROSTER_FROZEN_TONE = { bg: "rgba(255,77,79,.18)", fg: "#cf1322", border: "rgba(255,77,79,.50)" };
++		const ROSTER_STATUS_TONE = {
++			pending: { bg: "rgba(140,140,140,.16)", fg: "inherit", border: "rgba(140,140,140,.42)" },
++			in_progress: { bg: "rgba(22,119,255,.18)", fg: "#0958d9", border: "rgba(22,119,255,.50)" },
++			completed: { bg: "rgba(82,196,26,.18)", fg: "#389e0d", border: "rgba(82,196,26,.50)" }
++		};
++		/** One small rounded label. */
++		function rosterTag(text, tone, title) {
++			return (0, react_jsx_runtime.jsx)("span", {
++				title,
++				style: {
++					display: "inline-block",
++					padding: "0 6px",
++					marginRight: "4px",
++					borderRadius: "999px",
++					fontSize: "10px",
++					lineHeight: "16px",
++					fontWeight: 600,
++					whiteSpace: "nowrap",
++					background: tone.bg,
++					color: tone.fg,
++					border: `1px solid ${tone.border}`
++				},
++				children: text
++			});
++		}
++		/** A clickable full-width row inside the roster grid. */
++		function rosterRow(options) {
++			return (0, react_jsx_runtime.jsxs)("button", {
++				type: "button",
++				onClick: options.onClick,
++				title: options.title,
++				style: {
++					gridColumn: "1 / -1",
++					display: "flex",
++					alignItems: "center",
++					gap: "6px",
++					width: "100%",
++					padding: options.padding ?? "3px 4px",
++					margin: options.margin,
++					font: "inherit",
++					fontSize: "11px",
++					fontWeight: options.weight ?? 700,
++					textAlign: "left",
++					color: "inherit",
++					background: options.background ?? "transparent",
++					border: "none",
++					borderTop: options.borderTop,
++					borderRadius: "4px",
++					cursor: "pointer",
++					opacity: options.opacity ?? 1
++				},
++				children: options.children
++			}, options.key);
++		}
++		/** The level/group label of one board, as tags plus a readable title. */
++		function boardLabel(board, t) {
++			if (board.kind === "level") return { tone: ROSTER_TIER_TONE[board.tier] ?? ROSTER_NEUTRAL_TONE, tag: "L" + board.tier, title: "L" + board.tier + " " + t("levelBoard") };
++			if (board.kind === "group") return { tone: ROSTER_NEUTRAL_TONE, tag: t("group"), title: String(board.group) + " " + t("groupBoard") };
++			return { tone: ROSTER_NEUTRAL_TONE, tag: t("globalBoard"), title: t("globalBoard") };
++		}
++		/** Bucket roster members by level, then by group. */
++		function rosterSections(members, teamMeta) {
++			const known = /* @__PURE__ */ new Map();
++			if (teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.members)) {
++				for (const row of teamMeta.members) if (row !== null && typeof row === "object") known.set(row.name, row);
++			}
++			const sections = [];
++			const index = /* @__PURE__ */ new Map();
++			for (const member of members) {
++				// The forked domain carries level/groupId/frozen on the roster row itself, so
++			// the panel derives everything it shows from the Team payload alone: there is
++			// no /team meta side channel left to go stale.
++			const fromMeta = known.get(member.name);
++			const derived = typeof member.level === "number" ? {
++				tier: member.level,
++				group: member.groupId,
++				role: member.level === 0 ? "lead" : member.groupId === "verifier" ? "verifier" : member.level === 1 ? "lead" : "member",
++				frozen: member.frozen === true || (fromMeta !== void 0 && fromMeta.frozen === true),
++			} : void 0;
++			const extra = derived === void 0 ? fromMeta : { ...(fromMeta === void 0 ? {} : fromMeta), ...derived };
++				const tier = extra === void 0 || extra.tier === null || extra.tier === void 0 ? -1 : extra.tier;
++				const group = extra === void 0 || extra.group === null || extra.group === void 0 ? "" : String(extra.group);
++				const key = tier + "\u0000" + group;
++				let section = index.get(key);
++				if (section === void 0) {
++					section = { key, tier, group, rows: [] };
++					index.set(key, section);
++					sections.push(section);
++				}
++				section.rows.push({ member, extra });
++			}
++			sections.sort((a, b) => (a.tier < 0 ? 1 : b.tier < 0 ? -1 : a.tier - b.tier) || a.group.localeCompare(b.group));
++			for (const section of sections) section.rows.sort((a, b) => String(a.member.name).localeCompare(String(b.member.name)));
++			return sections;
++		}
++		/** One compact room row: round, host, next speaker and open escalations. */
++		function roomConsoleRows(teamMeta, t) {
++			const source = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.rooms)
++				? teamMeta.rooms
++				: [];
++			const rounds = teamMeta !== null && typeof teamMeta === "object" && teamMeta.rounds !== null
++				? teamMeta.rounds
++				: {};
++			const escalations = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.escalations)
++				? teamMeta.escalations
++				: [];
++			const rows = [];
++			for (const room of source) {
++				if (room === null || typeof room !== "object") continue;
++				const round = room.currentRoundId !== null && room.currentRoundId !== void 0 && rounds[room.currentRoundId] !== void 0
++					? rounds[room.currentRoundId]
++					: null;
++				const pending = escalations.filter((row) => row !== null && typeof row === "object"
++					&& row.roomId === room.roomId && row.status !== "resolved" && row.status !== "cancelled").length;
++				if (room.status !== "open" && round === null && pending === 0) continue;
++				rows.push({
++					key: String(room.roomId),
++					room,
++					round,
++					pending
++				});
+ 			}
++			rows.sort((left, right) => {
++				const leftMine = left.round !== null && left.round.status === "open" ? 1 : 0;
++				const rightMine = right.round !== null && right.round.status === "open" ? 1 : 0;
++				return rightMine - leftMine || String(left.room.roomId).localeCompare(String(right.room.roomId));
++			});
++			return rows;
++		}
++		/** One durable room transcript, grouped by its rounds. */
++		function RoomDetail({ room, rounds, t, css, onBack }) {
++			const jsx = react_jsx_runtime.jsx;
++			const jsxs = react_jsx_runtime.jsxs;
++			const roomRounds = Object.values(rounds ?? {})
++				.filter((round) => round !== null && typeof round === "object" && round.roomId === room.roomId)
++				.sort((left, right) => Number(left.openedAt || 0) - Number(right.openedAt || 0));
++			const messages = (Array.isArray(room.messages) ? room.messages : [])
++				.filter((message) => message !== null && typeof message === "object")
++				.slice()
++				.sort((left, right) => Number(left.createdAt || 0) - Number(right.createdAt || 0));
++			const byRound = /* @__PURE__ */ new Map();
++			for (const message of messages) {
++				const key = String(message.roundId ?? "");
++				if (!byRound.has(key)) byRound.set(key, []);
++				byRound.get(key).push(message);
++			}
++			const unassigned = byRound.get("") ?? [];
++			const time = (value) => {
++				const number = Number(value);
++				return Number.isFinite(number) && number > 0 ? new Date(number).toLocaleString() : "";
++			};
++			const messageNode = (message, index) => jsxs("div", {
++				className: css.roomMessage,
++				children: [
++					jsxs("div", {
++						className: css.roomMessageHead,
++						children: [
++							jsx("strong", { children: String(message.author || "?") }),
++							jsx("span", { children: message.turn === true ? t("roomMainSpeech") : message.kind === "clarification" ? t("roomClarification") : String(message.kind || t("roomNotice")) }),
++							jsx("span", { style: { marginLeft: "auto" }, children: time(message.createdAt) })
++						]
++					}),
++					jsx("div", { className: css.roomMessageBody, children: String(message.content || "") })
++				]
++			}, String(message.messageId || index));
++			const roundsUsed = roomRounds.length;
++			return jsxs("div", {
++				className: css.roomDetail,
++				children: [
++					jsxs("div", {
++						className: css.roomDetailHeader,
++						children: [
++							jsx("button", {
++								type: "button",
++								className: css.smallButton,
++								style: { marginLeft: 0 },
++								onClick: onBack,
++								children: t("roomBack")
++							}),
++							jsxs("div", {
++								className: css.roomDetailTitle,
++								children: [
++									jsx("strong", { children: String(room.roomId) }),
++									jsx("small", { children: t("host") + ": " + String(room.host ?? "—") + " · " + t("roomRoundBudget") + ": " + String(roundsUsed) + "/3" })
++								]
++							}),
++							rosterTag(String(room.status), ROSTER_STATUS_TONE[room.status] ?? ROSTER_NEUTRAL_TONE, String(room.status))
++						]
++					}),
++					room.summary ? jsxs("div", {
++						className: css.roomSummary,
++						children: [jsx("strong", { children: t("roomSummary") }), jsx("p", { children: String(room.summary) })]
++					}) : null,
++					Array.isArray(room.unresolved) && room.unresolved.length > 0 ? jsxs("div", {
++						className: css.roomSummary,
++						children: [
++							jsx("strong", { children: t("roomUnresolved") }),
++							jsx("div", { className: css.roomList, children: room.unresolved.map((item, index) => {
++								const text = typeof item === "string" ? item : String(item?.text ?? item?.content ?? JSON.stringify(item));
++								const status = typeof item === "object" && item?.status ? " [" + item.status + "]" : "";
++								const resolution = typeof item === "object" && item?.resolution ? " -> " + String(item.resolution) : "";
++								return jsx("div", { children: "• " + text + status + resolution }, "unresolved-" + index);
++							}) })
++						]
++					}) : null,
++					Array.isArray(room.decisions) && room.decisions.length > 0 ? jsxs("div", {
++						className: css.roomSummary,
++						children: [
++							jsx("strong", { children: t("roomDecisions") }),
++							jsx("div", { className: css.roomList, children: room.decisions.map((decision, index) => jsx("div", {
++								children: "• " + String(decision.title || decision.choice || decision.decisionId || "")
++							}, "decision-" + index)) })
++						]
++					}) : null,
++					roomRounds.map((round, roundIndex) => {
++						const roundMessages = byRound.get(String(round.roundId)) ?? [];
++						return jsxs("section", {
++							className: css.roomRound,
++							children: [
++								jsxs("div", {
++									className: css.sectionTitle,
++									children: [
++										jsx("strong", { children: t("round") + " " + String(roundIndex + 1) + " · " + String(round.topic || round.roundId) }),
++										rosterTag(String(round.status), ROSTER_STATUS_TONE[round.status] ?? ROSTER_NEUTRAL_TONE, String(round.status))
++									]
++								}),
++								round.summary ? jsx("p", { children: String(round.summary) }) : null,
++								Array.isArray(round.unresolved) && round.unresolved.length > 0 ? jsx("div", {
++									className: css.roomList,
++									children: round.unresolved.map((item, index) => {
++										const text = typeof item === "string" ? item : String(item?.text ?? item?.content ?? JSON.stringify(item));
++										const status = typeof item === "object" && item?.status ? " [" + item.status + "]" : "";
++										const resolution = typeof item === "object" && item?.resolution ? " -> " + String(item.resolution) : "";
++										return jsx("div", { children: "• " + text + status + resolution }, "round-unresolved-" + index);
++									})
++								}) : null,
++								roundMessages.length > 0 ? jsx("div", {
++									className: css.roomMessages,
++									children: roundMessages.map(messageNode)
++								}) : jsx("div", { className: css.roomEmpty, children: t("roomNoMessages") })
++							]
++						}, String(round.roundId));
++					}),
++					unassigned.length > 0 ? jsxs("section", {
++						className: css.roomRound,
++						children: [
++							jsx("strong", { children: t("roomMessages") }),
++							jsx("div", { className: css.roomMessages, children: unassigned.map(messageNode) })
++						]
++					}) : null,
++					roomRounds.length === 0 && unassigned.length === 0 ? jsx("div", { className: css.roomEmpty, children: t("roomNoMessages") }) : null
++				]
++			});
+ 		}
+-		function taskDotState(task) {
+-			switch (task.status) {
+-				case "pending": return task.ready ? "idle" : "warning";
+-				case "in_progress": return "ongoing";
+-				case "completed": return "done";
+-				/* v8 ignore next -- Team views omit deleted task tombstones. */
+-				case "deleted": return "idle";
++		/** One compact dispatch row with queue age and retry state. */
++		function dispatchConsoleRows(teamMeta) {
++			const rows = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.dispatches)
++				? teamMeta.dispatches.filter((row) => row !== null && typeof row === "object"
++					&& !["completed", "cancelled"].includes(row.status))
++				: [];
++			return rows.slice().sort((left, right) => Number(left.createdAt || 0) - Number(right.createdAt || 0)).slice(0, 12);
++		}
++		function compactAge(ms) {
++			const value = Math.max(0, Number(ms || 0));
++			if (value < 1000) return "0s";
++			if (value < 60000) return Math.round(value / 1000) + "s";
++			if (value < 3600000) return Math.round(value / 60000) + "m";
++			return Math.round(value / 3600000) + "h";
++		}
++		/**
++		 * The roster as level/group sections, then the levelled task boards.
++		 * Every level and group label is clickable: a section heading filters the
++		 * roster, a board row collapses or opens its tasks.
++		 */
++		function RosterView(options) {
++			const { members, meta, sessionId, openTeammate, setError, t, css, StateDot, tab, onSelectRoom } = options;
++			const jsx = react_jsx_runtime.jsx;
++			const jsxs = react_jsx_runtime.jsxs;
++			const [filter, setFilter] = (0, react.useState)("");
++			const [closed, setClosed] = (0, react.useState)({});
++			const nodes = [];
++			const rosterRows = tab === "frozen"
++				? members.filter((member) => {
++					const known = meta !== null && typeof meta === "object" && Array.isArray(meta.members)
++						? meta.members.find((row) => row !== null && typeof row === "object" && row.name === member.name)
++						: void 0;
++					return (member.frozen === true) || (known !== void 0 && known.frozen === true);
++				})
++				: members;
++			const sections = tab === "members" || tab === "frozen" ? rosterSections(rosterRows, meta) : [];
++			if (tab === "members" || tab === "frozen") {
++			if (filter !== "") {
++				const shown = sections.find((section) => section.key === filter);
++				nodes.push(rosterRow({
++					key: "filter-bar",
++					onClick: () => setFilter(""),
++					title: t("clearFilter"),
++					weight: 500,
++					padding: "3px 8px",
++					background: "rgba(22,119,255,.14)",
++					children: [
++						jsx("span", { children: t("filtering") + ": " + (shown === void 0 ? filter : (shown.tier < 0 ? t("tierUnknown") : t("tier") + " " + shown.tier + (shown.group.length === 0 ? "" : " · " + shown.group))) }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.75 }, children: t("clearFilter") })
++					]
++				}));
++			}
++			for (const section of sections) {
++				const tone = ROSTER_TIER_TONE[section.tier] ?? ROSTER_NEUTRAL_TONE;
++				const selected = filter === section.key;
++				if (filter !== "" && !selected) continue;
++				const label = section.tier < 0 ? t("tierUnknown") : t("tier") + " " + section.tier + (section.group.length === 0 ? "" : " · " + t("group") + " " + section.group);
++				nodes.push(rosterRow({
++					key: "section-" + section.key,
++					onClick: () => setFilter(selected ? "" : section.key),
++					title: t("filterHint"),
++					margin: "10px 0 2px",
++					background: selected ? tone.bg : "transparent",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: tone.border } }),
++						jsx("span", { children: label }),
++						jsx("span", { style: { opacity: 0.6, fontWeight: 500 }, children: "(" + section.rows.length + ")" }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.5, fontWeight: 500 }, children: selected ? "\u2715" : "\u25be" })
++					]
++				}));
++				for (const row of section.rows) {
++					const member = row.member;
++					const extra = row.extra;
++					const frozen = extra !== void 0 && extra.frozen === true;
++					const status = frozen ? "frozen" : member.status;
++					const tags = [];
++					if (section.tier >= 0) tags.push(rosterTag("L" + section.tier, ROSTER_TIER_TONE[section.tier] ?? ROSTER_NEUTRAL_TONE, t("tier")));
++					if (section.group.length > 0) tags.push(rosterTag(section.group, ROSTER_NEUTRAL_TONE, t("group")));
++					// The verifier is a tier-1 peer of the group leads but is NOT one of
++					// them, and reading it as "组长" in the roster is simply wrong.
++					const identity = extra !== void 0 && extra.role === "verifier"
++						? t("roleVerifier")
++						: extra !== void 0 && extra.role === "custom"
++							? t("roleCustom")
++							: section.tier === 0 ? t("roleLead") : section.tier === 1 ? t("roleGroupLead") : section.tier === 2 ? t("roleMember") : t("tierUnknown");
++					tags.push(rosterTag(identity,
++						extra !== void 0 && extra.role === "verifier" ? ROSTER_TIER_TONE[1] : ROSTER_NEUTRAL_TONE, void 0));
++					if (frozen) tags.push(rosterTag("\u2744 " + t("frozen"), ROSTER_FROZEN_TONE, t("frozen")));
++					nodes.push(jsxs("button", {
++						type: "button",
++						className: css.member,
++						disabled: member.role === "lead" || status === "failed" || status === "provisioning",
++						title: member.role === "teammate" ? t("open") : void 0,
++						onClick: () => {
++							openTeammate(sessionId, member).catch((reason) => {
++								setError(String(reason));
++							});
++						},
++						children: [
++							jsx(StateDot, { state: frozen ? "error" : status === "running" ? "ongoing" : status === "failed" ? "error" : "done" }),
++							jsxs("span", {
++								className: css.memberText,
++								children: [
++									jsxs("span", {
++										style: { display: "flex", alignItems: "center", flexWrap: "wrap", rowGap: "2px" },
++										children: [jsx("span", { style: { fontWeight: 600, marginRight: "6px" }, children: member.name })].concat(tags)
++									}),
++									jsxs("small", { children: [
++										t(frozen ? "memberStatus.frozen" : memberStatusKey(status)),
++										member.model === void 0 ? "" : " · " + t("model") + ": " + member.model
++									] }),
++									extra !== void 0 && extra.pendingCompaction !== void 0 && jsx("small", {
++										className: css.warning,
++										children: t("pendingCompaction") + ": " + String(extra.pendingCompaction.milestoneStage ?? "")
++									}),
++									member.diagnostics.map((diagnostic) => jsx("small", {
++										className: css.diagnostic,
++										children: diagnostic
++									}, diagnostic))
++								]
++							})
++						]
++					}, member.id));
++				}
++			}
++			}
++			if (tab === "boards") {
++			// Only the levelled boards: the global one already has the interactive
++			// shared-task section below, and repeating it here reads as a duplicate.
++			const all = meta !== null && typeof meta === "object" && Array.isArray(meta.boards) ? meta.boards : [];
++			const boards = all.filter((board) => board !== null && typeof board === "object" && board.kind !== "global");
++			if (boards.length > 0) {
++				nodes.push(rosterRow({
++					key: "boards-title",
++					onClick: void 0,
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(140,140,140,.5)" } }),
++						jsx("span", { children: t("boards") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.5, fontWeight: 500 }, children: t("hintToggle") })
++					]
++				}));
++				for (const board of boards) {
++					const id = String(board.id);
++					const info = boardLabel(board, t);
++					const tasks = Array.isArray(board.tasks) ? board.tasks : [];
++					const open = closed[id] !== true;
++					nodes.push(rosterRow({
++						key: "board-" + id,
++						onClick: () => setClosed({ ...closed, [id]: open }),
++						title: open ? t("hintCollapse") : t("hintExpand"),
++						borderTop: "1px solid rgba(140,140,140,.18)",
++						opacity: 0.95,
++						children: [
++							jsx("span", { style: { width: "10px", opacity: 0.6, fontWeight: 400 }, children: open ? "\u25be" : "\u25b8" }),
++							rosterTag(info.tag, info.tone, board.id),
++							jsx("span", { style: { fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: info.title }),
++							jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontVariantNumeric: "tabular-nums" }, children: String(tasks.length) })
++						]
++					}));
++					if (!open) continue;
++					if (tasks.length === 0) {
++						nodes.push(jsx("div", {
++							style: { gridColumn: "1 / -1", paddingLeft: "18px", opacity: 0.55, fontSize: "11px" },
++							children: t("boardEmpty")
++						}, "board-empty-" + id));
++						continue;
++					}
++					for (const task of tasks) {
++						if (task === null || typeof task !== "object") continue;
++						nodes.push(jsxs("div", {
++							style: {
++								gridColumn: "1 / -1",
++								display: "flex",
++								alignItems: "center",
++								gap: "6px",
++								paddingLeft: "18px",
++								paddingBottom: "1px",
++								fontSize: "11px"
++							},
++							children: [
++								jsx("span", { style: { opacity: 0.5 }, children: "\u2022" }),
++								jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(task.subject) }),
++								rosterTag(t(statusKey(task.status)), ROSTER_STATUS_TONE[task.status] ?? ROSTER_NEUTRAL_TONE, String(task.status)),
++								task.ownerName === void 0 ? null : jsx("span", { style: { opacity: 0.6, marginLeft: "auto" }, children: String(task.ownerName) })
++							]
++						}, "task-" + id + "-" + String(task.id)));
++					}
++				}
++			}
++			}
++			const rooms = roomConsoleRows(meta, t);
++			if (tab === "rooms") {
++			if (rooms.length > 0) {
++				nodes.push(rosterRow({
++					key: "rooms-title",
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(22,119,255,.55)" } }),
++						jsx("span", { children: t("rooms") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontWeight: 500 }, children: String(rooms.length) })
++					]
++				}));
++				for (const row of rooms) {
++					const round = row.round;
++					const marker = round === null ? t("roomIdle") : t("nextSpeaker") + ": " + String(round.nextSpeaker ?? "—");
++					nodes.push(jsxs("button", {
++						type: "button",
++						className: css.roomRow,
++						onClick: () => onSelectRoom(row.room.roomId),
++						"aria-label": t("roomOpen") + ": " + String(row.room.roomId),
++						children: [
++							jsxs("div", {
++								style: { minWidth: 0 },
++								children: [
++									jsxs("div", {
++										className: css.roomRowTitle,
++										children: [
++											rosterTag(String(row.room.kind || "room"), ROSTER_TIER_TONE[0], String(row.room.roomId)),
++											jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 600 }, children: String(row.room.roomId) }),
++											rosterTag(String(row.room.status), ROSTER_STATUS_TONE[row.room.status] ?? ROSTER_NEUTRAL_TONE, String(row.room.status))
++										]
++									}),
++									jsx("div", { className: css.roomRowMeta, children: [
++										t("host") + ": " + String(row.room.host ?? "—"),
++										round === null ? "" : " · " + t("round") + ": " + String(round.topic || round.roundId),
++										" · " + marker,
++										row.pending > 0 ? " · " + t("pendingEscalations") + ": " + String(row.pending) : ""
++									].join("") })
++								]
++							}),
++							jsx("span", { className: css.roomRowCount,
++								children: round === null ? "" : String((round.mainSpoken ?? round.spoken ?? []).length) + "/" + String((round.order ?? []).length) })
++						]
++					}, "room-" + row.key));
++				}
++			}
++			}
++			const dispatches = dispatchConsoleRows(meta);
++			if (tab === "dispatches") {
++			if (dispatches.length > 0) {
++				const now = Date.now();
++				nodes.push(rosterRow({
++					key: "dispatches-title",
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(250,173,20,.65)" } }),
++						jsx("span", { children: t("dispatches") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontWeight: 500 }, children: String(dispatches.length) })
++					]
++				}));
++				for (const dispatch of dispatches) {
++					const queueAge = ["queued", "delivered"].includes(dispatch.status)
++						? compactAge(Number(dispatch.queueAgeMs ?? (now - Number(dispatch.createdAt || now))))
++						: "—";
++					nodes.push(jsxs("div", {
++						style: {
++							gridColumn: "1 / -1",
++							display: "flex",
++							alignItems: "center",
++							gap: "6px",
++							padding: "4px 7px",
++							borderTop: "1px solid rgba(140,140,140,.14)",
++							fontSize: "11px",
++							minWidth: 0
++						},
++						children: [
++							rosterTag(String(dispatch.status), ["timed-out", "expired", "delivery-failed", "run-failed"].includes(dispatch.status) ? ROSTER_FROZEN_TONE : ROSTER_NEUTRAL_TONE, String(dispatch.status)),
++							jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(dispatch.sender || "?") + " → " + String(dispatch.target || "?") }),
++							jsx("span", { style: { opacity: 0.65, marginLeft: "auto", whiteSpace: "nowrap" }, children: t("queueAge") + ": " + queueAge + (Number(dispatch.attempt || 0) > 1 ? " · " + t("attempt") + " " + String(dispatch.attempt) : "") }),
++							dispatch.lastError === null || dispatch.lastError === void 0 ? null : jsx("span", { title: String(dispatch.lastError), style: { opacity: 0.55 }, children: "!" })
++						]
++					}, "dispatch-" + String(dispatch.dispatchId)));
++				}
++			}
+ 			}
++			if (nodes.length === 0) nodes.push(jsx("div", {
++				style: { gridColumn: "1 / -1", padding: "12px 8px", opacity: 0.55, fontSize: 11, textAlign: "center" },
++				children: t("emptyTab")
++			}, "tab-empty"));
++			return nodes;
+ 		}
+-		/** Render the Team roster and read-only task board. */
+-		function TeamAction({ sessionId, load, openTeammate, t }) {
++		function TeamAction({ sessionId, load, createTask, updateTask, openTeammate, meta, t }) {
+ 			const [open, setOpen] = (0, react.useState)(false);
+ 			const [loading, setLoading] = (0, react.useState)(false);
+ 			const [view, setView] = (0, react.useState)(null);
++			const [tab, setTab] = (0, react.useState)("members");
++			const [selectedRoomId, setSelectedRoomId] = (0, react.useState)(null);
++			const [teamMeta, setTeamMeta] = (0, react.useState)(null);
+ 			const [error, setError] = (0, react.useState)(null);
+-			const rootRef = (0, react.useRef)(null);
+-			const triggerRef = (0, react.useRef)(null);
+-			const panelRef = (0, react.useRef)(null);
+-			const position = (0, _deepseek_ai_dsh_client_ui_primitives.useAnchoredPosition)({
+-				open,
+-				anchorRef: triggerRef,
+-				panelRef,
+-				gap: 5,
+-				margin: 16
+-			});
+-			const positioned = position !== null;
+-			(0, _deepseek_ai_dsh_client_ui_primitives.useDismissOnOutsidePointer)(rootRef, open, setOpen, panelRef);
++			const [creating, setCreating] = (0, react.useState)(false);
++			const [createDraft, setCreateDraft] = (0, react.useState)(EMPTY_DRAFT);
++			const [editing, setEditing] = (0, react.useState)(null);
++			const [editDraft, setEditDraft] = (0, react.useState)(EMPTY_DRAFT);
++			const [pendingTasks, setPendingTasks] = (0, react.useState)(() => /* @__PURE__ */ new Set());
+ 			const sessionRef = (0, react.useRef)(sessionId);
+ 			const refreshGeneration = (0, react.useRef)(0);
+ 			sessionRef.current = sessionId;
+@@ -4218,46 +4961,149 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				setOpen(false);
+ 				setLoading(false);
+ 				setView(null);
++				setTab("members");
++				setSelectedRoomId(null);
++				setTeamMeta(null);
+ 				setError(null);
++				setCreating(false);
++				setCreateDraft(EMPTY_DRAFT);
++				setEditing(null);
++				setEditDraft(EMPTY_DRAFT);
++				setPendingTasks(/* @__PURE__ */ new Set());
+ 			}, [sessionId]);
+-			(0, react.useLayoutEffect)(() => {
+-				if (open && positioned) panelRef.current?.focus();
+-			}, [open, positioned]);
+-			const close = () => {
+-				setOpen(false);
+-				triggerRef.current?.focus();
+-			};
+ 			const refresh = (0, react.useCallback)(async () => {
+ 				const requestedSession = sessionId;
+ 				const generation = ++refreshGeneration.current;
+ 				setLoading(true);
+ 				const result = await load(requestedSession);
+-				if (sessionRef.current !== requestedSession || refreshGeneration.current !== generation) return;
++				if (sessionRef.current !== requestedSession || refreshGeneration.current !== generation) return false;
+ 				setLoading(false);
+ 				if (result.ok) {
+ 					setView(result.value);
++				void Promise.resolve(meta === void 0 ? null : meta(requestedSession)).then((value) => {
++					if (sessionRef.current === requestedSession) setTeamMeta(value);
++				}).catch(() => {});
+ 					setError(null);
+-				} else setError(failureText(result.error));
++					return true;
++				} else {
++					setError(failureText(result.error));
++					return false;
++				}
+ 			}, [load, sessionId]);
+-			const teammates = view?.members.filter((member) => member.role === "teammate") ?? [];
++			const invalidateRefresh = (0, react.useCallback)(() => {
++				refreshGeneration.current += 1;
++				setLoading(false);
++			}, []);
++			const settleTask = (0, react.useCallback)(async (taskId, operation) => {
++				const requestedSession = sessionId;
++				invalidateRefresh();
++				setPendingTasks((current) => new Set(current).add(taskId));
++				try {
++					const result = await operation();
++					if (sessionRef.current !== requestedSession) return void 0;
++					if (!result.ok) {
++						setError(failureText(result.error));
++						return;
++					}
++					if (!result.value.ok) {
++						if (result.value.error.code === "team-task-conflict") {
++							const reloaded = await refresh();
++							if (sessionRef.current !== requestedSession) return void 0;
++							if (reloaded) setError(t("conflict"));
++						} else setError(failureText(result.value.error));
++						return;
++					}
++					const task = result.value.value;
++					setError(null);
++					await refresh();
++					if (sessionRef.current !== requestedSession) return void 0;
++					return task;
++				} finally {
++					if (sessionRef.current === requestedSession) setPendingTasks((current) => {
++						const next = new Set(current);
++						next.delete(taskId);
++						return next;
++					});
++				}
++			}, [
++				invalidateRefresh,
++				refresh,
++				sessionId,
++				t
++			]);
++			const submitCreate = async () => {
++				const subject = createDraft.subject.trim();
++				const description = createDraft.description.trim();
++				/* v8 ignore next -- TaskForm disables Save while either normalized field is empty. */
++				if (subject === "" || description === "") return;
++				if (await settleTask("create", () => createTask(sessionId, {
++					subject,
++					description,
++					blockedBy: taskIds(createDraft.blockers),
++					writeScopes: items(createDraft.scopes)
++				})) === void 0) return;
++				setCreateDraft(EMPTY_DRAFT);
++				setCreating(false);
++			};
++			const startEdit = (task) => {
++				setEditing(task.id);
++				setEditDraft({
++					subject: task.subject,
++					description: task.description,
++					blockers: task.blockedBy.join(", "),
++					scopes: task.writeScopes.join(", ")
++				});
++			};
++			const submitEdit = async (task) => {
++				const requestedSession = sessionId;
++				const edited = await settleTask(task.id, () => updateTask(requestedSession, {
++					taskId: task.id,
++					expectedRevision: task.revision,
++					action: "edit",
++					subject: editDraft.subject.trim(),
++					description: editDraft.description.trim(),
++					writeScopes: items(editDraft.scopes)
++				}));
++				if (edited === void 0) return;
++				const blockedBy = taskIds(editDraft.blockers);
++				if (blockedBy.length === edited.blockedBy.length && blockedBy.every((blocker, index) => blocker === edited.blockedBy[index])) {
++					setEditing(null);
++					return;
++				}
++				if (await settleTask(task.id, () => updateTask(requestedSession, {
++					taskId: task.id,
++					expectedRevision: edited.revision,
++					action: "set_dependencies",
++					blockedBy
++				})) === void 0) return;
++				setEditing(null);
++			};
++			const frozenMembers = (view?.members ?? []).filter((member) => {
++				const known = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.members)
++					? teamMeta.members.find((row) => row !== null && typeof row === "object" && row.name === member.name)
++					: void 0;
++				return member.frozen === true || (known !== void 0 && known.frozen === true);
++			});
++			const activeMembers = (view?.members ?? []).filter((member) => !frozenMembers.some((frozen) => frozen.id === member.id));
++			const teammates = activeMembers.filter((member) => member.role === "teammate");
++			const assignable = view?.members.filter((member) => member.status !== "failed" && member.status !== "provisioning") ?? [];
++			const metaBoards = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.boards) ? teamMeta.boards : [];
++			const selectedRoom = selectedRoomId === null || teamMeta === null || !Array.isArray(teamMeta.rooms)
++				? undefined
++				: teamMeta.rooms.find((room) => room !== null && typeof room === "object" && String(room.roomId) === String(selectedRoomId));
++			const tabRows = [
++				{ key: "members", label: t("roster"), count: activeMembers.length },
++				{ key: "frozen", label: t("frozen"), count: frozenMembers.length },
++				{ key: "boards", label: t("boards"), count: (view?.tasks.length ?? 0) + metaBoards.filter((board) => board !== null && typeof board === "object" && board.kind !== "global").length },
++				{ key: "rooms", label: t("rooms"), count: roomConsoleRows(teamMeta, t).length },
++				{ key: "dispatches", label: t("dispatches"), count: dispatchConsoleRows(teamMeta).length }
++			];
+ 			return (0, react_jsx_runtime.jsxs)("div", {
+-				ref: rootRef,
+ 				className: TeamAction_module_css_default.root,
+ 				"data-team-action": true,
+-				onKeyDown: (event) => {
+-					if (event.key !== "Escape" || !open) return;
+-					event.preventDefault();
+-					close();
+-				},
+-				onBlur: (event) => {
+-					const target = event.relatedTarget;
+-					if (target instanceof Node && !event.currentTarget.contains(target) && !panelRef.current?.contains(target)) setOpen(false);
+-				},
+ 				children: [(0, react_jsx_runtime.jsxs)("button", {
+ 					type: "button",
+-					ref: triggerRef,
+ 					className: TeamAction_module_css_default.trigger,
+-					"aria-haspopup": "dialog",
+ 					"aria-expanded": open,
+ 					onClick: () => {
+ 						const next = !open;
+@@ -4272,29 +5118,16 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 							children: teammates.length
+ 						})
+ 					]
+-				}), open && (0, react_dom.createPortal)((0, react_jsx_runtime.jsxs)("div", {
+-					ref: panelRef,
++				}), open && (0, react_jsx_runtime.jsxs)("div", {
+ 					className: TeamAction_module_css_default.panel,
+-					style: position ?? {
+-						visibility: "hidden",
+-						left: 0,
+-						top: 0
+-					},
+ 					role: "dialog",
+-					tabIndex: -1,
+ 					"aria-label": t("trigger"),
+-					"data-team-panel": true,
+ 					children: [
+ 						(0, react_jsx_runtime.jsxs)("div", {
+ 							className: TeamAction_module_css_default.toolbar,
+ 							children: [
+ 								(0, react_jsx_runtime.jsx)("strong", { children: t("trigger") }),
+ 								(0, react_jsx_runtime.jsx)("span", { className: TeamAction_module_css_default.spacer }),
+-								loading && view !== null && (0, react_jsx_runtime.jsx)("span", {
+-									role: "status",
+-									"aria-label": t("loading"),
+-									children: (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: "ongoing" })
+-								}),
+ 								(0, react_jsx_runtime.jsx)("button", {
+ 									type: "button",
+ 									className: TeamAction_module_css_default.iconButton,
+@@ -4302,81 +5135,116 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 									onClick: () => {
+ 										refresh();
+ 									},
+-									children: (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconRefreshOutlineRegular, { size: 14 })
++									children: (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconRefreshOutlineRegular, {})
+ 								}),
+ 								(0, react_jsx_runtime.jsx)("button", {
+ 									type: "button",
+ 									className: TeamAction_module_css_default.iconButton,
+ 									"aria-label": t("close"),
+-									onClick: close,
++									onClick: () => {
++										setOpen(false);
++									},
+ 									children: (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCloseOutlineRegular, { size: 14 })
+ 								})
+ 							]
+ 						}),
+-						error !== null && (0, react_jsx_runtime.jsxs)("div", {
++						(0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.tabBar,
++							role: "tablist",
++							children: tabRows.map((row) => (0, react_jsx_runtime.jsxs)("button", {
++								type: "button",
++								role: "tab",
++								"aria-selected": tab === row.key,
++								className: TeamAction_module_css_default.tab + (tab === row.key ? " " + TeamAction_module_css_default.tabActive : ""),
++								onClick: () => {
++									setTab(row.key);
++									if (row.key !== "rooms") setSelectedRoomId(null);
++								},
++								children: [
++									(0, react_jsx_runtime.jsx)("span", { children: row.label }),
++									row.count > 0 && (0, react_jsx_runtime.jsx)("span", { className: TeamAction_module_css_default.tabCount, children: row.count })
++								]
++							}, row.key))
++						}),
++						error !== null && (0, react_jsx_runtime.jsx)("div", {
+ 							className: TeamAction_module_css_default.error,
+ 							role: "alert",
+-							children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: "error" }), error]
++							children: error
+ 						}),
+-						loading && view === null && (0, react_jsx_runtime.jsxs)("div", {
++						loading && view === null && (0, react_jsx_runtime.jsx)("div", {
+ 							className: TeamAction_module_css_default.notice,
+-							role: "status",
+-							children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: "ongoing" }), t("loading")]
++							children: t("loading")
+ 						}),
+-						view !== null && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("roster") }), (0, react_jsx_runtime.jsx)("div", {
++						view !== null && (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.tabBody,
++							role: "tabpanel",
++							children: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [tab === "members" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("roster") }), (0, react_jsx_runtime.jsx)("div", {
+ 							className: TeamAction_module_css_default.roster,
+-							children: view.members.map((member) => (0, react_jsx_runtime.jsxs)("button", {
+-								type: "button",
+-								className: TeamAction_module_css_default.member,
+-								disabled: member.role === "lead" || member.status === "failed" || member.status === "provisioning",
+-								title: member.role === "teammate" ? t("open") : void 0,
+-								onClick: () => {
+-									try {
+-										openTeammate(sessionId, member);
+-									} catch (reason) {
+-										setError(String(reason));
+-									}
+-								},
+-								children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: memberDotState(member.status) }), (0, react_jsx_runtime.jsxs)("span", {
+-									className: TeamAction_module_css_default.memberText,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "members", members: activeMembers, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] }), tab === "frozen" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("frozen") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "frozen", members: frozenMembers, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] }), tab === "boards" && (0, react_jsx_runtime.jsxs)("section", { children: [
++							(0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("boards") }), (0, react_jsx_runtime.jsx)("div", {
++								className: TeamAction_module_css_default.roster,
++								children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "boards", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++							})] }),
++							(0, react_jsx_runtime.jsxs)("div", {
++								className: TeamAction_module_css_default.sectionTitle,
++								children: [(0, react_jsx_runtime.jsx)("h3", { children: t("tasks") }), (0, react_jsx_runtime.jsxs)("button", {
++									type: "button",
++									className: TeamAction_module_css_default.smallButton,
++									onClick: () => {
++										setCreating(true);
++									},
+ 									children: [
+-										(0, react_jsx_runtime.jsx)("span", { children: member.name }),
+-										(0, react_jsx_runtime.jsxs)("small", { children: [t(memberStatusKey(member.status)), member.model === void 0 ? "" : ` · ${t("model")}: ${member.model}`] }),
+-										member.diagnostics.map((diagnostic) => (0, react_jsx_runtime.jsx)("small", {
+-											className: TeamAction_module_css_default.diagnostic,
+-											children: diagnostic
+-										}, diagnostic))
++										(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconPlusOutlineRegular, { size: 13 }),
++										" ",
++										t("create")
+ 									]
+ 								})]
+-							}, member.id))
+-						})] }), (0, react_jsx_runtime.jsxs)("section", { children: [
+-							(0, react_jsx_runtime.jsx)("h3", { children: t("tasks") }),
+-							view.tasks.length === 0 && (0, react_jsx_runtime.jsx)("div", {
++							}),
++							creating && (0, react_jsx_runtime.jsx)(TaskForm, {
++								draft: createDraft,
++								setDraft: setCreateDraft,
++								pending: pendingTasks.has("create"),
++								onSave: () => {
++									submitCreate();
++								},
++								onCancel: () => {
++									setCreating(false);
++								},
++								t
++							}),
++							view.tasks.length === 0 && !creating && (0, react_jsx_runtime.jsx)("div", {
+ 								className: TeamAction_module_css_default.notice,
+ 								children: t("empty")
+ 							}),
+ 							(0, react_jsx_runtime.jsx)("div", {
+ 								className: TeamAction_module_css_default.tasks,
+-								children: view.tasks.map((task) => (0, react_jsx_runtime.jsxs)("article", {
++								children: view.tasks.map((task) => editing === task.id ? (0, react_jsx_runtime.jsx)(TaskForm, {
++									draft: editDraft,
++									setDraft: setEditDraft,
++									pending: pendingTasks.has(task.id),
++									onSave: () => {
++										submitEdit(task);
++									},
++									onCancel: () => {
++										setEditing(null);
++									},
++									t
++								}, task.id) : (0, react_jsx_runtime.jsxs)("article", {
+ 									className: TeamAction_module_css_default.task,
+ 									children: [
+ 										(0, react_jsx_runtime.jsxs)("div", {
+ 											className: TeamAction_module_css_default.taskTitle,
+-											children: [(0, react_jsx_runtime.jsx)("strong", { children: task.subject }), (0, react_jsx_runtime.jsxs)("span", {
+-												className: TeamAction_module_css_default.taskState,
+-												children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: taskDotState(task) }), (0, react_jsx_runtime.jsx)("span", { children: t(statusKey(task.status)) })]
+-											})]
++											children: [(0, react_jsx_runtime.jsx)("strong", { children: task.subject }), (0, react_jsx_runtime.jsx)("span", { children: t(statusKey(task.status)) })]
+ 										}),
+ 										(0, react_jsx_runtime.jsx)("p", { children: task.description }),
+ 										(0, react_jsx_runtime.jsxs)("div", {
+ 											className: TeamAction_module_css_default.meta,
+ 											children: [
+ 												(0, react_jsx_runtime.jsx)("span", { children: task.id }),
+-												(0, react_jsx_runtime.jsxs)("span", { children: [
+-													t("owner"),
+-													": ",
+-													task.ownerName ?? t("unowned")
+-												] }),
+ 												task.status === "pending" && (0, react_jsx_runtime.jsx)("span", { children: task.ready ? t("ready") : t("blocked") }),
+ 												task.blockedBy.length > 0 && (0, react_jsx_runtime.jsxs)("span", { children: [
+ 													t("blockedBy"),
+@@ -4393,13 +5261,162 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 													children: warning
+ 												}, warning))
+ 											]
++										}),
++										(0, react_jsx_runtime.jsxs)("div", {
++											className: TeamAction_module_css_default.taskActions,
++											children: [
++												(0, react_jsx_runtime.jsxs)("label", { children: [t("owner"), (0, react_jsx_runtime.jsxs)("select", {
++													value: task.ownerName ?? "",
++													disabled: pendingTasks.has(task.id) || task.status === "completed",
++													onChange: (event) => {
++														const owner = event.target.value;
++														settleTask(task.id, () => updateTask(sessionId, {
++															taskId: task.id,
++															expectedRevision: task.revision,
++															action: "reassign",
++															...owner === "" ? {} : { owner }
++														}));
++													},
++													children: [(0, react_jsx_runtime.jsx)("option", {
++														value: "",
++														children: t("unowned")
++													}), assignable.map((member) => (0, react_jsx_runtime.jsx)("option", {
++														value: member.name,
++														children: member.name
++													}, member.id))]
++												})] }),
++												(0, react_jsx_runtime.jsxs)("button", {
++													type: "button",
++													onClick: () => {
++														startEdit(task);
++													},
++													disabled: pendingTasks.has(task.id),
++													children: [
++														(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconEditOutlineRegular, { size: 13 }),
++														" ",
++														t("edit")
++													]
++												}),
++												task.status === "in_progress" && (0, react_jsx_runtime.jsxs)("button", {
++													type: "button",
++													disabled: pendingTasks.has(task.id),
++													onClick: () => {
++														settleTask(task.id, () => updateTask(sessionId, {
++															taskId: task.id,
++															expectedRevision: task.revision,
++															action: "complete"
++														}));
++													},
++													children: [
++														(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconCheckOutlineRegular, {}),
++														" ",
++														t("complete")
++													]
++												}),
++												task.status === "completed" && (0, react_jsx_runtime.jsx)("button", {
++													type: "button",
++													disabled: pendingTasks.has(task.id),
++													onClick: () => {
++														settleTask(task.id, () => updateTask(sessionId, {
++															taskId: task.id,
++															expectedRevision: task.revision,
++															action: "reopen"
++														}));
++													},
++													children: t("reopen")
++												}),
++												(0, react_jsx_runtime.jsxs)("button", {
++													type: "button",
++													disabled: pendingTasks.has(task.id),
++													onClick: () => {
++														settleTask(task.id, () => updateTask(sessionId, {
++															taskId: task.id,
++															expectedRevision: task.revision,
++															action: "delete"
++														}));
++													},
++													children: [
++														(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.IconTrashOutlineRegular, { size: 13 }),
++														" ",
++														t("delete")
++													]
++												})
++											]
+ 										})
+ 									]
+ 								}, task.id))
+ 							})
+-						] })] })
++						] }), tab === "rooms" && (selectedRoom !== void 0 ? (0, react_jsx_runtime.jsx)(RoomDetail, {
++							room: selectedRoom,
++							rounds: teamMeta.rounds ?? {},
++							t,
++							css: TeamAction_module_css_default,
++							onBack: () => setSelectedRoomId(null)
++						}) : (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("rooms") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "rooms", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot, onSelectRoom: setSelectedRoomId })
++						})] })), tab === "dispatches" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("dispatches") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "dispatches", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] })] })
++					})
+ 					]
+-				}), document.body)]
++				})]
++			});
++		}
++		function TaskForm({ draft, setDraft, pending, onSave, onCancel, t }) {
++			const field = (key, value) => {
++				setDraft({
++					...draft,
++					[key]: value
++				});
++			};
++			return (0, react_jsx_runtime.jsxs)("div", {
++				className: TeamAction_module_css_default.form,
++				children: [
++					(0, react_jsx_runtime.jsx)("input", {
++						value: draft.subject,
++						placeholder: t("subject"),
++						onChange: (event) => {
++							field("subject", event.target.value);
++						}
++					}),
++					(0, react_jsx_runtime.jsx)("textarea", {
++						value: draft.description,
++						placeholder: t("description"),
++						onChange: (event) => {
++							field("description", event.target.value);
++						}
++					}),
++					(0, react_jsx_runtime.jsx)("input", {
++						value: draft.blockers,
++						placeholder: t("blockers"),
++						onChange: (event) => {
++							field("blockers", event.target.value);
++						}
++					}),
++					(0, react_jsx_runtime.jsx)("input", {
++						value: draft.scopes,
++						placeholder: t("scopes"),
++						onChange: (event) => {
++							field("scopes", event.target.value);
++						}
++					}),
++					(0, react_jsx_runtime.jsxs)("div", {
++						className: TeamAction_module_css_default.formActions,
++						children: [(0, react_jsx_runtime.jsx)("button", {
++							type: "button",
++							disabled: pending || draft.subject.trim() === "" || draft.description.trim() === "",
++							onClick: onSave,
++							children: t("save")
++						}), (0, react_jsx_runtime.jsx)("button", {
++							type: "button",
++							disabled: pending,
++							onClick: onCancel,
++							children: t("cancel")
++						})]
++					})
++				]
+ 			});
+ 		}
+ 		//#endregion
+@@ -4414,17 +5431,74 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			close: "关闭",
+ 			loading: "正在加载 Team…",
+ 			empty: "还没有共享任务",
++			emptyTab: "这里暂时没有内容",
+ 			roster: "成员",
+ 			tasks: "共享任务",
+ 			model: "模型",
++			tier: "级别",
++			group: "分组",
++			frozen: "已冻结",
++			frozenMembers: "已冻结成员",
++			pendingCompaction: "待压缩里程碑",
++			tierUnknown: "未登记级别",
++			boards: "看板",
++			globalBoard: "全局板",
++			levelBoard: "层看板",
++			groupBoard: "组看板",
++			boardEmpty: "该看板还没有任务",
++			roleLead: "主控",
++			roleGroupLead: "组长",
++			roleMember: "组员",
++			roleVerifier: "审查员",
++			roleCustom: "自定义",
++			filtering: "筛选中",
++			clearFilter: "显示全部",
++			filterHint: "点击按该级别与分组筛选",
++			hintToggle: "点击展开/收起",
++			hintCollapse: "点击收起任务",
++			hintExpand: "点击展开任务",
++			"memberStatus.frozen": "已冻结",
++			rooms: "协作房间",
++			roomIdle: "空闲",
++			roomBack: "返回房间列表",
++			roomOpen: "打开房间",
++			roomSummary: "摘要",
++			roomMessages: "讨论消息",
++			roomUnresolved: "未决项",
++			roomDecisions: "决议",
++			roomNoMessages: "暂无消息",
++			roomRoundBudget: "讨论预算",
++			roomMainSpeech: "主发言",
++			roomClarification: "澄清",
++			roomNotice: "通知",
++			host: "主持人",
++			round: "轮次",
++			nextSpeaker: "下一位发言",
++			pendingEscalations: "待决升级",
++			dispatches: "消息投递",
++			queueAge: "排队",
++			attempt: "第 N 次",
+ 			open: "打开 teammate 会话",
++			create: "新建任务",
++			subject: "任务标题",
++			description: "任务描述",
++			blockers: "依赖任务 id（逗号分隔）",
++			scopes: "写入范围（逗号分隔）",
++			save: "保存",
++			cancel: "取消",
++			edit: "编辑",
++			complete: "完成",
++			reopen: "重开",
++			delete: "删除",
+ 			owner: "Owner",
+ 			unowned: "未分配",
+ 			blockedBy: "依赖",
+ 			writeScopes: "写入范围",
+ 			ready: "可开始",
+ 			blocked: "被依赖阻塞",
++			conflict: "任务状态已变化，已重新加载；请检查后重试。",
+ 			"memberStatus.running": "运行中",
++			"memberStatus.idle": "空闲",
+ 			"memberStatus.inactive": "未运行",
+ 			"memberStatus.provisioning": "准备中",
+ 			"memberStatus.failed": "失败",
+@@ -4439,17 +5513,74 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			close: "Close",
+ 			loading: "Loading Team…",
+ 			empty: "No shared tasks yet",
++			emptyTab: "Nothing here yet",
+ 			roster: "Members",
+ 			tasks: "Shared tasks",
+ 			model: "Model",
++			tier: "Level",
++			group: "Group",
++			frozen: "Frozen",
++			frozenMembers: "Frozen members",
++			pendingCompaction: "Pending compaction milestone",
++			tierUnknown: "Unregistered",
++			boards: "Boards",
++			globalBoard: "Global board",
++			levelBoard: "level board",
++			groupBoard: "group board",
++			boardEmpty: "No tasks on this board",
++			roleLead: "Lead",
++			roleGroupLead: "Group lead",
++			roleMember: "Member",
++			roleVerifier: "Verifier",
++			roleCustom: "Custom",
++			filtering: "Filtering",
++			clearFilter: "Show all",
++			filterHint: "Click to filter by this level and group",
++			hintToggle: "Click to expand or collapse",
++			hintCollapse: "Click to collapse tasks",
++			hintExpand: "Click to expand tasks",
++			"memberStatus.frozen": "Frozen",
++			rooms: "Rooms",
++			roomIdle: "Idle",
++			roomBack: "Back to rooms",
++			roomOpen: "Open room",
++			roomSummary: "Summary",
++			roomMessages: "Messages",
++			roomUnresolved: "Unresolved",
++			roomDecisions: "Decisions",
++			roomNoMessages: "No messages",
++			roomRoundBudget: "Discussion budget",
++			roomMainSpeech: "Main speech",
++			roomClarification: "Clarification",
++			roomNotice: "Notice",
++			host: "Host",
++			round: "Round",
++			nextSpeaker: "Next speaker",
++			pendingEscalations: "Pending escalations",
++			dispatches: "Dispatches",
++			queueAge: "Queue age",
++			attempt: "attempt",
+ 			open: "Open teammate conversation",
++			create: "New task",
++			subject: "Task subject",
++			description: "Task description",
++			blockers: "Blocking task ids (comma separated)",
++			scopes: "Write scopes (comma separated)",
++			save: "Save",
++			cancel: "Cancel",
++			edit: "Edit",
++			complete: "Complete",
++			reopen: "Reopen",
++			delete: "Delete",
+ 			owner: "Owner",
+ 			unowned: "Unowned",
+ 			blockedBy: "Blocked by",
+ 			writeScopes: "Write scopes",
+ 			ready: "Ready",
+ 			blocked: "Blocked by dependencies",
++			conflict: "Task state changed and was reloaded. Review it before retrying.",
+ 			"memberStatus.running": "Running",
++			"memberStatus.idle": "Idle",
+ 			"memberStatus.inactive": "Inactive",
+ 			"memberStatus.provisioning": "Provisioning",
+ 			"memberStatus.failed": "Failed",
+@@ -4481,9 +5612,31 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				async load(sessionId) {
+ 					return await ctx.remote.agentTeams.view(leadSessionId(sessionId));
+ 				},
+-				openTeammate(sessionId, member) {
++				async createTask(sessionId, input) {
++					return await ctx.remote.agentTeams.createTask(leadSessionId(sessionId), input);
++				},
++				async updateTask(sessionId, input) {
++					const { owner, ...rest } = input;
++					return await ctx.remote.agentTeams.updateTask(leadSessionId(sessionId), {
++						...rest,
++						...owner === void 0 ? {} : { owner }
++					});
++				},
++				async meta(sessionId) {
++					try {
++						const result = await ctx.remote.commands.execute(leadSessionId(sessionId), "/team meta", []);
++						if (!result || result.ok === false) return null;
++						const payload = result.value && result.value.result;
++						if (!payload || typeof payload.text !== "string") return null;
++						return JSON.parse(payload.text);
++					} catch (error) {
++						return null;
++					}
++				},
++				async openTeammate(sessionId, member) {
+ 					if (member.role !== "teammate") return;
+ 					const parentSessionId = leadSessionId(sessionId);
++					await sessions.refreshSubagents(parentSessionId);
+ 					if ((sessions.retainInfo(sessionId).getSnapshot().retainedBy.mainView ?? 0) === 0) return;
+ 					ctx.uiWorkspace.openSession({
+ 						parentSessionId,
+@@ -4513,7 +5666,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				"uiWorkspace",
+ 				"remote.agentTeams",
+ 				"slots",
+-				"locale"
++				"locale",
++				"remote.commands"
+ 			], registerUi);
+ 			try {
+ 				await ui;
+@@ -4541,4 +5695,4 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 	}
+ });
+ 
+-//# sourceMappingURL=client.js.map
+\ No newline at end of file
++//# sourceMappingURL=client.js.map

@@ -1,0 +1,24 @@
+平台缺陷批次 61 修复结果
+
+清单：size 795040，SHA256 ADA67478283B40F1408F20F7730D6C9438F1DAC8B78A5F0F920BB08625B96A9C，mtime 2026-09-29T09:05:26.9477644Z。
+
+已处理：
+- B-187 fixed, focused-verified; live pending：owner 从 integration-ready 可直接 complete，相位保持不变，不再强制回退 execution 污染相位史。
+- B-190 fixed, focused-verified; live pending：requestId 绑定 privilege 与显式 planId/legacy 裸 approval 保持原自动解除；带 object/detail/note/target 的 opaque approval 不再被无关 plan-approved 清掉，须显式 resolve。
+- B-192 fixed, focused-verified：preservedTrackedUnstaged 现在保留 git status --porcelain 原始字节，包括 " M <path>" 前导空格。
+- B-191 partial, no platform change：候选成立，但三条建议都涉及放宽无租约写入或拆分 acquire 语义；保留 tier 0 造夹具、被门者 acquire + 观测的规避，不把 partial 写成 fixed。
+- B-189 已由清单撤回；批次 58-61 其余内容为审计、验证和可观测门纪律，无平台代码修改。
+
+验证：
+- 原始反例修复前 0/3，修复后 3/3；相邻 B-155/B-174/B-186 回归合计 55/55。
+- platform-defects 聚焦集 171/171。
+- phase1-phase11 全量 491 tests / 490 pass / 0 fail / 1 skipped。
+- 四份 profile 同步，web/headless/desktop/teamtest 哈希一致；node --check 13/13，profile parity 1/1。
+- 全量日志：D:\dsh-test\output\platform-defects-batch61-full-phase1-phase11-20260929.log，SHA256 406FA75A62F0853EF364CDA65FD68336F1CCAEFB87EB771D51FEC89D182FB4C6。
+
+文件哈希：
+- team-v14-waiting.mjs D3021162B321299ABD3AC23CD5D0F56104D201E07E86FE7078B4A7E3862CAAA0
+- team-tools-v2-r10.mjs CD0C99C1CBD57B335850A804492CDC93427F29D6015688867B784CA87CCDD3B5
+- team-worktree.mjs 29C8692DBBB3187A1A530C105B032E1D13542DF8EFF6AF20594C2AB625E80837
+
+边界：未重启 DSH，未中断 active Team，未清理 backups/spill/telemetry/session，未修改 RustMc 产品仓；当前 DSH PID 18972 / 端口 40123。三项 fixed 的 live 行为仍 pending，需进程更新后按原始反例复核。

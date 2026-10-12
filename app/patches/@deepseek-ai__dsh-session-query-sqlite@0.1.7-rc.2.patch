@@ -1,0 +1,26 @@
+diff --git a/lib/index.js b/lib/index.js
+index e4f9a662d3b6b43b6c0b3131450a06f6cd82f176..21f72736364d2c3e516cee05fbb3c235819f277a 100755
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -996,15 +996,18 @@ function observeLive(session) {
+ }
+ function observeSession(header, inheritedEventCount, events) {
+ 	const detachedHeader = structuredClone(header);
+-	const detachedEvents = events.map((event) => structuredClone(event));
++	const last = events.at(-1);
+ 	return {
+ 		header: detachedHeader,
+ 		inheritedEventCount,
+-		documents: buildSessionEventSearchDocuments(detachedHeader.id, detachedEvents),
++		documents: buildSessionEventSearchDocuments(detachedHeader.id, events),
+ 		fingerprint: createHash("sha256").update(JSON.stringify({
+ 			header: detachedHeader,
+ 			inheritedEventCount,
+-			events: detachedEvents
++			eventCount: events.length,
++			lastSeq: last?.seq ?? null,
++			lastTime: last?.time ?? null,
++			lastType: last?.type ?? null
+ 		})).digest("base64url")
+ 	};
+ }

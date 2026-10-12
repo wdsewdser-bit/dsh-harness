@@ -1,0 +1,22 @@
+diff --git a/lib/worker.cjs b/lib/worker.cjs
+index a9d114991eff78dee43b2357dc2c1a04cc653b0a..6519b211472ea9773b4b89e49ac09deceb787c51 100644
+--- a/lib/worker.cjs
++++ b/lib/worker.cjs
+@@ -11149,11 +11149,12 @@ var Relationships = class {
+ 		}
+ 		this.surface.splice(first, removed.length, event.seq);
+ 	}
+-	tool(event, data) {
+-		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
+-			this.requireTurn(event.type);
+-			return;
+-		}
++ 	tool(event, data) {
++ 		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
++ 			const historicalPrune = event["surfaceOp"] !== null && typeof event["surfaceOp"] === "object" && event["surfaceOp"]["op"] === "replace" && Array.isArray(event["sourceEventSeqs"]) && event["sourceEventSeqs"].length > 0;
++ 			if (!historicalPrune) this.requireTurn(event.type);
++ 			return;
++ 		}
+ 		this.requireStep(event, data);
+ 		if (event.type === "assistant/message") {
+ 			const message = record(data["message"], "assistant message");

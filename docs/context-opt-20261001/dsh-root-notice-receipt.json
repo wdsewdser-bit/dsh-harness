@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "at": "2026-09-30T21:59:29.183Z",
+  "sessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+  "requestId": "9d424283-6666-40d6-9fc1-80ee25f3cf0b",
+  "mode": "queue",
+  "accepted": true,
+  "processingConfirmed": false,
+  "noticePath": "D:/dsh-test/docs/context-opt-20261001/dsh-root-notice.md",
+  "noticeSha256": "b937216cc7aaf231ae1f42627e3331315fe9768ea0a90679905409766211f502",
+  "note": "Queue acceptance is not proof of model processing. No steering or Team control operation."
+}

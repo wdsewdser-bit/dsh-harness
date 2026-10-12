@@ -1,0 +1,72 @@
+diff --git a/lib/index.js b/lib/index.js
+index 35f2fb2f21f5f0a3857adb3f6ea93a57389be375..57d93d25b903261cf739db71545e931c09a6d1ae 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -196,6 +196,21 @@ function foldSessionTitle(events) {
+ 		updatedAt: event.time
+ 	});
+ }
++/** Fold the latest logged title from a live Session without materializing its full history. */
++function foldSessionTitleFromLive(session) {
++	for (let seq = session.seq - 1; seq >= 0; seq--) {
++		const event = session.eventAt(SessionSeq(seq));
++		if (event.type !== "session/title") continue;
++		return titleSnapshotFromState({
++			title: event.data.title,
++			messageSeqs: event.data.messageSeqs,
++			source: event.data.source,
++			eventSeq: event.seq,
++			updatedAt: event.time
++		});
++	}
++	return void 0;
++}
+ /** Log-backed title fold plus asynchronous fallback generation. */
+ var SessionTitleService = class extends Service {
+ 	static inject = ["sessions", "sessionProjections"];
+@@ -279,7 +294,7 @@ var SessionTitleService = class extends Service {
+ 	* @returns latest title snapshot, or `undefined` before eligible input.
+ 	*/
+ 	get(session) {
+-		return foldSessionTitle(session.snapshotEvents());
++		return foldSessionTitleFromLive(session);
+ 	}
+ 	/**
+ 	* Accept an explicit user title. Appends a `session/title` event with the
+diff --git a/lib/types/index.js b/lib/types/index.js
+index 54cd118839d703f9bcc1666a5bacb5e6afc49de7..3577baf223838ce80073ffe91846d157b1729a2b 100644
+--- a/lib/types/index.js
++++ b/lib/types/index.js
+@@ -148,6 +148,22 @@ export function foldSessionTitle(events) {
+         updatedAt: event.time,
+     });
+ }
++/** Fold the latest logged title from a live Session without materializing its full history. */
++function foldSessionTitleFromLive(session) {
++    for (let seq = session.seq - 1; seq >= 0; seq--) {
++        const event = session.eventAt(SessionSeq(seq));
++        if (event.type !== 'session/title')
++            continue;
++        return titleSnapshotFromState({
++            title: event.data.title,
++            messageSeqs: event.data.messageSeqs,
++            source: event.data.source,
++            eventSeq: event.seq,
++            updatedAt: event.time,
++        });
++    }
++    return undefined;
++}
+ /** Log-backed title fold plus asynchronous fallback generation. */
+ export class SessionTitleService extends Service {
+     static inject = ['sessions', 'sessionProjections'];
+@@ -236,8 +252,7 @@ export class SessionTitleService extends Service {
+      * @returns latest title snapshot, or `undefined` before eligible input.
+      */
+     get(session) {
+-        // oxlint-disable-next-line typescript/no-deprecated -- Existing Session history read; migration deferred.
+-        return foldSessionTitle(session.snapshotEvents());
++        return foldSessionTitleFromLive(session);
+     }
+     /**
+      * Accept an explicit user title. Appends a `session/title` event with the

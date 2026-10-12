@@ -1,0 +1,331 @@
+# Headless Agent Team v2 compatibility layer for dsh 0.1.6-alpha.1.
+# The official flat tool is disabled before this local enforcing composition;
+# all Team mutations therefore pass through the same policy/control/scope
+# guards used by the web profile, without importing any web-only bundle.
+
+- insert:
+    - id: request-message-projection
+      name: './plugins/request-message-projection.mjs'
+      config:
+        maxAuditRecords: 64
+    - id: ptc-sdk-retention
+      name: './plugins/ptc-sdk-retention.mjs'
+      config:
+        mode: apply
+        policy: latest
+        purposePolicy:
+          conversation: ptc-only
+          compaction: certified-latest
+        compatibilityManifestPath: 'D:\dsh-test\docs\context-opt-20261001\sdk-compatibility-manifest.json'
+        directory: 'D:\dsh-test\home\ptc-sdk-retention-audit'
+    - id: context-workspace
+      name: './plugins/context-workspace.mjs'
+      config:
+        mode: shadow
+        appliedSessionIds: []
+        directory: 'D:/dsh-test/home/context-workspace'
+        controlDir: 'D:/dsh-test/home/team-control-plane'
+
+- insert:
+    - id: request-usage-ledger
+      name: './plugins/request-usage-ledger.mjs'
+      config:
+        directory: 'D:\dsh-test\home\usage-ledger'
+        identityManifestPath: 'D:\dsh-test\docs\usage-audit-20261001\history-identities.json'
+        profile: headless
+        maxPending: 4096
+
+- insert:
+    - id: team-v15-window-manager
+      name: './plugins/team-v15-window-manager.mjs'
+      config:
+        # Records what the fold rule would decide after each main request. It folds nothing.
+        mode: shadow
+        directory: 'D:\dsh-test\home\window-decisions'
+        milestonePath: 'D:\dsh-test\home\team-milestones.json'
+
+- id: tool-subagent-control
+  disabled: true
+- id: tool-subagent-list-agents
+  disabled: true
+- id: tool-subagent
+  disabled: true
+- id: tool-subagent-fork
+  disabled: true
+- id: agent-team
+  name: '@deepseek-ai/dsh-experimental-agent-team'
+  config:
+    maxMembers: 500
+    maxTasks: 256
+    # Large projects can leave a lead inactive while its members report. The
+    # 64-message core default made the wake itself hit TEAM_MAILBOX_FULL, so
+    # keep enough headroom to resume and drain the target.
+    maxPendingMessagesPerMember: 1024
+    maxMessageBytes: 65536
+    disposalTimeoutMs: 5000
+- id: tool-agent-team
+  disabled: true
+  config:
+    freshProvider: spawn
+    forkProvider: fork
+
+- insert:
+    - id: write-scope-guard
+      name: './plugins/write-scope-guard.mjs'
+      config:
+        scopesFile: 'D:\dsh-test\home\write-scopes.json'
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        enforce: true
+        defaultDeny: true
+
+    - id: team-health
+      name: './plugins/team-health.mjs'
+      config:
+        profile: headless-test
+        healthFile: 'D:\dsh-test\home\team-health-headless.json'
+        pluginDir: 'D:\dsh-test\home\profiles\headless\plugins'
+        scopesFile: 'D:\dsh-test\home\write-scopes.json'
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        rolesDir: 'D:\dsh-test\home\team-roles'
+        requireRoleFiles: true
+        windowTokens: 1000000
+        reservedOutputTokens: 32768
+        safetyMarginTokens: 8192
+        requiredFiles:
+          - team-control-plane.mjs
+          - team-policy.mjs
+          - team-tools-v2-r10.mjs
+          - team-v12-runtime.mjs
+          - team-v12-contract.mjs
+          - team-v12-persistence.mjs
+          - team-v12-integration.mjs
+          - team-v12-room-wake.mjs
+          - team-v14-requirements.mjs
+          - team-v14-durable-store.mjs
+          - team-v14-identity.mjs
+          - team-v14-event-continuation.mjs
+          - team-v14-context-delivery.mjs
+          - team-v14-memory-anchor.mjs
+          - team-v14-panel.mjs
+          - team-v14-waiting.mjs
+          - team-v12-compaction.mjs
+          - team-v12-context.mjs
+          - team-v12-evidence-scheduler.mjs
+          - team-v12-runtime-facts.mjs
+          - team-v12-observability.mjs
+          - team-v12-replay.mjs
+          - team-activity-digest.mjs
+          - step-compaction-v4.mjs
+          - team-v13-compaction-economics.mjs
+          - team-v13-compaction-shadow.mjs
+          - team-v13-mechanism-telemetry.mjs
+          - team-v13-observation-source.mjs
+          - team-v13-compaction-anchors.mjs
+          - team-v13-cost-attribution.mjs
+          - team-v13-cache-monitor.mjs
+          - team-v13-failure-memory.mjs
+          - team-v13-auto-research.mjs
+          - evidence-reducer.mjs
+          - team-idle-watch-v6.mjs
+          - write-scope-guard.mjs
+          - team-operator-v5.mjs
+        criticalFiles:
+          - team-control-plane.mjs
+          - team-policy.mjs
+          - team-tools-v2-r10.mjs
+          - team-v12-runtime.mjs
+          - team-v12-contract.mjs
+          - team-v12-persistence.mjs
+          - team-v12-integration.mjs
+          - step-compaction-v4.mjs
+          - write-scope-guard.mjs
+        plugins:
+          team-control-plane: enabled
+          team-policy: enabled
+          team-tools-v2: enabled
+          team-v12-runtime: enabled
+          team-v14-event-continuation: enabled
+          step-compaction: enabled
+          evidence-reducer: enabled
+          cache-prefix: enabled
+          failure-memory: enabled
+          write-scope-guard: enabled
+          team-operator: enabled
+          team-usage-projection: disabled
+
+    - id: action-fusion
+      name: './plugins/action-fusion-v2.mjs'
+      config:
+        rules:
+          - match: '/[.](rs)$/'
+            command: 'cargo check --message-format short -p {crate}'
+            timeoutMs: 180000
+          - match: '/[.](ts|tsx)$/'
+            command: 'tsc --noEmit'
+            timeoutMs: 120000
+            shell: 'cmd'
+            requireFile: 'tsconfig.json'
+          - match: '/[.](py)$/'
+            command: 'python -m py_compile "{file}"'
+            timeoutMs: 30000
+          - match: '/[.](go)$/'
+            command: 'gofmt -l "{file}"'
+            timeoutMs: 30000
+          - match: '/[.](js|mjs|cjs)$/'
+            command: 'node --check "{file}"'
+            timeoutMs: 20000
+        shell: 'none'
+        keepOutputChars: 4000
+        crateCooldownMs: 60000
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+
+    - id: observation-pack
+      name: './plugins/observation-pack-v2.mjs'
+      config:
+        maxInlineBytes: 10240
+        fullSends: 2
+        previewBytes: 1024
+        evidenceChars: 1500
+        spillDir: 'D:\dsh-test\home\spill'
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+    - id: evidence-reducer
+      name: './plugins/evidence-reducer.mjs'
+      config:
+        enabled: true
+        settingsFile: 'D:\dsh-test\home\evidence-reducer.json'
+        sessionsRoot: 'D:\dsh-test\home\sessions'
+        archiveDir: 'D:\dsh-test\home\evidence-archive'
+        thresholdBytes: 32768
+        maxReceiptTokens: 1200
+        timeoutMs: 45000
+        maxQuotes: 16
+        maxInputBytes: 131072
+        maxInputLines: 3000
+        remoteAllowed: false
+        localProviders:
+          - opencodego
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+    - id: cache-prefix
+      name: './plugins/team-v13-cache-monitor.mjs'
+      config:
+        sessionsRoot: 'D:\dsh-test\home\sessions'
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+        dropThreshold: 0.15
+    - id: failure-memory
+      name: './plugins/team-v13-failure-memory.mjs'
+      config:
+        memoryFile: 'D:\dsh-test\home\team-control-plane\v13-failure-memory.json'
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+        threshold: 3
+
+    - id: team-policy
+      name: './plugins/team-policy.mjs'
+      config:
+        maxTier1Leads: 8
+        maxVerifiers: 1
+        maxMembersPerLead: 8
+        maxMembers: 30
+        maxRoomRounds: 3
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+
+    - id: tool-agent-team-v2
+      name: './plugins/team-tools-v2-r10.mjs'
+      config:
+        freshProvider: spawn
+        forkProvider: fork
+        scopesFile: 'D:\dsh-test\home\write-scopes.json'
+        rolesDir: 'D:\dsh-test\home\team-roles'
+        reportDir: 'D:\dsh-test\home\team-reports'
+        clearanceFile: 'D:\dsh-test\home\team-clearances.json'
+        milestonePath: 'D:\dsh-test\home\team-milestones.json'
+        healthPath: 'D:\dsh-test\home\team-health-headless.json'
+        windowTokens: 1000000
+        maxRoomRounds: 3
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        reservedOutputTokens: 32768
+        safetyMarginTokens: 8192
+        activityDigestIntervalMs: 600000
+        enablePreStep: true
+
+    - id: team-v12-runtime
+      name: './plugins/team-v12-runtime.mjs'
+      config:
+        profile: headless-test
+        rolesDir: 'D:\dsh-test\home\team-roles'
+        pluginDir: 'D:\dsh-test\home\profiles\headless\plugins'
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        windowTokens: 1048576
+        contextPackMaxTokens: 32000
+        # The root's pack and the mid-turn delta used to default to 6000 and 2500 tokens. The identity alone is a
+        # few thousand, so a changed task contract on top of it did not fit and the turn ended as blocked.
+        tier0ContextPackMaxTokens: 16000
+        contextDeltaMaxTokens: 6000
+        reservedOutputTokens: 32768
+        costAlertThreshold: 25000
+        hypothesis:
+          enabled: true
+        activeIdentity:
+          enabled: true
+          hostBootstrap: true
+          allowedRoots:
+            - 'D:\dsh-test\home\team-roles'
+
+    - id: team-v14-event-continuation
+      name: './plugins/team-v14-event-continuation.mjs'
+      config:
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        scanMs: 30000
+        maxPerScan: 4
+
+    - id: step-compaction
+      name: './plugins/step-compaction-v4.mjs'
+      config:
+        # At or above this size the next idle boundary folds the context even with no finished phase.
+        proactiveFoldTokens: 500000
+        windowTokens: 1048576
+        # At this share an idle agent auto-folds even without a milestone tick.
+        autoCompactRatio: 0.75
+        # A ticked milestone folds only once the context has reached this size. A milestone closes a large phase;
+        # folding a small, still-cached context costs more than it saves. The 0.75 cap above is unaffected.
+        minMilestoneFoldTokens: 200000
+        enablePreStep: true
+        # v13 D: shadow-only economic decision at idle boundaries.
+        opportunisticCompaction: shadow
+        sessionsRoot: 'D:\dsh-test\home\sessions'
+        telemetryDir: 'D:\dsh-test\home\team-control-plane'
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+        debtFile: 'D:\dsh-test\home\team-control-plane\v13-compaction-debt.json'
+        cacheWriteReadRatio: 50
+        # The default route sends max output 128000; reserving less let 915k requests through to a provider 400.
+        reservedOutputTokens: 128000
+        safetyMarginTokens: 32768
+        # Follow the active session's routed reasoning effort so the summary
+        # call stays in the same upstream cache scope.
+        compactionReasoningEffort: inherit
+
+    - id: team-idle-watch
+      name: './plugins/team-idle-watch-v6.mjs'
+      config:
+        settleMs: 30000
+        bootstrapScanMs: 30000
+        # One reminder per distinct stop episode. There is no lifetime cap.
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+
+        intervalMs: 600000
+
+    - id: team-runtime-guard
+      name: './plugins/team-runtime-guard.mjs'
+      config:
+        controlDir: 'D:\dsh-test\home\team-control-plane'
+
+    - id: team-usage-projection
+      name: './plugins/team-usage-projection.mjs'
+      disabled: true
+
+    - id: team-operator
+      name: './plugins/team-operator-v5.mjs'
+      config:
+        reportDir: 'D:\dsh-test\home\team-reports'
+        healthPath: 'D:\dsh-test\home\team-health-headless.json'
+        milestonePath: 'D:\dsh-test\home\team-milestones.json'

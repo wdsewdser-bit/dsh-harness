@@ -1,0 +1,168 @@
+{
+  "scope": "staging-only-not-deployed",
+  "supplementBackupDirectory": "D:/dsh-backups/context-runtime-unified-20261001-tools-supplement-20261003",
+  "supplementBackupReadbackVerified": true,
+  "productionPrecondition": "Recheck before hashes and backup readback before deployment.",
+  "entries": [
+    {
+      "name": "session-delivery-lab.mjs",
+      "before": null,
+      "after": "DAE636CDA912CC59B2754F6089A063D2FBB9C9EEE3A1735E8A546C0A47559F23"
+    },
+    {
+      "name": "compact-test-reporter.mjs",
+      "before": null,
+      "after": "BA12118B74B1CA654A18FAEC32BEDC3723545E99160468657301288E7AE66435"
+    },
+    {
+      "name": "run-regression.mjs",
+      "before": null,
+      "after": "59D0DC1619A1C72ACC692E41A5A61BA396816869A06A3BE2C503252398E4CDD4"
+    },
+    {
+      "name": "v14-control-migration.mjs",
+      "before": "A7511B206B32B17D5152CB7E3C2B5266C0ECCBD0EA06A21D11DD3A22D3E36DC0",
+      "after": "A0230A12265B38AA1A10D45428F7F567A2EA275469A79107BD2614C121171B70"
+    },
+    {
+      "name": "clm-live-session-lab.mjs",
+      "before": "3BEE5B2B9D3B72369B3129D3392B76E7D4C1C9CB88BB94B6F2DB2BE559D2438E",
+      "after": "34F1CEEA288B98580ADA014A09776D824548581EAEEA685B9D135F5BDFD221F8"
+    },
+    {
+      "name": "capture-lab-ptc-binding.mjs",
+      "before": null,
+      "after": "784E82CA833AC4251A739207CEEF303822684057788031EED52A47CD3C55D39A"
+    },
+    {
+      "name": "prepare-unified-lab-host.mjs",
+      "before": null,
+      "after": "01DC42A3A737A08F3A5297F9DA5C133DAEA36D513060590ED448C4A201561B60"
+    },
+    {
+      "name": "unified-natural-lab.mjs",
+      "before": null,
+      "after": "BE29800FBF3D97D8B17BEF0CCA1CD0F8079D4C1217DD02445062EA105D0BD4FC"
+    },
+    {
+      "name": "window-protocol-trial.mjs",
+      "before": null,
+      "after": "DB3BE01E6EDEBE46FB925FD00E4FBAE14F8CF21DFB2B2D952F199DE79E64B77B"
+    },
+    {
+      "name": "window-history-quality.mjs",
+      "before": null,
+      "after": "79C10E56D9431D405E4C437B5F13DF73854A029E2C766739BE661CB59DA661C7"
+    },
+    {
+      "name": "instant-history-lab.mjs",
+      "before": null,
+      "after": "5F59AE6F00D0C6CDD5247F99532B8365819E9F01498B85BB5E31DE97921C6DEA"
+    },
+    {
+      "name": "instant-ui-replay.mjs",
+      "before": null,
+      "after": "D199F27581DE1BA1AA2047DF0FF9611DE2BC753FEDE7BE2D00B151EDA2788D11"
+    },
+    {
+      "name": "instant-natural-lab.mjs",
+      "before": null,
+      "after": "25DA1B24883998E7F5216F346CB3F45A1DB00AF383A5852D801DF955C223C723"
+    },
+    {
+      "name": "native-compaction-natural-lab.mjs",
+      "before": null,
+      "after": "CAF2336B753BBB03269386B8FD33AF66EFCC58D948F4E3025493990F8610AE2D"
+    },
+    {
+      "name": "team-family-natural-lab.mjs",
+      "before": null,
+      "after": "EE9BF4DA47C4919292BA51B80A2CAE1E5724D5F3988600DE64887EFDC503156E"
+    },
+    {
+      "name": "stage-closeout.mjs",
+      "before": null,
+      "after": "F80291FBF6CD93CADB3570CE7F81BD4098DECDEE03D4596C3151C981EFEBAD22"
+    },
+    {
+      "name": "natural-lab-launch.mjs",
+      "before": null,
+      "after": "C1039BF9A35B77E1114AF9FF5E0091C4F881D6B461BDF8E912FE309C4A6A3A8E"
+    },
+    {
+      "name": "natural-ab-batch.mjs",
+      "before": null,
+      "after": "D1E97F3D6DDF95694311962F30CBD7205E276F1138477BBE97EA158DEE9B8DAE"
+    },
+    {
+      "name": "context-size-recall-probe.mjs",
+      "before": null,
+      "after": "1928306F66F3BD51C96186269F448A5A71A373201D61A4FC464283D1CB523408"
+    },
+    {
+      "name": "deploy-production.mjs",
+      "before": null,
+      "after": "78539E0CB3459F75511A1E77C61CEA33863440E6DFD67CEB785AC12822767D75"
+    },
+    {
+      "name": "deploy-production-config.mjs",
+      "before": null,
+      "after": "4632C58AB518F51410ECCE370A1563436EDAEB22D376376F84B72D84C1EB2D24"
+    },
+    {
+      "name": "window-decision-shadow.mjs",
+      "before": null,
+      "after": "13B97DE05776773F7827CE9D0539325A0A0D0BF0DED3747DA4BBEF64B69762D5"
+    },
+    {
+      "name": "deploy-production-window-manager.mjs",
+      "before": null,
+      "after": "950FB445FBAA262C1575985CF17A840FD1B27620229D7F85A425DE506CEFF376"
+    },
+    {
+      "name": "deploy-production-pressure-auto.mjs",
+      "before": null,
+      "after": "DEAB96DCEADBD284AB4B21D0F5B34522395B3A46D39BE712E2F5B837EEE40EC6"
+    },
+    {
+      "name": "deploy-production-budget.mjs",
+      "before": null,
+      "after": "CDF3C7C6400178E2B3B0F83BB1B97D36C08BE58C0EF35504083AC3A52570BCA7"
+    },
+    {
+      "name": "deploy-production-window-wiring.mjs",
+      "before": null,
+      "after": "327F5FBD5BA5825AA2EB2B38B5B40DB2AC829261642D2A2F1CA3BE460BE8DDBD"
+    },
+    {
+      "name": "measure-current-window-20261011.mjs",
+      "before": null,
+      "after": "11A2863A6CF54B4CCDA7E6DD76B936C8F398765733F38956F1EAC598818BC986"
+    },
+    {
+      "name": "window-production-live-20261011.mjs",
+      "before": null,
+      "after": "DEF015EF960A330B90C703B7C9F81E6130E5D7B07BDFA3710DA7CB6F8D22AA16"
+    },
+    {
+      "name": "window-isolated-live-20261011.mjs",
+      "before": null,
+      "after": "9B2FCD92A5846C02A12AAB2021662BD96255B50B3517CABE2E4963588F42FEE7"
+    },
+    {
+      "name": "window-isolated-replay-20261011.mjs",
+      "before": null,
+      "after": "BDDA76BEED4D11CDBDD5E5A60238FE7D5D4FD7A1F41DF89D09A7C55929989BF2"
+    },
+    {
+      "name": "ptc-background-lab.mjs",
+      "before": null,
+      "after": "F50306E3A550F70BFC7442E4B7A50C5A1E3DC7ACAC15E55C30CC0DEFC660C29F"
+    },
+    {
+      "name": "ptc-background-team-lab.mjs",
+      "before": null,
+      "after": "160392606A3B87848E77773CC5E5206787E543E104ADC6C68C97DCD8B6C2FE6F"
+    }
+  ]
+}

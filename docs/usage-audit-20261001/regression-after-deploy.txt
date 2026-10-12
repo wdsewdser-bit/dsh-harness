@@ -1,0 +1,1695 @@
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS in-scope write  expected=allowed actual=allowed
+PASS out-of-scope write  expected=threw:FS_WRITE_OUT_OF_SCOPE actual=threw:FS_WRITE_OUT_OF_SCOPE
+PASS sibling-prefix evasion (src/ui-evil)  expected=threw:FS_WRITE_OUT_OF_SCOPE actual=threw:FS_WRITE_OUT_OF_SCOPE
+PASS traversal evasion (..\ai)  expected=threw:FS_WRITE_OUT_OF_SCOPE actual=threw:FS_WRITE_OUT_OF_SCOPE
+PASS wildcard scope passes  expected=allowed actual=allowed
+PASS empty scope denies  expected=threw:FS_WRITE_OUT_OF_SCOPE actual=threw:FS_WRITE_OUT_OF_SCOPE
+PASS undeclared member passes when defaultDeny=false  expected=allowed actual=allowed
+PASS byName scope enforced  expected=threw:FS_WRITE_OUT_OF_SCOPE actual=threw:FS_WRITE_OUT_OF_SCOPE
+PASS in-scope edit allowed  expected=allowed actual=allowed
+PASS no-actor call passes  expected=allowed actual=allowed
+---
+total=10 failed=0
+✔ D:\dsh-test\phase1-tests\write-scope-guard.test.mjs (380.2003ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+✔ rust context resolves the workspace root and crate name (8.2391ms)
+✔ fusion appends one validation block and deduplicates identical content (753.4394ms)
+✔ a crate-scoped rule is skipped when no Cargo.toml exists (13.8641ms)
+✔ failed edits and non-mutating tools pass through unchanged (15.2593ms)
+✔ requireFile skips a rule when its project marker is absent (14.5472ms)
+✔ a successful crate check enters the per-crate cooldown (82.861ms)
+✔ the capability floor rejects a cheaper candidate that breaks the fixture (6.559ms)
+✔ the Pareto frontier keeps a capability winner beside a higher-scoring peer (0.1267ms)
+✔ the research report exposes all four real fault categories (1.9388ms)
+✔ remaining requests uses the observed per-boundary mean (0.6287ms)
+✔ a missing cache ratio defers instead of guessing (0.2597ms)
+✔ window protection compacts even without an economic ratio (0.3825ms)
+✔ economic compaction fires when the horizon repays the rewrite (0.2202ms)
+✔ growth and cooldown gates defer an otherwise economic compaction (0.276ms)
+✔ non-positive saving is reported explicitly (0.1996ms)
+✔ cache usage summarizes the cached prompt share (0.4394ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+✔ shadow economics emits a compact decision without touching the session (27.1969ms)
+✔ identical idle evaluations do not inflate telemetry counters (21.0511ms)
+✔ missing cache ratio defers rather than guessing (20.2074ms)
+✔ pressure-assisted compaction exposes pressure and the measured ratio (0.2656ms)
+✔ cost attribution reports token and quality deltas without hiding regressions (0.5563ms)
+✔ a mechanism with five dormant sessions is excluded from benefit claims (0.442ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ parseReceipt extracts one JSON object from prose or a fence (0.84ms)
+✔ verifyReceipt accepts exact quotes and rejects mismatches (0.4245ms)
+✔ renderReceipt carries the marker, quotes and archive identity (0.6819ms)
+✔ apply replaces a long log with a verified receipt (26.4767ms)
+✔ an unverifiable receipt fails open and keeps the original log (13.1548ms)
+✔ a non-local route is refused when remote reduction is disabled (12.4129ms)
+✔ the operator settings document round-trips the reducer route (14.4938ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+✔ createObservation writes a content-addressed archive with a handle (5.9484ms)
+✔ delayed projection keeps the first two sends and replaces the third (39.3983ms)
+✔ projection never rewrites the system prefix (36.3722ms)
+✔ a corrupted archive fails open and keeps the original text (24.1069ms)
+✔ reducer receipts and small results are never archived (12.3873ms)
+✔ an observation source marker prevents a second packing pass (12.8528ms)
+✔ a symlink archive is rejected instead of followed (2.345ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-v13-cache-monitor] HMR perf38-bounded-anomalies loaded 2026-09-27
+✔ reducer route safety applies to session and explicit routes (1.9295ms)
+✔ verified reducer receipts bind archive, model and fixture into v12 evidence (1.2999ms)
+✔ telemetry accumulates consecutive sessions without a firing event (51.2771ms)
+✔ telemetry migration backfills fired counts from historical kind histograms (0.2409ms)
+✔ compaction decisions are mirrored with economic reason and debt (0.5553ms)
+✔ shared observation metadata identifies reducer and pack processors (0.4005ms)
+✔ ObservationPack produces measured savings and verifies its archive (4.7197ms)
+✔ failure memory blocks only the same action plus failure fingerprint (46.383ms)
+✔ cache monitor associates a hit-rate drop with the latest mechanism event (0.3741ms)
+✔ compaction anchors do not require concatenated milestone text (0.342ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-173: shared Cargo target is rejected while per-checkout targets pass (257.7448ms)
+✔ O-10-13: one main ancestry read classifies a whole task page (807.5195ms)
+✔ O-10-13: runtime_facts does not degrade every plugin for a null schemaVersion (2.8201ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-99: tier identity mapping is explicit and unknown tiers fail closed (379.6039ms)
+✔ B-100: waiting resolves the real group card instead of its global projection (0.8015ms)
+✔ B-101: an upward info receipt reports direct delivery truthfully (0.0723ms)
+✔ B-102: condition is a non-blocking verifier severity (0.1262ms)
+✔ B-103: delivered inbox rows with no wake ids remain individually ackable (0.5597ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-156: waiting projections expose an inactive responsible member (1.3922ms)
+✔ B-157: lock timeout never claims that no mutation was written (0.1363ms)
+✔ B-158/B-163: completed commits distinguish integrated from not integrated (741.3432ms)
+✔ B-159: a clearance survives only disjoint main advances (1193.4397ms)
+✔ B-160: legacy task-terminal closure records its real reason and accepts a late conclusion (1.7796ms)
+✔ B-161: task commit bindings canonicalize and reject sentinel or short values (346.4302ms)
+✔ B-170: source-ancestor substitution requires explicit opt-in (0.2022ms)
+✔ B-162: individually settled messages clear the aggregate wake (1.7188ms)
+✔ O-10-4: waiting_resolve names ticket_id versus task_id mistakes (0.1787ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ B-73: legacy unresolved itemId survives normalization and remains resolvable (13.2858ms)
+✔ B-74: decision missingConfirmations is derived on every mutation and normalization (2.6614ms)
+✔ worktree refusals identify the dirty source and invalid destination (0.5897ms)
+✔ B-76: evidence rows retain their writer and remain visible to that writer (3.5617ms)
+✔ B-79: evidence id resolution distinguishes prefix, ambiguity, missing and invalid forms (0.8875ms)
+✔ B-77: ordinary phase advancement cannot roll back packet phases (0.1098ms)
+✔ B-78: tier-2 writes fail closed without their own worktree (10.9073ms)
+✔ B-80/B-81: stale integration branch is merged without rebasing and a missing destination worktree is created (1424.004ms)
+✔ B-82: receipt notice does not mutate a frozen downstream content array (0.4605ms)
+✔ B-83: unavailable gate reports the concrete gate, read stage, task, and state (0.3084ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ a completed edit task can acquire its approved plan again without reopen (98.7919ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ B-213c: all no-lease -File variants report the missing plan lease, not write capability (16.4814ms)
+✔ B-213c: a sanctioned in-scope -File script remains allowed with a valid lease (13.169ms)
+✔ B-213c: unverifiable non-File composition is named without claiming write capability (7.8915ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-237 masks PowerShell line and block comments before path extraction (5.0654ms)
+✔ B-238 selects commit_sha or branch_head explicitly and preserves the default (0.2585ms)
+✔ B-236 exposes both safe plan-replacement recovery paths (0.2408ms)
+✔ inbox ack exposes one live wake id and ignores blank legacy wakes for context (0.1213ms)
+✔ inbox ack accounting failures do not enter deterministic failure memory (0.1776ms)
+✔ B-239 reports the git and phase halves independently (0.2408ms)
+✔ worktree setup refuses a task owned by another member (0.1333ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-47: an inactive-owner unplanned scope can be repaired by the own-group lead (60.5749ms)
+✔ B-47: the recovery path stays closed while the owner is active (33.8519ms)
+✔ B-47: the recovery path stays closed while a run lease is active (35.1385ms)
+✔ B-47: the pure verdict rejects cross-group, plan-controlled and non-lead edits (0.2789ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-227 rejects a tier-1 owner on a global board at create and reassign (51.3027ms)
+✔ B-228 excludes a dependent active card from the candidate scope conflict (1.7859ms)
+✔ B-230 exposes blocked phase transitions and the reopen recovery action (0.2787ms)
+✔ B-233 keeps a broad directory claim authoritative over a contained file (0.1937ms)
+✔ B-231 names an execution-phase task whose owner is inactive (0.3994ms)
+✔ B-232 keeps decision aliases schema-compatible and supports explicit supersede (15.8564ms)
+✔ B-234 binds evidence to a completed read-only card without fabricating a commit (44.4497ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-health] HMR inactive-context-timer-guard+perf49-time-plugin-disabled loaded 2026-09-28
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-110: mergeExact fast-forwards an ancestor source and reports commit creation (3302.3572ms)
+✔ B-116: one verifier report can clear both task and branch-head commits (0.5891ms)
+✔ B-117/B-118: query formation and input form remain explicit and context-free (0.6783ms)
+✔ B-119: worktree sync refusal names behind and dirty preconditions (841.8667ms)
+✔ B-121: generator and fixture-manifest output flags are parsed as writes (3.2704ms)
+✔ B-122: a structured wait survives phase revision changes until its condition clears (1.1112ms)
+✔ B-123: a report with major issues cannot advertise cleared commits (0.1943ms)
+✔ B-112: ready queue names the dependency phase gate and honors an explicit override (2.0137ms)
+✔ B-112 supplement: ready queue separates no-plan from plan-not-approved (0.9853ms)
+✔ B-114: frozen participants are excluded from both speaking and close quorum (6.3081ms)
+✔ B-115: room decision projections retain proposed rows on both read paths (1.286ms)
+✔ B-111: read output exposes structured truncation and continuation fields (2.6691ms)
+✔ B-124: reopen requires and stores a card-level reason in the same mutation (0.791ms)
+✔ B-126: task creation can assign an owner atomically (0.1464ms)
+✔ B-127: PTC completion sanitizes nested undefined values before lossless JSON validation (10.1564ms)
+✔ B-128: direct task-row writeScopes edits are refused with the plan recovery path (0.7266ms)
+✔ B-129: PTC tool failures preserve the structured HarnessError code (2.1484ms)
+✔ B-130: mergeExact allows only named untracked paths and reports what was ignored (1344.0989ms)
+✔ B-132: worktree setup reports its merge shape and never hides a merge commit (1645.9582ms)
+✔ B-133: waiting closure lifecycle is explicit and same-task rehangs do not overwrite (1.0294ms)
+✔ B-133 closure two: waiting projections preserve structured post-completion tickets (0.3114ms)
+✔ B-136: waiting_list no longer references an undefined lower helper (0.7249ms)
+✔ B-139: failure-memory clear resolves the exact blocked call signature (0.4744ms)
+✔ B-137: a milestone bound to another task is not reported as this task owner forgetting (0.0856ms)
+✔ B-140: complete unions evidence pointers instead of shrinking the proof set (38.4779ms)
+✔ B-141: dead-letter counts separate system notifications from peer messages (0.5861ms)
+✔ B-142: reassign clears the previous owner worktree binding (10.2533ms)
+✔ B-147: reassign closes the previous owner waiting tickets without touching the replacement (20.5508ms)
+✔ B-143: ignored evidence filters make query formation partial or rejected (0.3778ms)
+✔ B-144: evidence id resolution declares the reader and visible author scope (0.1139ms)
+✔ B-148: team health refreshes a stale disabled snapshot and mirrors recovery (156.3341ms)
+✔ B-149: task output drops legacy undeclared fields while preserving lifecycle (0.2329ms)
+✔ B-150: reassign adds the replacement owner to the approved plan (23.2176ms)
+✔ B-151: discussion contract reads allow empty write scopes and synchronize lifecycle (0.6225ms)
+✔ B-152: task acceptance requirements do not leak to unrelated group members (0.0951ms)
+✔ R23: stored legacy task fields are removed and lifecycle follows status (0.0546ms)
+✔ R23: replacing an approved plan preserves a post-approval task phase (0.0926ms)
+✔ R23: member-to-group merge binds the exact task commit and rejects unrelated drift (0.2106ms)
+✔ D-4: control-plane audit status reads real rows and versions mutations (11.1381ms)
+✔ D-4: legacy unversioned audit rows are explicit, not reported as an empty log (1.4039ms)
+✔ D-5: clearance commits are validated against the repository before registration (495.2118ms)
+✔ D-6: a lower-severity probe cannot overwrite a formal clearance (0.3391ms)
+✔ D-7: mergeExact refuses a detached destination instead of reporting a false landing (1670.6973ms)
+✔ B-153: worktree setup can resolve a stale-base conflict through an explicit pinned strategy (2266.2481ms)
+✔ B-154: a member merge may consume an exact task commit even when the branch tip advanced (2004.4089ms)
+✔ B-155: request-bound approval waits ignore unrelated plan approval (0.7013ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/tracked.md', LF will be replaced by CRLF the next time Git touches it
+✔ B-46/B-66 distinguish git write commands and read-only git options (3.7558ms)
+✔ B-58 scope conflict ignores stale nested contract lifecycle (0.4927ms)
+✔ B-41/B-54 packet revision and supersedes track the actual previous packet (11.239ms)
+✔ B-62 timed-out wake dead letters can be cancelled (4.0947ms)
+✔ B-182b timed-out dead letters have a tier-0 retirement path (4.8045ms)
+✔ B-185 group acceptance packet must name the group branch tip (0.2433ms)
+✔ B-187 verifier conditions and blockers are delivered directly to tier 0 (41.6594ms)
+✔ B-190 ready=false names the reason and the scope holder (0.7211ms)
+✔ B-193 blocked tasks do not hold the runnable scope and holders can see waiters (1.2989ms)
+✔ batch 194 escalation reads separate automated dead letters from human decisions (0.5378ms)
+✔ B-44 plan proposal rejects unsupported glob scopes (3.1383ms)
+✔ B-52 waiting ticket records the waiter separately from the task owner (0.3818ms)
+✔ B-67 pure ancestor worktree branch is fast-forwarded to the moving base (1136.3694ms)
+✔ B-71 all-gitignored edit scopes are recognized as non-product (676.4144ms)
+✔ B-174: lease sync preserves an unrelated unstaged tracked edit (1111.9676ms)
+✔ B-174: overlapping main changes are rejected without losing the local edit (1537.2439ms)
+✔ B-174: staged edits remain fail-closed (886.4475ms)
+✔ B-174: the default setup path still rejects every tracked edit (790.953ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-92: a recent proof edit requires an exact echo and records its age (0.5984ms)
+✔ B-93: reassignment computes a deterministic worktree binding for tier-2 edit cards (0.3483ms)
+✔ B-94: a newline ends a write command before the next cmdlet is parsed (2.149ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ delivery check treats an unbound or other-task milestone as neutral (96.1096ms)
+✔ packet contentDigest v2 is recomputable from the stored row (16.8847ms)
+✔ a completed discussion card can advance directly to accepted (21.9196ms)
+✔ team_task_update exposes the completed discussion acceptance path (43.5723ms)
+✔ context debt is acknowledged once its manifest is visible or durably received (2.0303ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-172: a cleared source that already contains main is not wrapped by a destination refresh (4877.2044ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-167: plan proposals reuse the active-task scope conflict gate (1.2514ms)
+✔ O-10-8: heartbeat extends expiresAt when no explicit expiry is supplied (37.464ms)
+✔ O-10-9: inbox_ack names namespace mistakes in both directions (0.5101ms)
+✔ B-169: clearance documentation names both blocking severities (0.1299ms)
+✔ B-171: active task-scoped privilege can replace only the missing merge pointer (0.701ms)
+✔ O-10-12: approved privilege persists to the next wake and expires at that turn end (5.4895ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-85: a group lead cannot approve foreign-group or global-scope plans (1.1102ms)
+✔ B-86: evidence query envelope exposes prefix status and rejected form (1.0206ms)
+✔ waiting_resolve is idempotent and can match the waiter when the task owner changed (0.3613ms)
+✔ B-87: dependency release requires final acceptance, not completed alone (1.1207ms)
+✔ B-88: merge lock is outside the destination worktree (3.2295ms)
+✔ B-89: merge phase reporting distinguishes an idempotent no-op (0.1203ms)
+✔ B-91: lease-time member worktree sync fast-forwards the member branch to main (1347.2988ms)
+✔ B-90: contract writes expose a compare-and-set conflict (0.2615ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-85 live: a group lead cannot approve a repository-root governance scope (1.0078ms)
+✔ B-95: a dependency-blocked task may be reassigned while its owner is active (1.1204ms)
+✖ B-96: tier-0 and group leads may create bounded external evidence checkouts (6.7577ms)
+✔ B-97: a deleted losing card no longer occupies its write scope (0.4427ms)
+✔ B-98: release refuses a deleted tombstone instead of resurrecting it (27.189ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ A-9 parses positional write targets and inline Join-Path expressions (5.3045ms)
+✔ B-33 only derives a room wait when an open room round exists (0.3521ms)
+✔ B-36 distinct explicit waits coexist and resolve independently (0.5745ms)
+✔ B-37 evidence query filters records instead of returning the latest row (0.6121ms)
+✔ B-38 recording evidence appends it to the task card (22.6076ms)
+✔ B-39 tier 0 can read tier-2 milestones for delivery-check audit (0.2264ms)
+✔ B-28 bind_fix accepts null as the no-commit sentinel (16.1479ms)
+✔ B-40 milestone set verifies the durable document before returning success (25.4778ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-108: ack retires both durable inbox and dispatch-pending carriers (1.1967ms)
+✔ B-108: a permanent queued dispatch row has an explicit clear path (0.1438ms)
+✔ B-108: repeated dispatch acknowledgement is idempotent and visible as cleared (0.2117ms)
+✔ B-108: wake-level ack clears queued redelivery state after all messages handled (0.5114ms)
+✔ B-108: inbox acknowledgement cannot cross member scope (0.1147ms)
+✔ B-109: provider waits require a real recorded provider failure (1.3676ms)
+✔ B-109: fuzzy resolve refuses an active derived row instead of hitting an old ticket (0.3338ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-193 verifier can read landing-token evidence without broadening private evidence (0.9123ms)
+✔ B-195 release reports an expired lease instead of lease-release-order (110.8981ms)
+✔ B-195 write refusal names no active lease or its expiry (9.1277ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ B-218 regression: a scoped -File script with runtime paths is allowed (11.9048ms)
+✔ B-218 regression: a -File script outside the approved plan remains denied (7.6764ms)
+✔ B-218 regression: a scoped -File script still enforces the bound worktree carrier (6.9281ms)
+✔ B-218 regression: inline pwsh -Command stays fail-closed (4.1454ms)
+✔ B-218 regression: a bash wrapper around a scoped -File script stays fail-closed (3.0248ms)
+✔ B-218 regression: a shell separator around a scoped script stays fail-closed (4.6488ms)
+✔ B-218 regression: a missing or non-UTF-8 top-level script stays fail-closed (8.3454ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-218: a pwsh -File script exposes its static writes to the guard (8.2678ms)
+✔ B-218: a pwsh -File script follows a static nested script invocation (5.1827ms)
+✔ B-218: pre-execute rejects writes made by a pwsh -File script (9.0869ms)
+✔ B-218: a non-UTF-8 script is opaque instead of silently unscanned (1.8119ms)
+✔ B-219: a dynamic expression target is opaque instead of a fake path (0.7006ms)
+✔ B-220: waiting_set updates the existing open ticket for the same task (0.9895ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-198 restarted host skips recovered job ids instead of colliding with them (11.8143ms)
+✔ B-199 plan approval distinguishes a real event from an idempotent no-op (59.302ms)
+✔ B-200 blocked release refusal reports every checked condition and a constructible path (0.4585ms)
+✔ B-202 complete refusal names the missing call argument and existing evidence (31.9845ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ B-213 resolves a Join-Path assignment to its path instead of the cmdlet name (3.2514ms)
+✔ B-213 keeps literal variable targets while refusing unknown dynamic targets (1.6664ms)
+✔ B-213b treats an unknown cmdlet with a write-shaped switch as opaque (0.1878ms)
+✔ B-213b keeps known read-only cmdlets with path switches non-opaque (0.1013ms)
+✔ B-213b refuses a write through a dynamically invoked cmdlet name (0.4759ms)
+✔ worktree carrier keeps tier-1 writes inside the member worktree (8.734ms)
+✔ cross-turn jobs survive Agent disposal while their Session remains live (11.8847ms)
+✔ owner disposal still reclaims jobs when no live Session registry exists (6.9564ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-197 a group lead can read its member leases through both supported argument shapes (31.4339ms)
+✔ B-203 live pwsh-153 skips a recovered id and keeps its completed output readable (9.8717ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-222 correction: an inactive target remains cold-resumable for action delivery (0.865ms)
+✔ queued inbox rows can be acknowledged by the target after inbox_list exposes them (2.5704ms)
+✔ a replacement lead can receive messages from the previous lead's members through a durable re-parent override (0.3563ms)
+✔ a blocked task without an active lease does not block a successor claim (0.9635ms)
+✔ an approved plan can explicitly declare no remaining product write scope (24.4461ms)
+✔ an approved empty write scope can complete a criteria-only task with evidence and no commit (91.3158ms)
+✔ team_member_reparent persists the override and rehydrates the replacement lead authority (39.575ms)
+✔ B-221: acknowledged legacy wake rows stay handled across wake-state rehydration (2.5527ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-207 completed dependency mode releases a completed content dependency before final acceptance (0.836ms)
+✔ B-207 task tools expose and persist an explicit completed dependency threshold (52.9335ms)
+✔ B-210 same-owner plan proposal is advisory while execution conflicts remain fail-closed (0.9797ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ B-104: task update rejects unknown fields and accepts explicit contract fields (0.9332ms)
+✔ B-105: task edit updates the row and nested contract deterministically (0.9873ms)
+✔ B-106: requeued handoffs expose their original payload in inbox_list (0.2382ms)
+✔ B-106: pending handoffs have an ack path and terminal retry is visible (0.3735ms)
+✔ B-107: only main merges advance a task to integrated (0.0909ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ pwsh here-strings stay data while an explicit write target remains visible (3.7207ms)
+✔ managed worktree targets without a plan binding name the real cause (0.6066ms)
+✔ lease heartbeat can rebind contractRevision (26.1037ms)
+✔ a retired pending inbox acknowledgement is idempotent and target-scoped (1.2055ms)
+✔ phase refusal guidance lists every adjacent step (0.5744ms)
+✔ integrated history suppresses only historical packet gates (0.1165ms)
+✔ a waiter may resolve its own explicit ticket but not set waits or resolve another ticket (0.181ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-186 only tier 0 may cross the integration boundary (1.2611ms)
+✔ B-186 team_task_update refuses owner terminal advance and reopen repairs accepted state (65.7477ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ D-new-16: acquire persists the active lease before returning its receipt (26.5577ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ runtime_facts compact mode keeps signal rows and omits unobserved-entry noise (1.2236ms)
+✔ job journal preserves terminal status and marks a dead host running row orphaned (8.2518ms)
+✔ job journal treats a reused PID with a different process token as a dead host (2.0658ms)
+✔ job event hub replays recovered rows to listeners attached after startup (0.365ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ D-new-14 follow-up: tier 0 member filtering applies when explicitly requested (1.498ms)
+✔ D-new-15: git -C and carrier verdict distinguish bound worktrees from the shared checkout (1.3713ms)
+✔ D-new-15: the write guard rejects shared-checkout writes and commits but allows the bound worktree (31.6154ms)
+✔ tier 0 keeps the shared-checkout compatibility path (1.724ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-187 owner may complete from integration-ready without phase rollback (408.9781ms)
+✔ B-190 opaque approval waits ignore unrelated plan approval (2.3024ms)
+✔ B-192 preserved unstaged rows retain raw porcelain bytes (1099.4096ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ D-新-2 compact runtime facts omit noise-only plugins regardless of runtime entry shape (0.8906ms)
+✔ D-新-3 verifier scratch is platform-managed and verifier-only (1.239ms)
+✔ D-新-4 cross-board blockers are rejected with the board that owns the task (0.4564ms)
+✔ D-新-5 mixed controlled edits explicitly state the whole call was atomic (0.1909ms)
+✔ D-新-7 contract projection exposes stale revision state (0.1403ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ B-182: structured post-completion waits survive task-terminal (1.8209ms)
+✔ B-183: task-scoped requirement authorization inherits taskIds and scope (0.7611ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ B-175: board-qualified dependencies gate readiness across boards (42.0838ms)
+✔ B-176: a dependency wait may name a non-task object and remains explicit (0.8137ms)
+✔ B-177: blocked release requires a named dependency and is durable (13.2558ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ D-new-8: an explicit null ownerName is not revived from a stale contract owner (1.2884ms)
+✔ D-new-9: ready rows name whether a lease belongs to the task or the member (0.2841ms)
+✔ D-new-10: a committed native team message becomes an ackable inbox row (0.585ms)
+✔ D-new-11: no-plan scope refusal points at plan creation instead of plan replacement (0.742ms)
+✔ D-new-12: narrowing a directory scope to a contained file bypasses the stale self-conflict (1.3958ms)
+✔ D-new-13: identical directory scopes do not block one side from narrowing to a child file (0.2239ms)
+✔ D-new-14: a member can read its own leases while tier 0 can scope another member (0.23ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ session list cache coalesces reads, revalidates in the background, and disposes cleanly (84.5989ms)
+✔ session list cache loads a disk snapshot before the first network-equivalent read (44.242ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+warning: in the working copy of 'base.txt', LF will be replaced by CRLF the next time Git touches it
+acceptance verifier checks passed
+✔ D:\dsh-test\phase11-tests\v14-acceptance-verifier.test.mjs (2723.6055ms)
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+✔ shared armed-root set keeps one foreground root and replaces it on a real root turn (0.4649ms)
+✔ observer-generated wakes do not steal foreground focus from the new root (0.5873ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+PASS the bounded send tool is installed
+PASS a slow mailbox returns queued instead of blocking the tool call  {"elapsed":59,"status":"queued"}
+PASS caller return does not duplicate the queued pending status write  []
+PASS a distinct message coalesced onto a pending episode is still delivered  {"messageId":"msg-b6ea045d-2722-4522-91cf-88d41acb1aca","delivery":"action","wakeReminder":"Waking delivery: the target received a control message and can start a turn.","roomId":"root","dispatchId":"wake:team-wake:lead:lead-a","episodeId":"team-wake:lead:lead-a","coalesced":true,"distinct":true,"messageHash":"2b13721436819891c0bff21577299e1ab38adbe06c90c94100738f9e5ac52810","pendingCount":2,"status":"queued"}
+PASS an existing room is reused without repeated roomOpen or roomJoin attempts  {"firstRoomOpenCalls":1,"roomOpenCalls":1,"firstRoomJoinCalls":0,"roomJoinCalls":0}
+PASS a cold target does not await the unbounded steerPrompt path  {"steerPromptCalls":0}
+PASS the mailbox send was attempted once per distinct message  [{"caller":"lead","target":"lead-a"},{"caller":"lead","target":"lead-a"}]
+PASS background delivery acknowledges the wake after the caller returned  {"episode":"delivered","dispatch":"delivered"}
+PASS background delivery records exactly one terminal pending status write  [{"controlVersion":2,"rootId":"bounded-team","type":"wake/message-status","data":{"dispatchId":"wake:team-wake:lead:lead-a","episodeId":"team-wake:lead:lead-a","messageId":"msg-da6cc9a7-05cc-4f64-b69e-c4b31fdc1eef","messageHash":"bed7bca29ec3428f8f3809e4c5552d6f2bf0487aeadbe9d58758b6031a1c13d9","status":"delivered"},"revision":8,"at":1790799946735}]
+PASS the episode preserves both pending messages after delivery  [{"messageId":"msg-da6cc9a7-05cc-4f64-b69e-c4b31fdc1eef","messageHash":"bed7bca29ec3428f8f3809e4c5552d6f2bf0487aeadbe9d58758b6031a1c13d9","text":"[team action required] lead -> lead-a\nMessage: bounded wake regression\nReason: verify that a slow mailbox does not block the caller","status":"delivered","createdAt":1790799946479,"updatedAt":1790799946735},{"messageId":"msg-b6ea045d-2722-4522-91cf-88d41acb1aca","messageHash":"2b13721436819891c0bff21577299e1ab38adbe06c90c94100738f9e5ac52810","text":"[team action required] lead -> lead-a\nMessage: second distinct actionable message\nReason: the second message must not be collapsed into the first","status":"delivered","createdAt":1790799946534,"updatedAt":1790799946796}]
+PASS awaiting-close recovery can re-wake the host without a speaker retry  {"roomId":"task:close-timeout","roundId":"round-01335e93-4f80-46c3-9445-d7331a3900dc","host":"lead-a","status":"queued","dispatchId":"wake:room:task:close-timeout:round-01335e93-4f80-46c3-9445-d7331a3900dc:close-recovery:lead-a","noticeId":"msg-226b3920-4d6e-4791-a635-4554e406824f"}
+PASS awaiting-close recovery can replace an unavailable host  {"roomId":"task:replace-timeout","roundId":"round-05aa6b67-49e4-417b-8b76-521a48b7b79d","host":"lead","status":"host-replaced","noticeId":"msg-8560cec8-5d7d-426b-86fc-3b652874d6f7"}
+PASS tier 0 can force-close an awaiting-close round with an audit notice  {"roomId":"task:force-close-timeout","roundId":"round-c9c0a5aa-9cb1-4fd6-b7ec-69a4628640d8","host":"lead-a","status":"force-closed","noticeId":"msg-0cc9c7d6-3bda-421e-907a-88b9e37f7af8"}
+PASS an existing room with a different kind is still refused  room "root" already exists with kind "task"
+checks=all failed=0
+✔ D:\dsh-test\phase11-tests\v14-bounded-wake.test.mjs (1936.0478ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v13-cache-monitor] HMR perf38-bounded-anomalies loaded 2026-09-27
+✔ cache monitor anomaly fingerprints are bounded and least-recently-used (0.9974ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+✔ continuation only targets approved idle owners and is revision keyed (3.4579ms)
+✔ successful terminal dependency only; stale lifecycle cannot revive terminal task (0.9491ms)
+✔ edit requires durable approved plan; idle in-progress recovery obeys lease and room wait (0.3709ms)
+✔ overlapping in-progress edit scopes cannot both resume (7.1397ms)
+✔ continuation batch expands on backlog and aging promotes old runnable work (1.1907ms)
+✔ verifier waits past SLA produce an explicit escalation candidate (0.8512ms)
+✔ durable attempt never re-sends delivered or unresolved queued episode (0.2691ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ registered post-execute and idle hooks dispatch once per durable owner/revision (53.22ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ slow completion handoff returns without waiting for mailbox I/O and still delivers (30.093ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ legacy control root is reused and downstream block still schedules a successful mutation (20.1703ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ plan approval reconciles its wait and wakes the owner in the same scan (26.0516ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ completion summary retries a failed mailbox send, confirms receipt, and stays within its Team (19.1768ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ missing group lead stays queued and idle hook delivers when the same Team roster recovers (57.4731ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ crashed completion send becomes uncertain after its deadline and is never blindly resent (61.1255ms)
+✔ manual pause and frozen owners never become automatic continuation targets (0.3182ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ continuation recovers from one delivery failure without root polling (15.4895ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ same action in separate sessions never cross-blocks (68.4672ms)
+✔ transient and provider failures are recorded but never hard-block (97.8607ms)
+✔ corrupt memory fails closed and is never silently reset (2.671ms)
+✔ audited clear removes deterministic block and permits retry (41.3683ms)
+✔ fingerprint clear is explicit, audited, and exposes count against threshold (43.5871ms)
+✔ denial includes count, threshold, fingerprint and executable clear path (54.8589ms)
+✔ different deterministic errors with one exit code do not combine into a block (50.3817ms)
+✔ post-execute uses canonical result and preserves a failure if next throws (52.0848ms)
+✔ settings corruption is visible and cannot be overwritten by a patch (8.0874ms)
+✔ telemetry, debt and settings merge across concurrent processes (953.0616ms)
+✔ deterministic failures expire outside the bounded window (46.9224ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ tier 0 can complete an in-progress global task and mirror the domain result (59.3112ms)
+✔ the task owner can complete an in-progress global task (32.5216ms)
+✔ a domain-completed global task is reconciled without replaying completion (33.1735ms)
+✔ B-166: complete accepts frozen args with a non-null commit_sha (367.8633ms)
+✔ an HMR scan that misses an existing agent reinstalls Team tools on its next status event (16.2934ms)
+✔ tier 0 can read an exact group board by board id (23.0573ms)
+✔ D-新-7 task projection exposes stale contract and requirement revisions (21.5988ms)
+✔ D-新-4 task creation rejects a blocker that exists on another board (18.3822ms)
+✔ a stale HMR status callback ignores an inactive plugin context (8.0588ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ resolveIdentity tolerates a throwing cordis context (1.0216ms)
+✔ resolveIdentity never throws when every source is a throwing proxy (0.4396ms)
+✔ resolveIdentity keeps a stable fallback id for the same agent object (0.3746ms)
+✔ resolveIdentity still reads plain identity fields (0.3208ms)
+✔ web and headless identity modules stay byte-identical (0.9894ms)
+✔ failure-memory fingerprints tolerate a throwing cordis identity context (0.6041ms)
+✔ continuation scan never throws from an inactive plugin context (0.7143ms)
+✔ old members receive only the changed role identity on their next context turn (7.8232ms)
+✔ tier 0 receives root.md while tier 1 receives lead.md (3.2392ms)
+✔ durable delivery receipts suppress a source after visible history is gone (0.3388ms)
+✔ context requirement snapshots avoid full-ledger history cloning without changing active rows (0.9246ms)
+✔ required context debt is visible, fetchable, and fails closed for safety-critical sources (0.3629ms)
+✔ large task deliverables are bounded without removing the full-contract fetch path (0.4932ms)
+✔ policy header and registry defaults agree on 8/8/30 (0.6006ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ runtime guard declares the sessions service used by live history reads (0.44ms)
+✔ lazy live events preserve page operations without a full snapshot (0.4869ms)
+✔ explicit array methods materialize once and preserve dense results (0.4736ms)
+✔ live observation bridge is idempotent, retains laziness, and restores the service (0.3089ms)
+✔ prepared observations pass through unchanged (0.0937ms)
+✔ tail-backed cold events preserve page operations without full replay (3.8032ms)
+✔ cold observation bridge uses the tail reader for projection-none reads (3.0355ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ member routes are durable, replaceable, and survive a control-plane restart (32.9073ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ observation keys are session scoped and missing call ids stay traceable (6.2432ms)
+✔ reducer input is bounded and reports scanned ranges and fallback (0.7617ms)
+✔ workspace lock queues briefly then fails open after bounded wait (49.9242ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-operator] loaded: perf35-health-status+perf49-single-hot-read+perf50-policy-snapshot-reuse+perf51-policy-snapshot-order+perf53-panel-doc-cache+member-route-persistence
+✔ operator panel projection has true statuses, bounded text and no synthetic dispatches (2.4112ms)
+✔ meta side projections prefer v14 receipts and stay bounded (1.551ms)
+✔ meta uses one durable hot read and indexed task reconciliation (1.4444ms)
+✔ overview component renders each bounded operations section (1.3125ms)
+✔ room component shows latest round first and folds older rounds (1.185ms)
+✔ panel JSON cache reuses unchanged files and invalidates on content changes (2.0646ms)
+✔ panel inbox projection keeps pending rows and bounds already-injected history (32.0883ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ team policy service cache is bounded and keeps recently used Teams (10.6234ms)
+✔ refreshBoards can reuse a caller-owned hot snapshot without reloading (1.4131ms)
+✔ refreshBoards clones only board tasks whose revision changed (0.9225ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-health] HMR inactive-context-timer-guard+perf49-time-plugin-disabled loaded 2026-09-28
+✔ profile parity fails closed when shared plugin hashes or exports drift (11.9274ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+[team-operator] loaded: perf35-health-status+perf49-single-hot-read+perf50-policy-snapshot-reuse+perf51-policy-snapshot-order+perf53-panel-doc-cache+member-route-persistence
+✔ safety refusals are classified separately from permanent auth failures (0.7608ms)
+✔ safety refusal records request evidence and activates a bounded fallback without blocking the provider (10.3497ms)
+✔ idle watch prefers lightweight health status and keeps the legacy fallback (22.2522ms)
+✔ operator panel prefers lightweight health status and keeps the legacy fallback (0.264ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ idle dispatch reconciliation stays read-only (22.8407ms)
+✔ reconcile work detection mirrors due leases and dispatches (0.1671ms)
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ Room index and migration preserve legacy messages, summaries, unresolved items and decisions (2.3026ms)
+✔ Room queries separate hot tail/history and cursor increments only through relevant messages (0.5034ms)
+✔ wake delivery, injection and handling remain distinct and each transition is idempotent (1.6738ms)
+✔ legacy wake bodies are moved to inbox rows and hot tracking stays bounded (0.3377ms)
+✔ requirement and decision changes produce scoped version diffs with history and stable digest (1.6274ms)
+✔ requirement ledger mutations use copy-on-write snapshots (0.3204ms)
+✔ legacy Room migration is stable across unrelated revisions and preserves access, resolved state and round facts (0.9426ms)
+✔ Room cursor requires an injection receipt when strict path is requested (1.0215ms)
+✔ Room cursor accepts previously injected relevant rows across latest-first batches (0.2803ms)
+✔ Room message since supports optional newest-tail max/limit bounds (0.2996ms)
+✔ requirements revisions stay linear and decisions require explicit confirmation (0.6109ms)
+✔ pressure memory fixture distinguishes empty, missing and loaded sources (0.988ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ room seat rules keep unseatable members out of level and root rooms (0.5291ms)
+✔ forced close waives an unseatable missing speaker only when the caller proves it (11.4014ms)
+✔ frozen next speaker is skipped so the host can finish and force-close (5.6193ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ post hook mirrors result.value even when next blocks and persists a compact receipt (14.7155ms)
+✔ failed original result never creates a successful mirror (5.7059ms)
+✔ ordinary team_v12 read does not increment control-plane revision (1.1659ms)
+✔ room_snapshot and inbox_list enforce caller scope and filter inbox rows (34.7289ms)
+✔ task_contract_set rejects a stale revision after the locked recheck (12.9127ms)
+✔ pre-step is idempotent for 20 calls, cursor waits for session commit, and native message ids prevent duplicate body (44.9356ms)
+✔ pre-step deduplicates a committed context manifest when no inbox is pending (15.4869ms)
+✔ pre-step uses the durable receipt after the visible manifest leaves history (16.6161ms)
+✔ post-compaction baseline reinjects a bounded root context once (16.2655ms)
+✔ tier 0 context keeps only active relevant requirements and compact acceptance (11.826ms)
+✔ new requirement is delivered without a new Room message (13.187ms)
+✔ provider safety refusal activates a reduced Team context fallback (11.9345ms)
+✔ unexpected ready-gate read failure rejects closed (11.4767ms)
+✔ claim gate allows zero-scope discussion/review tasks without weakening edit tasks (12.3262ms)
+✔ waiting_set accepts an unowned task and snake_case condition alias (14.6793ms)
+✔ requirement record authorization keeps leads inside their own board and scope (0.5411ms)
+✔ waiting authorization lets a group lead manage waits for its own member task (0.1209ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ ready queue derives active execution from live leases instead of in_progress status (2.2177ms)
+✔ pending work outranks stale scope and terminal lifecycle never revives (0.4045ms)
+✔ room timeout detection is durable and only reports the current speaker (0.2735ms)
+✔ room timeout delivery retries are bounded and respect backoff (0.2763ms)
+✔ awaiting-close rounds have a deadline, bounded host re-wakes and a configured cadence (0.2631ms)
+✔ waiting responsibility and completion handoff stay compact (0.2435ms)
+✔ reconcile accepts evidence-only discussion sources and keeps edit commits mandatory (0.1414ms)
+✔ delivery blockers ignore superseded attempts and completed-task failures (0.2621ms)
+✔ terminal wake rows remain visible as dead letters until a new episode supersedes them (0.271ms)
+✔ session artifact listing coalesces concurrent reads and caches the result (36.1193ms)
+✔ session artifact listing invalidates on local persistence changes (59.4402ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ idle watch ignores restored stopped Teams until the current process sees that Team running (99.7737ms)
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ idle watch periodic scan recovers a missed idle transition after the root is armed (73.9122ms)
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ idle watch does not duplicate a durable reminder after plugin reload (79.1001ms)
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ idle watch retries the same stalled progress after the bounded retry window (61.98ms)
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ idle watch still wakes the root when every open task is explicitly operator-owned (32.1665ms)
+[team-v14-event-continuation] HMR perf40-single-root-focus loaded 2026-09-27
+✔ continuation scan does not resume restored tasks before current-process activity (90.8876ms)
+[team-activity-digest] startup-arming active
+[team-activity-digest] intervalMs=10
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+✔ activity digest does not wake restored active-looking Teams before current-process activity (81.2015ms)
+✔ switching roots disarms the old root and a queued background wake cannot steal focus back (73.1571ms)
+[team-control-plane] deferred persist failed for C:\Users\<user>\AppData\Local\Temp\v14-idle-retry-oy0nFg\retry-idle-root.json: control-plane lock ownership changed for C:\Users\<user>\AppData\Local\Temp\v14-idle-retry-oy0nFg\retry-idle-root.json
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ durable JSON missing fallback, revision and corrupt fail closed (21.5557ms)
+✔ live stale-age lock is never stolen and changed owner is never released (152.5029ms)
+✔ separate processes preserve 100 locked updates without corruption (1329.716ms)
+✔ identity resolves known fields and uses shared fallback for unknown values (0.3856ms)
+✔ identity uses nested agent membership and isolates unresolved sessions (0.9157ms)
+{"benchmark":"v14-cold-hot-20","bodyBytes":1100000,"elapsedMs":14,"coldFiles":9,"coldBytes":5500327}
+✔ cold history is content-addressed, fail-closed, and not recopied by hot updates (120.8899ms)
+﹣ 60 MB synthetic history benchmark keeps cold blob count fixed over 20 hot mutations (0.1355ms) # SKIP
+✔ control plane avoids duplicate joins and hydrates old schema history (19.1371ms)
+✔ member control lookup isolates Teams and ignores non-unique member names (31.8647ms)
+[team-control-plane] read failed; serving the last good state for C:\Users\<user>\AppData\Local\Temp\v14-legacy-root-ZXiCUE\team-new.json: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ member control lookup keeps old root key and fails on corrupt stable candidate (254.3415ms)
+✔ migration dry-run/apply/rollback preserves the original fixture (277.2314ms)
+✔ cold storage GC preserves reachable blobs and removes only aged orphans (20.723ms)
+✔ storage inventory cache follows directory membership and audit size changes (1681.427ms)
+✔ reachability cache invalidates when a live recovery snapshot changes (14.6764ms)
+✔ hydrated history cache invalidates after a room mutation (20.4048ms)
+✔ hydrated history cache never exposes mutable internal state (17.3825ms)
+✔ large requirement ledgers persist by cold reference and reload transparently (14.7884ms)
+✔ large v12 evidence and compaction snapshots persist by cold reference (19.1177ms)
+✔ startup and successful checkpoints remove stale temp files (12.1692ms)
+✔ audit rotation bounds files and closes cached handles on reset (48.1339ms)
+✔ ordinary mutations use delayed checkpoints and expose write timings (15.8588ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+✔ mechanism telemetry bounds persisted session details (20.3339ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ team tool JSON cache reuses unchanged files and invalidates on content changes (3.7742ms)
+✔ team usage cache bounds persisted session history (18.2219ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-v14-event-continuation] HMR perf61-inactive-guard loaded 2026-09-27
+✔ waiting record keeps distinct tickets per request, bounds TTL, and resolves (2.1725ms)
+✔ waiting tickets automatically clear when revision or unblock condition changes (0.4257ms)
+✔ derived waiting rows identify dependency, lease, room and frozen responsibility (1.5653ms)
+✔ continuation respects an open manual ticket and resumes after resolve (1.3239ms)
+✔ expired manual tickets and missing rooms remain blocked until explicit facts resolve them (0.2223ms)
+✔ waiting conditions accept prompt aliases and reject malformed input (0.3822ms)
+✔ waiting times accept ISO-8601 and reject invalid strings (0.2484ms)
+✔ approval waits auto-close after plan-approved and ignore unrelated revisions (0.4528ms)
+✔ reconciliation preserves structured terminal waits, deduplicates responsibility, and exposes stale counts (0.2396ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ wake claim records the first and merged pending messages in one mutation (24.7681ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ tier 0 operational directories are allowed but product and arbitrary paths stay denied (6.7406ms)
+✔ static scope resolves the Team membership when the root agent has no name (5.2906ms)
+✔ run_code rejects direct filesystem access but allows controlled child dispatch (8.6346ms)
+✔ D-新-3 verifier scratch is writable without granting product write access (4.7507ms)
+PASS the nearest package.json wins
+PASS a file outside any project yields undefined
+PASS a missing path is not a crash
+PASS a rule with {file} actually runs the command
+PASS the syntax error is surfaced to the agent
+PASS the original result content is preserved
+PASS a clean file reports success without failing the call
+PASS a non-matching path passes straight through
+checks=all failed=0
+✔ D:\dsh-test\phase2-tests\action-fusion-file.test.mjs (200.7334ms)
+PASS non-mutating tool passes through
+PASS non-matching path passes through
+PASS matching path appends one block  len=2
+PASS fused block reports PASS  "[action-fusion] PASS :: node -e console.log(42) (65ms)\n42\n"
+PASS fused block carries command output
+PASS value is preserved by the decision  registry keeps result.value when decision omits it
+PASS failing command fuses FAIL(exit 3)  "[action-fusion] FAIL(exit 3) :: node -e process.exit(3) (62ms)\n(no output)"
+PASS errored result passes through
+PASS downstream block passes through unchanged
+---
+total=9 failed=0
+✔ D:\dsh-test\phase2-tests\action-fusion.test.mjs (256.0738ms)
+PASS handle is compact vs original  357 < 41165
+PASS decisive ERROR line retained
+PASS decisive FAIL line retained
+PASS evidence section labelled
+PASS noise lines are not retained wholesale  evidence selection, not full copy
+PASS spill is still byte-complete
+PASS evidence budget respected  214
+PASS custom evidencePattern honored
+PASS default pattern not applied when overridden
+---
+total=9 failed=0
+✔ D:\dsh-test\phase2-tests\observation-evidence.test.mjs (90.3319ms)
+PASS small observation untouched
+PASS large observation replaced by one handle
+PASS handle omits the payload  preview-only
+PASS handle states the original size  [observation-pack] tool=bash chars=5011 lines=2
+PASS handle carries an absolute path  D:\dsh-test\phase2-tests\spill\obs-45172af06c6e.txt
+PASS spilled file exists
+PASS spilled file is byte-complete
+PASS value is preserved (decision omits value)
+PASS errored result untouched
+PASS block decision untouched
+PASS ptc large dispatch packed
+PASS ptc small dispatch untouched
+PASS tool outside allow-list untouched
+---
+total=12 failed=0
+✔ D:\dsh-test\phase2-tests\observation-pack.test.mjs (65.479ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS lead sees the tier 1 leads
+PASS lead does not see other groups tier 2 members
+PASS lead sees itself
+PASS a group lead sees its own member but not another group
+PASS lead-b sees its own child
+PASS lead-a cannot see lead-b members (group isolation)
+PASS lead-a sees a tier-1 peer
+PASS tier2 sees the root (view allowed)
+PASS tier2 sees same-group sibling
+PASS tier2 sees its parent lead
+PASS tier2 cannot see another group
+PASS tier2 cannot see another group lead
+PASS lead messages a group lead
+PASS lead does not message a tier 2 member
+PASS the refusal names the group lead to route through  tier 0 talks to tier 1 only: "a1" is tier 2, so route this through "lead-a"
+PASS lead still cannot be messaged from below
+PASS tier2 CANNOT message the root
+PASS tier2 messages its parent
+PASS tier2 messages same-group peer
+PASS tier2 cannot message another group
+PASS tier1 messages the root
+PASS tier1 messages a peer lead
+PASS tier1 messages only its OWN child
+PASS lead interrupts anyone
+PASS lead controls only its own child
+PASS same-level peers cannot interrupt
+PASS tier2 cannot interrupt upward
+PASS lead may open a new group
+PASS verifier does not consume a group-lead slot  {"ok":true,"tier":1,"group":"c8"}
+PASS lead is capped at 8 group leads  {"ok":false,"reason":"tier 1 is capped at 8 group leads"}
+PASS verifier slot is single
+PASS lead-a is refused a 9th member  {"ok":false,"reason":"group \"lead-a\" is capped at 8 members"}
+PASS group capped at 8 members  {"ok":false,"reason":"group \"lead-a\" is capped at 8 members"}
+PASS tier1 cannot spawn tier1
+PASS tier1 cannot spawn tier0
+PASS tier2 cannot spawn at all
+PASS verifier group owns no members
+PASS only tier0 writes the global board
+PASS global board readable by all
+PASS group board isolated
+PASS freeze is a distinct state
+PASS frozen member cannot send
+PASS frozen member cannot receive
+PASS frozen member cannot be interrupted
+PASS frozen member cannot spawn
+PASS thaw restores messaging
+PASS frozen-target refusal names the freeze  member "a1" is frozen: the message is not queued and will not cold-resume it (restore it first)
+PASS frozen-target interrupt refusal names the freeze  member "a1" is frozen: restoring it is the only available control
+PASS upward refusal names the visibility asymmetry  tier 2 may see the Lead but may not message it
+PASS cross-group refusal names the owning group  "b1" belongs to group "lead-b", not to "lead-a"
+PASS foreign interrupt refusal names the real spawner  "b1" was spawned by "lead-b", not by "lead-a"
+PASS permitted message has no reason
+PASS permitted interrupt has no reason
+PASS full team is exactly 13 teammates  teammates=13
+PASS a new task has no ownerName key  {"id":"group-alpha-t1","revision":1,"subject":"s","description":"d","status":"pending","phase":"draft","blockedBy":[],"writeScopes":[],"ready":true,"writeScopeWarnings":[],"board":"group-alpha"}
+PASS a new task survives a JSON round trip unchanged
+PASS reassign names an owner
+PASS reassign to nobody drops the key again  {"id":"group-alpha-t1","revision":3,"subject":"s","description":"d","status":"pending","phase":"draft","blockedBy":[],"writeScopes":[],"ready":true,"writeScopeWarnings":[],"board":"group-alpha","worktreePath":null}
+PASS an unregistered actor resolves to no board
+PASS tier 0 resolves group to its own group board
+PASS tier 0 has no level board
+PASS a group lead resolves to its own group board
+PASS a group lead resolves to its level board
+---
+total=all failed=0
+✔ D:\dsh-test\phase3-tests\team-policy.test.mjs (63.3176ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS the Lead is unregistered before its first call
+PASS nine tools installed per scope
+PASS tier 2 cannot spawn (code refusal)  team policy refusal [tier-cap]: tier 2 members cannot spawn: only the Lead (tier 0) and group leads (tier 1) may
+PASS tier 1 may spawn its own member
+PASS spawn is authorized by the ROOT lead identity  ["lead"]
+PASS new member is recorded under its real parent
+PASS group lead may spawn a fourth member
+PASS group lead may spawn member a5
+PASS group lead may spawn member a6
+PASS group lead may spawn member a7
+PASS group lead may spawn member a8
+PASS group lead stops at eight members  team policy refusal [tier-cap]: group "lead-a" is capped at 8 members
+PASS tier 2 cannot message the Lead  team policy refusal [message-scope]: tier 2 may see the Lead but may not message it
+PASS tier 2 may message same-group peer
+PASS ordinary send_message does not wake native recipient
+PASS ordinary send_message records a non-waking dispatch
+PASS tier 2 cannot message another group  team policy refusal [message-scope]: tier 2 may not message a member of group "lead-b"
+PASS same-level interrupt refused  team policy refusal [interrupt-scope]: tier 2 cannot interrupt anyone; only tier 0 and the spawning group lead can
+PASS lead may interrupt its own member
+PASS lead cannot interrupt another group  team policy refusal [interrupt-scope]: "b1" was spawned by "lead-b", not by "lead-a"
+PASS roster hides other groups from a member  ["lead","lead-a","a1"]
+PASS roster hides other groups from a lead  ["lead","lead-a","a1","verifier"]
+PASS tier 0 sees the whole roster, including tier 2
+PASS list_agents output is lossless JSON
+PASS spawn result is lossless JSON
+PASS spawn result echoes tier and group  {"member":{"id":"id-gamma","name":"gamma","role":"teammate","status":"provisioning","diagnostics":[],"tier":1,"group":"gamma","parent":"lead"}}
+PASS global board write refused for tier 1  team policy refusal [global-board-write]: only tier 0 may write the global board; "lead-a" has read access only
+PASS global board write allowed for tier 0
+PASS task output includes createdAt so the declared schema is valid  {"id":"gt1","revision":1,"subject":"s","description":"d","status":"pending","blockedBy":[],"writeScopes":[],"ready":true,"writeScopeWarnings":[],"phase":"room-discussion","commitSha":null,"evidenceIds":[],"workKind":"discussion","createdAt":1790799975239}
+PASS task creation does not silently open a task round
+PASS root is resolved to the actual tier-0 member  {"ok":true,"value":{"messageId":"msg-e78880e0-5f4f-4ec3-9dd7-4dcd77851e4f","status":"room-summary","roomId":"root","dispatchId":"dispatch-1e9215c3-beeb-43c4-aced-e067f54d3747"}}
+PASS quiet upward traffic completes instead of staying delivered
+PASS group board write allowed for the group lead  "group-lead-a"
+PASS member reads its own group board  [{"id":"group-lead-a-t1","revision":1,"subject":"s","description":"d","status":"pending","phase":"room-discussion","blockedBy":[],"dependencyPhase":"accepted","writeScopes":[],"worktreePath":null,"workKind":"discussion","commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"board":"group-lead-a","createdAt":1790799975262,"updatedAt":1790799975262}]
+PASS starting a room round wakes the first speaker  {"ok":true,"value":{"roomId":"group:lead-a:tier-2","roundId":"round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107","status":"open","wakeTarget":"a1","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:lead-a:tier-2:round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107:speaker:a1"}}
+PASS advancing a round wakes only the next speaker  {"ok":true,"value":{"messageId":"msg-6f2f5258-cb13-4aba-ad60-86c0f631a04e","roomId":"group:lead-a:tier-2","roundId":"round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107","status":"accepted","wakeTarget":"lead-a","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:lead-a:tier-2:round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107:speaker:lead-a"}}
+PASS a host speaking last does not wake itself to close  {"ok":true,"value":{"messageId":"msg-64e13939-2f38-46cb-b7ca-1c96b5930fcf","roomId":"group:lead-a:tier-2","roundId":"round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107","status":"accepted"}}
+PASS a clarification does not re-wake a completed handoff  {"ok":true,"value":{"messageId":"msg-99b2c2fb-91e4-4859-9765-fb9090205a30","roomId":"group:lead-a:tier-2","roundId":"round-2dfc76bd-35d8-4ffd-8555-f45bb34f6107","status":"clarification"}}
+PASS a host-first round does not wake the host  {"ok":true,"value":{"roomId":"group:lead-a:tier-2","roundId":"round-8802b559-fd80-4a17-ab5b-5ee241dd4bdc","status":"open"}}
+PASS the host turn wakes the remaining speaker  {"ok":true,"value":{"messageId":"msg-171a4cea-25ec-4571-8ff2-44a2bd4f054d","roomId":"group:lead-a:tier-2","roundId":"round-8802b559-fd80-4a17-ab5b-5ee241dd4bdc","status":"accepted","wakeTarget":"a1","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:lead-a:tier-2:round-8802b559-fd80-4a17-ab5b-5ee241dd4bdc:speaker:a1"}}
+PASS the final speaker wakes the host to close the round  {"ok":true,"value":{"messageId":"msg-55031289-7fef-408d-b4c8-61123e8c73cb","roomId":"group:lead-a:tier-2","roundId":"round-8802b559-fd80-4a17-ab5b-5ee241dd4bdc","status":"accepted","wakeTarget":"lead-a","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:lead-a:tier-2:round-8802b559-fd80-4a17-ab5b-5ee241dd4bdc:close:lead-a"}}
+PASS freeze is tier-0 only  team policy refusal [operator-only]: only tier 0 may freeze or restore a member
+PASS tier 0 may freeze
+PASS frozen member cannot send  team policy refusal [message-scope]: member "a1" is frozen: it cannot send until it is restored
+PASS frozen member cannot receive  team policy refusal [message-scope]: member "a1" is frozen: the message is not queued and will not cold-resume it (restore it first)
+PASS frozen member cannot be interrupted  team policy refusal [interrupt-scope]: member "a1" is frozen: restoring it is the only available control
+PASS harness has an inactive but registered member  ["lead","lead-a","verifier","gamma","a1","b1","a2","a3","a4","a5","a6","a7","a8"]
+PASS route change accepted for an inactive member  {"target":"gamma","provider":"deepseek-official","model":"deepseek-flash","applied":true}
+PASS route change refused for an unknown member  team policy refusal [unknown-member]: no member named "ghost"
+PASS restore works
+PASS tier 1 writes its own level board  {"id":"level-1-t1","revision":1,"subject":"lvl1","description":"d","status":"pending","phase":"room-discussion","blockedBy":[],"dependencyPhase":"accepted","writeScopes":[],"worktreePath":null,"workKind":"discussion","commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"board":"level-1","createdAt":1790799975320,"updatedAt":1790799975320}
+PASS tier 2 writes its own level board  {"id":"level-2-t1","revision":1,"subject":"lvl2","description":"d","status":"pending","phase":"room-discussion","blockedBy":[],"dependencyPhase":"accepted","writeScopes":[],"worktreePath":null,"workKind":"discussion","commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"board":"level-2","createdAt":1790799975326,"updatedAt":1790799975326}
+PASS level boards are separate per tier  ["lvl1"]
+PASS a tier-2 member writes only its own group board  {"id":"group-lead-b-t1","revision":1,"subject":"x","description":"d","status":"pending","phase":"room-discussion","blockedBy":[],"dependencyPhase":"accepted","writeScopes":[],"worktreePath":null,"workKind":"discussion","commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"board":"group-lead-b","createdAt":1790799975331,"updatedAt":1790799975331}
+PASS verifier_report is verifier-only  team policy refusal [verifier-only]: verifier_report belongs to the independent verifier group; "lead-a" is in group "lead-a"
+PASS empty verdict is refused  team policy refusal [empty-report]: a verifier report must contain at least one issue; an empty table is not a review
+PASS an issue without evidence is refused  team policy refusal [missing-evidence]: issue #1 ("no evidence here") cites no evidence; every finding must name the command, file, or output that distinguishes the broken state
+PASS an unknown severity is refused  invalid arguments: "issues[0].severity" must be one of ["blocker","major","minor","nit"]
+PASS verifier publishes a report
+PASS report sorts worst first and counts severities  {"blocker":1,"minor":1}
+PASS report notifies every group lead  ["lead-a","gamma"]
+PASS report file is written with a severity table  D:\dsh-test\phase3-tests\reports\round-1.md
+PASS report path stays inside the configured directory  D:\dsh-test\phase3-tests\reports\round-1.md
+---
+PASS role lead pins tier 1 and takes the name as its group  {"ok":true,"value":{"member":{"id":"id-lead-c","name":"lead-c","role":"teammate","status":"provisioning","diagnostics":[],"tier":1,"group":"lead-c","parent":"le
+FAIL role lead prepends the standing identity  You are a GROUP LEAD. Your output is dispatched tasks and checked results, never code. Break the goal into accepted task
+PASS a built-in role defaults its own description  组长
+PASS role member pins tier 2 and inherits the caller group  {"ok":true,"value":{"member":{"id":"id-a5","name":"a5","role":"teammate","status":"provisioning","diagnostics":[],"tier":2,"group":"lead-a","parent":"lead-a"}}}
+PASS role custom without a prompt is refused  team policy refusal [role-brief]: role "custom" carries no standing identity, so it needs a complete prompt
+PASS a member claims a task inside its declared scope  {"ok":true,"value":{"id":"group-lead-a-t2","revision":2,"subject":"in scope","description":"d","status":"in_progress","phase":"room-discussion","blockedBy":[],"
+PASS a member cannot claim a task outside its declared scope  team policy refusal [claim-scope]: task "group-lead-a-t3" writes "src/engine/mesh.js", which is outside the declared scope of "a1"
+PASS freezing a member writes the durable control-plane record  [{"member":"a1","frozen":true,"updatedAt":1790799975378,"updatedBy":"lead"}]
+PASS re-routing a member persists provider, model and effort  [{"by":"lead","name":"gamma","route":{"provider":"deepseek-official","model":"deepseek-flash","reasoningEffort":"low"}},{"by":"lead","name":"a1","route":{"provider":"p","model":"m","reasoningEffort":"high"}}]
+PASS a non-lead cannot persist a route change  tier gate
+PASS ticking a milestone warns about still-open owned board tasks  {"ok":true,"value":{"action":"done","stage":"finish task-9","doneWhen":"board complete","done":true,"armed":true,"notice":"[team milestone #1790799975381] Yours: \"finish task-9\" (done when: board complete) - TICKED, the context is folded at your next idle. Board check: your owned tasks group-lead-a-t2 are still open; complete or reopen them explicitly before ending this work unit.","openTasks":["group-lead-a-t2"],"members":[]}}
+PASS an open task makes the work undeliverable  {"ok":true,"value":{"deliverable":false,"openCount":8,"open":[{"id":"task-9","subject":"A: engine","status":"in_progress","owner":"a1","ownerMilestone":"finish task-9","verdict":"owner-forgot-to-mark-
+PASS a ticked owner milestone reads as a bookkeeping miss  [{"id":"task-9","subject":"A: engine","status":"in_progress","owner":"a1","ownerMilestone":"finish task-9","verdict":"owner-forgot-to-mark-it"},{"id":"gt1","subject":"s","status":"pending","workKind":"discussion","verdict":"no-owner"},{"id":"group-lead-a-t1","subject":"s","status":"pending","workKind":"discussion","verdict":"no-owner"},{"id":"group-lead-a-t2","subject":"in scope","status":"in_progress","workKind":"edit","owner":"a1","ownerMilestone":"finish task-9","verdict":"owner-forgot-to-mark-it"},{"id":"group-lead-a-t3","subject":"out of scope","status":"pending","workKind":"edit","verdict":"no-owner"},{"id":"level-1-t1","subject":"lvl1","status":"pending","workKind":"discussion","verdict":"no-owner"},{"id":"level-2-t1","subject":"lvl2","status":"pending","workKind":"discussion","verdict":"no-owner"},{"id":"group-lead-b-t1","subject":"x","status":"pending","workKind":"discussion","verdict":"no-owner"}]
+PASS a clear board is deliverable
+PASS only tier 0 may declare delivery
+PASS a task with no owner is reported as such  [{"id":"task-8","subject":"orphan","status":"pending","verdict":"no-owner"}]
+PASS a member known only to the roster becomes addressable and freezable  {"ok":true,"value":{"target":"roster-only","frozen":true,"previous":false}}
+PASS and it landed in the registry with its tier  {"frozen":true,"id":"id-roster-only","name":"roster-only","tier":2,"group":"lead-a","parent":"lead-a","status":"running"}
+checks=all failed=1
+✖ D:\dsh-test\phase3-tests\team-tools-v2.test.mjs (1536.7304ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS 30 active teammates fill the capacity  {"ok":false,"reason":"the Team has 30 active members; the current capacity is 30. Freeze a finished member before creating another."}
+PASS freeze records the previous state  false
+PASS frozen state survives a control-plane reload
+PASS freeze frees one active slot  {"ok":true,"tier":2,"group":"lead-a"}
+PASS frozen member is retained in the registry
+PASS frozen list exposes the parked member  ["m0"]
+PASS restore removes the frozen marker
+PASS restore consumes the freed capacity again
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\freeze-capacity.test.mjs (79.2773ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS a frozen roster row is projected as frozen
+PASS an unflagged roster row is projected as unfrozen
+PASS a group of frozen members is not full  {"ok":true,"tier":2,"group":"g1"}
+PASS a restored member consumes a slot again
+PASS a fully unfrozen active group fills the cap at eight  {"ok":false,"reason":"group \"g1\" is capped at 8 members"}
+PASS setFrozen is reflected in the registry
+PASS a legacy roster without a frozen field preserves the durable freeze
+PASS the roster clears a stale frozen flag
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\freeze-projection.test.mjs (64.0217ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS the stamp keeps the description readable  probe [v2 tier=2 group=alpha parent=alpha]
+PASS the stamp round-trips  probe [v2 tier=2 group=alpha parent=alpha]
+PASS stripStamp restores the description  "probe"
+PASS re-stamping never doubles
+PASS an unstamped description parses to undefined
+PASS before the rebuild the member is invisible
+PASS a restart re-adopts the tier-1 group lead  {"frozen":false,"id":"m1","name":"alpha","tier":1,"group":"alpha","parent":"lead","status":"inactive"}
+PASS a restart re-adopts the tier-2 member  {"frozen":false,"id":"m2","name":"a2","tier":2,"group":"alpha","parent":"alpha","status":"inactive"}
+PASS the lead sees the adopted group lead again
+PASS the lead still does not see a tier 2 member
+PASS the lead can message an adopted member again
+PASS the rebuilt tier is enforced, not guessed
+PASS an unstamped member is still adopted, as a visible tier-1 peer  {"frozen":false,"id":"m3","name":"legacy","tier":1,"group":"legacy","parent":"lead","status":"inactive"}
+PASS an unstamped member is never silently unrestricted
+PASS a partial roster never deletes another group
+PASS a lead row is never adopted as a teammate
+PASS a failed provisioning row is removed from the live policy registry
+PASS a failed row returns its name and create quota
+PASS reconcile tolerates a missing roster
+PASS the roster alone rebuilds the lead  {"frozen":false,"name":"lead","tier":0,"group":"root"}
+PASS the roster alone rebuilds a group lead  {"frozen":false,"name":"alpha","tier":1,"group":"alpha","parent":"lead"}
+PASS the roster alone rebuilds a tier 2 member and its parent  {"frozen":false,"name":"a2","tier":2,"group":"alpha","parent":"alpha"}
+PASS a rebuilt registry enforces the same visibility
+PASS a row with no level is adopted as a visible tier-1 peer
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\policy-reconcile.test.mjs (61.0675ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS a lead caller is its own authority
+PASS a teammate caller resolves to ITS root lead
+PASS the first enumerated lead is never substituted
+PASS a non-member caller carries no authority
+PASS a caller with no Team gets no authority
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\spawn-authority.test.mjs (1177.05ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS there is no lifetime create ceiling  undefined
+PASS a parked roster does not consume active capacity  {"ok":true,"tier":1,"group":"fresh-lead"}
+PASS thirty active members fill the model capacity  {"ok":false,"reason":"the Team has 30 active members; the current capacity is 30. Freeze a finished member before creating another."}
+PASS the refusal names the freeze escape hatch  the Team has 30 active members; the current capacity is 30. Freeze a finished member before creating another.
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\spawn-budget.test.mjs (76.165ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS two Teams never share a registry
+PASS team A sees only its own members  3
+PASS team B sees only its own members  ["lead"]
+PASS a name known to A is unknown to B
+PASS two Teams never share a board store
+PASS A board has its task
+PASS B board stayed empty
+PASS a full group refuses inside its own Team  {"ok":false,"reason":"group \"lead-a\" is capped at 3 members"}
+PASS the other Team still has room  {"ok":true,"tier":1,"group":"lead-b"}
+PASS activePolicy tracks the last Team resolved
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\team-isolation.test.mjs (65.9408ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS the operator registers one team command
+PASS the operator command does not record model input
+PASS an unrelated session can still list
+PASS an unrelated session can still read meta
+PASS an unrelated session cannot control a Team
+PASS bare /team prints usage
+PASS /team list renders the roster    lead  tier=0 group=root status=running
+PASS /team freeze freezes
+PASS /team freeze reports the previous value  omega frozen=true (was true)
+PASS a frozen member is shown in the frozen roster tab  Team roster (2)
+  lead  tier=0 group=root status=running
+  omega  tier=1 group=omega status=frozen parent=lead
+PASS /team restore restores
+PASS /team freeze rejects an unknown member
+PASS /team interrupt reaches the domain
+PASS /team abort interrupts and freezes
+PASS /team route applies a model change  omega -> deepseek-official/deepseek-flash @low (effective from its next step)
+PASS /team route needs all three arguments
+PASS /team route rejects an unknown member
+PASS /team spawn still obeys the tier rule  refused [spawn-denied]: tier 0 spawns tier 1 only
+PASS /team spawn creates a lead and registers it  spawned group-a tier=1 group=group-a parent=lead
+PASS /team spawn registers under the real name
+PASS /team spawn validates the tier argument
+PASS an unknown subcommand is refused
+PASS /team meta returns parseable JSON  {"teamRootId":"team-1","members":[{"name":"lead","tier":0,"group":"root","parent
+PASS meta carries everyone with level and group  {"name":"omega","tier":1,"group":"omega","parent":"lead","role":null,"frozen":false}
+PASS meta marks frozen members  {"name":"omega","tier":1,"group":"omega","parent":"lead","role":null,"frozen":true}
+PASS meta reports a tier for every member  [{"name":"lead","tier":0,"group":"root","parent":null,"role":null,"frozen":false},{"name":"omega","tier":1,"group":"omega","parent":"lead","role":null,"frozen":true},{"name":"group-a","tier":1,"group":"group-a","parent":"lead","role":null,"frozen":false}]
+PASS tier 0 has no group board of its own  global,group-group-a,group-omega,level-1
+PASS meta lists the global board with its tasks  ["global:1","group-group-a:0","group-omega:0","level-1:0"]
+PASS meta lists a level board per used tier  ["global","group-group-a","group-omega","level-1"]
+PASS meta lists group boards  ["global","group-group-a","group-omega","level-1"]
+PASS /team freeze persists the durable member record  [{"name":"omega","frozen":true},{"name":"omega","frozen":true},{"name":"omega","frozen":false},{"name":"omega","frozen":true},{"name":"omega","frozen":false},{"name":"omega","frozen":true},{"name":"omega","frozen":false}]
+PASS /team route persists the pinned route  [{"name":"omega","route":{"provider":"deepseek-official","model":"deepseek-flash","reasoningEffort":"low"}}]
+---
+checks=all failed=0
+✔ D:\dsh-test\phase4-tests\team-operator.test.mjs (1203.7272ms)
+PASS a ticked milestone folds the context at the idle transition
+PASS an unticked milestone below the hard threshold does not fold
+PASS pressure folds an unticked milestone as a safety action
+PASS a running agent is never folded
+PASS an already folded milestone does not fold again
+PASS folding records compactedAt in the document
+PASS a non Team member is ignored
+PASS a profile with no compaction engine is ignored, not fatal
+PASS a missing token meter is ignored
+PASS an unwritten milestone document is ignored
+PASS a busy engine is skipped rather than retried
+PASS a failed fold backs off instead of looping
+PASS an unconfigured plugin still listens, on the DSH_HOME default
+PASS a user step is not rejected at the auto-compaction threshold
+PASS an automatic step is also allowed; idle handles the safety fold
+checks=all failed=0
+✔ D:\dsh-test\phase5-tests\step-compaction.test.mjs (352.2088ms)
+PASS a member branch nests under its group branch
+PASS worktree paths flatten the slashes
+PASS tier 0 integrates into main
+PASS a group lead integrates into its group branch
+PASS a member integrates into its own branch
+PASS the spawning lead may merge its member into the group branch
+PASS another group lead cannot merge a member it did not spawn
+PASS tier 0 cannot reach past a lead and merge a tier-2 member
+PASS a member cannot merge another member
+PASS a member cannot merge to main
+PASS a group lead cannot merge itself to main
+PASS tier 0 merges a group branch into main
+PASS a frozen target is refused
+PASS an unknown member is refused
+PASS main refuses a branch with no verifier record
+PASS main refuses a clearance for a different commit
+PASS main refuses a blocker
+PASS main refuses a major finding
+PASS main accepts a clean clearance for that exact commit
+PASS a directory that is not a git repository is refused
+PASS a clean merge reports the resulting commit
+PASS a conflict is reported with its files and marked for escalation
+PASS a conflict is never auto-resolved into a success
+PASS a non-conflict merge failure is reported as such
+checks=all failed=0
+✔ D:\dsh-test\phase5-tests\team-worktree.test.mjs (58.2187ms)
+PASS two members work in separate worktrees
+PASS the first member branch merges cleanly into the group branch
+PASS the second member branch merges cleanly too
+PASS the group branch now contains BOTH members edits
+PASS main refuses the group branch without a clearance
+PASS main refuses a clearance for a different commit
+PASS main accepts a clean clearance for that commit
+PASS the group branch merges into main
+PASS main contains both members work
+PASS a conflicting merge is detected, not auto-resolved
+PASS the conflicting file is named in the escalation
+PASS the spawning lead can merge its own member
+PASS tier 0 cannot merge a tier 2 member directly
+PASS worktreeAdd creates a new branch worktree
+PASS worktreeAdd is idempotent
+PASS a read-only checkout is created detached
+PASS a detached checkout has no branch to commit into
+PASS worktreeAdd refuses a directory that is not a repository
+PASS tier 0 lays out a group lead on the group branch
+PASS a group lead lays out its own member on the member branch
+PASS a group lead cannot lay out another group member
+PASS tier 0 cannot lay out a tier 2 member directly
+PASS the verifier lays out its own checkout, read-only
+PASS nobody else lays out the verifier checkout
+checks=all failed=0
+✔ D:\dsh-test\phase5-tests\worktree-git-e2e.test.mjs (3492.9887ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+PASS everyone idle is stopped
+PASS one running member is not stopped
+PASS a running Lead is not stopped
+PASS a provisioning member is not stopped
+PASS a Team with no subordinates is never reported
+PASS parked members do not count as waiting
+PASS a failed member is not waited on
+PASS the reminder names both outcomes
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+PASS a listener was installed
+PASS the Lead is woken once when the Team stopped  1
+PASS the wake carries a user message
+PASS a fresh stop episode may remind again after the settle window  2
+PASS a working member suppresses the reminder  2
+PASS the next stop episode reminds again  3
+PASS progress hash is stable for the same deliverable state
+PASS progress hash changes when a task advances
+PASS progress hash ignores task creation, claims and revision-only churn
+PASS progress hash changes when a room round lands a summary
+PASS progress hash ignores room chatter
+[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27
+PASS the first stop episode reminds the Lead  1
+PASS a second stop with no deliverable progress still reminds  2
+PASS no-progress stop episodes keep reminding without a lifetime cap  3
+PASS deliverable progress still wakes the Lead on the next stop episode  4
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\idle-watch.test.mjs (878.57ms)
+PASS same member name is stored in separate Team buckets
+PASS each Team reads its own milestone record
+PASS a reminder band is scoped to one Team
+PASS the same name does not leak through the legacy top-level fields
+PASS loading a v1 document preserves it for explicit migration
+PASS loading a v1 document creates an empty Team map
+PASS the conversation marker is stable and identifies the exact revision
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\milestone-scope.test.mjs (60.3645ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS one Team policy section and one pre-step hook are installed
+PASS the system prompt section is milestone-independent
+PASS changing the milestone does not mutate the system prefix
+PASS the milestone is appended to the current decision tail
+PASS the milestone does not use the next-step inject queue
+PASS test fixture exposes the prior milestone on the visible surface
+PASS the hook reads the live visible surface before deciding to append
+PASS the durable visible surface prevents a duplicate on the next step
+PASS losing the marker to compaction restores it on the next request
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\milestone-tail-delivery.test.mjs (1332.3105ms)
+PASS below the start ratio nothing is due
+PASS the start ratio is band 1
+PASS 0.3 lands on band 2 despite float error
+PASS 0.35 is still band 2
+PASS 0.9 is band 8, so a forgetful model keeps being reminded
+PASS a non-number ratio is band 0
+PASS an agent reads its own milestone
+PASS tier 0 reads a group lead
+PASS tier 0 does NOT reach a tier 2 member
+PASS a group lead reads its own member
+PASS a group lead does NOT read another group member
+PASS a member reads its own direct superior
+PASS a member does NOT read the tier 0 lead
+PASS peers read each other for coordination
+PASS peer group leads read each other
+PASS a member does NOT read an unrelated member
+PASS an empty document starts with no members
+PASS setting a milestone stores the stage and its proof
+PASS a fresh milestone is un-ticked and un-compacted
+PASS a milestone is owned by exactly one name
+PASS ticking marks it done with a timestamp
+PASS ticking a milestone that was never set returns undefined
+PASS replacing a milestone does not re-earn old reminders
+PASS but the next band still reminds
+PASS nothing is due below the start ratio
+PASS an agent with no milestone is still reminded at 0.2
+PASS the same band is never reminded twice
+PASS the next band reminds again, so forgetting is recoverable
+PASS once it declares a milestone the reminder carries the record
+PASS a band already delivered stays delivered after declaring
+PASS an un-ticked milestone below the hard threshold does not compact
+PASS a ticked milestone arms a compaction
+PASS context pressure alone triggers a safety fold
+PASS just below the hard threshold nothing fires
+PASS a milestone never compacts twice
+PASS marking a compaction is recorded
+PASS a hard-threshold fold never stamps the current milestone
+PASS setting the next milestone keeps the ticked fold armed
+PASS the replacement milestone itself is not marked compacted
+PASS a consumed fold does not remain pending
+PASS a freshly ticked old job survives a set of the next milestone
+PASS an old job without a provably complete revision is not returned
+PASS a compacted old job is not returned for a newer un-ticked milestone
+PASS ticking the new revision arms a fresh job
+PASS a consumed job stays consumed
+PASS the first reminder states the usage and names the tool
+PASS a later reminder repeats the stage and its proof
+PASS the reminder survives an unknown window size
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\milestone.test.mjs (67.3076ms)
+PASS a two-frame journal decodes completely
+PASS usage accumulates across events
+PASS the parent link is read from the session header
+PASS the Team is the root plus everything under it
+PASS an unrelated session is excluded
+PASS another Team member is excluded
+PASS totals cover every agent, not just the Lead
+PASS the Lead share is reported separately
+PASS a missing sessions directory returns nothing
+     real portal project: 14 agents, total 248,749,350 tokens (lead 36,467,784, others 212,281,566)
+PASS real data reproduces the 14-agent team
+PASS real total matches the independently measured 248,749,350
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\team-usage.test.mjs (2006.611ms)
+PASS the view carries the whole-Team numbers and the Lead share
+PASS the projection sums the Team, not the session
+PASS the Lead share is separated from the rest
+PASS an unrelated session is excluded
+PASS an unknown root yields null rather than a zero total
+PASS a teamUsage projection unit is registered
+PASS an empty session starts with no total
+PASS an unrelated event leaves the total alone
+PASS a team/usage event becomes the view
+PASS a running Lead is not summed
+PASS a teammate going idle is not summed
+PASS the Lead going idle appends the whole-Team view
+PASS the appended view is what the projection exposes
+PASS a store or append failure is contained
+checks=all failed=0
+✔ D:\dsh-test\phase6-tests\usage-projection.test.mjs (289.8806ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS room round-robin accepts current speaker
+PASS one clarification is accepted without advancing the turn
+PASS a second clarification is refused  member "lead" already used its one clarification in round "round-f6d09c95-ef94-4c72-b3e9-4c8970d4c9e1"
+PASS a non-turn main speech is refused  round "round-f6d09c95-ef94-4c72-b3e9-4c8970d4c9e1" expects "a1" to speak next
+PASS a second open round is refused  room "group:alpha:tier-2" already has open round "round-f6d09c95-ef94-4c72-b3e9-4c8970d4c9e1"
+PASS a round cannot close before every participant speaks  round "round-f6d09c95-ef94-4c72-b3e9-4c8970d4c9e1" cannot close before every participant has made one main speech; missing: a1, c1. Tier 0 may retry with forceClose:true, waivedMembers:[...] and forceCloseReason when every missing speaker is frozen or cannot be seated in this room.
+PASS a duplicate main speech is refused  member "a1" already used its one main speech in round "round-f6d09c95-ef94-4c72-b3e9-4c8970d4c9e1"
+PASS room close persists summary and closed round
+PASS a closed round allows a new round
+PASS a fourth room round is refused by the three-round budget  room round budget: room "group:budget:tier-2" has used 3/3 rounds; record unresolved items and escalate instead of reopening it
+PASS open round cannot escalate normally  unknown escalation round "missing"
+PASS closed round accepts evidence-backed escalation
+PASS one target episode coalesces multiple escalations
+PASS wake delivery acknowledgement advances the episode without starting a turn
+PASS a control wake completes when the target turn actually starts
+PASS different control directories stay isolated
+PASS legacy empty task room is removed from persisted state
+PASS cross-process mutations keep both durable rooms
+PASS plan starts proposed
+PASS execution gate rejects unapproved plan  task "task-1" requires a plan-approved record before execution; current plan state: plan-proposed
+PASS plan approval is durable
+PASS board CAS claim advances revision
+PASS stale board revision is refused  stale revision for "task-1": expected 1, current 2
+PASS completed task persists exact commit and evidence ids
+PASS dispatch reaches completed through lease checkpoints
+PASS delivered one-way summaries can complete without a run lease
+PASS one active run lease per member  member "a1" already has active run "run-397dfe4d-3475-4782-91c6-29963f31f22a"
+PASS automatic reconciliation expires stale run leases and dispatches
+PASS control mutations use a sidecar audit trail
+PASS room survives cold cache restart
+PASS board, plan and dispatch survive cold cache restart
+PASS durable file was written
+PASS pre-step budget allows safe request
+PASS pre-step budget refuses over-window request
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\control-plane-v5.test.mjs (327.1893ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS the real delivery gate tool is installed for tier 0
+PASS complete plan/evidence/packet chain passes delivery gate  {"deliverable":true,"openCount":0,"open":[],"blockers":[],"counters":{"activeSlots":0,"lifetimeCreates":0,"tokenBudget":null,"tokenUsed":0,"retries":0,"contextRefusals":0}}
+PASS a queued dispatch closes the delivery gate  [{"kind":"dispatch","id":"gate-queued","status":"queued","target":"member"}]
+PASS a major finding closes the delivery gate  [{"kind":"dispatch","id":"gate-queued","status":"run-failed","target":"member"},{"kind":"finding","id":"gate-major","status":"major"}]
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\delivery-gate.test.mjs (1468.668ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-health] HMR inactive-context-timer-guard+perf49-time-plugin-disabled loaded 2026-09-28
+PASS missing critical plugin disables profile
+FAIL optional plugin degrades without disabling profile
+FAIL valid critical config reports healthy
+FAIL non fail-closed scope reports degraded
+PASS invalid scope disables profile
+✔ D:\dsh-test\phase7-tests\health.test.mjs (85.5001ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS first process writes a durable checkpoint and dormant queue
+PASS control snapshot and audit sidecar exist after first process
+PASS cold restart restores room, approved plan and running task
+PASS cold restart restores checkpointed and queued dispatch state
+PASS an 85% scaled long-session request is refused before overflow
+PASS milestone compaction is performed after restart and persisted  {"hadRoom":true,"planApproved":true,"taskBefore":"execution","dispatchBefore":"checkpointed","dormantBefore":"queued","leaseBefore":"active","budgetRefused":true,"compacted":"folded:milestone:committed","compactionStatus":"compacted","compactionAttempts":1,"resumedCheckpoint":"after restart","completedPhase":"member-check","finalPhase":"accepted","wakeCoalesced":true}
+PASS dormant dispatch is delivered, checkpointed and completed after restart
+PASS task can cross the complete phase state machine to accepted
+PASS duplicate idle wake is coalesced after restart
+PASS two Teams can mutate one durable directory concurrently without loss
+PASS Team A never sees Team B rooms, plans or boards
+PASS Team B never sees Team A rooms, plans or boards
+PASS Team counters remain isolated under concurrent writes
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\lifecycle-restart-dual.test.mjs (438.0224ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS the real team_room_next tool is installed for the group lead
+PASS the host is appended after the named participants  ["m1","m2","lead-a"]
+PASS room snapshots expose the three-round budget  {"used":1,"max":3,"remaining":2}
+PASS room handoff delivers the first speaker  {"roomId":"group:group-a:tier-2","roundId":"round-91ed7550-efab-4b66-88b7-3193008447f8","status":"open","wakeTarget":"m1","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:group-a:tier-2:round-91ed7550-efab-4b66-88b7-3193008447f8:speaker:m1"}
+PASS room handoff carries the caller AbortSignal  [{"caller":"lead-a","target":"m1"}]
+PASS the final speaker wakes the root host as a peer, never as a self-message  {"rootWake":{"messageId":"msg-def64f48-bf9c-485e-95f0-8cd3ca41bc25","roomId":"level:1","roundId":"round-bc9f721d-6c8b-4167-ab21-b484da88241a","status":"accepted","wakeTarget":"lead","wakeStatus":"delivered","wakeDispatchId":"wake:room:level:1:round-bc9f721d-6c8b-4167-ab21-b484da88241a:speaker:lead"},"lastSent":{"caller":"lead-a","target":"lead"}}
+PASS an informational send returns a wake reminder  {"messageId":"msg-15e81082-fcdd-4083-9d59-beac05cc0afd","delivery":"info","status":"queued","wakeReminder":"Informational delivery only: this message does not wake or start the target turn. If the target must act now, resend it with delivery:\"action\"; for a blocked upward decision use delivery:\"decision\" with blocked_action, reason and evidence.","roomId":"group:group-a:tier-2","roundId":"round-91ed7550-efab-4b66-88b7-3193008447f8","dispatchId":"dispatch-9b95cd1b-36bf-4c5f-8708-7eb603f344f1"}
+PASS a lead-to-member control message uses the group room, never level:1  {"groupBound":true}
+PASS a scoped task cannot complete without an approved plan  team policy refusal [complete-plan]: task "scoped-task" declares write scopes but has no plan: call team_plan_propose, team_plan_approve, advance the task to execution, then complete it with the owner commit_sha
+PASS the refused completion did not mutate the task  {"id":"scoped-task","revision":1,"subject":"scoped task","description":"task that declares a product write scope","status":"pending","phase":"draft","blockedBy":[],"dependencyPhase":"accepted","writeScopes":["src"],"worktreePath":null,"commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"board":"group-group-a","createdAt":1790799990316,"updatedAt":1790799990316}
+PASS an unplanned completion without evidence blocks delivery  [{"kind":"task-gate","taskId":"unplanned-complete","requirement":"evidence","status":"missing"}]
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\room-wake-signal.test.mjs (1332.5577ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-health] HMR inactive-context-timer-guard+perf49-time-plugin-disabled loaded 2026-09-28
+PASS transient 429 is not treated as terminal
+PASS a weekly-limit 429 is terminal until its reset
+PASS auth failure is terminal
+[team-runtime-guard] HMR prompt-inactive-context-guard+session-list-cache+perf47-live-lazy+perf48-lazy-array-methods+perf54-cold-tail-history loaded 2026-09-28
+PASS provider failure blocks the control plane
+PASS terminal provider failure stops retry waterfall
+PASS active lease is failed
+PASS running dispatch is failed
+PASS unfinished task is blocked
+PASS one deterministic escalation is created
+PASS duplicate provider failure does not duplicate escalation
+PASS blocked subordinate step is hard rejected
+[team-runtime-guard] HMR prompt-inactive-context-guard+session-list-cache+perf47-live-lazy+perf48-lazy-array-methods+perf54-cold-tail-history loaded 2026-09-28
+PASS inactive HMR context cannot fail a message turn
+PASS tier-0 resume clears the provider block
+PASS transient provider failure reaches retry waterfall
+PASS root-id resolver finds an existing alternate control plane
+PASS missing role identities disable health
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\runtime-guard.test.mjs (377.2694ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS valid group room id
+PASS malformed group room id is refused
+PASS level room id is fixed
+PASS group lead is admitted to its own group room
+PASS group member is admitted to its own group room
+PASS other group cannot be admitted to a group room
+PASS tier-1 peer is admitted to level room
+PASS tier-2 member is refused from level room
+PASS root room admits the tier-0 lead
+PASS root room admits a tier-1 lead
+PASS root room refuses a tier-2 member
+PASS task room admits the owning lead and its member
+PASS task room refuses an unrelated lead
+PASS compact snapshot exposes next speaker and turn progress
+PASS compact snapshot tells the current speaker to speak
+PASS compact snapshot classifies unresolved risks and evidence
+PASS compact snapshot does not replay the raw transcript
+checks=all failed=0
+✔ D:\dsh-test\phase7-tests\team-tools-v5.test.mjs (1241.1118ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS approved active lease grants only plan scope
+PASS active plan scope rejects sibling path
+PASS scope closes when run lease ends
+PASS plan scope resolves against the session repository cwd
+PASS shell write outside the active plan is denied
+PASS inline interpreter writes are denied as opaque
+PASS dynamic shell write targets are denied as opaque
+PASS root membership name resolves its active plan lease
+PASS root active plan still rejects outside-scope writes
+✔ D:\dsh-test\phase7-tests\write-scope-active-plan.test.mjs (1440.2999ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS a quiet queued notice completes instead of timing out  {"dispatchId":"quiet","sender":"lead-boot","target":"lead-core","wakeup":false,"status":"completed","attempt":1,"createdAt":9940000,"deadlineAt":9999999,"runId":null,"resolvedAt":10000000,"lastError":null}
+PASS a waking queued dispatch still follows retry/timeout recovery  {"dispatchId":"wake","sender":"lead","target":"lead-core","wakeup":true,"status":"queued","attempt":2,"createdAt":9940000,"deadlineAt":10001000,"runId":null,"resolvedAt":null,"lastError":"delivery deadline expired; retry queued"}
+PASS reconcile reports the quiet completion
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\dispatch-quiet-reconcile.test.mjs (73.3734ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS approved plan replacement and phase recovery are available
+✔ D:\dsh-test\phase8-tests\plan-recovery-v2.test.mjs (108.3124ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS a member can request a one-turn bypass with reason and evidence  {"requestId":"privilege-47b03dc7-045b-4601-87e7-684bfc01144a","member":"m1","status":"pending","createdAt":1790799994775}
+PASS tier 0 can approve the request  {"requestId":"privilege-47b03dc7-045b-4601-87e7-684bfc01144a","member":"m1","status":"approved","decision":"approve"}
+PASS a requester cannot approve its own privilege request  team policy refusal [privilege-review-scope]: only tier 0 may approve or reject a privilege request
+PASS the approved request remains visible to its requester  [{"requestId":"privilege-47b03dc7-045b-4601-87e7-684bfc01144a","member":"m1","requestedBy":"m1","taskId":null,"blockedAction":"Set-Content -Path src/escape.txt","reason":"the approved task scope is stale and the only needed write is this one file","evidence":["FS_WRITE_OUT_OF_SCOPE: src/escape.txt outside active plan"],"requestedScope":"one file write outside the stale plan","status":"approved","approvedBy":"lead","approvedAt":1790799994778,"rejectedBy":null,"rejectedAt":null,"rejectionReason":null,"activatedAt":null,"endedAt":null,"endReason":null,"expiresAt":null,"createdAt":1790799994775,"updatedAt":1790799994778}]
+PASS an approved request activates on the next wake  {"requestId":"privilege-47b03dc7-045b-4601-87e7-684bfc01144a","member":"m1","requestedBy":"m1","taskId":null,"blockedAction":"Set-Content -Path src/escape.txt","reason":"the approved task scope is stale and the only needed write is this one file","evidence":["FS_WRITE_OUT_OF_SCOPE: src/escape.txt outside active plan"],"requestedScope":"one file write outside the stale plan","status":"active","approvedBy":"lead","approvedAt":1790799994778,"rejectedBy":null,"rejectedAt":null,"rejectionReason":null,"activatedAt":1790799995811,"endedAt":null,"endReason":null,"expiresAt":1790801795811,"createdAt":1790799994775,"updatedAt":1790799995811}
+PASS an active grant bypasses the write-scope fail-closed gate for the turn  true
+PASS the grant expires when the turn ends  true
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\privilege-grant.test.mjs (2239.5048ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS closed Room chatter does not override team-idle wake
+✔ D:\dsh-test\phase8-tests\room-snapshot-injection-priority.test.mjs (1341.0613ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS room snapshot v2 web/headless parity
+✔ D:\dsh-test\phase8-tests\room-snapshot-v2-headless.test.mjs (1377.66ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS latestClosedRound returns the newest closed round
+PASS roomActivity treats open unresolved as blocked
+PASS snapshot uses the latest closed round summary  latest summary
+PASS resolved unresolved items do not enter the injected snapshot  [{"id":"u2","text":"open item","status":"open","resolution":null}]
+PASS snapshot includes a bounded recent message tail  [{"messageId":"m1","roundId":"r1","author":"m1","kind":"proposal","turn":true,"createdAt":10,"content":"old","references":[]},{"messageId":"m2","roundId":"r2","author":"m1","kind":"proposal","turn":true,"createdAt":20,"content":"latest proposal","references":[]},{"messageId":"m3","roundId":null,"author":"lead","kind":"notice","turn":false,"createdAt":30,"content":"latest notice","references":[]}]
+PASS snapshot exposes the latest closed round  {"roundId":"r2","topic":"second","summary":"latest summary","closedAt":200}
+PASS snapshot exposes activity  blocked
+PASS notice-only revision changes do not create a new snapshot id  4f3049abad458dc32a54dfa2e0ad05a06bb667506417dec7a6d6035b91f26ede != 4f3049abad458dc32a54dfa2e0ad05a06bb667506417dec7a6d6035b91f26ede
+PASS a new recent message creates a new snapshot id
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\room-snapshot-v2.test.mjs (1229.6238ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-activity-digest] startup-arming active
+[team-activity-digest] intervalMs=25
+PASS a live active Team wakes the root once  {"delivered":[{"content":[{"type":"text","text":"[team activity] root=lead team=team-digest-active\nsummary: groups=1/1 active; members=3 (running=2 idle=1 inactive=0); activeLeases=0; openTasks=0\n- core: lead=core-lead members=3 running=2 [core-lead, worker] openTasks=0 leases=0 idleWithOpen=-\nidle-with-open: none\nThis digest is the roster and status check. Do not re-list only to repeat it; act only on a real blocker or stall."}],"source":{"kind":"team-message","plugin":"team-activity-digest","form":"notice","summary":"team activity digest"},"role":"user","id":"4c60d9f2-9fdf-443a-a309-c9156cadc93d"}],"events":[]}
+PASS the automatic message is the activity digest  [team activity] root=lead team=team-digest-active
+summary: groups=1/1 active; members=3 (running=2 idle=1 inactive=0); activeLeases=0; openTasks=0
+- core: lead=core-lead members=3 running=2 [core-lead, worker] openTasks=0 leases=0 idleWithOpen=-
+idle-with-open: none
+This digest is the roster and status check. Do not re-list only to repeat it; act only on a real blocker or stall.
+PASS the digest reports the active group and running count  [team activity] root=lead team=team-digest-active
+summary: groups=1/1 active; members=3 (running=2 idle=1 inactive=0); activeLeases=0; openTasks=0
+- core: lead=core-lead members=3 running=2 [core-lead, worker] openTasks=0 leases=0 idleWithOpen=-
+idle-with-open: none
+This digest is the roster and status check. Do not re-list only to repeat it; act only on a real blocker or stall.
+[team-activity-digest] startup-arming active
+[team-activity-digest] intervalMs=25
+PASS a fully idle Team stays completely silent  {"delivered":[],"events":[]}
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-activity-digest-timer.test.mjs (639.3944ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS an active running member makes the digest active  {"active":true,"memberCount":4,"runningCount":2,"idleCount":2,"inactiveCount":0,"activeLeaseCount":1,"openTaskCount":2,"activeGroupCount":1,"groupCount":1,"activeGroups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"groups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"idleWithOpen":[{"group":"g-a","name":"a2"}]}
+PASS the digest counts only open tasks  {"active":true,"memberCount":4,"runningCount":2,"idleCount":2,"inactiveCount":0,"activeLeaseCount":1,"openTaskCount":2,"activeGroupCount":1,"groupCount":1,"activeGroups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"groups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"idleWithOpen":[{"group":"g-a","name":"a2"}]}
+PASS the digest counts active leases  {"active":true,"memberCount":4,"runningCount":2,"idleCount":2,"inactiveCount":0,"activeLeaseCount":1,"openTaskCount":2,"activeGroupCount":1,"groupCount":1,"activeGroups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"groups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":2,"runningNames":["lead-a","a1"],"idleWithOpen":["a2"],"openTasks":2,"activeLeases":1,"active":true}],"idleWithOpen":[{"group":"g-a","name":"a2"}]}
+PASS an idle owner with open work is surfaced for inspection  [{"group":"g-a","name":"a2"}]
+PASS the digest text identifies the active group and the idle-with-open member  [team activity] root=lead team=team-1
+summary: groups=1/1 active; members=4 (running=2 idle=2 inactive=0); activeLeases=1; openTasks=2
+- g-a: lead=lead-a members=3 running=2 [lead-a, a1] openTasks=2 leases=1 idleWithOpen=a2
+idle-with-open: g-a/a2
+This digest is the roster and status check. Do not re-list only to repeat it; act only on a real blocker or stall.
+PASS a running verifier alone keeps the activity digest active  {"active":true,"memberCount":2,"runningCount":1,"idleCount":1,"inactiveCount":0,"activeLeaseCount":0,"openTaskCount":0,"activeGroupCount":1,"groupCount":1,"activeGroups":[{"group":"verifier","lead":"verifier","memberCount":1,"running":1,"runningNames":["verifier"],"idleWithOpen":[],"openTasks":0,"activeLeases":0,"active":true}],"groups":[{"group":"verifier","lead":"verifier","memberCount":1,"running":1,"runningNames":["verifier"],"idleWithOpen":[],"openTasks":0,"activeLeases":0,"active":true}],"idleWithOpen":[]}
+PASS the verifier group appears in the digest  [{"group":"verifier","lead":"verifier","memberCount":1,"running":1,"runningNames":["verifier"],"idleWithOpen":[],"openTasks":0,"activeLeases":0,"active":true}]
+PASS a Team with no running member, lease or open task is inactive  {"active":false,"memberCount":4,"runningCount":0,"idleCount":4,"inactiveCount":0,"activeLeaseCount":0,"openTaskCount":0,"activeGroupCount":0,"groupCount":1,"activeGroups":[],"groups":[{"group":"g-a","lead":"lead-a","memberCount":3,"running":0,"runningNames":[],"idleWithOpen":[],"openTasks":0,"activeLeases":0,"active":false}],"idleWithOpen":[]}
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-activity-digest.test.mjs (310.2776ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+PASS an edit task without write scopes is refused at creation  team policy refusal [task-kind-scope]: edit task "invalid edit" must declare at least one write_scope
+PASS a discussion task is created without write scopes  {"id":"task-1","revision":1,"subject":"two-level room smoke","description":"pure discussion with room evidence","status":"pending","phase":"room-discussion","blockedBy":[],"writeScopes":[],"commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"dependencyPhase":"accepted","workKind":"discussion","createdAt":1790800002030,"updatedAt":1790800002030,"contractStale":false}
+PASS global advance_phase is recorded without domain action support  {"returned":"plan-proposed","domain":"room-discussion"}
+PASS a domain CAS after a local-only phase move binds the domain revision, not the local one  {"view":{"id":"task-2","revision":3,"subject":"phase-only task","description":"local phase","status":"in_progress","phase":"plan-proposed","blockedBy":[],"writeScopes":[],"commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[],"dependencyPhase":"accepted","ownerName":"lead","workKind":"discussion","createdAt":1790800002035,"updatedAt":1790800002045,"contractStale":false,"branch":"main"},"domain":{"id":"task-2","revision":2,"subject":"phase-only task","description":"local phase","status":"in_progress","phase":"room-discussion","blockedBy":[],"writeScopes":[],"commitSha":null,"evidenceIds":[],"ready":true,"writeScopeWarnings":[]}}
+PASS a discussion task closes with evidence and no plan or commit  {"id":"task-1","revision":4,"subject":"two-level room smoke","description":"pure discussion with room evidence","status":"completed","phase":"room-discussion","blockedBy":[],"writeScopes":[],"commitSha":null,"evidenceIds":["evidence-0acf05b1-ee5c-4315-a51a-21e46da50c22"],"ready":true,"writeScopeWarnings":[],"dependencyPhase":"accepted","ownerName":"lead","workKind":"discussion","createdAt":1790800002030,"updatedAt":1790800002057,"contractStale":false,"branch":"main"}
+PASS the global task list projects local completion over the stale domain status  [{"id":"task-1","revision":4,"subject":"two-level room smoke","description":"pure discussion with room evidence","status":"completed","phase":"room-discussion","blockedBy":[],"writeScopes":[],"commitSha":null,"evidenceIds":["evidence-0acf05b1-ee5c-4315-a51a-21e46da50c22"],"ready":true,"writeScopeWarnings":[],"dependencyPhase":"accepted","ownerName":"lead","workKind":"discussion","createdAt":1790800002030,"updatedAt":1790800002057,"contractStale":false,"branch":"main"}]
+PASS a stranded global reference completes from a completed same-Team execution task  {"id":"task-3","revision":3,"subject":"global reference","description":"points at group delivery","status":"completed","phase":"room-discussion","blockedBy":[],"dependencyPhase":"accepted","writeScopes":["docs"],"worktreePath":null,"workKind":"edit","commitSha":"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","evidenceIds":["evidence-fb9bd1ba-801e-4fde-80a5-60c65a9d3c35","evidence-bb81ff76-cac3-4c80-8681-c141c5ebec65"],"ready":true,"writeScopeWarnings":[],"board":"global","createdAt":1790800002079,"updatedAt":1790800002085,"ownerName":"lead","contractStale":false,"branch":"main"}
+PASS the delivery gate accepts a completed global reference backed by its completed source  {"open":[{"id":"task-2","subject":"phase-only task","status":"in_progress","workKind":"discussion","owner":"lead","verdict":"work-genuinely-unfinished"}],"blockers":[]}
+PASS reconcile refuses a missing source instead of fabricating evidence  team policy refusal [reconcile-source]: source task "missing-source" does not exist
+PASS an unapproved plan can be re-proposed in place  {"taskId":"group-lead-a-t1","state":"plan-proposed","revision":1,"requirementId":"lease-order","goal":"lease order revised","members":["lead-a"],"writeScopes":["docs"],"dependencies":[],"options":[],"selectedOption":null,"checks":{"order":["complete before release"]},"risks":[],"rollback":"revert","proposedBy":"lead-a","approvedBy":null,"approvedAt":null,"replacedState":null,"replaceReason":null,"createdAt":1790800002175,"updatedAt":1790800002182}
+PASS a completed lease cannot be released while its task is still open  team policy refusal [lease-release-order]: task "group-lead-a-t1" is still in_progress; recovery order: (1) finish the task and record exact commit_sha plus evidence, (2) call team_task_update(action:"complete") while this lease is active, (3) then release the lease as completed. Use status:"blocked" only when a named external dependency prevents completion, or status:"cancelled" only when the work is intentionally abandoned.
+PASS a tier-2 member can wake its direct group lead  {"target":"lead-a","dispatchId":"wake:superior-wake:m1:lead-a","episodeId":"superior-wake:m1:lead-a","coalesced":false,"distinct":true,"messageHash":"88d667a0ff824d14365b143f8ca4ee5d48816cbf57b8ee08cfe757d867ec0fa3","pendingCount":1,"status":"delivered"}
+PASS a duplicate superior wake is coalesced instead of delivered again  {"target":"lead-a","dispatchId":"wake:superior-wake:m1:lead-a","episodeId":"superior-wake:m1:lead-a","coalesced":true,"distinct":true,"messageHash":"00b5a5dba76e4270f3051b8563d2127ebc69615ab84b0d2486f04a30a0358e94","pendingCount":2,"status":"delivered"}
+PASS a tier-1 lead can wake tier 0  {"target":"lead","dispatchId":"wake:superior-wake:lead-a:lead","episodeId":"superior-wake:lead-a:lead","coalesced":false,"distinct":true,"messageHash":"9a10f7f6936580966b9ca344d823b2eba15e7800db991e22478a09c58af326c8","pendingCount":1,"status":"delivered"}
+PASS a task wake based on an old revision is refused before delivery  team policy refusal [instruction-stale]: task "task-2" advanced before delivery: you cited revision 2 phase "plan-proposed", current is revision 3 phase "plan-proposed"; re-read team_task_get and rebuild the instruction instead of sending stale work
+PASS a fresh task wake carries its state snapshot and receipt rule  {"target":"lead-a","dispatchId":"wake:team-wake:lead:lead-a","episodeId":"team-wake:lead:lead-a","coalesced":false,"distinct":true,"messageHash":"010aaa0695c2c0c1a677ad2dd243c81827b9b650ff789e1cda0dcb2def26ca29","pendingCount":1,"taskSnapshot":{"taskId":"task-2","revision":3,"phase":"plan-proposed","status":"in_progress"},"status":"delivered"}
+PASS a group lead interrupts its own member through the root Team authority  {"previousStatus":"idle","domain":0,"raw":[{"id":"phase8-m1","kind":"ancestor","authority":"lead"}]}
+PASS a superior wake without evidence is refused  team policy refusal [wake-superior-evidence]: wake_superior requires blocked_action, reason and at least one evidence reference
+PASS a lead reading level:1 before the host opens it gets stop semantics  {"roomId":"level:1","kind":"level","status":"not-open","host":"lead","members":[],"summary":"","roundBudget":{"used":0,"max":3,"remaining":3},"round":null,"decisions":[],"unresolved":[],"conflicts":[],"evidence":[],"pendingEscalations":[],"forMember":"lead-a","action":"stop","waitAction":"stop","waitInstruction":"End this turn now. Do not call wait_agent; the room host will wake you when the round opens.","message":"This room is not open yet. End this turn; the room host will wake you with a room turn when it is ready."}
+PASS tier 2 cannot pre-open its group room  team policy refusal [room-open-scope]: tier 2 members cannot open rooms; wait for your group lead to open and wake the round
+PASS a member joining before the host opens gets stop-not-error semantics  {"pendingJoin":{"roomId":"group:lead-a:tier-2","status":"pending"},"pendingRead":{"roomId":"group:lead-a:tier-2","kind":"group","status":"not-open","host":"lead-a","members":[],"summary":"","roundBudget":{"used":0,"max":3,"remaining":3},"round":null,"decisions":[],"unresolved":[],"conflicts":[],"evidence":[],"pendingEscalations":[],"forMember":"m1","action":"stop","waitAction":"stop","waitInstruction":"End this turn now. Do not call wait_agent; the room host will wake you when the round opens.","message":"This room is not open yet. End this turn; the room host will wake you with a room turn when it is ready."},"pendingWait":{"timedOut":false,"noProgress":{"reason":"room-turn-pending","message":"Tier 2 execution is wake-driven. End this turn now and do not call wait_agent; a Room handoff or downward control message will wake you."}}}
+PASS a child group round is refused while its level:1 parent round is open  team policy refusal [room-dependency]: room "group:lead-a:tier-2" cannot start a round because parent room "level:1" still has open round "round-a0311a93-6eef-444d-b749-31c3efeea32f"; wait for the parent round to close and wake this host
+PASS the child round opens after the parent closes  {"roomId":"group:lead-a:tier-2","roundId":"round-c57ade76-2f52-464f-94ad-0071c0a5b065","status":"open","wakeTarget":"m1","wakeStatus":"delivered","wakeDispatchId":"wake:room:group:lead-a:tier-2:round-c57ade76-2f52-464f-94ad-0071c0a5b065:speaker:m1"}
+PASS a non-next room participant is told to stop instead of waiting  {"waiting":{"timedOut":false,"noProgress":{"reason":"room-turn-pending","message":"Room \"group:lead-a:tier-2\" is waiting for \"m1\". End this turn now; the room handoff will wake you when it is your turn."}},"nextWait":{"timedOut":false,"noProgress":{"reason":"room-turn-pending","message":"Room \"group:lead-a:tier-2\" has selected you as nextSpeaker. Post your main turn now, then end the turn; never call wait_agent."}},"waitingSnapshot":{"roomId":"group:lead-a:tier-2","kind":"group","status":"open","activity":"discussing","host":"lead-a","members":["lead","m1","m2","lead-a"],"summary":"","latestClosedRound":null,"roundBudget":{"used":1,"max":3,"remaining":2},"round":{"roundId":"round-c57ade76-2f52-464f-94ad-0071c0a5b065","topic":"child discussion","status":"open","nextSpeaker":"m1","spoken":[],"clarified":[],"order":["m1","m2","lead-a"]},"decisions":[],"pendingDecisions":[],"decisionProjection":{"total":0,"returned":0,"truncated":false,"statuses":{}},"unresolved":[],"recentMessages":[],"conflicts":[],"evidence":[],"pendingEscalations":[],"forMember":"m2","waitAction":"stop","waitInstruction":"End this turn now. Do not call wait_agent; the room handoff will wake you when your turn starts.","revision":2,"snapshotId":"38b380e2c1a076f520b6647bb11f4ff0a3b83bb475faf924538fa31e9ad70a35"}}
+PASS resolving an unresolved item updates the room and its round  {"resolved":{"roomId":"level:1","unresolvedId":"unresolved-round-a0311a93-6eef-444d-b749-31c3efeea32f-1","status":"resolved","resolution":"child round opened and member m1 was woken"},"level":[{"id":"unresolved-round-a0311a93-6eef-444d-b749-31c3efeea32f-1","itemId":"unresolved-round-a0311a93-6eef-444d-b749-31c3efeea32f-1","text":"child round not started","status":"resolved","createdAt":null,"resolvedAt":1790800002231,"resolvedBy":"lead","resolution":"child round opened and member m1 was woken"}],"parent":[{"id":"unresolved-round-a0311a93-6eef-444d-b749-31c3efeea32f-1","itemId":"unresolved-round-a0311a93-6eef-444d-b749-31c3efeea32f-1","text":"child round not started","status":"resolved","createdAt":null,"resolvedAt":1790800002231,"resolvedBy":"lead","resolution":"child round opened and member m1 was woken"}]}
+PASS send_message refuses a missing delivery intent before sending  team policy refusal [delivery-intent-required]: send_message requires delivery:"info" for a non-waking notice, delivery:"action" for an actionable peer/downward message, or delivery:"decision" for a blocked upward decision
+PASS send_message delivery:action routes through the waking path  {"messageId":"msg-89525714-df2d-4f79-8665-97645271f89a","delivery":"action","wakeReminder":"Waking delivery: the target received a control message and can start a turn.","roomId":"group:lead-a:tier-2","roundId":"round-c57ade76-2f52-464f-94ad-0071c0a5b065","dispatchId":"wake:team-wake:lead-a:m2","episodeId":"team-wake:lead-a:m2","coalesced":false,"distinct":true,"messageHash":"083a285ab6a79675efe891c3c90d70c2c747762a6cdce75f27b9c7c4c4e28674","pendingCount":1,"status":"delivered"}
+PASS send_message delivery:decision requires and carries superior evidence  {"messageId":"msg-4160868b-f312-4ab3-8ab7-25f66b17837f","delivery":"decision","wakeReminder":"Waking delivery: the target received a control message and can start a turn.","roomId":"group:lead-a:tier-2","roundId":"round-c57ade76-2f52-464f-94ad-0071c0a5b065","dispatchId":"wake:superior-wake:m2:lead-a","episodeId":"superior-wake:m2:lead-a","coalesced":false,"distinct":true,"messageHash":"7afdfe26fb2cbaafe74550b542b6a8e2787ee45e155f251e818d79bc74ea9cae","pendingCount":1,"status":"delivered"}
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-hardening.test.mjs (1530.0202ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS bootstrap scan reminds an already-stopped Team without a status event
+✔ D:\dsh-test\phase8-tests\team-idle-watch-bootstrap.test.mjs (1359.8751ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS repeated no-progress stop episodes keep reminding without a cap
+✔ D:\dsh-test\phase8-tests\team-idle-watch-no-cap.test.mjs (1399.7328ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+PASS root running means not stopped
+PASS all non-frozen subordinates idle and root idle means stopped
+PASS one subordinate still running means not stopped
+PASS provisioning blocks stopped state
+PASS parked members do not create a stopped Team by themselves
+PASS watchdog stays armed while another member is still running
+PASS watchdog wakes the root after the last member stops without another event
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-idle-watch.test.mjs (387.5604ms)
+PASS pre-step collapse is wired for lead
+PASS subagent settlement notices are batchable
+PASS team quiet notices are batchable
+PASS team notices use the v4 producer kind
+PASS control wake path stays direct
+PASS batch text preserves every original message
+PASS one quiet batch replaces adjacent quiet notices
+PASS the batch retains all quiet message bodies
+PASS v4 admits the team-message producer kind
+PASS v4 rejects the retired plugin wrapper
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-message-batch.test.mjs (555.7741ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+PASS r9 reopen recovers a rejected task without ReferenceError
+✔ D:\dsh-test\phase8-tests\team-tools-r9-reopen.test.mjs (1408.0951ms)
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r9.mjs: recover helper is module-scoped  {"recover":1097,"assert":1114}
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r9.mjs: both helpers have module indentation
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r9.mjs: recover helper closes before assert starts
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r8.mjs: recover helper is module-scoped  {"recover":1097,"assert":1114}
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r8.mjs: both helpers have module indentation
+PASS D:\dsh-test\home\profiles\web\plugins\team-tools-v2-r8.mjs: recover helper closes before assert starts
+PASS D:\dsh-test\home\profiles\headless\plugins\team-tools-v2.mjs: recover helper is module-scoped  {"recover":1104,"assert":1121}
+PASS D:\dsh-test\home\profiles\headless\plugins\team-tools-v2.mjs: both helpers have module indentation
+PASS D:\dsh-test\home\profiles\headless\plugins\team-tools-v2.mjs: recover helper closes before assert starts
+checks=all failed=0
+✔ D:\dsh-test\phase8-tests\team-tools-v2-reopen-scope.test.mjs (73.5571ms)
+PASS untracked merge opt-in and post-merge ancestry are enforced
+✔ D:\dsh-test\phase8-tests\worktree-merge-postcondition.test.mjs (72.9868ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ an unowned contract can be claimed by exactly the candidate owner (1.6898ms)
+✔ room host replacement and frozen-speaker force close are audited (15.0379ms)
+✔ cross-group room decisions stay proposed until every affected lead confirms (6.4607ms)
+✔ single-confirmer room decisions do not project a stale missing confirmation (2.8281ms)
+✔ contract normalizes legacy fields, migrates idempotently, and preserves unknown fields (3.3824ms)
+✔ ready gate rejects incomplete contracts and unmet dependencies (1.0664ms)
+✔ ready gate rejects dependency cycles (0.2038ms)
+✔ ready gate checks revision, owner, coordination and scope conflicts (0.1984ms)
+✔ scope conflict detection isolates distinct worktrees (0.1415ms)
+✔ lifecycle transitions enforce the ready and lease gates (0.8077ms)
+✔ contract revision is CAS protected and active leases must reconfirm execution changes (0.3517ms)
+✔ state schema validation preserves unknown fields and classifies read failures (0.3661ms)
+✔ CAS rejects concurrent revision conflicts and accepts one writer (0.2542ms)
+✔ snapshot differences and recovery require explicit root confirmation (0.5286ms)
+✔ corrupt current state is never replaced automatically (0.1125ms)
+✔ migration dry-run is explicit, idempotent, and keeps unknown fields (0.5613ms)
+✔ audit consistency detects gaps, duplicates and write failures (0.3701ms)
+✔ merge operation preparation is idempotent and intent conflicts are rejected (0.4198ms)
+✔ merge postcondition verifies actual Git ancestry instead of merged:true (0.3587ms)
+✔ merge verification blocks dirty worktrees and target base races (0.1336ms)
+✔ merge postcondition supports fast-forward, squash and explicit conflicts (0.1037ms)
+✔ merge crash recovery recognizes applied Git state and advances task idempotently (0.4501ms)
+✔ merge recovery does not repeat an unapplied merge and flags uncertain targets (0.3964ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ evidence registry reuses exact matches and invalidates stale records (1.3342ms)
+✔ acceptance matrix refuses completion without mapped evidence (0.3562ms)
+✔ review package deduplicates shared evidence (0.5201ms)
+✔ ready queue is derived and rejects unmet dependencies and conflicts (1.5011ms)
+✔ stall classification separates waiting from actionable blocks (0.9168ms)
+✔ cost guard alerts only when spend grows without new evidence (0.4142ms)
+✔ verification recipes bind checks to task revision and exact evidence (1.3664ms)
+✔ fan-out advice requires independent deliverables and exposes unknown history honestly (0.3322ms)
+✔ scheduler advice is shadow-only by default and stabilizes concurrency changes (5.6782ms)
+✔ D: transcript cursor is incremental, gap-safe and idempotent (1.9489ms)
+✔ D: decisions, unresolved items and round summaries stay separate (3.3129ms)
+✔ D: cross-group decisions become effective only after every affected lead confirms (0.369ms)
+✔ E: pending wake batches merge without losing message rows (1.1725ms)
+✔ E: silent delivery does not wake, failures retry and stop episodes notify once (0.5354ms)
+✔ F: done atomically creates one job and next milestone is a new record (0.3253ms)
+✔ F: handoff gate, failure retry, explicit none and pressure bypass are durable (0.8312ms)
+✔ J: context sources are filtered, deduped and auditable (9.0402ms)
+✔ J: optional sources clip to summaries and required over-budget blocks (0.6078ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+[team-v12-runtime] HMR perf67-query-status-input-form+merge-receipt-scope loaded 2026-09-28
+✔ v12 runtime injects loader and registers a valid tool output envelope (4.64ms)
+✔ team_v12 defaults to runtime facts and populates capability and disk control status (15.8068ms)
+✔ runtime facts default output stays compact while full reports remain available (0.984ms)
+✔ loader and disk observations resolve to real entry hashes (4.1846ms)
+✔ v12 runtime authorization fails closed for task, Room, inbox and compaction mutations (0.2009ms)
+✔ Room context cursors advance only messages included in the rendered pack (6.7897ms)
+✔ runtime facts hash the canonical entry and redact secret config (8.8212ms)
+✔ capability matrix separates declared capability from callability and blocks drift (1.0481ms)
+✔ causal timeline propagates IDs and does not promote delivered to handled (1.1832ms)
+✔ replay is deterministic, isolated, and redacts fixture secrets (1.6154ms)
+✔ fix evidence requires before-fail and after-pass on the same fixture (1.8263ms)
+✔ live-only fixtures are marked uncovered and never executed locally (0.2954ms)
+✔ clock, secret filter, and fake adapters are local deterministic primitives (0.4061ms)
+ℹ tests 561
+ℹ suites 0
+ℹ pass 558
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 154911.9587
+
+✖ failing tests:
+
+test at phase11-tests\platform-defects-tenth-pass.test.mjs:70:1
+✖ B-96: tier-0 and group leads may create bounded external evidence checkouts (6.7577ms)
+  AssertionError [ERR_ASSERTION]: Got unwanted exception.
+  Actual message: "write denied: member "lead-rig" has no declared static scope or active approved plan lease for (D:\dsh-test\tmp\t93-check\README.md); active lease: unknown"
+      at TestContext.<anonymous> (file:///D:/dsh-test/phase11-tests/platform-defects-tenth-pass.test.mjs:97:12)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1306:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:897:18)
+      at Test.postRun (node:internal/test_runner/test:1447:19)
+      at Test.run (node:internal/test_runner/test:1372:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:897:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: FsError: write denied: member "lead-rig" has no declared static scope or active approved plan lease for (D:\dsh-test\tmp\t93-check\README.md); active lease: unknown
+        at deny (file:///D:/dsh-test/home/profiles/web/plugins/write-scope-guard.mjs:1484:24)
+        at check (file:///D:/dsh-test/home/profiles/web/plugins/write-scope-guard.mjs:1584:14)
+        at ctx.on.prepend (file:///D:/dsh-test/home/profiles/web/plugins/write-scope-guard.mjs:1602:48)
+        at file:///D:/dsh-test/phase11-tests/platform-defects-tenth-pass.test.mjs:97:31
+        at getActual (node:assert:611:5)
+        at strict.doesNotThrow (node:assert:779:32)
+        at TestContext.<anonymous> (file:///D:/dsh-test/phase11-tests/platform-defects-tenth-pass.test.mjs:97:12)
+        at Test.runInAsyncScope (node:async_hooks:227:14)
+        at Test.run (node:internal/test_runner/test:1306:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:897:18),
+    expected: undefined,
+    operator: 'doesNotThrow',
+    diff: 'simple'
+  }
+
+test at phase3-tests\team-tools-v2.test.mjs:1:1
+✖ D:\dsh-test\phase3-tests\team-tools-v2.test.mjs (1536.7304ms)
+  'test failed'

@@ -1,0 +1,40 @@
+{
+  "kind": "bounded-natural-SDK-history-quality-AB-v1",
+  "scope": "one paired isolated sample; not production acceptance or a stable economic estimate",
+  "accepted": true,
+  "sameInputsVerified": true,
+  "promptSha256": "45c61fe207232b417f94817959bb701779aa54fa57e5c7a1fb3356c07a95de13",
+  "successorPromptSha256": "89c99069ed308f715fe169a35db27088afcab4ece5238c5813a009631c49fe40",
+  "canonicalArchiveTextSha256": "cef120ada5e575bbe27b7a9bd7bb46aeb1c89fe7eeaa59ede317fae19a5b32cd",
+  "sdkSha256": "072321bfd2711e502b8523aca004f61223f6907cd6d2ff10d196d5b833f8fcac",
+  "route": {"provider":"opencodego","model":"deepseek-v4.1-flash","api":"openai-responses"},
+  "limitsPerCase": {"maxRequests":4,"maxOutputTokens":2048,"maxPayloadBytes":262144,"maxWallMs":90000,"maxProcessMs":125000},
+  "quality": {"prefilledAnswerInPrompt":false,"exactArtifactMatched":true,"artifactHandedToAdapter":true,"canonicalOriginalsPreserved":true,"taskStillInProgress":true,"remaining":4,"completionAllowed":false,"pendingInputPolicy":"preserve"},
+  "baseline": {
+    "runId":"201f4c00-9c2e-4d31-be01-124020a6fae7",
+    "evidenceDirectory":"D:/dsh-test/staging/context-runtime-unified-20261001/lab-runs/quality-AB-baseline-20261003-1928",
+    "journalSha256":"77de5a8d0379c454547063986ca0af9f6fc9d1d3a873a01f5336c608be43e3cc",
+    "eventsSha256":"7e5a327f0a4d64fa615a11ecd620d6eaf128c0851440f5211af4eb0186dcad7c",
+    "providerTerminal":4,"completedTurns":2,"hostDisposed":true,"rawRequests":true,
+    "usage":{"inputTokens":29630,"cacheReadTokens":86656,"cacheWriteTokens":null,"outputTokens":1060,"reasoningTokens":null,"totalTokens":117346,"fees":null},
+    "requestJSONBytes":{"before":502429,"after":502429}
+  },
+  "window": {
+    "runId":"5358a9e5-6135-4ebc-8708-fffba8e1154f",
+    "evidenceDirectory":"D:/dsh-test/staging/context-runtime-unified-20261001/lab-runs/quality-AB-window-20261003-1930",
+    "journalSha256":"03eb40b572dbccf04b384b339b332e6fd45c8cd64295cd666a37c64d22f2809f",
+    "eventsSha256":"bd7f63f4889dcac93cdd80630684182d256be8204748d62dc5a5ca4f993cc801",
+    "providerTerminal":4,"completedTurns":2,"hostDisposed":true,"initialProjectionHanded":true,
+    "finalProjectionStatus":"blocked","finalProjectionBlockedReason":"WINDOW_NO_COMPLETED_SPAN","finalRawFallbackHanded":true,
+    "usage":{"inputTokens":55086,"cacheReadTokens":58880,"cacheWriteTokens":null,"outputTokens":1043,"reasoningTokens":null,"totalTokens":115009,"fees":null},
+    "requestJSONBytes":{"before":504361,"after":492089}
+  },
+  "limitations":[
+    "Only root sessions; descendants forbidden and not measured in this pair.",
+    "Model stochastic outputs and cache state differ; token and byte observations do not prove a causal fee saving.",
+    "Inner PTC pages remain returned-awaiting-dispatch; only the complete outer artifact was handed. No canonical page delivery claim.",
+    "Pending input policy interpretation was tested, not a real queued-input steer race.",
+    "Single bounded archive fixture is not full plan coverage, compaction quality, W2, Instant, or production acceptance.",
+    "File sandbox enforcement is partial on this host."
+  ]
+}

@@ -1,0 +1,204 @@
+diff --git a/lib/index.js b/lib/index.js
+index 3b8507e0ca524eba88d52d62e288b1afd37eb3cc..50eb3bb629a6a37d0bafd98ef8fb25cb57e98e32 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -909,14 +909,18 @@ var SessionCommandController = class {
+ 	* @returns the durable attachment reference and base64-encoded bytes.
+ 	*/
+ 	async attachment(request) {
+-		let source;
++		let ref;
+ 		try {
+-			source = await this.readSessionState(request.sessionId);
++			const attached = this.ctx.sessions.get(request.sessionId);
++			if (attached !== void 0) ref = referencedImageLive(attached, String(request.attachmentId));
++			else {
++				const source = await this.readSessionState(request.sessionId);
++				ref = referencedImage(source.events, String(request.attachmentId));
++			}
+ 		} catch (error) {
+ 			if (error instanceof ApiSessionNotFound) throw new RemoteError("session/not-found", error.message, { sessionId: request.sessionId });
+ 			throw new RemoteError("gateway/internal", `attachment authorization unavailable for session "${request.sessionId}": ${String(error)}`, {});
+ 		}
+-		const ref = referencedImage(source.events, String(request.attachmentId));
+ 		if (ref === void 0) throw new RemoteError("session/attachment-invalid", "Image is not referenced by this session.", { reason: "ATTACHMENT_NOT_REFERENCED" });
+ 		try {
+ 			const stored = await this.ctx.attachments.readImage(ref);
+@@ -1066,11 +1070,13 @@ function hasPromptRequest(agent, requestId) {
+ 		return source.kind === "user" && "rpcId" in source && source.rpcId === requestId;
+ 	};
+ 	if (agent.inbox.nextTurn.some(matches) || agent.inbox.nextStep.some(matches)) return true;
+-	return agent.session.snapshotEvents().some((event) => {
+-		if (event.type !== "user/message") return false;
++	for (let seq = agent.session.seq - 1; seq >= 0; seq--) {
++		const event = agent.session.eventAt(SessionSeq(seq));
++		if (event.type !== "user/message") continue;
+ 		const source = event.data.source;
+-		return source.kind === "user" && "rpcId" in source && source.rpcId === requestId;
+-	});
++		if (source.kind === "user" && "rpcId" in source && source.rpcId === requestId) return true;
++	}
++	return false;
+ }
+ function imageBlockIn(content, match) {
+ 	if (!Array.isArray(content)) return void 0;
+@@ -1124,6 +1130,12 @@ function referencedImage(events, attachmentId) {
+ 		if (found !== void 0) return found;
+ 	}
+ }
++function referencedImageLive(session, attachmentId) {
++	for (let seq = 0; seq < session.seq; seq++) {
++		const found = imageInEvent(session.eventAt(SessionSeq(seq)), (ref) => String(ref.attachmentId) === attachmentId);
++		if (found !== void 0) return found;
++	}
++}
+ //#endregion
+ //#region lib/types/control.js
+ /** Live Session projection state with reconnect baselines. */
+@@ -1419,12 +1431,13 @@ var SessionHistoryController = class {
+ 			const beforeSeq = request.beforeSeq === void 0 ? void 0 : SessionLogOffset(request.beforeSeq);
+ 			const source = __addDisposableResource$2(env_1, await this.sourceFor(request.address, signal, false), false);
+ 			signal.throwIfAborted();
+-			const sourceLog = source.events;
+-			const sourceCursor = sourceLog.at(-1)?.seq ?? -1;
++			const live = source.source === "live" ? this.ctx.sessions.get(addressId(request.address)) : void 0;
++			const sourceLog = live === void 0 ? source.events : void 0;
++			const sourceCursor = live === void 0 ? sourceLog.at(-1)?.seq ?? -1 : source.cursor;
+ 			if (throughSeq > sourceCursor) throw new RemoteError("gateway/bad-request", `session page through seq ${String(throughSeq)} is past cursor ${String(sourceCursor)}`, {});
+ 			/* v8 ignore next -- Session and persistence validation guarantee a dense zero-based event prefix. */
+-			if (throughSeq >= 0 && sourceLog[throughSeq]?.seq !== throughSeq) throw new RemoteError("gateway/internal", `session log does not contain through seq ${String(throughSeq)}`, {});
+-			const page = paginate(sourceLog, beforeSeq, request.maxMessages ?? DEFAULT_MAX_MESSAGES, throughSeq, request.turnWindow);
++			if (throughSeq >= 0 && (live === void 0 ? sourceLog[throughSeq]?.seq : live.eventAt(SessionSeq(throughSeq))?.seq) !== throughSeq) throw new RemoteError("gateway/internal", `session log does not contain through seq ${String(throughSeq)}`, {});
++			const page = live === void 0 ? paginate(sourceLog, beforeSeq, request.maxMessages ?? DEFAULT_MAX_MESSAGES, throughSeq, request.turnWindow) : paginateLive(live, source.cursor, beforeSeq, request.maxMessages ?? DEFAULT_MAX_MESSAGES, throughSeq, request.turnWindow);
+ 			return {
+ 				records: pageRecords(page.events),
+ 				hasMore: page.hasMore
+@@ -1499,11 +1512,11 @@ var SessionHistoryController = class {
+ 			};
+ 			try {
+ 				const source = __addDisposableResource$2(env_2, await this.sourceFor(address, signal, true), false);
+-				const events = source.events;
+ 				signal.throwIfAborted();
+ 				const cursor = source.cursor;
+ 				snapshotCursor = cursor;
+-				const page = paginate(events, void 0, request.maxMessages ?? DEFAULT_MAX_MESSAGES, cursor, request.turnWindow);
++				const live = source.source === "live" ? this.ctx.sessions.get(target) : void 0;
++				const page = live === void 0 ? paginate(source.events, void 0, request.maxMessages ?? DEFAULT_MAX_MESSAGES, cursor, request.turnWindow) : paginateLive(live, cursor, void 0, request.maxMessages ?? DEFAULT_MAX_MESSAGES, cursor, request.turnWindow);
+ 				const assistantStream = request.assistantStream === true ? this.assistantStreams.get(target)?.snapshot() ?? { revision: 0 } : void 0;
+ 				const assistantStreamOrdinalCut = assistantStreamOrdinal;
+ 				yield {
+@@ -1680,6 +1693,37 @@ function paginate(events, beforeSeq, maxMessages, throughSeq, turnWindow) {
+ 		hasMore: cut > 0
+ 	};
+ }
++function paginateLive(session, cursor, beforeSeq, maxMessages, throughSeq, turnWindow) {
++	const end = SessionLogOffset(Math.min(throughSeq + 1, beforeSeq ?? throughSeq + 1, cursor + 1));
++	let count = 0;
++	let turns = 0;
++	let cut = SessionLogOffset(0);
++	for (let index = end - 1; index >= 0; index--) {
++		const event = session.eventAt(SessionSeq(index));
++		if (turnWindow !== void 0 && event.type === "turn/start") {
++			turns++;
++			if (count >= turnWindow.minMessages && turns >= turnWindow.minTurns) {
++				cut = SessionLogOffset(index);
++				break;
++			}
++		}
++		if (!MESSAGE_TYPES$1.has(event.type) || !isAppendSurfaceEvent(event)) continue;
++		count++;
++		const sources = event.sourceEventSeqs;
++		let groupStart = event.seq;
++		if (sources !== void 0) {
++			for (const source of sources) if (source < groupStart) groupStart = source;
++		}
++		if (count >= maxMessages) {
++			cut = SessionLogOffset(groupStart);
++			break;
++		}
++	}
++	return {
++		events: session.snapshotEvents(SessionLogOffset(cut), end),
++		hasMore: cut > 0
++	};
++}
+ /** Translate current logical Session metadata to the browser wire. */
+ function wireHeader(header) {
+ 	return { ...header };
+@@ -2007,9 +2051,10 @@ var ApiSessionList = class {
+ 	}
+ 	projectionsFor(header, session) {
+ 		try {
+-			if (session !== void 0) return hintsOf("sequenced", this.ctx.sessionProjections.cachedSnapshot(session));
++			const keys = ["title", "sessionListMetadata", "subagentCatalog"];
++			if (session !== void 0) return hintsOf("sequenced", this.ctx.sessionProjections.cachedSnapshot(session, keys));
+ 			const cache = this.ctx.get("sessionProjectionCache");
+-			return hintsOf("cached", cache?.cachedSnapshot(header) ?? cache?.cachedPredecessorTitle(header));
++			return hintsOf("cached", cache?.cachedSnapshot(header, keys) ?? cache?.cachedPredecessorTitle(header));
+ 		} catch (error) {
+ 			this.ctx.logger.warn(`api-session.list: projection column for "${header.id}" failed; serving the row without it: ${String(error)}`);
+ 			return;
+diff --git a/lib/types/commands.js b/lib/types/commands.js
+index cd4e27cb4cecab9cecbdce5b6d37185cca1d280c..2c30465c0c4a93b77031a9b9f6fc993ebb9c3f0b 100644
+--- a/lib/types/commands.js
++++ b/lib/types/commands.js
+@@ -361,9 +361,15 @@ export class SessionCommandController {
+      * @returns the durable attachment reference and base64-encoded bytes.
+      */
+     async attachment(request) {
+-        let source;
++        let ref;
+         try {
+-            source = await this.readSessionState(request.sessionId);
++            const attached = this.ctx.sessions.get(request.sessionId);
++            if (attached !== undefined)
++                ref = referencedImageLive(attached, String(request.attachmentId));
++            else {
++                const source = await this.readSessionState(request.sessionId);
++                ref = referencedImage(source.events, String(request.attachmentId));
++            }
+         }
+         catch (error) {
+             if (error instanceof ApiSessionNotFound) {
+@@ -371,7 +377,6 @@ export class SessionCommandController {
+             }
+             throw new RemoteError('gateway/internal', `attachment authorization unavailable for session "${request.sessionId}": ${String(error)}`, {});
+         }
+-        const ref = referencedImage(source.events, String(request.attachmentId));
+         if (ref === undefined) {
+             throw new RemoteError('session/attachment-invalid', 'Image is not referenced by this session.', { reason: 'ATTACHMENT_NOT_REFERENCED' });
+         }
+@@ -551,13 +556,15 @@ function hasPromptRequest(agent, requestId) {
+     };
+     if (agent.inbox.nextTurn.some(matches) || agent.inbox.nextStep.some(matches))
+         return true;
+-    // oxlint-disable-next-line typescript/no-deprecated -- Existing Session history read; migration deferred.
+-    return agent.session.snapshotEvents().some((event) => {
++    for (let seq = agent.session.seq - 1; seq >= 0; seq--) {
++        const event = agent.session.eventAt(SessionSeq(seq));
+         if (event.type !== 'user/message')
+-            return false;
++            continue;
+         const source = event.data.source;
+-        return source.kind === 'user' && 'rpcId' in source && source.rpcId === requestId;
+-    });
++        if (source.kind === 'user' && 'rpcId' in source && source.rpcId === requestId)
++            return true;
++    }
++    return false;
+ }
+ function imageBlockIn(content, match) {
+     if (!Array.isArray(content))
+@@ -628,4 +635,12 @@ function referencedImage(events, attachmentId) {
+     }
+     return undefined;
+ }
++function referencedImageLive(session, attachmentId) {
++    for (let seq = 0; seq < session.seq; seq++) {
++        const found = imageInEvent(session.eventAt(SessionSeq(seq)), ref => String(ref.attachmentId) === attachmentId);
++        if (found !== undefined)
++            return found;
++    }
++    return undefined;
++}
+ //# sourceMappingURL=commands.js.map

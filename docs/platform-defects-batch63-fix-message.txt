@@ -1,0 +1,22 @@
+平台缺陷批次 63 修复结果
+
+清单：size 825271，SHA256 575F357B8B7AC82DB5F57BF60D3B3E6F9437EE7729503B6F8F88441A59267A12，mtime 2026-09-29T11:50:47.0338796Z。
+
+已处理：
+- B-193 fixed, focused-verified; live pending：evidence 可见域现在允许 verifier/清关角色只读读取 landing-token 与 landing-token-confirmation，授权锚可被被清关方核验；普通成员的 evidence 权限未扩大。
+- B-195 fixed, focused-verified; live pending：显式 run_id 的 release 先判租约状态，已过期时返回 [lease-expired] 与 ISO 过期时间，不再误报 [lease-release-order]；写门拒绝文本明确给出 active lease: none 或 expired at <ISO>。
+- B-196 observation/no platform change：当前接续器是未启用的条件特性，清单明确按“观察 + 成本”登记而非已确认缺陷；本轮不把未启用写成 fixed。若接续器启用后仍每段停住，再升级为缺陷。
+
+验证：
+- 原始反例修复前 0/3，修复后 3/3；聚焦组合 22/22；platform-defects 聚焦集 174/174。
+- phase1-phase11 全量 494 tests / 493 pass / 0 fail / 1 skipped，EXIT_CODE=0。
+- 全量日志：D:\dsh-test\output\platform-defects-batch63-full-phase1-phase11-force-exit-20260929.log，SHA256 7E40F682B71DE7FF502B3A5252211F6424DD5D400ED793E3507DC9630368FF17。
+- 四份 profile 同步，web/headless/desktop/teamtest 哈希逐项一致；node --check 13/13。
+- 说明：v14-startup-arming.test.mjs 隔离断言为 8/8，但无 --test-force-exit 时其 Node test worker 在测试完成后不退出；全量回归使用 --test-force-exit 执行完全部 494 项后退出，未跳过测试。
+
+文件哈希：
+- team-v12-runtime.mjs 1857845CDC59A6A60E055616CF43D829EB8ADB89A7D6EF8A9DA7AA3097E6C11C
+- team-tools-v2-r10.mjs 381C9745B97117F0AC9FB241666EFBC36C1B079E6715215B73B3A691CBAB6D82
+- write-scope-guard.mjs 2987ACCFF01A10C1BCA2A04CA835EF7D23CD181452449A51E3216D65E519DAF9
+
+边界：未重启 DSH，未中断 active Team，未清理 backups/spill/telemetry/session，未修改 RustMc 产品仓；当前 DSH PID 30948 / 端口 40123。B-193 与 B-195 的 live 行为仍 pending，需进程更新后按原始反例复核。

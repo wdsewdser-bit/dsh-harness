@@ -1,0 +1,21 @@
+{
+  "fixtureId": "v13-fault-repeated-tests",
+  "fixtureVersion": 1,
+  "category": "repeated-tests",
+  "title": "Repeated unchanged test failures are blocked after two attempts",
+  "initialState": {
+    "testRuns": 0,
+    "blockedRetries": 0
+  },
+  "events": [
+    { "type": "test-fail" },
+    { "type": "test-fail" },
+    { "type": "test-fail" },
+    { "type": "test-fail" },
+    { "type": "test-fail" }
+  ],
+  "postconditions": [
+    { "kind": "equals", "path": "testRuns", "expected": 2 },
+    { "kind": "equals", "path": "blockedRetries", "expected": 3 }
+  ]
+}

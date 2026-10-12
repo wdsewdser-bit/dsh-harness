@@ -1,0 +1,528 @@
+{
+  "at": "2026-09-30T20:28:14.467Z",
+  "profiles": [
+    {
+      "profile": "web",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\web",
+      "moduleHash": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087",
+      "mount": {
+        "id": "request-usage-ledger",
+        "name": "./plugins/request-usage-ledger.mjs",
+        "config": {
+          "directory": "D:\\dsh-test\\home\\usage-ledger",
+          "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+          "profile": "web",
+          "maxPending": 4096
+        }
+      }
+    },
+    {
+      "profile": "headless",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\headless",
+      "moduleHash": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087",
+      "mount": {
+        "id": "request-usage-ledger",
+        "name": "./plugins/request-usage-ledger.mjs",
+        "config": {
+          "directory": "D:\\dsh-test\\home\\usage-ledger",
+          "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+          "profile": "headless",
+          "maxPending": 4096
+        }
+      }
+    },
+    {
+      "profile": "desktop",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\web",
+      "moduleHash": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087",
+      "mount": {
+        "id": "request-usage-ledger",
+        "name": "./plugins/request-usage-ledger.mjs",
+        "config": {
+          "directory": "D:\\dsh-test\\home\\usage-ledger",
+          "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+          "profile": "web",
+          "maxPending": 4096
+        }
+      }
+    },
+    {
+      "profile": "teamtest",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\teamtest",
+      "moduleHash": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087",
+      "mount": {
+        "id": "request-usage-ledger",
+        "name": "./plugins/request-usage-ledger.mjs",
+        "config": {
+          "directory": "D:\\dsh-test\\home\\usage-ledger",
+          "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+          "profile": "teamtest",
+          "maxPending": 4096
+        }
+      }
+    }
+  ],
+  "runtime": [
+    {
+      "version": 1,
+      "event": "loaded",
+      "pid": 16440,
+      "instanceId": "ec73954a-2979-4ea5-b542-23b1b2481973",
+      "startedAt": "2026-09-30T19:39:20.892Z",
+      "at": "2026-09-30T19:39:20.892Z",
+      "moduleHash": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087",
+      "profile": "web",
+      "manifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+      "inflight": 0,
+      "persistence": {
+        "pending": 0,
+        "failures": 0,
+        "warns": 0
+      },
+      "hook": "llm/stream"
+    }
+  ],
+  "history": {
+    "path": "D:/dsh-test/docs/usage-audit-20261001/history-2026-09-30T19-40-10-849Z-report.json",
+    "sha256": "a5389e79e49a576b850755a01cbb390af3bdc8251f92747cca6c94947e03947d",
+    "requests": 145805,
+    "usage": {
+      "input": {
+        "knownRequests": 145624,
+        "missingRequests": 181,
+        "observedSum": 1942741811,
+        "complete": false
+      },
+      "output": {
+        "knownRequests": 145624,
+        "missingRequests": 181,
+        "observedSum": 258565388,
+        "complete": false
+      },
+      "cacheRead": {
+        "knownRequests": 143368,
+        "missingRequests": 2437,
+        "observedSum": 41810397409,
+        "complete": false
+      },
+      "cacheWrite": {
+        "knownRequests": 0,
+        "missingRequests": 145805,
+        "observedSum": null,
+        "complete": false
+      },
+      "reasoning": {
+        "knownRequests": 0,
+        "missingRequests": 145805,
+        "observedSum": null,
+        "complete": false
+      },
+      "total": {
+        "knownRequests": 145624,
+        "missingRequests": 181,
+        "observedSum": 44011704608,
+        "complete": false
+      }
+    },
+    "rootTeams": [
+      {
+        "rootTeam": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+        "workspace": "mc189-rs",
+        "requests": 108392,
+        "knownTotal": 33244127489,
+        "missingTotal": 45
+      },
+      {
+        "rootTeam": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+        "workspace": "RustMc",
+        "requests": 37331,
+        "knownTotal": 10764770142,
+        "missingTotal": 120
+      },
+      {
+        "rootTeam": "session-61af0a14-857f-49c7-a780-536d45826ddd",
+        "workspace": "mc189-rs",
+        "requests": 17,
+        "knownTotal": 813087,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-ee51dc04-31c1-423b-a558-c87f2dc50ead",
+        "workspace": "mc189-rs",
+        "requests": 13,
+        "knownTotal": 468065,
+        "missingTotal": 3
+      },
+      {
+        "rootTeam": "session-5747ece9-f623-4196-899a-4063c89a5df5",
+        "workspace": "mc189-rs",
+        "requests": 5,
+        "knownTotal": 210518,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae",
+        "workspace": "mc189-rs",
+        "requests": 5,
+        "knownTotal": 207159,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c",
+        "workspace": "mc189-rs",
+        "requests": 13,
+        "knownTotal": 184460,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6",
+        "workspace": "mc189-rs",
+        "requests": 5,
+        "knownTotal": 166897,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44",
+        "workspace": "mc189-rs",
+        "requests": 5,
+        "knownTotal": 164982,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-47aa6205-510f-4468-9c71-16a4897176bd",
+        "workspace": "mc189-rs",
+        "requests": 4,
+        "knownTotal": 155919,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099",
+        "workspace": "mc189-rs",
+        "requests": 3,
+        "knownTotal": 101948,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-5c41c198-4bd6-4c7c-92a6-a144bab3105a",
+        "workspace": "mc189-rs",
+        "requests": 3,
+        "knownTotal": 101204,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71",
+        "workspace": "mc189-rs",
+        "requests": 3,
+        "knownTotal": 80255,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc",
+        "workspace": "mc189-rs",
+        "requests": 2,
+        "knownTotal": 51119,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-db1336b5-d6f8-416d-9843-31087e1bdb42",
+        "workspace": "mc189-rs",
+        "requests": 2,
+        "knownTotal": 51050,
+        "missingTotal": 1
+      },
+      {
+        "rootTeam": "session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb",
+        "workspace": "mc189-rs",
+        "requests": 2,
+        "knownTotal": 50314,
+        "missingTotal": 1
+      }
+    ]
+  },
+  "live": {
+    "starts": 4,
+    "terminals": 3,
+    "root": {
+      "requests": 2,
+      "knownTotal": 1405723,
+      "missingTotal": 0,
+      "statuses": {
+        "success": 2
+      },
+      "categories": {
+        "system": {
+          "bytes": 1597644,
+          "utf16Units": 1595084,
+          "items": 10,
+          "byteSharePercent": 32.010781100855226
+        },
+        "toolSchema": {
+          "bytes": 4256,
+          "utf16Units": 4248,
+          "items": 2,
+          "byteSharePercent": 0.08527424405264242
+        },
+        "ordinaryUser": {
+          "bytes": 8694,
+          "utf16Units": 6522,
+          "items": 6,
+          "byteSharePercent": 0.1741950840680623
+        },
+        "developer": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "teamInjected": {
+          "bytes": 787122,
+          "utf16Units": 600116,
+          "items": 224,
+          "byteSharePercent": 15.770966524249062
+        },
+        "nonTeamInjected": {
+          "bytes": 784,
+          "utf16Units": 780,
+          "items": 2,
+          "byteSharePercent": 0.01570841337811834
+        },
+        "unknownInjected": {
+          "bytes": 193938,
+          "utf16Units": 148906,
+          "items": 110,
+          "byteSharePercent": 3.885788614445809
+        },
+        "assistantReasoning": {
+          "bytes": 1150600,
+          "utf16Units": 1103110,
+          "items": 281,
+          "byteSharePercent": 23.05369953171296
+        },
+        "assistantText": {
+          "bytes": 324886,
+          "utf16Units": 186112,
+          "items": 226,
+          "byteSharePercent": 6.509494373422648
+        },
+        "assistantToolCall": {
+          "bytes": 711058,
+          "utf16Units": 557298,
+          "items": 181,
+          "byteSharePercent": 14.246929846706724
+        },
+        "toolResult": {
+          "bytes": 211974,
+          "utf16Units": 176972,
+          "items": 181,
+          "byteSharePercent": 4.247162267108746
+        },
+        "observationHandle": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "reducerReceipt": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "other": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        }
+      },
+      "measuredBytes": 4990956,
+      "limitation": "Content byte shares, not provider-token or monetary attribution. Count terminal events only."
+    },
+    "probe": {
+      "requests": 1,
+      "knownTotal": 52796,
+      "missingTotal": 0,
+      "statuses": {
+        "success": 1
+      },
+      "categories": {
+        "system": {
+          "bytes": 15883,
+          "utf16Units": 15857,
+          "items": 1,
+          "byteSharePercent": 7.5531186395541265
+        },
+        "toolSchema": {
+          "bytes": 176146,
+          "utf16Units": 175854,
+          "items": 135,
+          "byteSharePercent": 83.76576439481843
+        },
+        "ordinaryUser": {
+          "bytes": 172,
+          "utf16Units": 84,
+          "items": 1,
+          "byteSharePercent": 0.08179414506096516
+        },
+        "developer": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "teamInjected": {
+          "bytes": 6728,
+          "utf16Units": 4112,
+          "items": 1,
+          "byteSharePercent": 3.199482604477754
+        },
+        "nonTeamInjected": {
+          "bytes": 392,
+          "utf16Units": 390,
+          "items": 1,
+          "byteSharePercent": 0.18641456316219968
+        },
+        "unknownInjected": {
+          "bytes": 10963,
+          "utf16Units": 7289,
+          "items": 1,
+          "byteSharePercent": 5.213425652926518
+        },
+        "assistantReasoning": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "assistantText": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "assistantToolCall": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "toolResult": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "observationHandle": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "reducerReceipt": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        },
+        "other": {
+          "bytes": 0,
+          "utf16Units": 0,
+          "items": 0,
+          "byteSharePercent": 0
+        }
+      },
+      "measuredBytes": 210284,
+      "limitation": "Content byte shares, not provider-token or monetary attribution. Count terminal events only."
+    },
+    "receipts": [
+      {
+        "requestId": "214b5b66-36b4-4453-b236-3a0b78f58d8e",
+        "sessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+        "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+        "status": "success",
+        "usage": {
+          "inputTokens": 322,
+          "outputTokens": 243,
+          "cacheReadTokens": 702208,
+          "cacheWriteTokens": null,
+          "reasoningTokens": null,
+          "totalTokens": 702773,
+          "componentSum": null,
+          "totalConsistent": null,
+          "totalSource": "adapter-reported"
+        },
+        "provider": "opencodego",
+        "model": "deepseek-v4.1-flash",
+        "endpoint": "http://127.0.0.1:8788/v1",
+        "protocol": "openai-completions",
+        "startedAt": "2026-09-30T19:45:17.134Z",
+        "endedAt": "2026-09-30T19:45:27.133Z"
+      },
+      {
+        "requestId": "ed81d98d-8609-4874-9e99-cd8b6dddc15a",
+        "sessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+        "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+        "status": "success",
+        "usage": {
+          "inputTokens": 208,
+          "outputTokens": 150,
+          "cacheReadTokens": 702592,
+          "cacheWriteTokens": null,
+          "reasoningTokens": null,
+          "totalTokens": 702950,
+          "componentSum": null,
+          "totalConsistent": null,
+          "totalSource": "adapter-reported"
+        },
+        "provider": "opencodego",
+        "model": "deepseek-v4.1-flash",
+        "endpoint": "http://127.0.0.1:8788/v1",
+        "protocol": "openai-completions",
+        "startedAt": "2026-09-30T19:45:33.559Z",
+        "endedAt": "2026-09-30T19:46:34.980Z"
+      },
+      {
+        "requestId": "c78bac28-6b21-4301-bc67-5fbc91b50371",
+        "sessionId": "session-58d081fd-d2c0-46b7-b810-6c8f14289eeb",
+        "rootTeamId": "session-58d081fd-d2c0-46b7-b810-6c8f14289eeb",
+        "status": "success",
+        "usage": {
+          "inputTokens": 51315,
+          "outputTokens": 73,
+          "cacheReadTokens": 1408,
+          "cacheWriteTokens": null,
+          "reasoningTokens": null,
+          "totalTokens": 52796,
+          "componentSum": null,
+          "totalConsistent": null,
+          "totalSource": "adapter-reported"
+        },
+        "provider": "opencodego",
+        "model": "deepseek-v4.1-flash",
+        "endpoint": "http://127.0.0.1:8788/v1",
+        "protocol": "openai-completions",
+        "startedAt": "2026-09-30T19:49:47.111Z",
+        "endedAt": "2026-09-30T19:49:50.688Z"
+      }
+    ]
+  },
+  "settings": {
+    "reducer": {
+      "revision": 26,
+      "enabled": true,
+      "routeMode": "session",
+      "remoteAllowed": false,
+      "localProviders": []
+    },
+    "opencodego": {
+      "api": "openai-completions",
+      "baseURL": "http://127.0.0.1:8788/v1"
+    }
+  },
+  "boundaries": {
+    "rawBodies": false,
+    "secrets": false,
+    "originalSessionsModified": false,
+    "productionReducerActivated": false
+  }
+}

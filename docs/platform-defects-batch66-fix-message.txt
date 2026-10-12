@@ -1,0 +1,10 @@
+批次 66 修复结果说明（B-197 / B-203）
+
+- B-197 fixed, focused-verified; live pending：`team_v12(action:"leases")` 现在允许 tier 1 组长通过 `policy.canInterrupt` 读取本组成员租约；嵌套 `input.member` 与顶层 `member` 两种调用形态均可用，tier 2 仍只能读自己，跨组仍拒绝。
+- B-203 same root as B-198; exact regression added; live pending：预置 recovered `pwsh-153` 并把 live counter 置于 152 时，旧模块复用 `pwsh-153` 且输出为空；当前模块分配 `pwsh-154`，`exact-output` 可完整读取。没有另写第二套 source 修复。
+- B-196：observation / 无平台修改；B-201：withdrawn / 无平台修改。
+- 哈希不一致：确认是转写误差；当前 `dsh-jobs-local/lib/index.js` SHA256 为 `4C4BDE29FC5B041CDADC6C8C08146DD0EA494F579504CC6E0B97670DC368F137`，没有证据支持同一输入下流水线不确定。
+
+验证：原始反例先红 `1/2`，修复后 focused `2/2`；platform-defects 聚焦集 `180/180`；phase1-phase11 串行 `500 tests / 499 pass / 0 fail / 1 skipped`，`EXIT_CODE=0`；语法检查通过；profile parity `1/1`；四份 profile 的 `team-v12-runtime.mjs` 均为 size `145499`、SHA256 `80D6C50E02F383EF30F3925231FEA113C5587F927EFE4C71A17FD70B6E2CD4DA`。
+
+边界：未重启 DSH，未中断 active Team，未清理 backups/spill/telemetry/session，未修改 RustMc 产品仓；当前 DSH PID `30948` / 端口 `40123`。两项 live 行为仍 pending，需进程更新后按原始反例复核。修复期间清单又新增批次 67；该批另立下一轮处理，不混入本轮声明。

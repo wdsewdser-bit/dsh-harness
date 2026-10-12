@@ -1,0 +1,134 @@
+diff --git a/lib/index.js b/lib/index.js
+index a42f2a21c904e5d49b39f46ddc35921b5eaabd17..8815826dcd6fb1714e4cee8e6f06f23ced3af8a5 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -37,7 +37,7 @@ var JsonlSessionHandle = class {
+ 	chain = Promise.resolve();
+ 	closing;
+ 	observedLength = 0;
+-	/** Routed live events awaiting their batching deadline (persistence-owned copies). */
++	/** Routed live events awaiting their batching deadline (immutable Session events). */
+ 	buffered = [];
+ 	batchTimer;
+ 	/** Set when a drain failed; the automatic timer stays quiet until the next drain. */
+@@ -182,8 +182,8 @@ var JsonlSessionHandle = class {
+-	* @param event - the live event, retained as a persistence-owned copy.
++	* @param event - the immutable live event retained until the batched drain.
+ 	* @param reportBackgroundFailure - observes a deadline-driven drain failure
+ 	*   (the events stay buffered; the next {@link drainLive} retries loudly).
+ 	*/
+ 	enqueueLive(event, reportBackgroundFailure) {
+-		this.buffered.push(structuredClone(event));
++		this.buffered.push(event);
+ 		if (this.batchTimer !== void 0 || this.drainPaused) return;
+ 		this.batchTimer = setTimeout(() => {
+ 			this.batchTimer = void 0;
+@@ -2390,6 +2390,11 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 	* revision guard.
+ 	*/
+ 	coldLogMemo = /* @__PURE__ */ new Map();
++	/** Short-lived artifact listing cache; coalesces bursty Session-list reads. */
++	artifactListCache;
++	artifactListExpiresAt = 0;
++	artifactListInFlight;
++	artifactListGeneration = 0;
+ 	/** One joinable decode/migration operation per selected historical Session file revision. */
+ 	migrationPreparations = /* @__PURE__ */ new Map();
+ 	constructor(ctx, config) {
+@@ -2868,6 +2873,7 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 	*/
+ 	async persistBatch(header, events, isMaterialized, inheritedEventCount) {
+ 		this.coldLogMemo.delete(header.id);
++		if (!isMaterialized) this.invalidateArtifactListCache();
+ 		await this.ensureRootEncoding();
+ 		if (isMaterialized) await this.appendLines(header, events);
+ 		else {
+@@ -2882,6 +2888,7 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 	*/
+ 	async persistHeader(header, inheritedEventCount) {
+ 		this.coldLogMemo.delete(header.id);
++		this.invalidateArtifactListCache();
+ 		await this.ensureRootEncoding();
+ 		await this.materialize(header, inheritedEventCount, []);
+ 		this.tracker.materialized(header.id);
+@@ -3032,13 +3039,39 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 		signal?.throwIfAborted();
+ 		await this.ensureRootEncoding();
+ 		signal?.throwIfAborted();
++		if (this.artifactListCache !== void 0 && Date.now() < this.artifactListExpiresAt) return this.artifactListCache;
++		if (this.artifactListInFlight !== void 0) {
++			const artifacts = await this.artifactListInFlight;
++			signal?.throwIfAborted();
++			return artifacts;
++		}
++		const generation = this.artifactListGeneration;
++		const operation = this.buildArtifactList();
++		this.artifactListInFlight = operation;
++		try {
++			const artifacts = await operation;
++			signal?.throwIfAborted();
++			if (generation === this.artifactListGeneration) {
++				this.artifactListCache = artifacts;
++				this.artifactListExpiresAt = Date.now() + 5000;
++			}
++			return artifacts;
++		} finally {
++			if (this.artifactListInFlight === operation) this.artifactListInFlight = void 0;
++		}
++	}
++	invalidateArtifactListCache() {
++		this.artifactListGeneration += 1;
++		this.artifactListCache = void 0;
++		this.artifactListExpiresAt = 0;
++	}
++	async buildArtifactList() {
+ 		const artifacts = [];
+ 		const ids = /* @__PURE__ */ new Set();
+-		for (const selected of await this.listGenerations(signal)) {
+-			signal?.throwIfAborted();
++		for (const selected of await this.listGenerations()) {
+ 			let header;
+ 			try {
+-				header = await this.readGenerationHeader(selected, void 0, signal);
++				header = await this.readGenerationHeader(selected, void 0);
+ 			} catch (error) {
+ 				if (error instanceof SessionFormatUnsupportedError || error instanceof SessionPersistenceCorruptionError) continue;
+ 				throw error;
+@@ -3052,7 +3085,6 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 				sourceVersion: selected.sourceVersion
+ 			});
+ 		}
+-		signal?.throwIfAborted();
+ 		return artifacts;
+ 	}
+ 	/** Read and translate one selected generation header without inspecting its body. */
+@@ -3251,6 +3283,7 @@ var JsonlSessionPersistence = class extends SessionPersistence {
+ 	}
+ 	/** Truncate the log file to `offset` bytes and fsync (discard the crash tail). */
+ 	async repair(meta, offset) {
++		this.invalidateArtifactListCache();
+ 		const path = logPath(this.root, meta.cwd, meta.id, this.compression);
+ 		await truncate(path, offset);
+ 		const handle = await open(path, "r+");
+diff --git a/lib/worker.cjs b/lib/worker.cjs
+index b4dedfec8eba8708edcc6d15c38b3b7801d7bc0c..5f584ec0341a66cae61cf741ba8fb882042c69f3 100644
+--- a/lib/worker.cjs
++++ b/lib/worker.cjs
+@@ -11329,11 +11329,12 @@ var Relationships = class {
+ 		}
+ 		this.surface.splice(first, removed.length, event.seq);
+ 	}
+-	tool(event, data) {
+-		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
+-			this.requireTurn(event.type);
+-			return;
+-		}
++ 	tool(event, data) {
++ 		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
++ 			const historicalPrune = event["surfaceOp"] !== null && typeof event["surfaceOp"] === "object" && event["surfaceOp"]["op"] === "replace" && Array.isArray(event["sourceEventSeqs"]) && event["sourceEventSeqs"].length > 0;
++ 			if (!historicalPrune) this.requireTurn(event.type);
++ 			return;
++ 		}
+ 		this.requireStep(event, data);
+ 		if (event.type === "assistant/message") {
+ 			const message = record(data["message"], "assistant message");

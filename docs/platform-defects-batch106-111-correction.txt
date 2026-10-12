@@ -1,0 +1,13 @@
+DSH 平台缺陷巡检修复结果更正（第五十六轮，批次 106–111）
+
+本消息明确 supersede 上一份“第五十六轮，批次 67–105”说明中的 B-215 段落。
+
+B-215 已由最新清单批次 106/108 全面撤回，不再记为 fixed：其一，测试使用的成员工作树路径少了 world-，被测路径不存在；其二，拒绝串中出现的路径只反映当时进程的 cwd，不证明 scope 归一化缺陷。此前加入的 B-215 回归测试已删除，避免把撤回假说固化成平台契约；write-scope-guard.mjs 没有因 B-215 修改，因此无对应源码回滚。
+
+批次 106–111 没有新增 DSH 平台缺陷或新的平台源码修改。B-207、B-210、B-213、B-213b 的 source fixed / live pending 结论不变；B-204、B-206、B-208、B-209、B-211、B-212 仍按 observation/covered/no-platform-change，B-214 仍为 partial。批次 110/111 是 write_scopes 计划锁定、拒绝原子性和 RustMc C10 仪器收口的平台事实记录。
+
+删除撤回测试后的验证：node --check 4/4；platform-defects 聚焦 187/187；phase1–phase11 串行 507 项，506 pass / 0 fail / 1 skipped；profile parity 1/1。
+
+未决风险：当前 DSH PID 30948 早于本轮源码修改，B-207/B-210/B-213/B-213b 仍为 live pending；B-214 partial；B-209 仍属 RustMc 产品/设备验证线。未重启 DSH、未中断 active Team、未清理旧备份/spill/telemetry/session。
+
+最终清单：size 1059574，mtime 2026-09-29T18:55:31.3063710Z，SHA256 86F283C54DBAC74699BF1DF172ED0B533190AF9CCB6FCC37CCA50DA57525077B。

@@ -1,0 +1,26 @@
+{
+  "fixtureId": "v13-auto-research-basic",
+  "fixtureVersion": 1,
+  "title": "A deterministic accept/reject boundary for the v13 research loop",
+  "initialState": {
+    "accepted": 0,
+    "rejected": 0
+  },
+  "events": [
+    { "type": "accept" },
+    { "type": "accept" },
+    { "type": "ignore" }
+  ],
+  "postconditions": [
+    {
+      "kind": "equals",
+      "path": "accepted",
+      "expected": 2
+    },
+    {
+      "kind": "equals",
+      "path": "rejected",
+      "expected": 0
+    }
+  ]
+}

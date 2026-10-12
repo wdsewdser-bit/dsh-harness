@@ -1,0 +1,25 @@
+diff --git a/lib/index.js b/lib/index.js
+index 3fb1e5dadf53ecacedea22054adc95d5a54ac5da..b183d9171066836ea73023ea7ce10995473bafdb 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -224,10 +224,6 @@ function textOf(message) {
+ 	const [block] = message.content;
+ 	return message.content.length === 1 && block?.type === "text" ? block.text : void 0;
+ }
+-/** Committed events from the newest backward; the restore scans stop at the first match. */
+-function eventsNewestFirst(session) {
+-	return session.snapshotEvents().toReversed();
+-}
+ /**
+ * Decides how a rendered system prompt reaches the surface without owning the
+ * commit. The first prompt, even empty, reserves surface node 0.
+@@ -305,7 +301,8 @@ var RuntimeContextProjection = class {
+ 	*/
+ 	constructor(ctx, session) {
+ 		const surface = new Set(session.surface.nodes);
+-		for (const event of eventsNewestFirst(session)) {
++		for (let seq = session.seq - 1; seq >= 0; seq--) {
++			const event = session.eventAt(SessionSeq(seq));
+ 			if (event.type !== "user/message" || !isOwned(event.data)) continue;
+ 			this.retained ??= null;
+ 			if (surface.has(event.seq)) {

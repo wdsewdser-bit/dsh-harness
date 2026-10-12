@@ -1,0 +1,50 @@
+✔ canonical usage preserves unknowns and checks disjoint total without adding reasoning twice (2.1368ms)
+✔ payload category estimates have lengths and hashes, retain no body or schema (2.3944ms)
+✔ only explicit Team sources classify user/developer Team injection; non-Team and unknown stay separate (0.2499ms)
+✔ stream uses final snapshot, keeps exact objects, does not mutate frozen options, emits once (0.9118ms)
+✔ concurrent streams keep independent UUIDs and usage state (0.465ms)
+✔ synchronous/stream errors propagate unchanged with safe code and existing request ID only (0.5002ms)
+✔ abort/failure chunks and early iterator return have one terminal without altering underlying return (0.7775ms)
+✔ iterator return that yields from finally is preserved until real terminal (0.2537ms)
+✔ consumer throw is delegated and recovered underlying result stays transparent (0.2478ms)
+✔ writer/record failure is fail-open, nonblocking and warnings are bounded (0.8855ms)
+✔ identity handles manifest schema, live relationship and unknown nulls (0.4303ms)
+✔ verified global root wins over tier2 immediate membership (0.4187ms)
+✔ new descendants trace live parent chains or a verified manifest ancestor (0.1848ms)
+✔ lineage tracing detects cycles, limits depth and never promotes an unresolved parent (0.181ms)
+✔ route reads array/object live Settings and strips URL secrets, defaults stay unknown (0.2169ms)
+✔ HMR detach keeps inflight final usage and one real terminal, never accessing disposed services (19.9441ms)
+✔ agent events cache header attribution even if the registry is unavailable later (7.4295ms)
+✔ migration duplicates merge both journals and retain version-exclusive requests (2.3843ms)
+✔ usage conflict is explicit; higher version wins and preserves lower known fields (0.7461ms)
+✔ missing token counters are null and reasoning is not added to total (1.4885ms)
+✔ header association follows route changes without claiming wire evidence (0.5257ms)
+✔ root chain resolves, missing ancestors and cycles stay unknown (0.3238ms)
+✔ strict scanning handles multiple frames, embedded magic and truncated tail (1.8323ms)
+✔ attempt and compaction usage are separate counted requests with direct historical route (0.4604ms)
+✔ official timed attempt chunks use the final usage snapshot once without exposing content (0.2061ms)
+✔ same-millisecond independent attempts preserve same-journal multiplicity across migration (0.4244ms)
+✔ only a proven same-file same-sequence copy is a local duplicate (0.2739ms)
+✔ auxiliary search preserves its persisted model and does not borrow parent provider (0.24ms)
+✔ seeded inherited prefix is retained but excluded from own usage aggregates (0.2115ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ fixture exact line recall passes and an incomplete compact answer fails (0.9378ms)
+✔ paraphrase, wrong line and false success are rejected (0.1891ms)
+✔ named quote objects retain the same exact evidence gates as arrays (0.8559ms)
+✔ raw provider totals stay disjoint and absent fields are null (0.9038ms)
+✔ counterbalanced trial plan has 20 calls including both reducer passes (0.2331ms)
+✔ budget guard blocks attempts before another call can be made (0.3106ms)
+✔ disabled continuation uses matched new Team baseline and 22 total calls (0.1577ms)
+✔ execution gate refuses unnotified provider execution without reading credentials (0.4891ms)
+✔ reducer totals include both HTTP rows without re-adding reasoning (0.5738ms)
+✔ report excludes schema contents and marks money/cache limitations (0.3246ms)
+ℹ tests 39
+ℹ suites 0
+ℹ pass 39
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 183.9215

@@ -1,0 +1,89 @@
+diff --git a/lib/index.js b/lib/index.js
+index d1c4527b31ec3cfa0107d0f45c7983ed3c9097ff..9f03800296af3390d7b8986fcdf59d0d8676a88e 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
+ import { brandString } from "@deepseek-ai/dsh-brand";
+ import { steerHostSubagentPrompt } from "@deepseek-ai/dsh-subagent/internal";
+ import { foldSubagentDescriptor } from "@deepseek-ai/dsh-subagent";
++import { SessionSeq } from "@deepseek-ai/dsh-session";
+ import { z as z$1 } from "zod";
+ //#region lib/types/error.js
+ /** Typed Agent Teams failures. */
+@@ -282,6 +283,16 @@ function pendingInboxMessages(events) {
+ function messageAccepted(events, predicate) {
+ 	return events.some((event) => event.type === "user/message" && predicate(event.data)) || pendingInboxMessages(events).some(predicate);
+ }
++function sessionMessageAccepted(session, predicate) {
++	const inboxEvents = [];
++	for (let seq = session.seq - 1; seq >= session.inheritedEventCount; seq--) {
++		const event = session.eventAt(SessionSeq(seq));
++		if (event.type === "user/message" && predicate(event.data)) return true;
++		if (event.type === "agent/inbox/spliced") inboxEvents.push(event);
++	}
++	inboxEvents.reverse();
++	return pendingInboxMessages(inboxEvents).some(predicate);
++}
+ //#endregion
+ //#region lib/types/types.js
+ /** Public Agent Teams identities, durable records, and service request values. */
+@@ -638,7 +649,7 @@ var TeamRoster = class {
+ 			try {
+ 				signal.throwIfAborted();
+ 				await this.ctx.sessions.flush(session);
+-				if (messageAccepted(session.snapshotEvents(session.inheritedEventCount), (message) => message.id === messageId)) return;
++				if (sessionMessageAccepted(session, (message) => message.id === messageId)) return;
+ 				if (this.ctx.sessions.get(childId) !== session) continue;
+ 				await progress.promise;
+ 			} finally {
+@@ -721,7 +732,12 @@ var TeamRoster = class {
+ 	}
+ 	/** Whether a Session's own suffix identifies a provider-owned subagent child. */
+ 	subagentDescriptor(agent) {
+-		return foldSubagentDescriptor(agent.session.snapshotEvents(agent.session.inheritedEventCount)) !== void 0;
++		const session = agent.session;
++		for (let seq = session.inheritedEventCount; seq < session.seq; seq++) {
++			const event = session.eventAt(SessionSeq(seq));
++			if (event.type === "subagent/descriptor") return foldSubagentDescriptor([event]) !== void 0;
++		}
++		return false;
+ 	}
+ };
+ /** Turn availability is independent of whether the Agent is loaded. */
+@@ -965,7 +981,7 @@ var TeamMailbox = class {
+ 	}
+ 	/** Whether a target Session already contains the durable message identity. */
+ 	targetRecorded(session, messageId) {
+-		return messageAccepted(session.snapshotEvents(session.inheritedEventCount), (message) => message.source.kind === "team-message" && message.source.messageId === messageId);
++		return sessionMessageAccepted(session, (message) => message.source.kind === "team-message" && message.source.messageId === messageId);
+ 	}
+ 	/** Frame peer content with stable sender and message identity for the receiving model. */
+ 	deliveryContent(message) {
+diff --git a/lib/types/roster.js b/lib/types/roster.js
+index 99da75abd76e46ac51c86980cb7be6d3bc8f70f3..af48a028071c320d4c2c167931092d8c07a75bfb 100644
+--- a/lib/types/roster.js
++++ b/lib/types/roster.js
+@@ -2,6 +2,7 @@
+ import { randomUUID } from 'node:crypto';
+ import { brandString } from '@deepseek-ai/dsh-brand';
+ import { foldSubagentDescriptor } from '@deepseek-ai/dsh-subagent';
++import { SessionSeq } from '@deepseek-ai/dsh-session';
+ import { errorMessage, TeamError } from "./error.js";
+ import { readPersistedSession } from "./persisted.js";
+ import { messageAccepted } from "./session-message.js";
+@@ -441,8 +442,13 @@ export class TeamRoster {
+     }
+     /** Whether a Session's own suffix identifies a provider-owned subagent child. */
+     subagentDescriptor(agent) {
+-        // oxlint-disable-next-line typescript/no-deprecated -- Existing Session history read; migration deferred.
+-        return foldSubagentDescriptor(agent.session.snapshotEvents(agent.session.inheritedEventCount)) !== undefined;
++        const session = agent.session;
++        for (let seq = session.inheritedEventCount; seq < session.seq; seq++) {
++            const event = session.eventAt(SessionSeq(seq));
++            if (event.type === 'subagent/descriptor')
++                return foldSubagentDescriptor([event]) !== undefined;
++        }
++        return false;
+     }
+ }
+ /** Turn availability is independent of whether the Agent is loaded. */

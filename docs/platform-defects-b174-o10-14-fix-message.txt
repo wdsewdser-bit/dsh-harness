@@ -1,0 +1,13 @@
+本轮平台修复说明（B-174 / O-10-14）
+
+B-174 已修复并完成隔离原始反例验证：
+- `team_run_lease(acquire)` 的 worktree stale-base 同步现在只额外允许 porcelain 形态为 ` M ` 的未暂存 tracked 修改通过。
+- Git 自身会在改动与 main 重叠时拒绝 merge；暂存修改、冲突和未知脏形态仍以 `worktree-refresh-dirty` fail-closed。
+- 成功回执会带 `preservedTrackedUnstaged`，列出保留下来的脏文件。
+- 默认 `team_worktree_setup` 路径未放宽，仍拒绝所有 tracked 脏行。
+
+原始反例 4/4：未重叠改动同步成功且内容保留；重叠改动安全拒绝且内容保留；暂存修改仍拒绝；默认路径仍拒绝。focused 第十五至第十九轮 23/23；全量 phase1-phase11 450 tests / 449 pass / 0 fail / 1 skipped；四 profile node --check 16/16；profile parity 1/1。
+
+O-10-14 已核验为正确的具名竞态拒绝 `task-contract-gate-unavailable ... cause=lease-revision-mismatch`，本轮 no platform change。
+
+未闭合：未在 active Team 的真实成员 worktree 上制造脏状态重放；如需 live 确认，请在一个非关键 edit 卡上分别验证未重叠脏改动可 acquire，以及重叠脏改动仍被 Git 安全拒绝。

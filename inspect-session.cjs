@@ -1,0 +1,10 @@
+const fs=require('fs');
+const f='D:/dsh-test/home/storages/session_projcache/sessions/session-4a1d8fcf-bfc5-4929-aea8-1f204e71d875.json';
+const j=JSON.parse(fs.readFileSync(f,'utf8'));
+const rows=j.record.rows;
+const keys=Object.keys(rows);
+console.log('rows count:', keys.length);
+console.log('first key:', keys[0]);
+console.log('sample row:', JSON.stringify(rows[keys[0]]).slice(0,400));
+console.log('--- storages dirs ---');
+for(const d of fs.readdirSync('D:/dsh-test/home/storages')) console.log(' ', d);

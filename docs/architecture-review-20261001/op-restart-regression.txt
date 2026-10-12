@@ -1,0 +1,45 @@
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-cache-monitor] HMR perf38-bounded-anomalies loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ pure preview skips legacy stateful transforms; final prepared plan is adopted once with byte/hash receipt (8.9938ms)
+✔ OP fullSends count only native handoff; preview, uniterated, blocked and canceled do not consume it (52.26ms)
+✔ observation pack unregisters from native Cordis effect teardown across restart and dispose (20.1994ms)
+✔ app/profile brands remain independent, prepared generation and caller context survive native wrapper (5.2206ms)
+✔ public brand guard uses the bound official WeakSet for canonical prepared requests and projected clones (4.0709ms)
+✔ prepare locks a detached snapshot even for identity transforms and mutable caller messages (2.9092ms)
+✔ prepare cannot lock unknown protocol values and explicitly returns unprepared fail-open dispatch (1.8192ms)
+✔ unknown/image/error shapes fail open and raw safety measurement stays authoritative (2.4553ms)
+✔ transform mutations cannot change mutable caller tools or tool history; final identities are preserved (1.9542ms)
+✔ concurrent unchanged requests sharing an options object retain independent receipts after audit eviction (21.3109ms)
+✔ ledger start/terminal and cache attribution share the exact request receipt; unrelated and future events are ignored (12.2968ms)
+✔ compaction SDK policy explicitly requires audited compatibility and retains unknown auxiliary/SDK contracts (112.3658ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+✔ createObservation writes a content-addressed archive with a handle (4.9699ms)
+✔ delayed projection keeps the first two sends and replaces the third (33.768ms)
+✔ projection never rewrites the system prefix (31.4435ms)
+✔ a corrupted archive fails open and keeps the original text (29.0531ms)
+✔ reducer receipts and small results are never archived (15.0219ms)
+✔ an observation source marker prevents a second packing pass (19.9257ms)
+✔ a symlink archive is rejected instead of followed (1.8468ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ current handle carries original lines 2/173/399 without an overlay (4.3448ms)
+✔ evidence retains whitespace, CRLF source line numbers and order (1.9209ms)
+✔ stale verified cached handles rebuild by version without deleting archives (6.1513ms)
+✔ actual frozen current tool messages and legacy toolResult preserve identity and source (3.2482ms)
+✔ current tool delayed sends keep the original contract and session isolation (2.4209ms)
+✔ canonical mixed/unknown content and error messages fail open without losing blocks or counting savings (4.7199ms)
+✔ bridge projects frozen current options and leaves native stream mutation hooks absent (57.3966ms)
+✔ real Cordis bridge sends current tool handle to adapter on third request and usage ledger sees identical projection (52.9263ms)
+ℹ tests 27
+ℹ suites 0
+ℹ pass 27
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 403.4437

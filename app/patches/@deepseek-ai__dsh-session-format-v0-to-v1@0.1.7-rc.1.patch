@@ -1,0 +1,16 @@
+diff --git a/lib/index.js b/lib/index.js
+index 5f8121a79263ae74c0901fd424bb969ffa2be85b..e66e34bd56ef13e4d8d6f3e2a9676f84ae5dce32 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -2368,7 +2368,10 @@ function assertReleasedArtifactRelationships(artifact, extensions = {}) {
+ 					if (lifecycle === void 0) throw new SessionFormatError(`tool/result ${callId} has no advertised tool lifecycle`);
+ 					if (lifecycle.state === "advertised" && !isExactToolNotStartedRepair(event, content, error)) throw new SessionFormatError(`tool/result ${callId} is not the exact TOOL_NOT_STARTED repair`);
+ 					toolLifecycles.delete(callId);
+-				} else if (openTurn === null) throw new SessionFormatError("tool/result replacement is outside an open turn");
++				} else if (openTurn === null) {
++					const historicalPrune = event["surfaceOp"] !== null && typeof event["surfaceOp"] === "object" && event["surfaceOp"]["op"] === "replace" && Array.isArray(event["sourceEventSeqs"]) && event["sourceEventSeqs"].length > 0;
++					if (!historicalPrune) throw new SessionFormatError("tool/result replacement is outside an open turn");
++				}
+ 				break;
+ 			case "request/header":
+ 				if (openTurn === null) throw new SessionFormatError(`${event.type} is outside an open turn`);

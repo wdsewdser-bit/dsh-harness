@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-09-30T20:03:36.660Z",
+  "sourceSnapshot": {
+    "journal": "D:/dsh-test/home/sessions/--D-dsh-test-workspaces-RustMc--/session-028e6f5b-1716-4c23-a232-af16d853d191/session.v4.jsonl.zstd",
+    "bytes": 103502702,
+    "sha256": "23f0b1b4cd24c0476406a8f9025aa77bda93149f85517373b0f505a91993a3bb",
+    "mtimeMs": 1790797595746.8599,
+    "changedDuringRead": false
+  },
+  "requestContext": {
+    "provider": "opencodego",
+    "model": "deepseek-v4.1-flash",
+    "contextWindow": 1000000,
+    "systemPromptUpdate": "in-history"
+  },
+  "systemBlocks": [
+    {
+      "seq": 68913,
+      "time": 1790763370989,
+      "source": {
+        "kind": "system-prompt"
+      },
+      "frameIndex": 36185,
+      "compressedFrame": {
+        "start": 100600726,
+        "end": 100662584
+      },
+      "bytes": 159083,
+      "utf16Units": 158827,
+      "sha256": "4f6f9db98c77fe800a0accbc9ec2a10de3bd057861ddb8fcc6d3feb15457ce7d",
+      "sdk": {
+        "sourceSection": "tools:sdk",
+        "boundary": "fixed SDK title through TypeScript closing fence, inclusive",
+        "startUtf16": 13005,
+        "endUtf16": 156153,
+        "bytes": 143376,
+        "utf16Units": 143148,
+        "sha256": "fef0c8ce9e5c30a33500dd0cad154917f63e644264df81e8439df3bf221ec198"
+      },
+      "nonSdkBytes": 15707
+    },
+    {
+      "seq": 69422,
+      "time": 1790764519820,
+      "source": {
+        "kind": "system-prompt"
+      },
+      "frameIndex": 36386,
+      "compressedFrame": {
+        "start": 101424328,
+        "end": 101473886
+      },
+      "bytes": 159490,
+      "utf16Units": 159234,
+      "sha256": "27df79976ceddf7110c9540ec0550e7cb9e940a3fc3202d085317cb91e5582ec",
+      "sdk": {
+        "sourceSection": "tools:sdk",
+        "boundary": "fixed SDK title through TypeScript closing fence, inclusive",
+        "startUtf16": 13005,
+        "endUtf16": 156560,
+        "bytes": 143783,
+        "utf16Units": 143555,
+        "sha256": "86458ac75f81cec673152732fea2faf7199de831d302c5eda4e60c07dbe65889"
+      },
+      "nonSdkBytes": 15707
+    },
+    {
+      "seq": 69448,
+      "time": 1790764554721,
+      "source": {
+        "kind": "system-prompt"
+      },
+      "frameIndex": 36398,
+      "compressedFrame": {
+        "start": 101499982,
+        "end": 101547581
+      },
+      "bytes": 159768,
+      "utf16Units": 159512,
+      "sha256": "f05d9239fe880c14a399a1a14bad49a6f15eff5359c745bb342813f851f53895",
+      "sdk": {
+        "sourceSection": "tools:sdk",
+        "boundary": "fixed SDK title through TypeScript closing fence, inclusive",
+        "startUtf16": 13005,
+        "endUtf16": 156838,
+        "bytes": 144061,
+        "utf16Units": 143833,
+        "sha256": "970578d6b15cd8b32ddcf2ca06e75c6a548aa1421dc76d7023ce718dfe60b007"
+      },
+      "nonSdkBytes": 15707
+    },
+    {
+      "seq": 69508,
+      "time": 1790764674044,
+      "source": {
+        "kind": "system-prompt"
+      },
+      "frameIndex": 36430,
+      "compressedFrame": {
+        "start": 101635958,
+        "end": 101684923
+      },
+      "bytes": 160185,
+      "utf16Units": 159929,
+      "sha256": "6941f736008980fe3689f56e74f6b0cc66ee65415ce61b49b2e133cd9d8a9af5",
+      "sdk": {
+        "sourceSection": "tools:sdk",
+        "boundary": "fixed SDK title through TypeScript closing fence, inclusive",
+        "startUtf16": 13005,
+        "endUtf16": 157255,
+        "bytes": 144478,
+        "utf16Units": 144250,
+        "sha256": "295ff1107853f260502fee9dc224feaeebc0ddfa213a6e6bb8116225a0c31c0c"
+      },
+      "nonSdkBytes": 15707
+    },
+    {
+      "seq": 69599,
+      "time": 1790765606347,
+      "source": {
+        "kind": "system-prompt"
+      },
+      "frameIndex": 36487,
+      "compressedFrame": {
+        "start": 101801433,
+        "end": 101861800
+      },
+      "bytes": 160296,
+      "utf16Units": 160040,
+      "sha256": "b3b584cea0027308c425f53b673ee59265ec0ed7adef57bc35734b884cefa386",
+      "sdk": {
+        "sourceSection": "tools:sdk",
+        "boundary": "fixed SDK title through TypeScript closing fence, inclusive",
+        "startUtf16": 13005,
+        "endUtf16": 157366,
+        "bytes": 144589,
+        "utf16Units": 144361,
+        "sha256": "36fb549199503b202530c0acc2f51f1a84e4dad808f1ccf6a05762d406ef215e"
+      },
+      "nonSdkBytes": 15707
+    }
+  ],
+  "aggregate": {
+    "systemBytes": 798822,
+    "systemUtf16Units": 797542,
+    "systemEmbeddedToolSdkBytes": 720287
+  },
+  "sourceEvidence": [
+    {
+      "file": "D:/dsh-test/app/node_modules/@deepseek-ai/dsh-tools/lib/index.js",
+      "line": 2736,
+      "meaning": "tools:sdk section renders SDK into system prompt"
+    },
+    {
+      "file": "D:/dsh-test/app/node_modules/@deepseek-ai/dsh-tools/lib/index.js",
+      "line": 2840,
+      "meaning": "PTC schemas expose only run_code"
+    },
+    {
+      "file": "D:/dsh-test/app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+      "line": 260,
+      "meaning": "inHistory updates append full changed system prompt"
+    },
+    {
+      "file": "D:/dsh-test/app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+      "line": 1034,
+      "meaning": "preparedCall.systemPromptUpdate routes projection inHistory"
+    }
+  ],
+  "fixture": {
+    "path": "D:/dsh-test/workspaces/usage-lab-20261001/ptc-sdk.private.txt",
+    "bytes": 144589,
+    "sha256": "36fb549199503b202530c0acc2f51f1a84e4dad808f1ccf6a05762d406ef215e",
+    "contains": "Strict generated tools SDK only; no policy prefix or suffix"
+  }
+}

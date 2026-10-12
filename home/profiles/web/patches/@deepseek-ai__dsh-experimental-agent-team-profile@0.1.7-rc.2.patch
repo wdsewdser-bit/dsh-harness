@@ -1,0 +1,13 @@
+diff --git a/cordis.patch.yml b/cordis.patch.yml
+index 5543297..3040345 100644
+--- a/cordis.patch.yml
++++ b/cordis.patch.yml
+@@ -17,7 +17,7 @@
+     - id: agent-team
+       name: '@deepseek-ai/dsh-experimental-agent-team'
+       config:
+-        maxMembers: 8
++        maxMembers: 30
+         maxTasks: 256
+         maxPendingMessagesPerMember: 64
+         maxMessageBytes: 65536

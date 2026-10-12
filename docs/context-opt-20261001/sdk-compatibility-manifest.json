@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "id": "CTX-SDK-01-known-chain",
+  "scope": "This environment's five audited generated tools:sdk sections only",
+  "sdkPrefixSha256": "ba37d53fb5868ea64d767a62b42907532903399dd9ac7f407a03042d34def0aa",
+  "latestSha256": "36fb549199503b202530c0acc2f51f1a84e4dad808f1ccf6a05762d406ef215e",
+  "orderedSdkHashes": [
+    "fef0c8ce9e5c30a33500dd0cad154917f63e644264df81e8439df3bf221ec198",
+    "86458ac75f81cec673152732fea2faf7199de831d302c5eda4e60c07dbe65889",
+    "970578d6b15cd8b32ddcf2ca06e75c6a548aa1421dc76d7023ce718dfe60b007",
+    "295ff1107853f260502fee9dc224feaeebc0ddfa213a6e6bb8116225a0c31c0c",
+    "36fb549199503b202530c0acc2f51f1a84e4dad808f1ccf6a05762d406ef215e"
+  ],
+  "reviewBasis": {
+    "auditPath": "D:/dsh-test/docs/usage-audit-20261001/system-sdk-audit.json",
+    "journalSeqs": [68913, 69422, 69448, 69508, 69599],
+    "fixedInstructionsUnchanged": true,
+    "knownArgumentAdditions": ["source?", "sourceSelection?", "taskCommit?", "mergeSource?"],
+    "knownOutputChanges": ["gitApplied", "targetPhase?", "code?", "reason?"],
+    "classification": "Exact reviewed fixture chain, not a generic proof of compatibility for arbitrary type or comment changes"
+  },
+  "requirements": [
+    "Explicit compatibilityManifest or compatibilityManifestPath is required for changed-version latest projection",
+    "Unknown versions, a different latest hash, deleted fields, new required arguments, or reordered versions fail open",
+    "Original journal and all non-SDK policy, reasoning, tool-call and tool-result values remain unchanged",
+    "Real golden samples verify documentation and recorded tool protocol only, not general task quality"
+  ]
+}

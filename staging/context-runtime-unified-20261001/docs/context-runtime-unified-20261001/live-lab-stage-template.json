@@ -1,0 +1,504 @@
+{
+  "version": 1,
+  "kind": "clm-live-stage-template",
+  "requires": "Copy stage objects, schemaFiles and runtimeBinding into prepared lab-plan.json; preserve minted lab-state.json and set pending:[]. Bind full SDK sdkSha256 and schemaCount from the actual loaded PTC server certificate before run. Null values are unknown and run rejects them. schemaBinding describes only context_manage; it is not a full SDK certificate. Capture fresh loaded-runtime-services receipt with services.ptc pid/labSessionId and matching runtimeBinding before each run. No live capture is claimed.",
+  "route": {
+    "provider": "opencodego",
+    "model": "deepseek-v4.1-flash"
+  },
+  "limits": {
+    "requests": 16,
+    "inputTokens": 1000000,
+    "outputTokens": 24000,
+    "descendants": 1,
+    "concurrency": 1,
+    "durationMs": 600000
+  },
+  "plannedReserve": {
+    "requests": 15,
+    "inputTokens": 920000,
+    "outputTokens": 22500
+  },
+  "estimatedLogicalRequests": 8,
+  "fixtureSha256": "0f8443e94e1af5533699ec8098473d217176bd7440a952c2b04b56d8616fc9cc",
+  "schemaFiles": [
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/context-workspace.mjs",
+      "sha256": "9220230d8096249e5de2fc4e6e05ec4db1fcbd84547eb123291cc7b00185cdb7"
+    },
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-tools-v2-r10.mjs",
+      "sha256": "8ecb75cabb1a294dd0c50f864ceece6f3189035ee4cce80e89f541d951505047"
+    },
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-query-efficiency.mjs",
+      "sha256": "f9b66e81004d6b90c6054312f0e7cb362b5fb2f385d305fb1a5d270a66e15e31"
+    },
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-message-operation.mjs",
+      "sha256": "0a9c4924d33b84ca391ec6ac4b3b4ae6d4134ccb53dc0e8fbfcaf075a9d93bbf"
+    },
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/architecture-tests/context-workspace.schema.json",
+      "sha256": "bfb41f19428ef5421f5853e2cce2a0d55cdf8a25b6d5c32ee798d40b052d8e73"
+    },
+    {
+      "path": "D:/dsh-test/staging/context-runtime-unified-20261001/architecture-tests/context-workspace.loaded.schema.json",
+      "sha256": "96da952fbe0ab09a22c75c7a50650c6242a23284980fca1acb8163dbc8e00790"
+    }
+  ],
+  "bootstrap": {
+    "team": "rc2 recognizes the fresh ordinary root as lead via tryMembership; no team_create API",
+    "control": {
+      "tool": "team_control_status",
+      "args": {}
+    },
+    "task": {
+      "tool": "team_task_create",
+      "args": {
+        "subject": "CLM isolated fixture review",
+        "description": "Evidence-only review of the immutable lab fixture; no product writes, no milestones, no provider changes.",
+        "kind": "review",
+        "owner": "lead",
+        "board": "global",
+        "write_scopes": []
+      }
+    },
+    "child": {
+      "tool": "spawn_teammate",
+      "args": {
+        "name": "clm-scope-verifier",
+        "role": "verifier",
+        "context": "fresh",
+        "provider": "opencodego",
+        "model": "deepseek-v4.1-flash",
+        "prompt": "Read-only ACL probe in this new isolated Team. Invoke context_manage exactly once with {action:\"memo_get\",input:{sourceId:\"clm-evidence\",revision:1}} through the ordinary tool path (if the model exposes only run_code, its body must contain only this one tool invocation and return its value). Expect the lead-private source to return {ok:false,code:\"MEMBER_SCOPE_DENIED\"}. Then return one compact JSON object with the observed code and stop. Do not call any other tool, send a message, spawn a member, modify files, activate a goal, or attempt the denied read again."
+      }
+    }
+  },
+  "protocol": {
+    "context_manage": "{action,input}",
+    "compact": "team_task_get({task_id,board,view:\"compact\"}), team_task_list({board,view:\"compact\",taskIds?,limit})",
+    "operation_id": "send_message({target,delivery:\"info\",message,operation_id}); same payload duplicate true, changed payload same id error. Not a team_task_list/get input.",
+    "read": "read({file_path,offset:original1BasedLine,limit:1}) returns lines[{number,text}]",
+    "run_code": "{code,description,timeout_ms}; SDK bindings return structured values or PTC outcome wrappers; must() unwraps only an explicit isError:false/value wrapper.",
+    "projection": "ledger transform status is unchanged/applied; C semantic status is hashed in metadata, not exposed as transform.status"
+  },
+  "stages": [
+    {
+      "id": "shadow-bootstrap",
+      "mode": "shadow",
+      "reserve": {
+        "requests": 4,
+        "inputTokens": 260000,
+        "outputTokens": 6000
+      },
+      "runCode": {
+        "description": "Isolated CLM lab shadow-bootstrap",
+        "code": "const must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst control=must(await tools.team_control_status({})); check(control.rootId === '{{ROOT_SESSION_ID}}','LAB_ROOT_ID');\nconst task=must(await tools.team_task_create({subject:'CLM isolated fixture review',description:'Evidence-only review of the immutable lab fixture; no product writes, no milestones, no provider changes.',kind:'review',owner:'lead',board:'global',write_scopes:[]}));\ncheck(task.workKind==='review' && task.ownerName==='lead','LAB_REVIEW_TASK');\nconst quotes=[]; for(const line of [2,173,399]) { const r=must(await tools.read({file_path:'{{WORKSPACE}}/fixture.log',offset:line,limit:1})); check(r.lines.length===1 && r.lines[0].number===line,'FIXTURE_LINE'); quotes.push({line,text:r.lines[0].text}); }\nconst text=quotes.map(q=>'L'+q.line+': '+q.text).join('\\n');\nconst p1=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:0,parentRevision:0,scope:'member',text});\ncheck(p1.ok && p1.revision===1,'PUT1'); \nconst p2=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:1,parentRevision:1,text:text+'\\nrevision-note=v2'}); check(p2.ok && p2.revision===2,'PUT2');\nconst conflict=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:0,text:'stale attempt'}); check(!conflict.ok && conflict.code==='CAS_CONFLICT','CAS_DENIAL');\nconst got=await cm('memo_get',{sourceId:'clm-evidence',revision:2,sha256:p2.sha256}); check(got.ok && got.text===text+'\\nrevision-note=v2','EXACT_GET');\nconst diff=await cm('memo_diff',{sourceId:'clm-evidence',fromRevision:1,toRevision:2}); check(diff.ok && diff.changed && diff.from.sha256===p1.sha256 && diff.to.sha256===p2.sha256,'EXACT_DIFF');\nconst foreign=await cm('memo_get',{locator:'context://000000000000000000000000/clm-evidence@1/'+p1.sha256}); check(foreign.code==='INVALID_LOCATOR','TEAM_LOCATOR_DENIAL');\nconst compact=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'})); check(compact.queryView==='compact' && compact.completionEvidence===false && compact.description==='','COMPACT_GET');\nconst page=must(await tools.team_task_list({board:'global',view:'compact',taskIds:[task.id],limit:1})); check(page.tasks.length===1 && page.tasks[0].id===task.id && page.tasks[0].revision===compact.revision,'COMPACT_LIST');\nconst state=await cm('state',{}); check(state.ok && state.mode==='shadow' && state.viewRevision===0,'SHADOW_STATE');\nconst operations=[{op:'select',sourceId:'clm-evidence',revision:2,sha256:p2.sha256}];\nconst proposal=await cm('propose',{expectedRevision:0,operations}); check(proposal.ok,'PROPOSE');\nconst preview=await cm('preview',{proposalId:proposal.proposalId,expectedRevision:0}); check(preview.ok && preview.originalHistoryPreserved && preview.authorityPreserved,'PREVIEW_AUTHORITY');\nconst commit=await cm('commit',{proposalId:proposal.proposalId,expectedRevision:0}); check(commit.ok && commit.mode==='shadow' && commit.viewRevision===1 && commit.nextBoundaryOnly,'SHADOW_COMMIT');\nreturn {stage:'shadow-bootstrap',oracle:oracle(quotes),taskId:task.id,memoSha256:p2.sha256,viewRevision:1};",
+        "timeout_ms": 90000
+      },
+      "prompt": "This is an explicitly authorized isolated protocol experiment in {{WORKSPACE}}. Act only in this new Team. No product-file writes, external services, old Teams, provider/global changes, milestone/compaction jobs, retries, extra descendants, or team_delivery_check are authorized. Execute exactly one run_code with the following code and description 'shadow-bootstrap'. Use the normal SDK bindings. Do not repair a failed assertion or add calls. A tool refusal expected by this code is evidence; any other failure ends this stage. Only one wait_agent and one post-wait roster verification are authorized in the child stage; never poll. After the code returns, return its oracle object as one strict JSON object, without markdown or commentary. If it throws, report the error and end without further tools.\n\nconst must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst control=must(await tools.team_control_status({})); check(control.rootId === '{{ROOT_SESSION_ID}}','LAB_ROOT_ID');\nconst task=must(await tools.team_task_create({subject:'CLM isolated fixture review',description:'Evidence-only review of the immutable lab fixture; no product writes, no milestones, no provider changes.',kind:'review',owner:'lead',board:'global',write_scopes:[]}));\ncheck(task.workKind==='review' && task.ownerName==='lead','LAB_REVIEW_TASK');\nconst quotes=[]; for(const line of [2,173,399]) { const r=must(await tools.read({file_path:'{{WORKSPACE}}/fixture.log',offset:line,limit:1})); check(r.lines.length===1 && r.lines[0].number===line,'FIXTURE_LINE'); quotes.push({line,text:r.lines[0].text}); }\nconst text=quotes.map(q=>'L'+q.line+': '+q.text).join('\\n');\nconst p1=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:0,parentRevision:0,scope:'member',text});\ncheck(p1.ok && p1.revision===1,'PUT1'); \nconst p2=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:1,parentRevision:1,text:text+'\\nrevision-note=v2'}); check(p2.ok && p2.revision===2,'PUT2');\nconst conflict=await cm('memo_put',{sourceId:'clm-evidence',expectedRevision:0,text:'stale attempt'}); check(!conflict.ok && conflict.code==='CAS_CONFLICT','CAS_DENIAL');\nconst got=await cm('memo_get',{sourceId:'clm-evidence',revision:2,sha256:p2.sha256}); check(got.ok && got.text===text+'\\nrevision-note=v2','EXACT_GET');\nconst diff=await cm('memo_diff',{sourceId:'clm-evidence',fromRevision:1,toRevision:2}); check(diff.ok && diff.changed && diff.from.sha256===p1.sha256 && diff.to.sha256===p2.sha256,'EXACT_DIFF');\nconst foreign=await cm('memo_get',{locator:'context://000000000000000000000000/clm-evidence@1/'+p1.sha256}); check(foreign.code==='INVALID_LOCATOR','TEAM_LOCATOR_DENIAL');\nconst compact=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'})); check(compact.queryView==='compact' && compact.completionEvidence===false && compact.description==='','COMPACT_GET');\nconst page=must(await tools.team_task_list({board:'global',view:'compact',taskIds:[task.id],limit:1})); check(page.tasks.length===1 && page.tasks[0].id===task.id && page.tasks[0].revision===compact.revision,'COMPACT_LIST');\nconst state=await cm('state',{}); check(state.ok && state.mode==='shadow' && state.viewRevision===0,'SHADOW_STATE');\nconst operations=[{op:'select',sourceId:'clm-evidence',revision:2,sha256:p2.sha256}];\nconst proposal=await cm('propose',{expectedRevision:0,operations}); check(proposal.ok,'PROPOSE');\nconst preview=await cm('preview',{proposalId:proposal.proposalId,expectedRevision:0}); check(preview.ok && preview.originalHistoryPreserved && preview.authorityPreserved,'PREVIEW_AUTHORITY');\nconst commit=await cm('commit',{proposalId:proposal.proposalId,expectedRevision:0}); check(commit.ok && commit.mode==='shadow' && commit.viewRevision===1 && commit.nextBoundaryOnly,'SHADOW_COMMIT');\nreturn {stage:'shadow-bootstrap',oracle:oracle(quotes),taskId:task.id,memoSha256:p2.sha256,viewRevision:1};",
+      "receipts": [
+        {
+          "tool": "team_task_create",
+          "pointer": "/values/0/workKind",
+          "equals": "review"
+        },
+        {
+          "tool": "team_task_create",
+          "pointer": "/values/0/ownerName",
+          "equals": "lead"
+        },
+        {
+          "tool": "read",
+          "pointer": "/fixtureQuotes/0",
+          "equals": {
+            "line": 2,
+            "text": "WARN CONFIG fixture=clm-20261001 expected_checksum=7e2a required_route=flash"
+          }
+        },
+        {
+          "tool": "read",
+          "pointer": "/fixtureQuotes/0",
+          "equals": {
+            "line": 173,
+            "text": "ERROR UNIQUE_FAILURE E_CLM_173 file=src/cache.ts:41 expected=7e2a actual=91bf"
+          }
+        },
+        {
+          "tool": "read",
+          "pointer": "/fixtureQuotes/0",
+          "equals": {
+            "line": 399,
+            "text": "WARN FINAL fixture=clm-20261001 status=blocked reason=checksum-mismatch"
+          }
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/sha256",
+          "equals": "f792eaf6dd9d23aebebb2e04fc00507e0d4583d631975ebac1d7685b51a755ae",
+          "action": "memo_put"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/sha256",
+          "equals": "950f0d27df8e953c95bb40e9932d84c1d5d726d1d7c91d5d24b72932ee6cb5ae",
+          "action": "memo_put"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/code",
+          "equals": "CAS_CONFLICT",
+          "action": "memo_put"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/text",
+          "equals": "L2: WARN CONFIG fixture=clm-20261001 expected_checksum=7e2a required_route=flash\nL173: ERROR UNIQUE_FAILURE E_CLM_173 file=src/cache.ts:41 expected=7e2a actual=91bf\nL399: WARN FINAL fixture=clm-20261001 status=blocked reason=checksum-mismatch\nrevision-note=v2",
+          "action": "memo_get"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/from/text",
+          "equals": "L2: WARN CONFIG fixture=clm-20261001 expected_checksum=7e2a required_route=flash\nL173: ERROR UNIQUE_FAILURE E_CLM_173 file=src/cache.ts:41 expected=7e2a actual=91bf\nL399: WARN FINAL fixture=clm-20261001 status=blocked reason=checksum-mismatch",
+          "action": "memo_diff"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/to/text",
+          "equals": "L2: WARN CONFIG fixture=clm-20261001 expected_checksum=7e2a required_route=flash\nL173: ERROR UNIQUE_FAILURE E_CLM_173 file=src/cache.ts:41 expected=7e2a actual=91bf\nL399: WARN FINAL fixture=clm-20261001 status=blocked reason=checksum-mismatch\nrevision-note=v2",
+          "action": "memo_diff"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/code",
+          "equals": "INVALID_LOCATOR",
+          "action": "memo_get"
+        },
+        {
+          "tool": "team_task_get",
+          "pointer": "/values/0/queryView",
+          "equals": "compact"
+        },
+        {
+          "tool": "team_task_get",
+          "pointer": "/values/0/completionEvidence",
+          "equals": false
+        },
+        {
+          "tool": "team_task_list",
+          "pointer": "/values/0/tasks/0/queryView",
+          "equals": "compact"
+        },
+        {
+          "tool": "team_task_list",
+          "pointer": "/values/0/tasks/0/completionEvidence",
+          "equals": false
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/originalHistoryPreserved",
+          "equals": true,
+          "action": "preview"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/authorityPreserved",
+          "equals": true,
+          "action": "preview"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/mode",
+          "equals": "shadow",
+          "action": "commit"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/viewRevision",
+          "equals": 1,
+          "action": "commit"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/nextBoundaryOnly",
+          "equals": true,
+          "action": "commit"
+        }
+      ],
+      "projectionChecks": [
+        {
+          "transformId": "context-workspace",
+          "status": "unchanged",
+          "minCount": 1
+        }
+      ],
+      "checkOracle": true
+    },
+    {
+      "id": "apply-child-operation",
+      "mode": "apply",
+      "reserve": {
+        "requests": 8,
+        "inputTokens": 460000,
+        "outputTokens": 12000
+      },
+      "runCode": {
+        "description": "Isolated CLM lab apply-child-operation",
+        "code": "const must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst state=await cm('state',{}); check(state.ok && state.mode==='apply-allowlisted' && state.viewRevision===1,'APPLY_STATE');\nconst spawned=must(await tools.spawn_teammate({name:'clm-scope-verifier',role:'verifier',context:'fresh',provider:'opencodego',model:'deepseek-v4.1-flash',prompt:\"Read-only ACL probe in this new isolated Team. Invoke context_manage exactly once with {action:\\\"memo_get\\\",input:{sourceId:\\\"clm-evidence\\\",revision:1}} through the ordinary tool path (if the model exposes only run_code, its body must contain only this one tool invocation and return its value). Expect the lead-private source to return {ok:false,code:\\\"MEMBER_SCOPE_DENIED\\\"}. Then return one compact JSON object with the observed code and stop. Do not call any other tool, send a message, spawn a member, modify files, activate a goal, or attempt the denied read again.\"})); check(spawned.member.name==='clm-scope-verifier','LAB_CHILD_NAME');\nconst waited=must(await tools.wait_agent({timeout_ms:90000})); check(!waited.timedOut,'LAB_CHILD_WAIT_TIMEOUT');\nconst members=must(await tools.list_agents({})); const child=members.find(m=>m.name==='clm-scope-verifier'); check(child && ['idle','inactive'].includes(child.status),'LAB_CHILD_NOT_TERMINAL');\nconst page=must(await tools.team_task_list({board:'global',view:'compact',limit:10})); const task=page.tasks.find(t=>t.subject==='CLM isolated fixture review'); check(task,'LAB_TASK_MISSING');\nconst before=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'}));\nconst message={target:'clm-scope-verifier',delivery:'info',message:'Quiet receipt-only lab marker. No work is requested; stay inactive.',operation_id:'clm-quiet-operation-01'};\nconst first=must(await tools.send_message(message)); const duplicate=must(await tools.send_message(message));\ncheck(first.operationId===message.operation_id && first.duplicate===false && first.partial===false,'OPERATION_FIRST');\ncheck(duplicate.duplicate===true && duplicate.partial===false && duplicate.messageId===first.messageId && duplicate.dispatchId===first.dispatchId,'OPERATION_DUPLICATE');\nconst changed=await tools.send_message({...message,message:'Changed quiet payload must be refused'});\ncheck(changed && changed.isError===true && String(changed.message).includes('message-operation-conflict'),'OPERATION_PAYLOAD_CONFLICT');\nconst after=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'})); check(after.revision===before.revision && after.status===before.status && after.phase===before.phase,'TASK_AUTHORITY_UNCHANGED');\nconst latest=await cm('memo_get',{sourceId:'clm-evidence',revision:2}); check(latest.ok && latest.revision===2,'MEMO_UNCHANGED');\nreturn {stage:'apply-child-operation',memberAclProbeDispatched:true,childStatus:child.status,operationId:first.operationId,duplicate:duplicate.duplicate,operationPayloadConflict:true,taskRevisionUnchanged:true};",
+        "timeout_ms": 150000
+      },
+      "prompt": "This is an explicitly authorized isolated protocol experiment in {{WORKSPACE}}. Act only in this new Team. No product-file writes, external services, old Teams, provider/global changes, milestone/compaction jobs, retries, extra descendants, or team_delivery_check are authorized. Execute exactly one run_code with the following code and description 'apply-child-operation'. Use the normal SDK bindings. Do not repair a failed assertion or add calls. A tool refusal expected by this code is evidence; any other failure ends this stage. Only one wait_agent and one post-wait roster verification are authorized in the child stage; never poll. After the code returns, return its curated stage object as strict JSON and end the turn. If it throws, report the error and end without further tools.\n\nconst must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst state=await cm('state',{}); check(state.ok && state.mode==='apply-allowlisted' && state.viewRevision===1,'APPLY_STATE');\nconst spawned=must(await tools.spawn_teammate({name:'clm-scope-verifier',role:'verifier',context:'fresh',provider:'opencodego',model:'deepseek-v4.1-flash',prompt:\"Read-only ACL probe in this new isolated Team. Invoke context_manage exactly once with {action:\\\"memo_get\\\",input:{sourceId:\\\"clm-evidence\\\",revision:1}} through the ordinary tool path (if the model exposes only run_code, its body must contain only this one tool invocation and return its value). Expect the lead-private source to return {ok:false,code:\\\"MEMBER_SCOPE_DENIED\\\"}. Then return one compact JSON object with the observed code and stop. Do not call any other tool, send a message, spawn a member, modify files, activate a goal, or attempt the denied read again.\"})); check(spawned.member.name==='clm-scope-verifier','LAB_CHILD_NAME');\nconst waited=must(await tools.wait_agent({timeout_ms:90000})); check(!waited.timedOut,'LAB_CHILD_WAIT_TIMEOUT');\nconst members=must(await tools.list_agents({})); const child=members.find(m=>m.name==='clm-scope-verifier'); check(child && ['idle','inactive'].includes(child.status),'LAB_CHILD_NOT_TERMINAL');\nconst page=must(await tools.team_task_list({board:'global',view:'compact',limit:10})); const task=page.tasks.find(t=>t.subject==='CLM isolated fixture review'); check(task,'LAB_TASK_MISSING');\nconst before=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'}));\nconst message={target:'clm-scope-verifier',delivery:'info',message:'Quiet receipt-only lab marker. No work is requested; stay inactive.',operation_id:'clm-quiet-operation-01'};\nconst first=must(await tools.send_message(message)); const duplicate=must(await tools.send_message(message));\ncheck(first.operationId===message.operation_id && first.duplicate===false && first.partial===false,'OPERATION_FIRST');\ncheck(duplicate.duplicate===true && duplicate.partial===false && duplicate.messageId===first.messageId && duplicate.dispatchId===first.dispatchId,'OPERATION_DUPLICATE');\nconst changed=await tools.send_message({...message,message:'Changed quiet payload must be refused'});\ncheck(changed && changed.isError===true && String(changed.message).includes('message-operation-conflict'),'OPERATION_PAYLOAD_CONFLICT');\nconst after=must(await tools.team_task_get({board:'global',task_id:task.id,view:'compact'})); check(after.revision===before.revision && after.status===before.status && after.phase===before.phase,'TASK_AUTHORITY_UNCHANGED');\nconst latest=await cm('memo_get',{sourceId:'clm-evidence',revision:2}); check(latest.ok && latest.revision===2,'MEMO_UNCHANGED');\nreturn {stage:'apply-child-operation',memberAclProbeDispatched:true,childStatus:child.status,operationId:first.operationId,duplicate:duplicate.duplicate,operationPayloadConflict:true,taskRevisionUnchanged:true};",
+      "receipts": [
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/mode",
+          "equals": "apply-allowlisted",
+          "action": "state"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/viewRevision",
+          "equals": 1,
+          "action": "state"
+        },
+        {
+          "tool": "spawn_teammate",
+          "pointer": "/values/0/member/name",
+          "equals": "clm-scope-verifier"
+        },
+        {
+          "tool": "wait_agent",
+          "pointer": "/values/0/timedOut",
+          "equals": false
+        },
+        {
+          "tool": "list_agents",
+          "pointer": "/values/0/1/name",
+          "equals": "clm-scope-verifier"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/code",
+          "equals": "MEMBER_SCOPE_DENIED",
+          "action": "memo_get"
+        },
+        {
+          "tool": "send_message",
+          "pointer": "/values/0/operationId",
+          "equals": "clm-quiet-operation-01"
+        },
+        {
+          "tool": "send_message",
+          "pointer": "/values/0/duplicate",
+          "equals": false
+        },
+        {
+          "tool": "send_message",
+          "pointer": "/values/0/duplicate",
+          "equals": true
+        },
+        {
+          "tool": "send_message",
+          "pointer": "/values/0/partial",
+          "equals": false
+        },
+        {
+          "tool": "send_message",
+          "pointer": "/errorMarkers/0",
+          "equals": "message-operation-conflict",
+          "isError": true
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/revision",
+          "equals": 2,
+          "action": "memo_get"
+        }
+      ],
+      "projectionChecks": [
+        {
+          "transformId": "context-workspace",
+          "status": "applied",
+          "minCount": 1
+        }
+      ],
+      "checkOracle": false,
+      "relations": [
+        {
+          "name": "duplicate-same-message-id",
+          "left": {
+            "tool": "send_message",
+            "pointer": "/values/0/messageId",
+            "where": {
+              "pointer": "/values/0/duplicate",
+              "equals": false
+            }
+          },
+          "right": {
+            "tool": "send_message",
+            "pointer": "/values/0/messageId",
+            "where": {
+              "pointer": "/values/0/duplicate",
+              "equals": true
+            }
+          }
+        },
+        {
+          "name": "duplicate-same-dispatch-id",
+          "left": {
+            "tool": "send_message",
+            "pointer": "/values/0/dispatchId",
+            "where": {
+              "pointer": "/values/0/duplicate",
+              "equals": false
+            }
+          },
+          "right": {
+            "tool": "send_message",
+            "pointer": "/values/0/dispatchId",
+            "where": {
+              "pointer": "/values/0/duplicate",
+              "equals": true
+            }
+          }
+        },
+        {
+          "name": "task-id-unchanged",
+          "left": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/id",
+            "pick": "first"
+          },
+          "right": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/id",
+            "pick": "last"
+          }
+        },
+        {
+          "name": "task-revision-unchanged",
+          "left": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/revision",
+            "pick": "first"
+          },
+          "right": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/revision",
+            "pick": "last"
+          }
+        },
+        {
+          "name": "task-status-unchanged",
+          "left": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/status",
+            "pick": "first"
+          },
+          "right": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/status",
+            "pick": "last"
+          }
+        },
+        {
+          "name": "task-phase-unchanged",
+          "left": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/phase",
+            "pick": "first"
+          },
+          "right": {
+            "tool": "team_task_get",
+            "pointer": "/values/0/phase",
+            "pick": "last"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rollback-oracle",
+      "mode": "apply",
+      "reserve": {
+        "requests": 3,
+        "inputTokens": 200000,
+        "outputTokens": 4500
+      },
+      "runCode": {
+        "description": "Isolated CLM lab rollback-oracle",
+        "code": "const must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst before=await cm('state',{}); check(before.ok && before.mode==='apply-allowlisted' && before.viewRevision===1,'BEFORE_ROLLBACK');\nconst rollback=await cm('rollback',{expectedRevision:1,targetRevision:0}); check(rollback.ok && rollback.viewRevision===2 && rollback.parentRevision===1 && rollback.nextBoundaryOnly && rollback.mode==='apply-allowlisted','ROLLBACK');\nconst after=await cm('state',{}); check(after.ok && after.viewRevision===2 && after.pins.length===0,'AFTER_ROLLBACK');\nconst got=await cm('memo_get',{sourceId:'clm-evidence',revision:2}); check(got.ok && got.revision===2,'ORIGINAL_MEMO_RETAINED');\nconst quotes=got.text.split('\\n').filter(t=>/^L(?:2|173|399): /.test(t)).map(t=>({line:Number(t.match(/^L(\\d+): /)[1]),text:t.replace(/^L\\d+: /,'')}));\ncheck(quotes.length===3,'QUOTE_COUNT');\nreturn {stage:'rollback-oracle',oracle:oracle(quotes),viewRevision:2,memoRetained:true};",
+        "timeout_ms": 90000
+      },
+      "prompt": "This is an explicitly authorized isolated protocol experiment in {{WORKSPACE}}. Act only in this new Team. No product-file writes, external services, old Teams, provider/global changes, milestone/compaction jobs, retries, extra descendants, or team_delivery_check are authorized. Execute exactly one run_code with the following code and description 'rollback-oracle'. Use the normal SDK bindings. Do not repair a failed assertion or add calls. A tool refusal expected by this code is evidence; any other failure ends this stage. Only one wait_agent and one post-wait roster verification are authorized in the child stage; never poll. After the code returns, return its oracle object as one strict JSON object, without markdown or commentary. If it throws, report the error and end without further tools.\n\nconst must = (r) => { if (r && r.isError === true) throw new Error(String(r.code || r.message || 'TOOL_FAILED')); return r && r.isError === false && Object.hasOwn(r,'value') ? r.value : r; };\nconst check = (v, name) => { if (!v) throw new Error(name); };\nconst cm = async (action,input={}) => must(await tools.context_manage({action,input}));\nconst oracle = (quotes) => { const error=quotes.find(q=>q.line===173), config=quotes.find(q=>q.line===2), final=quotes.find(q=>q.line===399); return {error_code:error.text.match(/E_CLM_\\d+/)[0],error_line:error.line,expected_checksum:config.text.match(/expected_checksum=(\\w+)/)[1],actual_checksum:error.text.match(/actual=(\\w+)/)[1],final_status:final.text.match(/status=(\\w+)/)[1],quotes}; };\nconst before=await cm('state',{}); check(before.ok && before.mode==='apply-allowlisted' && before.viewRevision===1,'BEFORE_ROLLBACK');\nconst rollback=await cm('rollback',{expectedRevision:1,targetRevision:0}); check(rollback.ok && rollback.viewRevision===2 && rollback.parentRevision===1 && rollback.nextBoundaryOnly && rollback.mode==='apply-allowlisted','ROLLBACK');\nconst after=await cm('state',{}); check(after.ok && after.viewRevision===2 && after.pins.length===0,'AFTER_ROLLBACK');\nconst got=await cm('memo_get',{sourceId:'clm-evidence',revision:2}); check(got.ok && got.revision===2,'ORIGINAL_MEMO_RETAINED');\nconst quotes=got.text.split('\\n').filter(t=>/^L(?:2|173|399): /.test(t)).map(t=>({line:Number(t.match(/^L(\\d+): /)[1]),text:t.replace(/^L\\d+: /,'')}));\ncheck(quotes.length===3,'QUOTE_COUNT');\nreturn {stage:'rollback-oracle',oracle:oracle(quotes),viewRevision:2,memoRetained:true};",
+      "receipts": [
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/viewRevision",
+          "equals": 2,
+          "action": "rollback"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/parentRevision",
+          "equals": 1,
+          "action": "rollback"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/nextBoundaryOnly",
+          "equals": true,
+          "action": "rollback"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/viewRevision",
+          "equals": 2,
+          "action": "state"
+        },
+        {
+          "tool": "context_manage",
+          "pointer": "/values/0/text",
+          "equals": "L2: WARN CONFIG fixture=clm-20261001 expected_checksum=7e2a required_route=flash\nL173: ERROR UNIQUE_FAILURE E_CLM_173 file=src/cache.ts:41 expected=7e2a actual=91bf\nL399: WARN FINAL fixture=clm-20261001 status=blocked reason=checksum-mismatch\nrevision-note=v2",
+          "action": "memo_get"
+        }
+      ],
+      "projectionChecks": [
+        {
+          "transformId": "context-workspace",
+          "status": "unchanged",
+          "minCount": 1
+        }
+      ],
+      "checkOracle": true
+    }
+  ],
+  "limitations": [
+    "wait_agent waits one Team change, not exact child terminal; one roster read validates terminal and otherwise aborts the whole stage, with no polling/retry. Child domain status edge may arrive before terminal.",
+    "16 is logical-request monitoring; wire retries unknown. Usage may overshoot between observation and cancel.",
+    "No child wake is authorized after initial spawn. Quiet info may create a durable mailbox/dispatch receipt; no delivery check, ack, or action wake is requested. Count any natural continuation in the same budget.",
+    "No claim that task compact or memo view is completion evidence. No product writes or task completion transitions.",
+    "Canonical task revision equality and operation message/dispatch ID equality are also asserted inside the exact run_code; root should inspect logged canonical pairs, not only curated booleans."
+  ],
+  "runtimeBinding": {
+    "language": "typescript",
+    "agentPreset": "ptc",
+    "runtimeKind": "dsh-ptc-runtime-node",
+    "sdkSha256": null,
+    "schemaCount": null,
+    "toolsSchemaBindings": {
+      "context_manage": "2197cb14dd19fdc6aec239b6a20649859e5565e6cde44dd8e6907df2c10763e1"
+    },
+    "route": {
+      "provider": "opencodego",
+      "model": "deepseek-v4.1-flash"
+    }
+  },
+  "schemaBinding": {
+    "kind": "lab-tool-subset",
+    "schemaHash": "96da952fbe0ab09a22c75c7a50650c6242a23284980fca1acb8163dbc8e00790",
+    "toolCount": 1,
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/architecture-tests/context-workspace.loaded.schema.json"
+  }
+}

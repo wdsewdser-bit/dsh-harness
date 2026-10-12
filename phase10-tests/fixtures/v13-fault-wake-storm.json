@@ -1,0 +1,22 @@
+{
+  "fixtureId": "v13-fault-wake-storm",
+  "fixtureVersion": 1,
+  "category": "wake-storm",
+  "title": "A bounded wake policy suppresses duplicate idle wakes",
+  "initialState": {
+    "wakeDispatches": 0,
+    "wakeDropped": 0
+  },
+  "events": [
+    { "type": "wake" },
+    { "type": "wake" },
+    { "type": "wake" },
+    { "type": "wake" },
+    { "type": "wake" },
+    { "type": "wake" }
+  ],
+  "postconditions": [
+    { "kind": "equals", "path": "wakeDispatches", "expected": 3 },
+    { "kind": "equals", "path": "wakeDropped", "expected": 3 }
+  ]
+}

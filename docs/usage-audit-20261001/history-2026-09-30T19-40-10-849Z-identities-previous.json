@@ -1,0 +1,2281 @@
+{
+  "version": 1,
+  "generatedAt": "2026-09-30T18:54:07.453Z",
+  "sessions": {
+    "097ac44a-439b-499a-9de4-5b8428079b11": {
+      "sessionId": "097ac44a-439b-499a-9de4-5b8428079b11",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t120 当前 main 统一重拍批次（用户等图）→ t119 黑斑诊断",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "097ac44a-439b-499a-9de4-5b8428079b11",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\097ac44a-439b-499a-9de4-5b8428079b11\\session.v3.jsonl.zstd",
+          "sha256": "2e1b8f94c0e94fcfb4f9e8b12976336d10c5b080c6a456364ad493a0313ec250",
+          "size": 2282856,
+          "mtimeMs": 1790076231625.864
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\097ac44a-439b-499a-9de4-5b8428079b11\\session.v4.jsonl.zstd",
+          "sha256": "98297a9357a64f65b09a3d0341c1537c8da3ea48aea6794bae4630bf970cfb5d",
+          "size": 21157402,
+          "mtimeMs": 1790480017227.0364
+        }
+      ]
+    },
+    "0b3fc061-5dbc-4747-9389-9765fe6215bd": {
+      "sessionId": "0b3fc061-5dbc-4747-9389-9765fe6215bd",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "0b3fc061-5dbc-4747-9389-9765fe6215bd",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\0b3fc061-5dbc-4747-9389-9765fe6215bd\\session.v3.jsonl.zstd",
+          "sha256": "b9540e8bb533f756c5a8476ff4e286e2ea42e085ce840f4455b5925c32e2cd9d",
+          "size": 4238194,
+          "mtimeMs": 1790076268392.3354
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\0b3fc061-5dbc-4747-9389-9765fe6215bd\\session.v4.jsonl.zstd",
+          "sha256": "95a57d7dbf2fe89c23a8ea2ed2676acf3e5e46ad18216ad34a8a0f3a94b27623",
+          "size": 26610576,
+          "mtimeMs": 1790415380597.5613
+        }
+      ]
+    },
+    "0d9f795f-e340-4e13-9d6e-48d766488889": {
+      "sessionId": "0d9f795f-e340-4e13-9d6e-48d766488889",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S0 集成与全部证据（build/help/manifest/day-01..03,07）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "0d9f795f-e340-4e13-9d6e-48d766488889",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\0d9f795f-e340-4e13-9d6e-48d766488889\\session.v3.jsonl.zstd",
+          "sha256": "cfc1ac2382ec8778d14fbcedbf6de74fe7bc72a519b7f8cbfa46628fd048bed9",
+          "size": 41660086,
+          "mtimeMs": 1790055369566.7249
+        }
+      ]
+    },
+    "15a67a05-2e9b-4fdd-a148-72c34defbfac": {
+      "sessionId": "15a67a05-2e9b-4fdd-a148-72c34defbfac",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S1 确定性内核组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "15a67a05-2e9b-4fdd-a148-72c34defbfac",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\15a67a05-2e9b-4fdd-a148-72c34defbfac\\session.v3.jsonl.zstd",
+          "sha256": "823b4f80e910b5f8c3e09d25caa0338b768c54e6a4300364d716154a4af39dc9",
+          "size": 51962649,
+          "mtimeMs": 1790076263092.9126
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\15a67a05-2e9b-4fdd-a148-72c34defbfac\\session.v4.jsonl.zstd",
+          "sha256": "133e487756ad7ba7d812f14021c20d2ebcae623c7e999c1e91f01357a9ac1b27",
+          "size": 78452214,
+          "mtimeMs": 1790480106451.5889
+        }
+      ]
+    },
+    "1c7e441a-46fe-4312-bce3-16553af5c6f6": {
+      "sessionId": "1c7e441a-46fe-4312-bce3-16553af5c6f6",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员：原版客户端启动与基线",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "1c7e441a-46fe-4312-bce3-16553af5c6f6",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\1c7e441a-46fe-4312-bce3-16553af5c6f6\\session.v3.jsonl.zstd",
+          "sha256": "03565e950c2c4486663908ff81aab34225d08998615d03d0c8d714551a6e6b6b",
+          "size": 1177707,
+          "mtimeMs": 1790002473555.1577
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\1c7e441a-46fe-4312-bce3-16553af5c6f6\\session.v4.jsonl.zstd",
+          "sha256": "d570e244b40ab918d4f27ca23db78694cd1ab30ca13b9f47d6ce5e79de9bdff5",
+          "size": 20163952,
+          "mtimeMs": 1790437252586.6577
+        }
+      ]
+    },
+    "1e9ad212-6333-4f93-afaa-04c8f728f9f3": {
+      "sessionId": "1e9ad212-6333-4f93-afaa-04c8f728f9f3",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "0x11 附魔 C→S 解码契约 + 机制缺口清单（group-g-nbt-t77）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "1e9ad212-6333-4f93-afaa-04c8f728f9f3",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\1e9ad212-6333-4f93-afaa-04c8f728f9f3\\session.v4.jsonl.zstd",
+          "sha256": "cf42bcd34d5c94f0822e5b42ee4bdeed61d712218f5c2404b3c017eaaa3f780f",
+          "size": 3722436,
+          "mtimeMs": 1790427033186.245
+        }
+      ]
+    },
+    "2d62715d-a454-40a2-ac34-69a22b4e3b42": {
+      "sessionId": "2d62715d-a454-40a2-ac34-69a22b4e3b42",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "mc-core McError + mc-log + ACCEPT",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "2d62715d-a454-40a2-ac34-69a22b4e3b42",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\2d62715d-a454-40a2-ac34-69a22b4e3b42\\session.v3.jsonl.zstd",
+          "sha256": "c3600627a1e553092482a0806ce264276b648202a4ca4760e44712c9295f5083",
+          "size": 53411406,
+          "mtimeMs": 1790042221231.4521
+        }
+      ]
+    },
+    "34a36b09-6256-4bc5-8454-36cbdef0f29f": {
+      "sessionId": "34a36b09-6256-4bc5-8454-36cbdef0f29f",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "染色收口（剩余 biome 采样 + t110 验收）→ t106（task-14 诊断）→ t111/积压队列",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "34a36b09-6256-4bc5-8454-36cbdef0f29f",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\34a36b09-6256-4bc5-8454-36cbdef0f29f\\session.v3.jsonl.zstd",
+          "sha256": "679e5bf7d72cac86c4c965bcffa3c6cad5d8391a3d18c12e9f8c1263cf1a8029",
+          "size": 2193061,
+          "mtimeMs": 1790064607726.9883
+        }
+      ]
+    },
+    "3933f9c0-5dff-4e36-b11b-5445b98f15d1": {
+      "sessionId": "3933f9c0-5dff-4e36-b11b-5445b98f15d1",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "接管 t69（区块光照初始化链），原 owner member-core 会话上下文超限不可恢复",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "3933f9c0-5dff-4e36-b11b-5445b98f15d1",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\3933f9c0-5dff-4e36-b11b-5445b98f15d1\\session.v3.jsonl.zstd",
+          "sha256": "eee9aba728d211baae9620b6f84b7154af8a210438910575d603a1f3d2e60d42",
+          "size": 1287800,
+          "mtimeMs": 1790050726732.9949
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\3933f9c0-5dff-4e36-b11b-5445b98f15d1\\session.v4.jsonl.zstd",
+          "sha256": "23c535a72f8da1e4fb6fcebded750ed2741079e143d3f3eea390035d3f3b7528",
+          "size": 30527131,
+          "mtimeMs": 1790480118489.89
+        }
+      ]
+    },
+    "3b7b97be-98f1-4789-a37b-61058cff0caf": {
+      "sessionId": "3b7b97be-98f1-4789-a37b-61058cff0caf",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-core S6 批次1 动作/战斗机制面（t53 0x42 → t52 0x0B）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "3b7b97be-98f1-4789-a37b-61058cff0caf",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\3b7b97be-98f1-4789-a37b-61058cff0caf\\session.v4.jsonl.zstd",
+          "sha256": "625d947f18ff7b59ac4e593b1fef7319451bbeaf171e99c55735a3a319bab639",
+          "size": 6935131,
+          "mtimeMs": 1790437686800.9822
+        }
+      ]
+    },
+    "425d0254-9419-4ecb-bdc9-5790ee3bf8df": {
+      "sessionId": "425d0254-9419-4ecb-bdc9-5790ee3bf8df",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "P0：t47 进 grp/g-boot 并出不可变 exe",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "425d0254-9419-4ecb-bdc9-5790ee3bf8df",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\425d0254-9419-4ecb-bdc9-5790ee3bf8df\\session.v4.jsonl.zstd",
+          "sha256": "ec631faecc39322b195e60495bb383f065f4760491434c09c9bb202f6098018d",
+          "size": 31307417,
+          "mtimeMs": 1790447611244.2268
+        }
+      ]
+    },
+    "489439fb-a69e-4bd2-9450-af7d1399df84": {
+      "sessionId": "489439fb-a69e-4bd2-9450-af7d1399df84",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t113 消融（task-14 世界生成差异面）→ t115（R43 落册）→ 队列其余",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "489439fb-a69e-4bd2-9450-af7d1399df84",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\489439fb-a69e-4bd2-9450-af7d1399df84\\session.v3.jsonl.zstd",
+          "sha256": "fc9ada469638aa012a20f4761049a86ea666e4d578d2ae35740a2ea87feabb88",
+          "size": 1024280,
+          "mtimeMs": 1790076260477.2856
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\489439fb-a69e-4bd2-9450-af7d1399df84\\session.v4.jsonl.zstd",
+          "sha256": "e9992c89a356655b2d51ad182ca196e3cfd504429ec28c3c7efdacbb269ff35d",
+          "size": 16108339,
+          "mtimeMs": 1790445781544.2527
+        }
+      ]
+    },
+    "4b44df23-82c4-40d9-9d7f-f191ca57c0aa": {
+      "sessionId": "4b44df23-82c4-40d9-9d7f-f191ca57c0aa",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-boot 零构建工装与读数成员",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "4b44df23-82c4-40d9-9d7f-f191ca57c0aa",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\4b44df23-82c4-40d9-9d7f-f191ca57c0aa\\session.v4.jsonl.zstd",
+          "sha256": "62fcf42721af4fbc5af6c16a379170c460b16120601db1365b18dd9d4e51829a",
+          "size": 3881068,
+          "mtimeMs": 1790429992246.48
+        }
+      ]
+    },
+    "54d51a93-bb3f-477a-b0cc-2bedf9f407a0": {
+      "sessionId": "54d51a93-bb3f-477a-b0cc-2bedf9f407a0",
+      "parentSessionId": "session-47aa6205-510f-4468-9c71-16a4897176bd",
+      "rootTeamId": "session-47aa6205-510f-4468-9c71-16a4897176bd",
+      "workspace": "mc189-rs",
+      "label": "调研 SoL-Pi 仓库",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "54d51a93-bb3f-477a-b0cc-2bedf9f407a0",
+        "session-47aa6205-510f-4468-9c71-16a4897176bd"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\54d51a93-bb3f-477a-b0cc-2bedf9f407a0\\session.v4.jsonl.zstd",
+          "sha256": "e6f3ceda8a217dc3363671dda54f8e8afc9f17b4f1586df10bb4753aad1eff3f",
+          "size": 66295,
+          "mtimeMs": 1790311427573.556
+        }
+      ]
+    },
+    "5af42c39-b303-4392-ad88-97e85b3f6549": {
+      "sessionId": "5af42c39-b303-4392-ad88-97e85b3f6549",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "B 线 (a) 类 125 格：golden 末次 008 / 我方 009 的机制根因（只读，改码前报批）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "5af42c39-b303-4392-ad88-97e85b3f6549",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\5af42c39-b303-4392-ad88-97e85b3f6549\\session.v3.jsonl.zstd",
+          "sha256": "bf24dd2f729dcdb62d1d1b02a934950ce022c2eee802f2610b7e93bb087b510b",
+          "size": 1863452,
+          "mtimeMs": 1789926757154.0515
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\5af42c39-b303-4392-ad88-97e85b3f6549\\session.v4.jsonl.zstd",
+          "sha256": "b8ab23dbbef1bebe52d662bac5e3720e5c3c7421cad5e4fa7e2a3bc235ccd039",
+          "size": 15556219,
+          "mtimeMs": 1790437252586.6577
+        }
+      ]
+    },
+    "5b288597-75a5-4d6f-b8e7-b74e45ba4bf4": {
+      "sessionId": "5b288597-75a5-4d6f-b8e7-b74e45ba4bf4",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-boot 组长（接替 lead-boot）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "5b288597-75a5-4d6f-b8e7-b74e45ba4bf4",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\5b288597-75a5-4d6f-b8e7-b74e45ba4bf4\\session.v4.jsonl.zstd",
+          "sha256": "44982815438a83203303539b3b5c29ab5e3c9d63e912ae7134e3538752d87c9a",
+          "size": 9492143,
+          "mtimeMs": 1790308769588.5764
+        }
+      ]
+    },
+    "61616eae-1200-4532-8ed5-7efe85370a2b": {
+      "sessionId": "61616eae-1200-4532-8ed5-7efe85370a2b",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S2-T1 mc-nbt 实现",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "61616eae-1200-4532-8ed5-7efe85370a2b",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\61616eae-1200-4532-8ed5-7efe85370a2b\\session.v3.jsonl.zstd",
+          "sha256": "aef334ff8f853735601b9308aeb2d7798bd875440eeb9d65da0455de8860ecce",
+          "size": 37773985,
+          "mtimeMs": 1790071519681.1965
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\61616eae-1200-4532-8ed5-7efe85370a2b\\session.v4.jsonl.zstd",
+          "sha256": "1fbf8b8dfcc7f0a0af531ce6cc6282368aa579136302055ebbca7c1e28eb35d3",
+          "size": 33741623,
+          "mtimeMs": 1790380528351.05
+        }
+      ]
+    },
+    "69a5d9f7-1674-4a1a-98eb-bbf4d393b321": {
+      "sessionId": "69a5d9f7-1674-4a1a-98eb-bbf4d393b321",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "线A② 逐函数对照状态判定与「未对照」列",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "69a5d9f7-1674-4a1a-98eb-bbf4d393b321",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\69a5d9f7-1674-4a1a-98eb-bbf4d393b321\\session.v3.jsonl.zstd",
+          "sha256": "671f10853db5aa312ad0fdeb4d2b30c6ac5cc4934299489afc07539716adc904",
+          "size": 12263043,
+          "mtimeMs": 1790076264438.9695
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\69a5d9f7-1674-4a1a-98eb-bbf4d393b321\\session.v4.jsonl.zstd",
+          "sha256": "ca7052355548a6aac2526085dd72e7ffd187e94e4c0ea08b8cc8c4cce6aba881",
+          "size": 14512195,
+          "mtimeMs": 1790267595099.6704
+        }
+      ]
+    },
+    "6bd66fab-ca93-4537-a8b8-07959279f913": {
+      "sessionId": "6bd66fab-ca93-4537-a8b8-07959279f913",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员：B5 收包侧 S2F/S30",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "6bd66fab-ca93-4537-a8b8-07959279f913",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\6bd66fab-ca93-4537-a8b8-07959279f913\\session.v3.jsonl.zstd",
+          "sha256": "0f5cede9e427fd586c1786e5da7b6434bb3ef5ff24949e4e0c8036332d35504d",
+          "size": 1933359,
+          "mtimeMs": 1790002285958.9922
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\6bd66fab-ca93-4537-a8b8-07959279f913\\session.v4.jsonl.zstd",
+          "sha256": "c9fd952525f265e1196076a01bbd31cf8bae00272f28ec5595533fd762f8abce",
+          "size": 11205727,
+          "mtimeMs": 1790422271758.668
+        }
+      ]
+    },
+    "6d95ea80-74bb-48fc-8081-817a9d779dff": {
+      "sessionId": "6d95ea80-74bb-48fc-8081-817a9d779dff",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t116：mc-network 补 UseEntity(C02) 与 Animation(C0A) 编解码 + packet_id",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "6d95ea80-74bb-48fc-8081-817a9d779dff",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\6d95ea80-74bb-48fc-8081-817a9d779dff\\session.v3.jsonl.zstd",
+          "sha256": "60c081754ab3b9400f19929a6e8122ff6cea2d7001c8a900906e6e82de99fbd8",
+          "size": 1928865,
+          "mtimeMs": 1790074138347.8774
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\6d95ea80-74bb-48fc-8081-817a9d779dff\\session.v4.jsonl.zstd",
+          "sha256": "a696a5f7c7f4a53a4c820dcc65ab5f9d907b765a11bc90b2c9ac5a6f228c1669",
+          "size": 8016383,
+          "mtimeMs": 1790410593741.194
+        }
+      ]
+    },
+    "725c2bd9-1fca-4480-bf25-5643b9dbdbf7": {
+      "sessionId": "725c2bd9-1fca-4480-bf25-5643b9dbdbf7",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S0 workspace 骨架：根 Cargo.toml + 25 个冻结 crate",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "725c2bd9-1fca-4480-bf25-5643b9dbdbf7",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\725c2bd9-1fca-4480-bf25-5643b9dbdbf7\\session.v3.jsonl.zstd",
+          "sha256": "7398702dc8b9ab86bde361593f1131097ae2ec4d873dba511773cc3aaeea597f",
+          "size": 29267820,
+          "mtimeMs": 1790075453312.9387
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\725c2bd9-1fca-4480-bf25-5643b9dbdbf7\\session.v4.jsonl.zstd",
+          "sha256": "511ff46be1bcb5b8931d71fba727554e9368f95d65d08292576e470c6b341fa7",
+          "size": 40043444,
+          "mtimeMs": 1790445827398.8142
+        }
+      ]
+    },
+    "728cc365-a8e0-4738-a552-b8039f80d415": {
+      "sessionId": "728cc365-a8e0-4738-a552-b8039f80d415",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "SEG-Q/S 非作者独立复核（自建工装，交叉核 t76/t79）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "728cc365-a8e0-4738-a552-b8039f80d415",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\728cc365-a8e0-4738-a552-b8039f80d415\\session.v3.jsonl.zstd",
+          "sha256": "37d28b44737413976f029de18edbe199a82a7726296148333855f90ebdb8c34c",
+          "size": 19954009,
+          "mtimeMs": 1790076264045.7395
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\728cc365-a8e0-4738-a552-b8039f80d415\\session.v4.jsonl.zstd",
+          "sha256": "a945cf3010a8a703fbc250bbc3c61898fad5e9b2ded92b1462e622533f740cf6",
+          "size": 23507874,
+          "mtimeMs": 1790429992713.5403
+        }
+      ]
+    },
+    "77c84476-55dc-4aec-8afc-9b7b2aeef323": {
+      "sessionId": "77c84476-55dc-4aec-8afc-9b7b2aeef323",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员：判据②端到端验收",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "77c84476-55dc-4aec-8afc-9b7b2aeef323",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\77c84476-55dc-4aec-8afc-9b7b2aeef323\\session.v3.jsonl.zstd",
+          "sha256": "5cba87610fd878b94682344c8d2e3f07204992f7e08b09ce2669371f2766e682",
+          "size": 5332964,
+          "mtimeMs": 1790076264037.2205
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\77c84476-55dc-4aec-8afc-9b7b2aeef323\\session.v4.jsonl.zstd",
+          "sha256": "4ea87b7c8e6c9ab87c97a397c427d54ba47b95ef4a7c6e89ec5e81e12e36d9a7",
+          "size": 12102242,
+          "mtimeMs": 1790443596800.0564
+        }
+      ]
+    },
+    "81e4f948-46e1-4d3e-a149-66b26ece976d": {
+      "sessionId": "81e4f948-46e1-4d3e-a149-66b26ece976d",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "mc-math 数学层 + MathHelper 对拍",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "81e4f948-46e1-4d3e-a149-66b26ece976d",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\81e4f948-46e1-4d3e-a149-66b26ece976d\\session.v3.jsonl.zstd",
+          "sha256": "2cc3ea22faa41b06d655d53f4b504e2db89a3d921ee93fb282b4d6b66a6bdb38",
+          "size": 24000904,
+          "mtimeMs": 1790073421935.7878
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\81e4f948-46e1-4d3e-a149-66b26ece976d\\session.v4.jsonl.zstd",
+          "sha256": "795327b6e6802425091f33ce88ceee5e701e08996410f4827195e64474c7752d",
+          "size": 50574474,
+          "mtimeMs": 1790446158060.9482
+        }
+      ]
+    },
+    "863e9dfd-2326-4ae1-820b-723169576bef": {
+      "sessionId": "863e9dfd-2326-4ae1-820b-723169576bef",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S2-T3 mc-chunk + golden 子命令 + 证据",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "863e9dfd-2326-4ae1-820b-723169576bef",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\863e9dfd-2326-4ae1-820b-723169576bef\\session.v3.jsonl.zstd",
+          "sha256": "6bb63c39057b36f15ec7935a73761d9b765e1c3ebf70e1c9db8f838a22ca9aa8",
+          "size": 13483580,
+          "mtimeMs": 1789767140642.9006
+        }
+      ]
+    },
+    "88e49659-1d9e-4c89-a5cb-0ff746f8a4cb": {
+      "sessionId": "88e49659-1d9e-4c89-a5cb-0ff746f8a4cb",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S0 基座与 golden 工具组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "88e49659-1d9e-4c89-a5cb-0ff746f8a4cb",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\88e49659-1d9e-4c89-a5cb-0ff746f8a4cb\\session.v3.jsonl.zstd",
+          "sha256": "51ac68db316c26706ea75c46a9a5132fdf85c173666a8f22a5ebbade877f6a86",
+          "size": 41240675,
+          "mtimeMs": 1790076120501.4429
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\88e49659-1d9e-4c89-a5cb-0ff746f8a4cb\\session.v4.jsonl.zstd",
+          "sha256": "7c3d6842577f1b6d2a9ebec36c6ce4fc7aed5ea070ca82f41b173c14502ffbaa",
+          "size": 37266416,
+          "mtimeMs": 1790308732607.6133
+        }
+      ]
+    },
+    "90aaa1af-62e1-42e2-8a54-8e51a1dfa4a0": {
+      "sessionId": "90aaa1af-62e1-42e2-8a54-8e51a1dfa4a0",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "Read and describe two images",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "90aaa1af-62e1-42e2-8a54-8e51a1dfa4a0",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\90aaa1af-62e1-42e2-8a54-8e51a1dfa4a0\\session.v4.jsonl.zstd",
+          "sha256": "f9f52624d33080bb1ba9c3ab52027715c809aa529c62f50ff7cc9be81560878a",
+          "size": 60262,
+          "mtimeMs": 1790153374344.9817
+        }
+      ]
+    },
+    "937b08e5-eac2-4506-b380-0fdd7e03a442": {
+      "sessionId": "937b08e5-eac2-4506-b380-0fdd7e03a442",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "线B vendor 渲染光照链完整读取与缺口对照",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "937b08e5-eac2-4506-b380-0fdd7e03a442",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\937b08e5-eac2-4506-b380-0fdd7e03a442\\session.v3.jsonl.zstd",
+          "sha256": "8c6d944f1c9f414ee852d72d88ccac6ae97e190a412493888d35ec92c416854e",
+          "size": 6742113,
+          "mtimeMs": 1790076264038.2222
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\937b08e5-eac2-4506-b380-0fdd7e03a442\\session.v4.jsonl.zstd",
+          "sha256": "58695ef73022b17bdd0fb40840177417e2b7c22775d95b0df98f9ca8d9b4947c",
+          "size": 14732343,
+          "mtimeMs": 1790267367244.739
+        }
+      ]
+    },
+    "990772cc-e849-4fbc-8388-795d0cffb137": {
+      "sessionId": "990772cc-e849-4fbc-8388-795d0cffb137",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "独立审查员",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "990772cc-e849-4fbc-8388-795d0cffb137",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\990772cc-e849-4fbc-8388-795d0cffb137\\session.v3.jsonl.zstd",
+          "sha256": "82693acb96d38ce6ceb7e363f8486c8031a3068c3f1a3bd094fc8056780f5bc7",
+          "size": 33693760,
+          "mtimeMs": 1790076260128.15
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\990772cc-e849-4fbc-8388-795d0cffb137\\session.v4.jsonl.zstd",
+          "sha256": "11cb9a2162a4425419eecde164977f896be498b7ade09b5d13ca7f7a746dc688",
+          "size": 56998526,
+          "mtimeMs": 1790437575913.6106
+        }
+      ]
+    },
+    "9e0269a2-c8e3-473e-b3d4-0f7348cfc509": {
+      "sessionId": "9e0269a2-c8e3-473e-b3d4-0f7348cfc509",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员：FAIL-3 onGround 修复",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "9e0269a2-c8e3-473e-b3d4-0f7348cfc509",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\9e0269a2-c8e3-473e-b3d4-0f7348cfc509\\session.v3.jsonl.zstd",
+          "sha256": "c3d1b6e6718447b04219ba7f2310092de09846ec39c36463e7f792133c0b8de3",
+          "size": 1744705,
+          "mtimeMs": 1790076264037.2205
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\9e0269a2-c8e3-473e-b3d4-0f7348cfc509\\session.v4.jsonl.zstd",
+          "sha256": "8dbf0b8b1e47b6dbb0fd31c02f7aeddfa8b4cba154f3118024f33268ca7ed1ad",
+          "size": 13719853,
+          "mtimeMs": 1790418294672.7712
+        }
+      ]
+    },
+    "a058f6e6-2a75-4c60-a50c-effdf227e007": {
+      "sessionId": "a058f6e6-2a75-4c60-a50c-effdf227e007",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-boot tier-2：t93（t88 报告笔误）+ t94（:214 计数）文件级零构建卡",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a058f6e6-2a75-4c60-a50c-effdf227e007",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\a058f6e6-2a75-4c60-a50c-effdf227e007\\session.v4.jsonl.zstd",
+          "sha256": "b58b6a48a6cea426362db17889179362bb4e24c0c5abf6e582ecc5c5176a3f78",
+          "size": 8212360,
+          "mtimeMs": 1790446656547.1682
+        }
+      ]
+    },
+    "a8ae6f95-6b34-4d94-b201-ee34aed50489": {
+      "sessionId": "a8ae6f95-6b34-4d94-b201-ee34aed50489",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员：mc-server 区块下发",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a8ae6f95-6b34-4d94-b201-ee34aed50489",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\a8ae6f95-6b34-4d94-b201-ee34aed50489\\session.v3.jsonl.zstd",
+          "sha256": "c06d00b3af54dd317510d650ada157ff248ecdff828b9a0f9fea16a5adb5fa42",
+          "size": 5258238,
+          "mtimeMs": 1790074889410.781
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\a8ae6f95-6b34-4d94-b201-ee34aed50489\\session.v4.jsonl.zstd",
+          "sha256": "52fb8c5a1baa44e801ca21acea69a0c7045f37da8c012f239e6cb38f184989bd",
+          "size": 14912758,
+          "mtimeMs": 1790414995282.0723
+        }
+      ]
+    },
+    "a9cba9fa-344b-4649-8f0b-49c255a69b70": {
+      "sessionId": "a9cba9fa-344b-4649-8f0b-49c255a69b70",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S2 NBT/Region 组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a9cba9fa-344b-4649-8f0b-49c255a69b70",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\a9cba9fa-344b-4649-8f0b-49c255a69b70\\session.v3.jsonl.zstd",
+          "sha256": "47bfc4ce84de411815e24876b0fcebceb7396fe38f75058e302ac3a51413e71e",
+          "size": 50324449,
+          "mtimeMs": 1790074849993.765
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\a9cba9fa-344b-4649-8f0b-49c255a69b70\\session.v4.jsonl.zstd",
+          "sha256": "e6f4a70bd21ca22ad57b0214a72519dbe54455eb28966f4f1857695c9ca8028f",
+          "size": 69424754,
+          "mtimeMs": 1790429992246.48
+        }
+      ]
+    },
+    "b4799a72-12bf-4005-bff5-6fbfdb5b7b94": {
+      "sessionId": "b4799a72-12bf-4005-bff5-6fbfdb5b7b94",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "独立审计员：两侧写入序列按序 diff + 源码全量机械对照（临时编制）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "b4799a72-12bf-4005-bff5-6fbfdb5b7b94",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b4799a72-12bf-4005-bff5-6fbfdb5b7b94\\session.v3.jsonl.zstd",
+          "sha256": "6788ffe719864afab544ac744d79a53d976494b34e981852445912ea9353318e",
+          "size": 11552193,
+          "mtimeMs": 1790076254219.4846
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b4799a72-12bf-4005-bff5-6fbfdb5b7b94\\session.v4.jsonl.zstd",
+          "sha256": "a4826abe57864782bd2a5647459bb589adb868569c5e5dedcf65b31e63ca8b65",
+          "size": 18189831,
+          "mtimeMs": 1790308709357.6973
+        }
+      ]
+    },
+    "b6d7a2d2-fabc-4077-bb22-bd07ac33a3bc": {
+      "sessionId": "b6d7a2d2-fabc-4077-bb22-bd07ac33a3bc",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S2-T2 mc-anvil 实现",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "b6d7a2d2-fabc-4077-bb22-bd07ac33a3bc",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b6d7a2d2-fabc-4077-bb22-bd07ac33a3bc\\session.v3.jsonl.zstd",
+          "sha256": "e8c82c17d2a7acd8021bf8350572f31add1303595a7bebfdd0f338ddf89cdf37",
+          "size": 36374779,
+          "mtimeMs": 1790074071398.6748
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b6d7a2d2-fabc-4077-bb22-bd07ac33a3bc\\session.v4.jsonl.zstd",
+          "sha256": "109a653e3b35fa0470ead3cd24185c03259a22e15c365f38ca616ede8eb99f65",
+          "size": 38762094,
+          "mtimeMs": 1790437258717.39
+        }
+      ]
+    },
+    "b733f132-04f9-40b2-abbf-ef01dcad9fe8": {
+      "sessionId": "b733f132-04f9-40b2-abbf-ef01dcad9fe8",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t203 蘑菇族成因定位（0->39 / 39->0，只读分析，不改 crates）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "b733f132-04f9-40b2-abbf-ef01dcad9fe8",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b733f132-04f9-40b2-abbf-ef01dcad9fe8\\session.v3.jsonl.zstd",
+          "sha256": "63276a7226fe75a8445b11acfeb89d55b304f6516b2a953fa0d0572feb9c879e",
+          "size": 12867168,
+          "mtimeMs": 1790076233419.8303
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\b733f132-04f9-40b2-abbf-ef01dcad9fe8\\session.v4.jsonl.zstd",
+          "sha256": "1438e0421242c169b8cf3a72c540d694345d09638417aab67baaa445e698ae7f",
+          "size": 16352180,
+          "mtimeMs": 1790308737993.1226
+        }
+      ]
+    },
+    "c0d0b2c9-b9e7-44d0-a191-870025dd2604": {
+      "sessionId": "c0d0b2c9-b9e7-44d0-a191-870025dd2604",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c0d0b2c9-b9e7-44d0-a191-870025dd2604",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c0d0b2c9-b9e7-44d0-a191-870025dd2604\\session.v3.jsonl.zstd",
+          "sha256": "2d629a648393bcb56dfb12385b724ac8a1d8708e12afb735bf1f84428991929b",
+          "size": 4445248,
+          "mtimeMs": 1790071079165.844
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c0d0b2c9-b9e7-44d0-a191-870025dd2604\\session.v4.jsonl.zstd",
+          "sha256": "7e170620b69a583300bd61c831e36a381ece49c9f087c187df1796b245d011fa",
+          "size": 17113036,
+          "mtimeMs": 1790428137753.6602
+        }
+      ]
+    },
+    "c5205c91-7f13-4cef-9adc-21531a9fe2d4": {
+      "sessionId": "c5205c91-7f13-4cef-9adc-21531a9fe2d4",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "Verify image reading capability",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c5205c91-7f13-4cef-9adc-21531a9fe2d4",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c5205c91-7f13-4cef-9adc-21531a9fe2d4\\session.v4.jsonl.zstd",
+          "sha256": "8535670cd02e11d019808a4b070455fff30b4a1155cebafbfbc1e3b8aa4b6f86",
+          "size": 58943,
+          "mtimeMs": 1790152161319.214
+        }
+      ]
+    },
+    "c824667b-ffe8-43d7-8eb7-c1606f7f7e83": {
+      "sessionId": "c824667b-ffe8-43d7-8eb7-c1606f7f7e83",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "线A① vendor/我方世界生成方法机械枚举",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c824667b-ffe8-43d7-8eb7-c1606f7f7e83",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c824667b-ffe8-43d7-8eb7-c1606f7f7e83\\session.v3.jsonl.zstd",
+          "sha256": "a11f52d46205ed7b79a9e0f56b97c4cdaa7703d8415c4a9892028b2202ced63a",
+          "size": 8174698,
+          "mtimeMs": 1790076262435.687
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c824667b-ffe8-43d7-8eb7-c1606f7f7e83\\session.v4.jsonl.zstd",
+          "sha256": "422aefe3d561ef1c3961dd8ccd619fb5118a3f9ade4e76cb949beb49cfbea801",
+          "size": 20212561,
+          "mtimeMs": 1790288429575.7036
+        }
+      ]
+    },
+    "c9727e1d-5a53-400f-bdde-cf35d96cb184": {
+      "sessionId": "c9727e1d-5a53-400f-bdde-cf35d96cb184",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-net 组员",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c9727e1d-5a53-400f-bdde-cf35d96cb184",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c9727e1d-5a53-400f-bdde-cf35d96cb184\\session.v3.jsonl.zstd",
+          "sha256": "2900aacf0a9ea38a98e6247e244420c90e4390cee6caa8e2d2258e7e2b21f84d",
+          "size": 9960159,
+          "mtimeMs": 1790076264647.2969
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\c9727e1d-5a53-400f-bdde-cf35d96cb184\\session.v4.jsonl.zstd",
+          "sha256": "f6f8b558881e500520c5acf1bd9cb2e4e66c6b26febf8b2aafa8760385f8e60e",
+          "size": 12474592,
+          "mtimeMs": 1790393023156.6348
+        }
+      ]
+    },
+    "ca962ba1-653b-42fd-b31c-a0f1a9577083": {
+      "sessionId": "ca962ba1-653b-42fd-b31c-a0f1a9577083",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "g-boot tier-2：接 t77（光标不聚焦/视角，用户 P0 第三条）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "ca962ba1-653b-42fd-b31c-a0f1a9577083",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\ca962ba1-653b-42fd-b31c-a0f1a9577083\\session.v4.jsonl.zstd",
+          "sha256": "8ed26aad9d21377ba2be201b54585737513db12f26e5c5dd11baac90a7417482",
+          "size": 3751832,
+          "mtimeMs": 1790443615506.3667
+        }
+      ]
+    },
+    "cdc734a9-7aea-49cd-9657-eb1ad2567351": {
+      "sessionId": "cdc734a9-7aea-49cd-9657-eb1ad2567351",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "源码对照组（临时）：vendor 世界生成链逐函数覆盖矩阵 + 渲染光照链完整读取对照",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "cdc734a9-7aea-49cd-9657-eb1ad2567351",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\cdc734a9-7aea-49cd-9657-eb1ad2567351\\session.v3.jsonl.zstd",
+          "sha256": "857ea6bd4f5ffcdb12279656d84d2a1b038e59d9078893589d0dd1e433c21224",
+          "size": 6189121,
+          "mtimeMs": 1790075354312.5503
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\cdc734a9-7aea-49cd-9657-eb1ad2567351\\session.v4.jsonl.zstd",
+          "sha256": "e63f978bc4b454005f6671925a20d04919de493e4d2073fe5d0281b1e4881d38",
+          "size": 17093997,
+          "mtimeMs": 1790308688637.7842
+        }
+      ]
+    },
+    "dd3cb3e7-90ad-4222-b42a-b8165d895359": {
+      "sessionId": "dd3cb3e7-90ad-4222-b42a-b8165d895359",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t117：mc-app 输入链路（键鼠 → C07/C08/C02/C0A：持续挖掘/破坏/放置/攻击+挥手）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "dd3cb3e7-90ad-4222-b42a-b8165d895359",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\dd3cb3e7-90ad-4222-b42a-b8165d895359\\session.v3.jsonl.zstd",
+          "sha256": "5ce610b9bd1d1bd8f8ffa5908da9be73212300d4d4c415593848484c52203f9d",
+          "size": 2023671,
+          "mtimeMs": 1790076264341.4497
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\dd3cb3e7-90ad-4222-b42a-b8165d895359\\session.v4.jsonl.zstd",
+          "sha256": "c17d8946e6462760ea143f7f8e46c84fc6a63032651ee011d2be9546f29aaea2",
+          "size": 15374281,
+          "mtimeMs": 1790407859093.8076
+        }
+      ]
+    },
+    "ebc7e13f-c836-46b6-9807-7e78110f2547": {
+      "sessionId": "ebc7e13f-c836-46b6-9807-7e78110f2547",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "mc-util JavaRandom + tick 调度原语",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "ebc7e13f-c836-46b6-9807-7e78110f2547",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\ebc7e13f-c836-46b6-9807-7e78110f2547\\session.v3.jsonl.zstd",
+          "sha256": "c0568d53590d8a86aa7a6bc2ecde02f0ff3f6bc3e5e290861e285fb652864564",
+          "size": 20938317,
+          "mtimeMs": 1789898479316.6555
+        }
+      ]
+    },
+    "ef94d293-d319-45df-92fd-2650d7e4a67d": {
+      "sessionId": "ef94d293-d319-45df-92fd-2650d7e4a67d",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S0 mc189-golden 工具 crate + random-verify",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "ef94d293-d319-45df-92fd-2650d7e4a67d",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\ef94d293-d319-45df-92fd-2650d7e4a67d\\session.v3.jsonl.zstd",
+          "sha256": "55d82d2b816d5a2d3470d75d48e8a6de2779e9d13a69edb836299d960ef8f9b8",
+          "size": 19474643,
+          "mtimeMs": 1790061382906.678
+        }
+      ]
+    },
+    "fc255ece-df93-4abc-99b3-6d17ea9d58c5": {
+      "sessionId": "fc255ece-df93-4abc-99b3-6d17ea9d58c5",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "S6 协议 + S10 服务端/指令 —— 「与原版无缝联机」的主战场",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "fc255ece-df93-4abc-99b3-6d17ea9d58c5",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\fc255ece-df93-4abc-99b3-6d17ea9d58c5\\session.v3.jsonl.zstd",
+          "sha256": "81777ad3bbe1731ab7eb555adcc8c430ca01e200a377e1e0e99f2360b2416ac5",
+          "size": 9035173,
+          "mtimeMs": 1790075800566.4917
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\fc255ece-df93-4abc-99b3-6d17ea9d58c5\\session.v4.jsonl.zstd",
+          "sha256": "31040f860c6b6ad3200c44d36dbed36a21cf6f07ded860078c6540f4a5a64e42",
+          "size": 68255602,
+          "mtimeMs": 1790430001352.545
+        }
+      ]
+    },
+    "fe3f17ba-7e24-407a-8a30-280982ba7b70": {
+      "sessionId": "fe3f17ba-7e24-407a-8a30-280982ba7b70",
+      "parentSessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": "t98 剩余取证：A 端 tp 到空地 + 双端并排出图（两侧都能看到对方角色模型）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "fe3f17ba-7e24-407a-8a30-280982ba7b70",
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\fe3f17ba-7e24-407a-8a30-280982ba7b70\\session.v3.jsonl.zstd",
+          "sha256": "70e1d1149acef200a4c059bc0e4d7791d42b9ee2b741fd828de810ed755acdf4",
+          "size": 1393162,
+          "mtimeMs": 1790058068347.175
+        }
+      ]
+    },
+    "session-11a0cbf1-f8f2-411c-ad46-b12947ec2fd6": {
+      "sessionId": "session-11a0cbf1-f8f2-411c-ad46-b12947ec2fd6",
+      "parentSessionId": null,
+      "rootTeamId": "session-11a0cbf1-f8f2-411c-ad46-b12947ec2fd6",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-11a0cbf1-f8f2-411c-ad46-b12947ec2fd6"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-11a0cbf1-f8f2-411c-ad46-b12947ec2fd6\\session.v4.jsonl.zstd",
+          "sha256": "13562782c9eeef3850794bbe9e3dcc5d004e23569d50d9f933c9404ea0a07297",
+          "size": 503,
+          "mtimeMs": 1790353801492.9128
+        }
+      ]
+    },
+    "session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae": {
+      "sessionId": "session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae",
+      "parentSessionId": null,
+      "rootTeamId": "session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-46f40b1c-f4bc-45da-8a03-8bb64a63b9ae\\session.v4.jsonl.zstd",
+          "sha256": "ea359435d1b38aeed51e36b14b40e8f023592b53732b33137c1f141215a11d4d",
+          "size": 72406,
+          "mtimeMs": 1790299415264.7644
+        }
+      ]
+    },
+    "session-47aa6205-510f-4468-9c71-16a4897176bd": {
+      "sessionId": "session-47aa6205-510f-4468-9c71-16a4897176bd",
+      "parentSessionId": null,
+      "rootTeamId": "session-47aa6205-510f-4468-9c71-16a4897176bd",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-47aa6205-510f-4468-9c71-16a4897176bd"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-47aa6205-510f-4468-9c71-16a4897176bd\\session.v4.jsonl.zstd",
+          "sha256": "056aa4a1077794ddc857a7ab1da6158b7297ede48a36234d6c13a9efe7f032fb",
+          "size": 72745,
+          "mtimeMs": 1790311945132.246
+        }
+      ]
+    },
+    "session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb": {
+      "sessionId": "session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb",
+      "parentSessionId": null,
+      "rootTeamId": "session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-4f0d6986-a1fb-493d-b34e-d374a2aaa3eb\\session.v4.jsonl.zstd",
+          "sha256": "a6b2a5dea28862177a01fee83624c4da84acc3749f301b0f240cb2e7f37060e5",
+          "size": 59236,
+          "mtimeMs": 1790369341164.0166
+        }
+      ]
+    },
+    "session-5747ece9-f623-4196-899a-4063c89a5df5": {
+      "sessionId": "session-5747ece9-f623-4196-899a-4063c89a5df5",
+      "parentSessionId": null,
+      "rootTeamId": "session-5747ece9-f623-4196-899a-4063c89a5df5",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-5747ece9-f623-4196-899a-4063c89a5df5"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-5747ece9-f623-4196-899a-4063c89a5df5\\session.v4.jsonl.zstd",
+          "sha256": "dc3a24aa3468f6a7f4098a302e7febc76b6d4a8ff0d065e8f007c1ec2a31da14",
+          "size": 76424,
+          "mtimeMs": 1790299415719.3948
+        }
+      ]
+    },
+    "session-5c41c198-4bd6-4c7c-92a6-a144bab3105a": {
+      "sessionId": "session-5c41c198-4bd6-4c7c-92a6-a144bab3105a",
+      "parentSessionId": null,
+      "rootTeamId": "session-5c41c198-4bd6-4c7c-92a6-a144bab3105a",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-5c41c198-4bd6-4c7c-92a6-a144bab3105a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-5c41c198-4bd6-4c7c-92a6-a144bab3105a\\session.v4.jsonl.zstd",
+          "sha256": "3d721a6c8e47d1cd5583f9f108f30e060c9f7212268d14ed3f0e5959a5a333f3",
+          "size": 64620,
+          "mtimeMs": 1790215401004.1375
+        }
+      ]
+    },
+    "session-617c1057-4289-46c5-af6e-90cf71b25fc3": {
+      "sessionId": "session-617c1057-4289-46c5-af6e-90cf71b25fc3",
+      "parentSessionId": null,
+      "rootTeamId": "session-617c1057-4289-46c5-af6e-90cf71b25fc3",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-617c1057-4289-46c5-af6e-90cf71b25fc3"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-617c1057-4289-46c5-af6e-90cf71b25fc3\\session.v4.jsonl.zstd",
+          "sha256": "ce1520c6933d164437d8d580c77beee9eb7cfa7d1e39be787b1de22391135ef3",
+          "size": 504,
+          "mtimeMs": 1790353824841.7422
+        }
+      ]
+    },
+    "session-61af0a14-857f-49c7-a780-536d45826ddd": {
+      "sessionId": "session-61af0a14-857f-49c7-a780-536d45826ddd",
+      "parentSessionId": null,
+      "rootTeamId": "session-61af0a14-857f-49c7-a780-536d45826ddd",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-61af0a14-857f-49c7-a780-536d45826ddd"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-61af0a14-857f-49c7-a780-536d45826ddd\\session.v4.jsonl.zstd",
+          "sha256": "ad6259e59a3cdeb74aad4a3eeef19ed1a40ef975a9e8aeb8ac0997bc32c57b44",
+          "size": 142206,
+          "mtimeMs": 1790299414152.8723
+        }
+      ]
+    },
+    "session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c": {
+      "sessionId": "session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c",
+      "parentSessionId": null,
+      "rootTeamId": "session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c\\session.v3.jsonl.zstd",
+          "sha256": "60d17f444dfcba1c34e5d7d3d754518dd24d5d3eabd3042796e8aaf5ecb40c14",
+          "size": 63517,
+          "mtimeMs": 1789683638214.1172
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-6dd2bd43-7d84-4ef3-90ea-449817ee8c0c\\session.v4.jsonl.zstd",
+          "sha256": "56b2d8d685418f7d893206dec31595209f382e519297cc77a68f01f365cb3c4e",
+          "size": 55538,
+          "mtimeMs": 1790081308194.6404
+        }
+      ]
+    },
+    "session-7a601594-66f6-4255-92ba-1ef6813cbf1a": {
+      "sessionId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "parentSessionId": null,
+      "rootTeamId": "session-7a601594-66f6-4255-92ba-1ef6813cbf1a",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-7a601594-66f6-4255-92ba-1ef6813cbf1a"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-7a601594-66f6-4255-92ba-1ef6813cbf1a\\session.v3.jsonl.zstd",
+          "sha256": "d13ba4919af2cda16a86e7d78c823a0fbe4ace68e355db112bfc68b275693de8",
+          "size": 143632029,
+          "mtimeMs": 1790076262209.2966
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-7a601594-66f6-4255-92ba-1ef6813cbf1a\\session.v4.jsonl.zstd",
+          "sha256": "5bb3dfb77681ef2f4b4d21e42fafb6c03644a1f0e1eac2374868ee481391e2fc",
+          "size": 84631432,
+          "mtimeMs": 1790566399229.8857
+        }
+      ]
+    },
+    "session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6": {
+      "sessionId": "session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6",
+      "parentSessionId": null,
+      "rootTeamId": "session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-7e2e9d42-8d8a-44f1-a6ce-da7dba8fd3b6\\session.v4.jsonl.zstd",
+          "sha256": "6365a4757a5374322917a86f077ce69dc20cdccbc3d223e6942d1ded337e985d",
+          "size": 66784,
+          "mtimeMs": 1790233482976.0642
+        }
+      ]
+    },
+    "session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71": {
+      "sessionId": "session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71",
+      "parentSessionId": null,
+      "rootTeamId": "session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-9621312a-9f8d-4081-b7f1-ff9b4e66bf71\\session.v4.jsonl.zstd",
+          "sha256": "9af0ba894cb4fdf06e99c8511040d40858565b21783f2df0db48aafcfa60fd00",
+          "size": 61489,
+          "mtimeMs": 1790299414615.62
+        }
+      ]
+    },
+    "session-a1674a36-4525-40f5-b443-d69f7f16057b": {
+      "sessionId": "session-a1674a36-4525-40f5-b443-d69f7f16057b",
+      "parentSessionId": null,
+      "rootTeamId": "session-a1674a36-4525-40f5-b443-d69f7f16057b",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-a1674a36-4525-40f5-b443-d69f7f16057b"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-a1674a36-4525-40f5-b443-d69f7f16057b\\session.v4.jsonl.zstd",
+          "sha256": "450f276869656c6fc868eedf05bd69b034d10f5b50f71fdeb4fbf29c7eb46b36",
+          "size": 502,
+          "mtimeMs": 1790353719561.1272
+        }
+      ]
+    },
+    "session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099": {
+      "sessionId": "session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099",
+      "parentSessionId": null,
+      "rootTeamId": "session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-b6bf8f86-3b39-4796-8aa8-7107b5fb2099\\session.v4.jsonl.zstd",
+          "sha256": "1b60f621af73c4fbb4e162be371dded9301152a0c03b7835448df043b6c85676",
+          "size": 62492,
+          "mtimeMs": 1790520635151.2183
+        }
+      ]
+    },
+    "session-b81497cb-7768-4b07-bd7b-3dac9c034d6b": {
+      "sessionId": "session-b81497cb-7768-4b07-bd7b-3dac9c034d6b",
+      "parentSessionId": null,
+      "rootTeamId": "session-b81497cb-7768-4b07-bd7b-3dac9c034d6b",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-b81497cb-7768-4b07-bd7b-3dac9c034d6b"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-b81497cb-7768-4b07-bd7b-3dac9c034d6b\\session.v4.jsonl.zstd",
+          "sha256": "76bf538a6cb644c3334f1befb2e8e86ae1731361c6735d5996233a2853a59f12",
+          "size": 504,
+          "mtimeMs": 1790353596787.348
+        }
+      ]
+    },
+    "session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9": {
+      "sessionId": "session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9",
+      "parentSessionId": null,
+      "rootTeamId": "session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9\\session.v3.jsonl.zstd",
+          "sha256": "7ae2319e70318fb67e632200fb253e4410ae3c06a1fe72224f34a36d392be7d8",
+          "size": 312467,
+          "mtimeMs": 1790075935629.8784
+        },
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-c9e9c173-f75b-48ac-bf07-bd0b2c87b6d9\\session.v4.jsonl.zstd",
+          "sha256": "58c27c99d616e5bb24e65b627576c559e33453c47b00271cbb9ae2d90e01ea9c",
+          "size": 164440,
+          "mtimeMs": 1790215748067.7415
+        }
+      ]
+    },
+    "session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc": {
+      "sessionId": "session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc",
+      "parentSessionId": null,
+      "rootTeamId": "session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-db095c5c-a694-4e80-8dfb-b6be64fb6cfc\\session.v4.jsonl.zstd",
+          "sha256": "658d7de0af5a81a7be83125da6bd4eb57fd8669297d98463cca55e059dd65bc4",
+          "size": 64587,
+          "mtimeMs": 1790309067255.9253
+        }
+      ]
+    },
+    "session-db1336b5-d6f8-416d-9843-31087e1bdb42": {
+      "sessionId": "session-db1336b5-d6f8-416d-9843-31087e1bdb42",
+      "parentSessionId": null,
+      "rootTeamId": "session-db1336b5-d6f8-416d-9843-31087e1bdb42",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-db1336b5-d6f8-416d-9843-31087e1bdb42"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-db1336b5-d6f8-416d-9843-31087e1bdb42\\session.v4.jsonl.zstd",
+          "sha256": "879495d26bcfddfb166675293d5234b5b0ec1dfc95df510b2927e3b7a755c119",
+          "size": 64526,
+          "mtimeMs": 1790308724024.5884
+        }
+      ]
+    },
+    "session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44": {
+      "sessionId": "session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44",
+      "parentSessionId": null,
+      "rootTeamId": "session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-de1b6d28-dc87-4f55-9fb4-87d40e5bfa44\\session.v4.jsonl.zstd",
+          "sha256": "aff2d446766ecc895ba655087df66dc722b3dac0f08e7cefd51c7277463d470c",
+          "size": 67794,
+          "mtimeMs": 1790297421654.869
+        }
+      ]
+    },
+    "session-ee51dc04-31c1-423b-a558-c87f2dc50ead": {
+      "sessionId": "session-ee51dc04-31c1-423b-a558-c87f2dc50ead",
+      "parentSessionId": null,
+      "rootTeamId": "session-ee51dc04-31c1-423b-a558-c87f2dc50ead",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-ee51dc04-31c1-423b-a558-c87f2dc50ead"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-ee51dc04-31c1-423b-a558-c87f2dc50ead\\session.v4.jsonl.zstd",
+          "sha256": "7b31dd70366a0ad0232b92d42353ee3632f06bb5812fd44d5e0f88ed5c1ec20d",
+          "size": 120273,
+          "mtimeMs": 1790314063050.5884
+        }
+      ]
+    },
+    "session-efafa4d4-f7da-40f7-9e3d-10f73d709b20": {
+      "sessionId": "session-efafa4d4-f7da-40f7-9e3d-10f73d709b20",
+      "parentSessionId": null,
+      "rootTeamId": "session-efafa4d4-f7da-40f7-9e3d-10f73d709b20",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-efafa4d4-f7da-40f7-9e3d-10f73d709b20"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-efafa4d4-f7da-40f7-9e3d-10f73d709b20\\session.v4.jsonl.zstd",
+          "sha256": "7121e859f18636921d630fb77b0164438a599301404772daf75d804c8c5ccaf2",
+          "size": 589,
+          "mtimeMs": 1790345094684.277
+        }
+      ]
+    },
+    "session-f7641fdc-ae7a-4c45-b089-d5cb08f6572e": {
+      "sessionId": "session-f7641fdc-ae7a-4c45-b089-d5cb08f6572e",
+      "parentSessionId": null,
+      "rootTeamId": "session-f7641fdc-ae7a-4c45-b089-d5cb08f6572e",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-f7641fdc-ae7a-4c45-b089-d5cb08f6572e"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-f7641fdc-ae7a-4c45-b089-d5cb08f6572e\\session.v4.jsonl.zstd",
+          "sha256": "74728b0b3406f2f2c5898a62e6ebe7caf952db150e775f407c8f8eed3de67434",
+          "size": 501,
+          "mtimeMs": 1790353541368.737
+        }
+      ]
+    },
+    "session-fa805c32-6cd1-4856-ae80-c075990cbfeb": {
+      "sessionId": "session-fa805c32-6cd1-4856-ae80-c075990cbfeb",
+      "parentSessionId": null,
+      "rootTeamId": "session-fa805c32-6cd1-4856-ae80-c075990cbfeb",
+      "workspace": "mc189-rs",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-fa805c32-6cd1-4856-ae80-c075990cbfeb"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-mc189-rs--\\session-fa805c32-6cd1-4856-ae80-c075990cbfeb\\session.v4.jsonl.zstd",
+          "sha256": "22342715ecb487031fe8325f41c5af1d7da07db3239761353a76efb095b4a15c",
+          "size": 503,
+          "mtimeMs": 1790353746568.842
+        }
+      ]
+    },
+    "00d48620-9a1c-4e6a-a4be-023c960e9c0c": {
+      "sessionId": "00d48620-9a1c-4e6a-a4be-023c960e9c0c",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "客户端线/渲染后端与资源管道（group-client-t1）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "00d48620-9a1c-4e6a-a4be-023c960e9c0c",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\00d48620-9a1c-4e6a-a4be-023c960e9c0c\\session.v4.jsonl.zstd",
+          "sha256": "5aa390ba7123095f752f3a3aa9db7c267ef1d41fad1bf4f3443d64b34c380213",
+          "size": 861372,
+          "mtimeMs": 1790485941698.2798
+        }
+      ]
+    },
+    "0c3a8b38-2562-49ae-a413-8bad1feb49f5": {
+      "sessionId": "0c3a8b38-2562-49ae-a413-8bad1feb49f5",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "独立复验：客户端线 task-2 批次 + 验证法务线 task-3 批次",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "0c3a8b38-2562-49ae-a413-8bad1feb49f5",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\0c3a8b38-2562-49ae-a413-8bad1feb49f5\\session.v4.jsonl.zstd",
+          "sha256": "5d013dbfa691ae31e3fb4c3aed5c92e96a5065bf8a73a6266f44058869fe6361",
+          "size": 76532316,
+          "mtimeMs": 1790764960469.597
+        }
+      ]
+    },
+    "16c3d2fd-b490-4bb5-a9b0-7be1afe3c3fd": {
+      "sessionId": "16c3d2fd-b490-4bb5-a9b0-7be1afe3c3fd",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO M4 列覆盖度核账（t56）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "16c3d2fd-b490-4bb5-a9b0-7be1afe3c3fd",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\16c3d2fd-b490-4bb5-a9b0-7be1afe3c3fd\\session.v4.jsonl.zstd",
+          "sha256": "b61e27fca0b47e2ffabf3ae6d357ad2c61e2dcae9bdfabca372942898d2cfe9b",
+          "size": 2937257,
+          "mtimeMs": 1790710620300.723
+        }
+      ]
+    },
+    "26d03f4b-e85e-4cda-8a7f-2bd09980862f": {
+      "sessionId": "26d03f4b-e85e-4cda-8a7f-2bd09980862f",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 引注修复（6 条裸基名 → 路径限定）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "26d03f4b-e85e-4cda-8a7f-2bd09980862f",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\26d03f4b-e85e-4cda-8a7f-2bd09980862f\\session.v4.jsonl.zstd",
+          "sha256": "8c956c47759cc243137c1b7226dc9d5f32df16d495ef5f08dad4a50f4349d3f2",
+          "size": 2218150,
+          "mtimeMs": 1790755245054.911
+        }
+      ]
+    },
+    "33656115-7d28-4b11-ba73-42a461a3c63b": {
+      "sessionId": "33656115-7d28-4b11-ba73-42a461a3c63b",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 组员 · M0-W0-3 Anvil region 归一化读取规范",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "33656115-7d28-4b11-ba73-42a461a3c63b",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\33656115-7d28-4b11-ba73-42a461a3c63b\\session.v4.jsonl.zstd",
+          "sha256": "6e01f546e147edbe5fa6830d917abbcf85f0c2462786f6c5549f77f22909ece4",
+          "size": 26757529,
+          "mtimeMs": 1790754332573.801
+        }
+      ]
+    },
+    "39861c89-c409-4ade-981a-a2c29ef7c989": {
+      "sessionId": "39861c89-c409-4ade-981a-a2c29ef7c989",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "客户端线/GUI HUD 与实体表现（group-client-t3）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "39861c89-c409-4ade-981a-a2c29ef7c989",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\39861c89-c409-4ade-981a-a2c29ef7c989\\session.v4.jsonl.zstd",
+          "sha256": "535766b15efcf4fdd01af23e91708e504acc223abb988ace62ad4157759b2484",
+          "size": 917981,
+          "mtimeMs": 1790486006747.114
+        }
+      ]
+    },
+    "39d1ce84-3111-4f7c-9b2e-62568ea87129": {
+      "sessionId": "39d1ce84-3111-4f7c-9b2e-62568ea87129",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "协议与认证线（protocol 47 包覆盖/登录/加密/压缩）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "39d1ce84-3111-4f7c-9b2e-62568ea87129",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\39d1ce84-3111-4f7c-9b2e-62568ea87129\\session.v4.jsonl.zstd",
+          "sha256": "6e6d5541e0341be5a194c37fd15404a7530b14367396218613508bb81358cabb",
+          "size": 1825439,
+          "mtimeMs": 1790486022811.7588
+        }
+      ]
+    },
+    "3dc13098-1afe-42bb-8640-232aee59796d": {
+      "sessionId": "3dc13098-1afe-42bb-8640-232aee59796d",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO 组长 · 协议与连接层",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "3dc13098-1afe-42bb-8640-232aee59796d",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\3dc13098-1afe-42bb-8640-232aee59796d\\session.v4.jsonl.zstd",
+          "sha256": "ab7381baab3e667e68c937154dc01ec0c9b85795d4cfb965c9a0dacc73ffe772",
+          "size": 69916732,
+          "mtimeMs": 1790765006056.857
+        }
+      ]
+    },
+    "4436c602-ce5c-4cfc-b658-fbe09ff984bc": {
+      "sessionId": "4436c602-ce5c-4cfc-b658-fbe09ff984bc",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-RIG 组长 · 台架与验证工具层",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "4436c602-ce5c-4cfc-b658-fbe09ff984bc",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\4436c602-ce5c-4cfc-b658-fbe09ff984bc\\session.v4.jsonl.zstd",
+          "sha256": "ca54c7e9b2c215b92aab3a735e4a5e4bff0554524535a3fe0a6332f3d29907ab",
+          "size": 81271253,
+          "mtimeMs": 1790786665417.0317
+        }
+      ]
+    },
+    "5a6ab70c-c1e8-475c-9617-238a1729308d": {
+      "sessionId": "5a6ab70c-c1e8-475c-9617-238a1729308d",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "服务端/协议线组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "5a6ab70c-c1e8-475c-9617-238a1729308d",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\5a6ab70c-c1e8-475c-9617-238a1729308d\\session.v4.jsonl.zstd",
+          "sha256": "a8bf859b2ce65e24cfe9207559794f896e579b3ffc3e3fcb6d69a4b53e75c377",
+          "size": 3976439,
+          "mtimeMs": 1790486314328.2527
+        }
+      ]
+    },
+    "5b8fe8fd-0097-47b7-b2ea-2cff7762ba81": {
+      "sessionId": "5b8fe8fd-0097-47b7-b2ea-2cff7762ba81",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 组员 · M0-W0-2 区块字节流布局与哈希输入规范",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "5b8fe8fd-0097-47b7-b2ea-2cff7762ba81",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\5b8fe8fd-0097-47b7-b2ea-2cff7762ba81\\session.v4.jsonl.zstd",
+          "sha256": "55e4baa69e7deec0bb536da1b81b50a9c9e9741022ad572f18b2121ed06293fd",
+          "size": 42560794,
+          "mtimeMs": 1790772488383.014
+        }
+      ]
+    },
+    "60a4e4a2-9802-464a-82de-c9b7bb68516c": {
+      "sessionId": "60a4e4a2-9802-464a-82de-c9b7bb68516c",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-RIG 组员 · headless bot 与三段采集（group-rig-t2）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "60a4e4a2-9802-464a-82de-c9b7bb68516c",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\60a4e4a2-9802-464a-82de-c9b7bb68516c\\session.v4.jsonl.zstd",
+          "sha256": "460584ad70e0c3364dc502cedfbf54b0b028102be452721482116c74d2237e9c",
+          "size": 22628260,
+          "mtimeMs": 1790694866829.5625
+        }
+      ]
+    },
+    "6ce12c91-e03a-4eb0-8adf-e8fc30f813ad": {
+      "sessionId": "6ce12c91-e03a-4eb0-8adf-e8fc30f813ad",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-RIG 组员 · 无头 oracle 运行器（group-rig-t1）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "6ce12c91-e03a-4eb0-8adf-e8fc30f813ad",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\6ce12c91-e03a-4eb0-8adf-e8fc30f813ad\\session.v4.jsonl.zstd",
+          "sha256": "4a959fcaef003a98a310cd873a1ff724f6c8bac130fd7c8695e1984687e565bb",
+          "size": 28166413,
+          "mtimeMs": 1790770641010.4548
+        }
+      ]
+    },
+    "7de927e8-5f47-4708-804d-a8c27883cb54": {
+      "sessionId": "7de927e8-5f47-4708-804d-a8c27883cb54",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 组员 · M0-W0-1 H_block 双射与归一化规范",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "7de927e8-5f47-4708-804d-a8c27883cb54",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\7de927e8-5f47-4708-804d-a8c27883cb54\\session.v4.jsonl.zstd",
+          "sha256": "dfe00dfa086cf79d77125c51f95e072c79872cd8fff1a6188ed383f442dcbd43",
+          "size": 24589825,
+          "mtimeMs": 1790758881765.9622
+        }
+      ]
+    },
+    "86c9ba48-695b-4222-9ebc-901e21e4f0ec": {
+      "sessionId": "86c9ba48-695b-4222-9ebc-901e21e4f0ec",
+      "parentSessionId": "33656115-7d28-4b11-ba73-42a461a3c63b",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "Measure Temple oracle classes",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "86c9ba48-695b-4222-9ebc-901e21e4f0ec",
+        "33656115-7d28-4b11-ba73-42a461a3c63b",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\86c9ba48-695b-4222-9ebc-901e21e4f0ec\\session.v4.jsonl.zstd",
+          "sha256": "0f3656ca5c54b8820bb4124a8d4c71a234a9fe390a65f5dcf5156d1ea9eae113",
+          "size": 237591,
+          "mtimeMs": 1790604539444.1226
+        }
+      ]
+    },
+    "9fbd212d-2a01-48d1-9178-539fcf6c953f": {
+      "sessionId": "9fbd212d-2a01-48d1-9178-539fcf6c953f",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO 组员 · 包注册表与 codegen schema",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "9fbd212d-2a01-48d1-9178-539fcf6c953f",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\9fbd212d-2a01-48d1-9178-539fcf6c953f\\session.v4.jsonl.zstd",
+          "sha256": "817467ccedf1956e4dd9cffc43398cecf86c871d642d719620aef3e25ece4b67",
+          "size": 18233997,
+          "mtimeMs": 1790759135148.3794
+        }
+      ]
+    },
+    "a0bcf571-e4cd-408a-a5c0-c2b6787347f9": {
+      "sessionId": "a0bcf571-e4cd-408a-a5c0-c2b6787347f9",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-RIG 组员 · L2 差分与 L3 区块哈希（group-rig-t3）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a0bcf571-e4cd-408a-a5c0-c2b6787347f9",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\a0bcf571-e4cd-408a-a5c0-c2b6787347f9\\session.v4.jsonl.zstd",
+          "sha256": "bf60f84131f993269b2fec5d4274302f1628bfcc9c2440dd69c82ef3741f951e",
+          "size": 23740250,
+          "mtimeMs": 1790786814105.3098
+        }
+      ]
+    },
+    "a2b5259d-f6fd-4f1b-a5c4-343f36b083b6": {
+      "sessionId": "a2b5259d-f6fd-4f1b-a5c4-343f36b083b6",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "法务许可与仓库CI（C2）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a2b5259d-f6fd-4f1b-a5c4-343f36b083b6",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\a2b5259d-f6fd-4f1b-a5c4-343f36b083b6\\session.v4.jsonl.zstd",
+          "sha256": "a6252cd7715c7f1a2f076be36cae93c933b7dfa5d5f8b802a67429ca03d379d1",
+          "size": 1556873,
+          "mtimeMs": 1790490953328.1296
+        }
+      ]
+    },
+    "a8c72db9-b357-4e25-ac79-deb49f03bb5a": {
+      "sessionId": "a8c72db9-b357-4e25-ac79-deb49f03bb5a",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "接管 G-WORLD（前任 lead-world 不可达）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "a8c72db9-b357-4e25-ac79-deb49f03bb5a",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\a8c72db9-b357-4e25-ac79-deb49f03bb5a\\session.v4.jsonl.zstd",
+          "sha256": "61e18d6961c394925895a3bb338ed03c608fb2913fac3e7f1f55279077cfd0e0",
+          "size": 3265279,
+          "mtimeMs": 1790750872978.428
+        }
+      ]
+    },
+    "b04e3f97-2731-4b00-b228-89dcf6b5e66c": {
+      "sessionId": "b04e3f97-2731-4b00-b228-89dcf6b5e66c",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "世界与区块线（1.8 区块线格式/世界生成/逐方块一致性判定）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "b04e3f97-2731-4b00-b228-89dcf6b5e66c",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\b04e3f97-2731-4b00-b228-89dcf6b5e66c\\session.v4.jsonl.zstd",
+          "sha256": "aa32d7cf99838fb168b0e2f9a2d700f074b51deead30454e27de33981628aaaa",
+          "size": 1940123,
+          "mtimeMs": 1790486093953.5696
+        }
+      ]
+    },
+    "b2bcf3ea-0b29-4d7f-baf2-dae2aa90ccfd": {
+      "sessionId": "b2bcf3ea-0b29-4d7f-baf2-dae2aa90ccfd",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO 守卫（citation_integrity.rs）歧义记账与提示修复",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "b2bcf3ea-0b29-4d7f-baf2-dae2aa90ccfd",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\b2bcf3ea-0b29-4d7f-baf2-dae2aa90ccfd\\session.v4.jsonl.zstd",
+          "sha256": "1c1e7fac12c6d5f77391442c459b293e791d8822fb25a8f6d4b5ff594ac4afa2",
+          "size": 7349416,
+          "mtimeMs": 1790763040942.25
+        }
+      ]
+    },
+    "bbc7d9ec-c608-4cf4-b57d-0956378ae9af": {
+      "sessionId": "bbc7d9ec-c608-4cf4-b57d-0956378ae9af",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO 组员 · 线格式原语与向量",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "bbc7d9ec-c608-4cf4-b57d-0956378ae9af",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\bbc7d9ec-c608-4cf4-b57d-0956378ae9af\\session.v4.jsonl.zstd",
+          "sha256": "ec975e997b4629a804ea0363a1e0d2918c2f0522428f662d5d7f80ef3b87d778",
+          "size": 16280005,
+          "mtimeMs": 1790752360737.3655
+        }
+      ]
+    },
+    "c0eb44ec-1195-409a-8789-fcd4ed0ba3a1": {
+      "sessionId": "c0eb44ec-1195-409a-8789-fcd4ed0ba3a1",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 替换组长（前任 lead-world-2 连续 5 条已投递消息零持久效果）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c0eb44ec-1195-409a-8789-fcd4ed0ba3a1",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\c0eb44ec-1195-409a-8789-fcd4ed0ba3a1\\session.v4.jsonl.zstd",
+          "sha256": "b6632444b06e16adca37ddef755194f63956a32e65ded1a15cbec6f2f9ea3206",
+          "size": 5786606,
+          "mtimeMs": 1790773038494.76
+        }
+      ]
+    },
+    "c20f442e-2c36-4185-8f45-07aa83d45f50": {
+      "sessionId": "c20f442e-2c36-4185-8f45-07aa83d45f50",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "客户端/渲染线组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c20f442e-2c36-4185-8f45-07aa83d45f50",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\c20f442e-2c36-4185-8f45-07aa83d45f50\\session.v4.jsonl.zstd",
+          "sha256": "9e6f11924610b9d5cf132bde15e88ae90a10ae1c2346cba2877ecc6e856b2244",
+          "size": 3049076,
+          "mtimeMs": 1790486184922.1096
+        }
+      ]
+    },
+    "c6581d83-4148-4fb4-af3d-043503df39b5": {
+      "sessionId": "c6581d83-4148-4fb4-af3d-043503df39b5",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-RIG tools/trace-diff lane：t29（生成侧去行号化）→ t28（F3 字段解码器）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "c6581d83-4148-4fb4-af3d-043503df39b5",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\c6581d83-4148-4fb4-af3d-043503df39b5\\session.v4.jsonl.zstd",
+          "sha256": "6912eac0cc1e4256c21e86064779dbd361af40fd68d1f2e513c6c2d6f29506d7",
+          "size": 6123784,
+          "mtimeMs": 1790690672780.9182
+        }
+      ]
+    },
+    "cd0c9240-5850-4028-9457-86c131cc1f78": {
+      "sessionId": "cd0c9240-5850-4028-9457-86c131cc1f78",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "Windows 后台输入/抓帧控制（R1）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "cd0c9240-5850-4028-9457-86c131cc1f78",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\cd0c9240-5850-4028-9457-86c131cc1f78\\session.v4.jsonl.zstd",
+          "sha256": "73a4adfa5827393875202f3ef054240d4e301588a534719df1faf9d16edc12e5",
+          "size": 1137084,
+          "mtimeMs": 1790486377983.1462
+        }
+      ]
+    },
+    "d3a6f607-d6df-4aad-ac87-74fdbb009867": {
+      "sessionId": "d3a6f607-d6df-4aad-ac87-74fdbb009867",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "验证与法务/工程线组长",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "d3a6f607-d6df-4aad-ac87-74fdbb009867",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\d3a6f607-d6df-4aad-ac87-74fdbb009867\\session.v4.jsonl.zstd",
+          "sha256": "bb563df68c5a6e1e6a15cf86bd1c50edffaccc50ec6dbde5a54bca2881d98a54",
+          "size": 3106973,
+          "mtimeMs": 1790490994215.0022
+        }
+      ]
+    },
+    "d634ea5a-884e-42bc-814d-097571a3cd69": {
+      "sessionId": "d634ea5a-884e-42bc-814d-097571a3cd69",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "差分验证与测试工具链（C1）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "d634ea5a-884e-42bc-814d-097571a3cd69",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\d634ea5a-884e-42bc-814d-097571a3cd69\\session.v4.jsonl.zstd",
+          "sha256": "bbd1f67a9d893c1c36ac468dd06cc903847e59f2d9779d54e69c1a7cb4dbc7ce",
+          "size": 2590395,
+          "mtimeMs": 1790490979229.4778
+        }
+      ]
+    },
+    "da0a0430-3d9b-4a19-b2e8-899b3fea42fb": {
+      "sessionId": "da0a0430-3d9b-4a19-b2e8-899b3fea42fb",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-PROTO 组员 · 分帧压缩加密与状态机",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "da0a0430-3d9b-4a19-b2e8-899b3fea42fb",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\da0a0430-3d9b-4a19-b2e8-899b3fea42fb\\session.v4.jsonl.zstd",
+          "sha256": "3d4528bbc1119b26f3b5fd9c5d53e40b62e321169247cb985d79985dd972651a",
+          "size": 13558549,
+          "mtimeMs": 1790626561388.0366
+        }
+      ]
+    },
+    "ee446ccc-e769-44f1-ab6e-ba46ba7c0784": {
+      "sessionId": "ee446ccc-e769-44f1-ab6e-ba46ba7c0784",
+      "parentSessionId": "33656115-7d28-4b11-ba73-42a461a3c63b",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "Measure vanilla entity-sync anchors",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "ee446ccc-e769-44f1-ab6e-ba46ba7c0784",
+        "33656115-7d28-4b11-ba73-42a461a3c63b",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\ee446ccc-e769-44f1-ab6e-ba46ba7c0784\\session.v4.jsonl.zstd",
+          "sha256": "2f98e21d47735e1e00a88776aff2de0048190c88e5309164409b160d3c7ad91f",
+          "size": 294690,
+          "mtimeMs": 1790601150462.8633
+        }
+      ]
+    },
+    "f68c25af-b397-4720-ac39-3ba65fc89d00": {
+      "sessionId": "f68c25af-b397-4720-ac39-3ba65fc89d00",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "客户端线/物理与手感（group-client-t2）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "f68c25af-b397-4720-ac39-3ba65fc89d00",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\f68c25af-b397-4720-ac39-3ba65fc89d00\\session.v4.jsonl.zstd",
+          "sha256": "d33e3959122b1bc6b16fbbd63a9f21107d5fe1e6cd28e4c3970577d93d09678c",
+          "size": 802931,
+          "mtimeMs": 1790485911315.5312
+        }
+      ]
+    },
+    "f9be70b1-0aa1-4139-8c8d-891c4b281be4": {
+      "sessionId": "f9be70b1-0aa1-4139-8c8d-891c4b281be4",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "实体与规则线（同步/背包容器/生物AI/红石/命令/维度）",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "f9be70b1-0aa1-4139-8c8d-891c4b281be4",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\f9be70b1-0aa1-4139-8c8d-891c4b281be4\\session.v4.jsonl.zstd",
+          "sha256": "fa83c7b2bbd818aec8c8c13bf7437613df8f2c20472c3063ff2ce68be2731f52",
+          "size": 1751615,
+          "mtimeMs": 1790486176122.0698
+        }
+      ]
+    },
+    "fe4ed28c-a2cf-4217-a573-4174aece198f": {
+      "sessionId": "fe4ed28c-a2cf-4217-a573-4174aece198f",
+      "parentSessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": "G-WORLD 组长 · 世界与模拟层",
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "fe4ed28c-a2cf-4217-a573-4174aece198f",
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\fe4ed28c-a2cf-4217-a573-4174aece198f\\session.v4.jsonl.zstd",
+          "sha256": "795e6320f1df38c92c9fc5ac7f0868de55f18d2f438a3adbce2356f29fa023ac",
+          "size": 88130654,
+          "mtimeMs": 1790751396198.786
+        }
+      ]
+    },
+    "session-028e6f5b-1716-4c23-a232-af16d853d191": {
+      "sessionId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "parentSessionId": null,
+      "rootTeamId": "session-028e6f5b-1716-4c23-a232-af16d853d191",
+      "workspace": "RustMc",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-028e6f5b-1716-4c23-a232-af16d853d191"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\session-028e6f5b-1716-4c23-a232-af16d853d191\\session.v4.jsonl.zstd",
+          "sha256": "1403dddc422e702f0fb1614269bec3b93eb40a838415e4541edd920ecfe85e88",
+          "size": 103476071,
+          "mtimeMs": 1790794358346.1748
+        }
+      ]
+    },
+    "session-bb3c6dac-d56e-48a3-b3cc-bb4c64f3587c": {
+      "sessionId": "session-bb3c6dac-d56e-48a3-b3cc-bb4c64f3587c",
+      "parentSessionId": null,
+      "rootTeamId": "session-bb3c6dac-d56e-48a3-b3cc-bb4c64f3587c",
+      "workspace": "RustMc",
+      "label": null,
+      "lineageStatus": "resolved",
+      "lineageChain": [
+        "session-bb3c6dac-d56e-48a3-b3cc-bb4c64f3587c"
+      ],
+      "provenance": [
+        {
+          "file": "D:\\dsh-test\\home\\sessions\\--D-dsh-test-workspaces-RustMc--\\session-bb3c6dac-d56e-48a3-b3cc-bb4c64f3587c\\session.v4.jsonl.zstd",
+          "sha256": "7516d9947c7477ba1bf8f8020e451b01fc90d56b9069e0738676b64acd3e4fc7",
+          "size": 585,
+          "mtimeMs": 1790490816008.8853
+        }
+      ]
+    }
+  }
+}

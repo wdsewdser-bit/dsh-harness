@@ -1,0 +1,323 @@
+[
+  {
+    "package": "dsh-session",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\index.js",
+    "before": "C7EDBF46B9AF2A50114AC396596870EAF8BF7AD2970618EC6C5221B053BB5523",
+    "after": "E6B9E61986C73286B4B35167214BBB3218202BF92E26FCC7B89CE19D876FF8A8"
+  },
+  {
+    "package": "dsh-session",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\native-bridge.js",
+    "before": null,
+    "after": "87122A1536428079812A2D56B34333160DD19AE32BA2210BE86FF762D47924FE"
+  },
+  {
+    "package": "dsh-agent-loop",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\index.js",
+    "before": "C75A311300DB0DC1889F3DE8E893BAF1865D3EE281E09175BE181955CAB51B6D",
+    "after": "B55034743BE0F046DB5DE6456C21A72B85D35AE6721492FC39681825C841E056"
+  },
+  {
+    "package": "dsh-tools",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-tools\\lib\\index.js",
+    "before": "8586D0EB83528587B0C9CB8EBFF1DCE1F59CBB835DC6A987FD82DC7BDC1802D3",
+    "after": "1608BEA6350B8C4E457EB0F1EB03E206CC3C873E76B92737DED375248B716A6F"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\index.js",
+    "before": "AC0884C828E37C9728BA5263D8513F3A5985B755FFA11772115128D6F339832D",
+    "after": "EBF99F58C2BDE6620CB4412AD5EA516D0F93751A7DBF2659E1D31748B3D92954"
+  },
+  {
+    "package": "dsh-compaction-basic",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-basic\\lib\\index.js",
+    "before": "B7AC52F20A36430CF01A66B3A36F23A48FFDB22708D714DBE1FFF541B5DF4EC5",
+    "after": "24FF3CA1766C940EAF39212254A0B6BC7D6A530D9611C166E3CC081187B59AD2"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\index.js",
+    "before": "8EC52107EAD3D31F4D8CA95894C851046A2CBBD1B2033A0EA22FEDF17C043AE4",
+    "after": "6BB5985F65C987193C4DDA95D4A0B4E3B84B082F3CA0087A135A6B575140C104"
+  },
+  {
+    "package": "dsh-session-persistence-jsonl",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session-persistence-jsonl\\lib\\index.js",
+    "before": "8D2C705D0254232C1FCF8E60704E3A6502D51B7F888CA1EC0DF77D68E5C7C474",
+    "after": "18070A88A63600EE7FBC922400A1AB0FDADEC07FA27542E678045FB970FCA9F6"
+  },
+  {
+    "package": "dsh-tool-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-tool-goal-v15\\lib\\index.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-tool-goal\\lib\\index.js",
+    "before": "7220FA7B5B7C95C94377AC32C6B01ECAC5B4853D9DEC3A48AB17D371CDA63E6C",
+    "after": "7BE79A90670455E390A9AF3138CBA85DE59A7E73A1C47515EC72089808FF9C83"
+  },
+  {
+    "package": "dsh-session-persistence-jsonl",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session-persistence-jsonl\\lib\\window-barrier.js",
+    "before": null,
+    "after": "91EFC8A9953E36C664E509D08A0852F43F08B16D97581F5E6102F23DBBEAF76F"
+  },
+  {
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\cordis\\lib\\index.js",
+    "after": "0200E14D1967B7A0361C2BB78D78F53A9502E1735CBB1C10BDB9F191EE8D9E8D",
+    "package": "cordis",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\cordis-v15\\lib\\index.js",
+    "before": "6A9394C0877FF45218818C6E815EDD038F8057E1A1DEB390A8D43EC81C57691E"
+  },
+  {
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\cordis-plugin-loader\\lib\\index.js",
+    "after": "C65B245360589648D5FB00F812EDAB3B35F31DE0C030AD7491149ACA32A8F5B9",
+    "package": "cordis-plugin-loader",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\cordis-plugin-loader-v15\\lib\\index.js",
+    "before": "B57C5075E881B4CEB3A15382F506CE549BCBDCD2A0F5BAE292F67E6A83A45B1F"
+  },
+  {
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-system-prompt\\lib\\index.js",
+    "after": "04C38C70B857963B853B38F20A0C43AFB1DEFA8A786C2769E73D1C5A8FE05C20",
+    "package": "dsh-system-prompt",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-system-prompt-v15\\lib\\index.js",
+    "before": "FF422AFAC6BA85F89AFA985D921AED0B603FEB354A05A549C48EAE04CF0D2F57"
+  },
+  {
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-scope\\lib\\index.js",
+    "after": "0A8E2F4ED7013912002363F450B8825A2A95C5A7E27A66D20755F1B9CB9FCCC4",
+    "package": "dsh-scope",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-scope-v15\\lib\\index.js",
+    "before": "2829DF71D76E08941457D4DD173EAC60783E55354921137C8B75E8B5C0D2ECCA"
+  },
+  {
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\cordis\\lib\\host-lifecycle.js",
+    "after": "A84D47CE68A3D21AEED3D6AF6B08B821115D550CC83BD2200DDC7748AD6B4642",
+    "package": "cordis",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\cordis-v15\\lib\\host-lifecycle.js",
+    "before": null
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\client.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\client.js",
+    "before": "301B3A1AA6391B2992ED05A036908C164FF990615AFD744E1E310D3CFB5173F7",
+    "after": "DA5AE37BA208BB70104AD891C3CA6C6062BED37AFC7E7D9EEB47AE90FFA41B71"
+  },
+  {
+    "package": "dsh-client-ui-chat",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-client-ui-chat\\lib\\client.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-client-ui-chat\\lib\\client.js",
+    "before": "3BD73FDED382AF4C947E2FC4CB1E6D25108593A61A02B0240A60DB86D71677DF",
+    "after": "B8185386194422F55E7C1B1BB1F7637DFDAD916E219460ED5655AC32E1448FFA"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\typert.host.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\typert.host.js",
+    "before": "919D2BAAFF6CE3BB7D54AE5C97CC8CC4B5C25B1315C6670A7D34A95E1F439E97",
+    "after": "170D12F104796DA8DD288EE15E2F9A104E130A38FAFDD8D853284C48263F8EB5"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\typert.remote-client.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\typert.remote-client.js",
+    "before": "77DDEF7B3228F06B40161DE6CBFE57D87C3534020BCAC74ED8BBD0356AE8FD86",
+    "after": "817DF1E6E484C78EDDC8BAFDE358B38985C06DEB78ED5F827120D2FBEB553C51"
+  },
+  {
+    "package": "dsh-session",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\types\\types.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\types\\types.d.ts",
+    "before": "A13A50955C7843D07FDA7E7644BFA16B2D4C577C9ACA9FE40DB6FE527352AD3A",
+    "after": "2128C97D7CE32C30719A3BA099CF2F172E90D2E56885480F03BEA46C10AC7F0D"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\types.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\types.d.ts",
+    "before": "1B4D81ED8F89CCD5D3C477A38FE2AB8C993F24AF0E21539D0E0B7D22D7C2E7B8",
+    "after": "3750503F89FB4A48E8507262F14A36C5A0AADF0443F0A19F3E847FF3707C1E84"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\client\\index.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\client\\index.d.ts",
+    "before": "963FBE76BA82816760BA766D4BA82CE386E47BE25E4968F8C21AA3CA82299E57",
+    "after": "716F8BD075DB39F0D89B95FA5412460C3DFC0C8B9FC8C2FBFE9B0BF19B331215"
+  },
+  {
+    "package": "dsh-api-session-controller",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\client\\contract\\events.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-api-session-controller\\lib\\types\\client\\contract\\events.d.ts",
+    "before": "286BBA5D5FF4336328323D9C5C852BDAD6D4F76300579BABFDDE16FBBB11112F",
+    "after": "19D922DA263E38CAF9EDDFEC860AFE2841F5C96C9144522F2ACA7D10B5FA32A5"
+  },
+  {
+    "package": "dsh-client-ui-chat",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-client-ui-chat\\lib\\types\\client\\contract\\chat-nodes.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-client-ui-chat\\lib\\types\\client\\contract\\chat-nodes.d.ts",
+    "before": "09B4B4D921E73C9B70CBEFEFA6175020C61DFC935B05D0AB3E209E2BC1DAABEB",
+    "after": "52B486139B62C56C769DAA1D0C99DF62EA512511E726A0D773A019E4C23ACE0D"
+  },
+  {
+    "package": "dsh-agent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-v15\\lib\\index.js",
+    "before": "7B9AA39474DE83115CF890DD7F8904CF0D59DF0811CB335AB85565A04F1AAC93",
+    "after": "957AE90D11C99B68E42508B737222C94F958D16C4B53F04FBBFD7AAB6E8F512E"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\index.js",
+    "before": "860E481A03E5F20C520C6FBC891DB83EB8134CE129E9541DE287031DE59DC55A",
+    "after": "566ACCB62B480BEB54930BDAB0EDE88231E64424C1588C3EB01F23497BBE3B2E"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\types\\inbox.js",
+    "before": "C9EDFE8AF8EA4973DFEE12C89441895B271AA9D3BC470DA796AF3C2BEBA0B3A4",
+    "after": "A7F28107AA9ECA79ADC9264874CB8A4AD3B63D6A81AA9B6DC6B23612C4FFA5B9"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\types\\inbox.d.ts",
+    "before": "2DA8330654064BC9E8A60F3BFC73B01E2F69EE96EA4434188BCF8F6A9BC7EEE5",
+    "after": "98CFB89B3E96AD3693F0ACF29ED16ECE81502772302D40C22887254C95364DD8"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\types\\continuation.js",
+    "before": "194CB51D6B58346B3A85310E9A4831A5E29DB60035C2B5205ADFBB1FFC9A0BE6",
+    "after": "15D1262B5F4270D3A03D6BCC90B6CD42264ED7BBEB804AC2BE053076076F9345"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\types\\continuation-activation.js",
+    "before": "0DB6FB9C46A78B3D182041713A14AB5174EC9887A733F385D1E9048E125AC670",
+    "after": "E3CCA0C617532D794778A60C1591D06DA83972D4F0681D594A9666271609FF92"
+  },
+  {
+    "package": "dsh-subagent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-subagent-v15\\lib\\types\\continuation-activation.d.ts",
+    "before": "1D20569CDBEA3012834A9F2637E9CDB28A687F3B7CD3CB1138F0850FFEB3D6BC",
+    "after": "64A872E6DA442AB698873FB4C5DFB4C7934252CA13CDC43ACCB15BA4115219AF"
+  },
+  {
+    "package": "dsh-agent",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-v15\\lib\\types\\runtime-types.d.ts",
+    "before": "07E00646B0C07EDA239C102EA736A3BF29C431F34AEE97FD7619EA0150D3C71A",
+    "after": "ED71C2305336E1B5BBC505C8EC6336A14E9DE80C02EF2AD35C294DECEA5912FB"
+  },
+  {
+    "package": "dsh-agent-loop",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\types\\agent.d.ts",
+    "before": "66131A86C5F024FABB77E99103F3F07CDCA5818CBCE7D6AAECB058197C66589E",
+    "after": "EDD90E5B758B78C9A64C6610CCE7308A6BF54D75AFCF7BCD699A5C51D1BE2A2D"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\convergence.js",
+    "before": null,
+    "after": "BA37477183E59FE06FB07D267EC3E43DEA16182667D98823A79A9A0BF5530F4C"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\convergence.d.ts",
+    "before": null,
+    "after": "694DDAB2F4D9D6F2E76E501B77073671D1D2DD4EBD8C2D928E0D221A9476C3DE"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\types\\domain.d.ts",
+    "before": "00F1CF3111EF6E1BBD153E08413734545F95333BEFF341D3426C8BB4EFA9E3FA",
+    "after": "FBF5045FC94FE7E5BB88CD0836CAFC7F9CA1A2F93130683892D7893FD5302FE8"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\types\\fold.js",
+    "before": "FEFC4395D38E76E4780165E1881F593CCEECC6BB9EDB1CC89BF9749902BDE881",
+    "after": "1659BEC4346A36BBD86481A2EB6A00C28228A36A45C588EBED7202FF7DC4D2F6"
+  },
+  {
+    "package": "dsh-goal",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal\\lib\\types\\index.d.ts",
+    "before": "CFCC5AF9E23E1E6AF1062D7B601D0F7344500C6847016A1AEBF0C8329AD159D7",
+    "after": "F79680DE3C010DEA4C4D39B10645069A91BE8FB03B6CF47317CDC9BEFA96E867"
+  },
+  {
+    "package": "dsh-session",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\types\\surface.js",
+    "before": "7E9D4BD3B7C5B2ECEED0F8B035E9C021237C72BAA2B53E4C6FC941E8B417580E",
+    "after": "7E8D25910811B995DAE0D70C60C4BBAEFBF7B0B3CA9F958CA85E6BFDD5370079"
+  },
+  {
+    "package": "dsh-session",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session\\lib\\types\\surface.d.ts",
+    "before": "BDEDA5E930C9E5F839089AAED2BBE23296A8D06523B6E8300E21E5CA9259EF8B",
+    "after": "838B54D7E68D972C8B3D80730B28DBD1858DB30B7659BFE35E94D03ECFC317F3"
+  },
+  {
+    "package": "dsh-session-format-v3-to-v4",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session-format-v3-to-v4\\lib\\index.js",
+    "before": "C36DAC71024CEF468B7913839D58EB776FE2FBAC447C9F55FA84547B70EBA52D",
+    "after": "2923433BC4BF0A7CC66889F266E4E5A238AF221C7DD2B9DC4C8257C6CA8C624B"
+  },
+  {
+    "package": "dsh-token-meter",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-token-meter/lib/index.js",
+    "before": "39ED60A470B240F8BBC82BEFDB0BBBAD1F409732E8BA8D12D41A1059DE0DDE05",
+    "after": "E91E9E6B84D32D792A115D8A7C848FF301A48C6839E6381BF96DC29B80EF663E"
+  },
+  {
+    "package": "dsh-token-meter",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-token-meter/lib/types/surface-fold.js",
+    "before": "BA6D1D9CE46156D34431338EAD20D3E9FC2C3381CD29BF852C98E645E189948A",
+    "after": "E3D9D00915C0B22818D423883865C51D72F1BC8FDADBFA287D3237D49878AB29"
+  },
+  {
+    "package": "dsh-token-meter",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-token-meter/lib/types/surface-fold.d.ts",
+    "before": "DD9C940F068FD14990F3C164281CC4CB5574D437A4573FAF164822D9F9C8179D",
+    "after": "967B7E738BA87E8351FB4F391E68C71972A5876BF79A3126D249318095A9187C"
+  },
+  {
+    "package": "dsh-token-meter",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-token-meter/lib/types/usage-projection.js",
+    "before": "30A766B7B43553DC0DCE46A38BDB2C87CA06BAD46AF86B39FA42EAA2CFE8871B",
+    "after": "BB33E87628CDE25336799811C9300C0ABBA78227822F8BE94B27BC228AA9DF23"
+  },
+  {
+    "package": "dsh-token-meter",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-token-meter/lib/types/usage-projection.d.ts",
+    "before": "0DFC376C4FBC3B62B25BDB2D64506F2545C37B2D08C3C62F48BA767509F92A0B",
+    "after": "D499AED98EA2C7478556254982261A09E37AC86D38DA0167551E3F4AF295506B"
+  },
+  {
+    "package": "dsh-client-ui-conversation",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+    "before": "40EF6D13AC73E06289CFC42EA941BD96739884F1727E0FACDEDC2E896495E960",
+    "after": "E1BFE0DE6C8CEE34296719EDA722D954DF70BDBA15F84F744FA91AFE975E7AA4"
+  },
+  {
+    "package": "dsh-session-log-deepseek",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-session-log-deepseek/lib/index.js",
+    "before": "E2B41320199F02C25A0D280EC40E5AB6F8B30CCDCD3243D0F8DF3016AD11F25E",
+    "after": "B2F546BDD4EA2A36C73434BA26EC6D683B0D2B73F7F31B239AB5D367060CC48A"
+  },
+  {
+    "package": "dsh-session-log-deepseek",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-session-log-deepseek/lib/types/index.js",
+    "before": "B583FF0D36C13EB61C974D81D29FFB06FA476362D1B14143DB1CE5FA90F6986B",
+    "after": "8874638D724C36301C14C9C60995BBBB1E5B5A1E99E86E6E5231436D7D78DD8F"
+  },
+  {
+    "package": "dsh-tools",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-tools/lib/types/ptc.js",
+    "before": "F166DD1D013E6C8970520BEBCBFE180164724F717022C40BDDBACFB56DA7CA55",
+    "after": "ECD71C777E67A4E118C839AA87720A62864349498AB21F94B7D5A267500A087C"
+  },
+  {
+    "package": "dsh-tools",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-tools/lib/types/ptc.d.ts",
+    "before": "C75557AAEFDFB2CFDE16FA0C002208758BC3AD924F5F683A2506779820520C61",
+    "after": "9EA935B44E1A6ABBB6B55AE7C7572BB04E7044392AE1477D615ED676122A0EA5"
+  }
+]

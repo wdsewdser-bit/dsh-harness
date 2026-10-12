@@ -1,0 +1,19 @@
+✔ real prepared frozen request reaches adapter with ordered messages, original brand and exact other property identities (6.6343ms)
+✔ prepared adapter generation remains A after registration replacement and only one dispatch occurs (1.4013ms)
+✔ entry wrapper preserves internal prepared object and Cordis caller shadow receiver (1.5459ms)
+✔ unrecognized and asynchronous transforms fail open without mutating mutable caller messages (1.0342ms)
+✔ malformed returned messages fail open transactionally between valid transforms (1.2771ms)
+✔ original middleware errors preserve identity and adapter failure normalization stays official (2.2212ms)
+✔ unload preserves existing iterator; reload restores transforms without layering methods (1.2564ms)
+✔ real Cordis dependent plugins re-register after provider HMR restart (3.4713ms)
+✔ dispose restores the original own descriptor and never overwrites a later wrapper (1.4791ms)
+✔ app runtime uses its own official brand weak set; auxiliary routing attributes remain exact (2.8559ms)
+✔ unsupported runtime is rejected before service provision and duplicate bridge is explicit (1.0003ms)
+ℹ tests 11
+ℹ suites 0
+ℹ pass 11
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 140.7813

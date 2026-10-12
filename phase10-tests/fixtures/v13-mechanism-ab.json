@@ -1,0 +1,14 @@
+{
+  "fixtureId": "v13-mechanism-ab",
+  "fixtureVersion": 1,
+  "lines": [
+    "build started",
+    "ERROR: deterministic fixture failure",
+    "build finished"
+  ],
+  "repeat": 1800,
+  "repeatLine": [
+    "compiler note: harmless repeated diagnostic line",
+    "linker note: still harmless"
+  ]
+}

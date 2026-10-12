@@ -1,0 +1,53 @@
+{
+  "version": 9,
+  "pid": 16440,
+  "startedAt": "2026-10-01T01:48:13.549Z",
+  "steps": [],
+  "target": {
+    "id": "tool-agent-team-v2",
+    "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs",
+    "disabled": null
+  },
+  "modules": [
+    {
+      "name": "team-tools-v2-r10.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs"
+    },
+    {
+      "name": "team-control-plane.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-control-plane.mjs"
+    },
+    {
+      "name": "team-activity-digest.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-activity-digest.mjs"
+    },
+    {
+      "name": "team-v12-evidence-scheduler.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-evidence-scheduler.mjs"
+    },
+    {
+      "name": "team-v12-runtime.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-runtime.mjs"
+    },
+    {
+      "name": "team-query-efficiency.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-query-efficiency.mjs"
+    },
+    {
+      "name": "team-message-operation.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-message-operation.mjs"
+    }
+  ],
+  "before": {
+    "loadedModules": 7,
+    "runningSessions": "checked-by-runner-before-invocation"
+  },
+  "after": {
+    "id": "tool-agent-team-v2",
+    "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs",
+    "disabled": null,
+    "fiberActive": true
+  },
+  "status": "completed",
+  "endedAt": "2026-10-01T01:48:14.531Z"
+}

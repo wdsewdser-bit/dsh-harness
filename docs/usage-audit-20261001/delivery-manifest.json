@@ -1,0 +1,124 @@
+{
+  "at": "2026-09-30T20:29:47.286Z",
+  "status": "delivered-with-explicit-legacy-and-quality-failures",
+  "dsh": {
+    "pid": 16440,
+    "created": "2026-09-30T16:37:18.1485790+08:00"
+  },
+  "validation": {
+    "focused": {
+      "passed": 39,
+      "failed": 0
+    },
+    "full": {
+      "tests": 561,
+      "passed": 558,
+      "failed": 2,
+      "skipped": 1,
+      "unchangedFromBeforeMount": true
+    }
+  },
+  "production": {
+    "restarted": false,
+    "teamInterrupted": false,
+    "reducerRouteChanged": false,
+    "protocolChanged": false
+  },
+  "files": [
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/README.md",
+      "bytes": 8663,
+      "sha256": "e8d939607b266fe92d5ad7fcf07034cd5052ccaae54bd58f671cab6db958db12"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/validation.md",
+      "bytes": 4650,
+      "sha256": "73f6223524d18d62e637b6b43169249e82028ec3cf7e17e8d406fe9ed6810c3a"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/focused-tests.txt",
+      "bytes": 4116,
+      "sha256": "907982c6ce72c7e64fd219c40faa9e937b70111adef755e88286942102e99c51"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/regression.txt",
+      "bytes": 170365,
+      "sha256": "53fcd8c77a4173a42776325834296e4217a507e744bf259c9ca3fb981b475231"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/regression-after-deploy.txt",
+      "bytes": 170628,
+      "sha256": "c097154da2c05e9f518944b9640a528151e3a166aa7d79b2f092e9c73229a994"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/history-2026-09-30T19-40-10-849Z-report.json",
+      "bytes": 481252,
+      "sha256": "a5389e79e49a576b850755a01cbb390af3bdc8251f92747cca6c94947e03947d"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/history-2026-09-30T19-40-10-849Z-requests.jsonl",
+      "bytes": 296723226,
+      "sha256": "f31df752d0dd600aed1f40e3bc8faf10f625f5f86246f9dc72bf803fec5f9b03"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/history-2026-09-30T19-40-10-849Z-correction-delta.json",
+      "bytes": 2627,
+      "sha256": "b1bf41d134eb78de8b989763673ec7797ad46b3f1bced437c92985b539069c13"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/history-identities.json",
+      "bytes": 99987,
+      "sha256": "5842c08db149800f79bdd7f5221345a90a0bf982342fbb1d49edf3639ade9fef"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/system-sdk-audit.json",
+      "bytes": 5467,
+      "sha256": "27a89e2ec07395be8a8a8bb418c2ac1dbf9ed57fc45ec98b54cbbbaf2ac47925"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/live-verification.json",
+      "bytes": 15275,
+      "sha256": "7d9f21059c0799b5d41cdac9f071058b0510ae12ab80d14cfc87a421e26d1f09"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/lab-results.md",
+      "bytes": 8351,
+      "sha256": "0f406b61a123593195b722431851658859db8e001faf5a1babe6266f29b79813"
+    },
+    {
+      "path": "D:/dsh-test/docs/usage-audit-20261001/root-notification-receipt.json",
+      "bytes": 216,
+      "sha256": "0b103856d71651d6cbdb3d5e285092810294bae57387a193bba4eb356c14d180"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/usage-lab-20261001/report.json",
+      "bytes": 80756,
+      "sha256": "697f1852d752ca8350b774625d93b672e1d508750d4e04f8497d4c419aff4441"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/usage-lab-20261001/calls.jsonl",
+      "bytes": 46078,
+      "sha256": "9e8a4080259fada3a1d2eb072e5bbfec3576447e2f6f631becf461ae7e264aa6"
+    },
+    {
+      "path": "D:/dsh-test/tools/usage-history-backfill.mjs",
+      "bytes": 29173,
+      "sha256": "d874d0e6f8777492fa5d27f2ea48c7739ef3683aabb3abad99559ca34332e2dc"
+    },
+    {
+      "path": "D:/dsh-test/tools/usage-lab.mjs",
+      "bytes": 41110,
+      "sha256": "a3feb75197347d59a0bc77e6ff0e976d3504e7cb190b23859fab27133e257ffd"
+    },
+    {
+      "path": "D:/dsh-test/tools/usage-audit-snapshot.mjs",
+      "bytes": 6065,
+      "sha256": "62958de67fc521b9ebd171ff8a1d6705163acb80b387756ca8bd646f209ee3ad"
+    },
+    {
+      "path": "D:/dsh-test/home/profiles/web/plugins/request-usage-ledger.mjs",
+      "bytes": 20263,
+      "sha256": "c8bfeb5c020c57d162799e4350980644752d1df7ee5bc8b287ea3b6801fcb087"
+    }
+  ]
+}

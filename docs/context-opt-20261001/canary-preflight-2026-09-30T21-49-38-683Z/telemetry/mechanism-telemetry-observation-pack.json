@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "name": "observation-pack",
+  "enabled": null,
+  "events": 2,
+  "fired": 2,
+  "lastFiredAt": "2026-09-30T21:49:38.940Z",
+  "lastEventAt": "2026-09-30T21:49:38.940Z",
+  "lastEvent": {
+    "kind": "replaced",
+    "count": 1,
+    "sessionId": "mock-context-opt-canary-session-cd2262da-a62c-4ebb-bb62-8d573572a92d"
+  },
+  "kinds": {
+    "archived": 1,
+    "replaced": 1
+  },
+  "skipped": {},
+  "sessions": {
+    "mock-context-opt-canary-session-cd2262da-a62c-4ebb-bb62-8d573572a92d": {
+      "firstSeenAt": "2026-09-30T21:49:38.734Z",
+      "fired": true,
+      "events": 2,
+      "lastEventAt": "2026-09-30T21:49:38.940Z",
+      "kind": "fired",
+      "reason": null,
+      "contextTokens": null
+    }
+  },
+  "metrics": {
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "cacheReadTokens": 0,
+    "cacheWriteTokens": 0,
+    "savedTokens": 7673,
+    "overheadTokens": 0,
+    "toolMs": 0,
+    "waitMs": 0,
+    "modelTurns": 0,
+    "toolCalls": 2,
+    "passed": 0,
+    "failed": 0,
+    "timeout": 0,
+    "qualityPassed": 0,
+    "qualityFailed": 0
+  },
+  "dormantSessions": 0,
+  "lastSessionId": "mock-context-opt-canary-session-cd2262da-a62c-4ebb-bb62-8d573572a92d",
+  "sessionsSeen": 1,
+  "revision": 3
+}

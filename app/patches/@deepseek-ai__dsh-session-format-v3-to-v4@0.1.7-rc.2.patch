@@ -1,0 +1,22 @@
+diff --git a/lib/index.js b/lib/index.js
+index 3c60ae8b0165b7ea9cfe56178c17496c5d72248f..1b0bf3f813caa9991f3018c2c85d21b96e274bd1 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -615,11 +615,12 @@ var Relationships = class {
+ 		}
+ 		this.surface.splice(first, removed.length, event.seq);
+ 	}
+-	tool(event, data) {
+-		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
+-			this.requireTurn(event.type);
+-			return;
+-		}
++ 	tool(event, data) {
++ 		if (event.type === "tool/result" && event["surfaceOp"] !== "append") {
++ 			const historicalPrune = event["surfaceOp"] !== null && typeof event["surfaceOp"] === "object" && event["surfaceOp"]["op"] === "replace" && Array.isArray(event["sourceEventSeqs"]) && event["sourceEventSeqs"].length > 0;
++ 			if (!historicalPrune) this.requireTurn(event.type);
++ 			return;
++ 		}
+ 		this.requireStep(event, data);
+ 		if (event.type === "assistant/message") {
+ 			const message = record(data["message"], "assistant message");

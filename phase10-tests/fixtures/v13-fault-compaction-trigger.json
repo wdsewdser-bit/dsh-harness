@@ -1,0 +1,21 @@
+{
+  "fixtureId": "v13-fault-compaction-trigger",
+  "fixtureVersion": 1,
+  "category": "compaction-trigger",
+  "title": "Only one economic compaction is applied per boundary burst",
+  "initialState": {
+    "compactions": 0,
+    "deferred": 0
+  },
+  "events": [
+    { "type": "boundary" },
+    { "type": "boundary" },
+    { "type": "boundary" },
+    { "type": "boundary" },
+    { "type": "boundary" }
+  ],
+  "postconditions": [
+    { "kind": "equals", "path": "compactions", "expected": 1 },
+    { "kind": "equals", "path": "deferred", "expected": 4 }
+  ]
+}

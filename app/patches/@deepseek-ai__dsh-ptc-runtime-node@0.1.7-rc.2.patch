@@ -1,0 +1,22 @@
+diff --git a/lib/index.js b/lib/index.js
+index 687c2cfab6bf631ed7726a050e047dbd7f28d6a4..8f2496d613d9404dc0606317c6a7d94afb0b82c5 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -77,7 +77,7 @@ function takeLast$1(target) {
+ 	if (target.length === 0) return void 0;
+ 	const index = target.length - 1;
+ 	const value = target[index];
+-	intrinsicObjectDefineProperty$1(target, "length", dataDescriptor$1(index));
++	target.length = index;
+ 	return value;
+ }
+ /** One code-point-aligned character from a string. */
+@@ -533,7 +533,7 @@ function takeLast(target) {
+ 	if (target.length === 0) return void 0;
+ 	const index = target.length - 1;
+ 	const value = target[index];
+-	intrinsicObjectDefineProperty(target, "length", dataDescriptor(index));
++	target.length = index;
+ 	return value;
+ }
+ /** Whether one captured-intrinsic Set contains a value. */

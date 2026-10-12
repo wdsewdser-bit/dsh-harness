@@ -1,0 +1,20 @@
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+{
+  "verdict": "keep",
+  "output": "D:/dsh-test/home/team-control-plane/v13-mechanism-ab.json",
+  "components": [
+    {
+      "mechanism": "observation-pack",
+      "verdict": "keep",
+      "beforeTokens": 19764,
+      "afterTokens": 485
+    },
+    {
+      "mechanism": "evidence-reducer",
+      "verdict": "keep",
+      "beforeTokens": 19764,
+      "afterTokens": 374
+    }
+  ],
+  "qualityRegression": false
+}

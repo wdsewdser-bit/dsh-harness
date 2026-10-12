@@ -1,0 +1,64 @@
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ delivery Git and Cargo child processes stay hidden with unchanged command and result semantics (6.3215ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ current handle carries original lines 2/173/399 without an overlay (4.3275ms)
+✔ evidence retains whitespace, CRLF source line numbers and order (1.6602ms)
+✔ stale verified cached handles rebuild by version without deleting archives (3.7034ms)
+✔ actual frozen current tool messages and legacy toolResult preserve identity and source (4.0554ms)
+✔ current tool delayed sends keep the original contract and session isolation (3.6305ms)
+✔ canonical mixed/unknown content and error messages fail open without losing blocks or counting savings (4.7707ms)
+✔ bridge projects frozen current options and leaves native stream mutation hooks absent (39.1731ms)
+✔ real Cordis bridge sends current tool handle to adapter on third request and usage ledger sees identical projection (75.9568ms)
+✔ golden fixture uses five exact frame SDKs and preserves recorded protocol identity (26.2084ms)
+✔ strict golden validator rejects wrong tool args, wrong recorded facts, extra keys or markdown (1.8872ms)
+✔ audited real fixture has exact renderer boundaries and hash (1.2774ms)
+✔ apply candidate strips only identical historical SDK, preserving policy characters and latest SDK exactly (8.3247ms)
+✔ shadow keeps original request and clearly separates actual from candidate savings (8.2485ms)
+✔ real changed SDK versions keep all five full historical sections (19.9088ms)
+✔ explicit latest candidate removes four real historical SDK versions with version hash markers (20.1579ms)
+✔ changed latest requires explicit certificate, and unknown/deleted/required/order/latest changes fail open (24.033ms)
+✔ multi-system and full tool/reasoning chain retain all unaffected message and block identities (10.4111ms)
+✔ absent, non-PTC, one-shot, auxiliary and unclear boundaries fail open (27.2115ms)
+✔ shadow plugin keeps exact underlying iterable/chunks, next once, HMR never cancels inflight, apply requested is reported unavailable (16.6129ms)
+✔ shadow audit persistence failures never affect next or stream error propagation (11.153ms)
+✔ explicit apply uses the request bridge, shadow leaves messages intact, HMR unregisters without touching streams (20.0787ms)
+✔ canonical usage preserves unknowns and checks disjoint total without adding reasoning twice (1.4859ms)
+✔ payload category estimates have lengths and hashes, retain no body or schema (1.352ms)
+✔ only explicit Team sources classify user/developer Team injection; non-Team and unknown stay separate (0.318ms)
+✔ stream uses final snapshot, keeps exact objects, does not mutate frozen options, emits once (1.1783ms)
+✔ concurrent streams keep independent UUIDs and usage state (0.4844ms)
+✔ synchronous/stream errors propagate unchanged with safe code and existing request ID only (0.2988ms)
+✔ abort/failure chunks and early iterator return have one terminal without altering underlying return (0.9795ms)
+✔ iterator return that yields from finally is preserved until real terminal (0.6674ms)
+✔ consumer throw is delegated and recovered underlying result stays transparent (0.315ms)
+✔ writer/record failure is fail-open, nonblocking and warnings are bounded (0.9807ms)
+✔ identity handles manifest schema, live relationship and unknown nulls (0.3297ms)
+✔ verified global root wins over tier2 immediate membership (0.0836ms)
+✔ new descendants trace live parent chains or a verified manifest ancestor (0.1244ms)
+✔ lineage tracing detects cycles, limits depth and never promotes an unresolved parent (0.165ms)
+✔ route reads array/object live Settings and strips URL secrets, defaults stay unknown (0.2249ms)
+✔ HMR detach keeps inflight final usage and one real terminal, never accessing disposed services (38.0311ms)
+✔ projection metadata records only safe runtime receipts, not transform body or credentials (0.5667ms)
+✔ agent events cache header attribution even if the registry is unavailable later (5.7009ms)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-armed-roots] HMR perf40-single-root-focus loaded 2026-09-27
+[team-activity-digest] HMR perf42-ten-minute-digest+runtime-reload loaded 2026-09-27
+[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28
+✔ trusted identical snapshot remains recognized beyond the 256-node tail (1.0919ms)
+✔ replacement or compaction removing the old node permits reinjection (0.2675ms)
+✔ changed marker, body, completion status, and untrusted source do not deduplicate (1.6431ms)
+✔ pending trusted snapshots and legacy session API retain exact matching (0.2141ms)
+✔ real root seq 69510 prevents the duplicate at seq 70686 (513 bytes) (3262.1832ms)
+ℹ tests 45
+ℹ suites 0
+ℹ pass 45
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6657.1222

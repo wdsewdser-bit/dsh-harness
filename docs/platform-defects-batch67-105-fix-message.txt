@@ -1,0 +1,11 @@
+DSH 平台缺陷巡检修复结果（第五十六轮，批次 67–105）
+
+本轮清单从批次 67 推进到 105，新增内容已逐项对照。平台侧修复：B-207 支持 dependency_phase:"completed"；B-210 同 owner 冲突返回 same-owner-plan；B-213 修正写域守卫对 Join-Path 等非路径 token 的误判；B-213b 将 & $var 动态写视为 opaque 并拒绝；B-215 以既有 worktree-carrier 路径增加原始反例回归，越界写返回 FS_WRITE_OUT_OF_SCOPE / worktree-carrier-mismatch。
+
+批次 104–105 只新增 RustMc C10 假红机制与产品仓 guard 修复卡：具名 stdout 使控制台按 GBK 解码，吞掉 UTF-8 后的 LF，导致 cited_lines 变为 2324/37；修复点是在捕获前钉 UTF-8。该修复不属于 DSH profile 平台面，本轮未修改 RustMc 产品仓。模式 A（计数正确但 CLASS_anchor_missing=2）仍开放，不得并入该机制。
+
+验证：相关源码/测试 node --check 8/8；platform-defects 聚焦 188/188；phase1–phase11 串行 508 项，507 pass / 0 fail / 1 skipped；profile parity 1/1；web/headless/desktop/teamtest 的 team-control-plane.mjs、team-tools-v2-r10.mjs、write-scope-guard.mjs 哈希逐项一致。
+
+未决风险：当前 DSH PID 30948 早于源码修改，B-207/B-210/B-213/B-213b/B-215 记为 source fixed、live pending；B-214 因目录前缀 scope 缺少可验证文件集，明确 partial；B-209 仍属 RustMc 产品/设备验证线。未重启 DSH、未中断 active Team、未清理旧备份/spill/telemetry/session。
+
+更新后清单：size 1041101，mtime 2026-09-29T18:43:42.8908941Z，SHA256 E9DAF1769D02CF28D666DA2D34C1B6C3A4E5BDB08549B737EA2C148BB4CFF890。

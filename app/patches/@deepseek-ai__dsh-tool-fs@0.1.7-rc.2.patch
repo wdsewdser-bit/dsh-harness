@@ -1,0 +1,45 @@
+diff --git a/lib/index.js b/lib/index.js
+index 28297be..2c581ec 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -310,13 +310,25 @@ function applyReadTool(ctx, caps) {
+ 					totalLines: {
+ 						type: "integer",
+ 						required: true
++					},
++					returnedLines: {
++						type: "integer",
++						required: true
++					},
++					truncated: {
++						type: "boolean",
++						required: true
++					},
++					nextOffset: {
++						type: "integer"
+ 					}
+ 				}
+ 			},
+ 			render: (args, value) => {
+ 				const input = parseReadArgs(args, caps.limit);
+ 				const endLine = value.lines.at(-1)?.number ?? Math.max(0, value.offset - 1);
+-				const truncatedByBytes = value.lines.length < input.limit && endLine < value.totalLines;
++				const truncatedByBytes = value.truncated === true
++					|| (value.lines.length < input.limit && endLine < value.totalLines);
+ 				return [{
+ 					type: "text",
+ 					text: formatReadOutput(value.path, {
+@@ -355,7 +367,12 @@ function applyReadTool(ctx, caps) {
+ 				path: target.displayPath,
+ 				offset: input.offset,
+ 				lines: window.lines,
+-				totalLines: window.totalLines
++				totalLines: window.totalLines,
++				returnedLines: window.lines.length,
++				truncated: window.lines.at(-1)?.number !== void 0 && window.lines.at(-1).number < window.totalLines,
++				...window.lines.length > 0 && window.lines.at(-1).number < window.totalLines
++					? { nextOffset: window.lines.at(-1).number + 1 }
++					: {}
+ 			};
+ 			ctx.emit("fs/observed", target, {
+ 				kind: "present",

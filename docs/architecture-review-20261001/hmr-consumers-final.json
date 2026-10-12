@@ -1,0 +1,27 @@
+{
+  "version": 8,
+  "pid": 16440,
+  "startedAt": "2026-10-01T01:36:30.833Z",
+  "steps": [
+    {
+      "id": "ptc-sdk-retention",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/ptc-sdk-retention.mjs"
+    },
+    {
+      "id": "context-workspace",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/context-workspace.mjs"
+    }
+  ],
+  "bridge": {
+    "version": 2,
+    "pid": 16440,
+    "moduleHash": "a6b8e5bf8ffa77f7ba8cf4a21f35693f8ff5085ce7ef334390e3bd7bbc496c00",
+    "boundary": "llm.streamWithRegistration+adapterStream.forAdapter",
+    "registrations": 4,
+    "calls": 13,
+    "disposed": false,
+    "installed": true
+  },
+  "status": "completed",
+  "endedAt": "2026-10-01T01:36:30.957Z"
+}

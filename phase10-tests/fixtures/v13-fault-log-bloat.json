@@ -1,0 +1,21 @@
+{
+  "fixtureId": "v13-fault-log-bloat",
+  "fixtureVersion": 1,
+  "category": "log-bloat",
+  "title": "Oversized observations are archived instead of accumulated",
+  "initialState": {
+    "storedBytes": 0,
+    "archivedBytes": 0
+  },
+  "events": [
+    { "type": "log", "data": { "bytes": 40 } },
+    { "type": "log", "data": { "bytes": 40 } },
+    { "type": "log", "data": { "bytes": 40 } },
+    { "type": "log", "data": { "bytes": 40 } },
+    { "type": "log", "data": { "bytes": 40 } }
+  ],
+  "postconditions": [
+    { "kind": "equals", "path": "storedBytes", "expected": 100 },
+    { "kind": "equals", "path": "archivedBytes", "expected": 80 }
+  ]
+}

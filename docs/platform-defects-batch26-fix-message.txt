@@ -1,0 +1,11 @@
+平台批次 26 修复说明（D-新-1、D-新-2）
+
+清单指纹：size 574652，SHA256 AAE8B17A7C0D7D794FF937ECD4C33D357B1AF27B32458424C742B5E4E1113C9C，mtime 2026-09-28T22:17:43.4966232Z。
+
+D-新-1：后台作业已增加持久 journal。宿主进程消失且没有终局的 running/stopping 作业，恢复时进入 job_list，状态为 orphaned，detail 为 host process <pid> exited before terminal settlement，并带 finishedAt；相同 PID 但 process token 不同的 PID 复用也按 dead host 处理。list/get/read/readAt/kill/wait 与 job public schema 已接受 orphaned；新增 recovered 事件，事件流会向晚订阅者重放，dsh-tool-jobs 会向已恢复 owner 投递通知，owner 尚未恢复时排队到 agent/created 或 idle。旧输出 ring 与 spill 不会复制进 journal，恢复后仍需按 detail 或既有 spill 路径检查原始载体。
+
+D-新-2：team_v12(action:"runtime_facts") 默认只返回非噪声差异摘要，包含 totalPlugins / includedPlugins / omittedPlugins / omittedUnobservedRuntimeEntries / diffSummary；可用 input.pluginIds 定向。完整报告仍通过 input.full:true，或兼容 input.summaryOnly:false 返回。web/headless/desktop/teamtest 四份 profile 已同步。
+
+验证：新测试 4/4；相关组合 25/25；全量 phase1-phase11 为 461 tests / 460 pass / 0 fail / 1 skipped；修改文件 node --check 5/5，四 profile node --check 4/4。全量日志：D:\dsh-test\output\platform-defects-batch26-full-phase1-phase11-20260929-rerun.log，SHA256 31D32EF3F3050968F02BF80B5F037FA69A3ADA598F01E8E5D11649E7A9F597CD。四份 team-v12-runtime.mjs SHA256 均为 3B06105B135F7C9F1B79BFD58B4FC2B3DEE36624FF89172625DED737A48ED8AE。
+
+约束与未闭合：未重启 DSH，未中断 active Team，未清理备份/spill/telemetry/session，未改 RustMc 产品仓；DSH PID 124592、端口 40123 保持。当前运行进程仍加载旧 jobs 模块，因此 D-新-1 不能声明 live verified；D-新-2 的 profile 已同步但尚需 root live 调用确认。watch state 已更新到上述清单指纹。

@@ -1,0 +1,16 @@
+{
+  "version": 7,
+  "pid": 16440,
+  "startedAt": "2026-10-01T00:43:35.149Z",
+  "source": "native-hmr-staged-consumer-repair",
+  "steps": [
+    {
+      "id": "request-message-projection",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/request-message-projection.mjs",
+      "disabled": null
+    }
+  ],
+  "status": "failed",
+  "error": "REQUEST_MESSAGE_PROJECTION_DUPLICATE_ID",
+  "endedAt": "2026-10-01T00:43:35.279Z"
+}

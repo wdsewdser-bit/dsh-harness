@@ -1,0 +1,279 @@
+/**
+ * Local DSH search provider: DeepSeek search over an Anthropic-compatible Messages
+ * endpoint that requires a session-routing header.
+ *
+ * Why this file exists
+ * --------------------
+ * The shipped provider `@deepseek-ai/dsh-web-search-deepseek` posts to
+ * `<baseURL>/messages` sending only x-api-key / authorization / anthropic-version.
+ * The opencode.ai Zen Go gateway rejects that with HTTP 400 `MissingSessionID`,
+ * so every web_search call failed while web_fetch kept working.
+ *
+ * This plugin registers a second provider (id `opencode-zen`) speaking the same
+ * wire protocol but adding the `x-opencode-session` header. The web profile patch
+ * (`~/.dsh/profiles/web/cordis.patch.yml`) points `ctx.web` at it. Endpoint, model,
+ * credential reference and limits are read from the existing `web-search-deepseek`
+ * settings section first, so Settings > Plugins > Plugin configuration still owns
+ * them; this row only supplies the provider id and the header name.
+ *
+ * @module web-search-opencode
+ */
+
+import { randomUUID } from 'node:crypto'
+import { credentialRef } from '@deepseek-ai/dsh-credentials'
+import { WebError } from '@deepseek-ai/dsh-web'
+
+/** Cordis plugin name used by loader diagnostics. */
+export const name = 'web-search-opencode'
+/** The web seam this provider registers into. */
+export const inject = ['web']
+
+/** Attribution header sent on every request. */
+const USER_AGENT = 'deepseek-harness/0.0.1'
+/** Namespace of the shipped provider's settings section, read as the config source. */
+const UPSTREAM_NAMESPACE = 'web-search-deepseek'
+
+/** Fallbacks used when neither the settings section nor this row states a value. */
+const DEFAULTS = {
+  providerId: 'opencode-zen',
+  baseURL: 'https://opencode.ai/zen/go/v1',
+  apiKeyEnv: 'OPENCODEGO_API_KEY',
+  model: 'deepseek-v4-flash',
+  apiVersion: '2023-06-01',
+  maxTokens: 4096,
+  maxUses: 5,
+  sessionHeader: 'x-opencode-session',
+  timeoutMs: 60000,
+}
+
+/**
+ * Read the shipped provider's resolved settings section, the preferred config source.
+ * An unregistered or unreadable namespace reads as empty rather than failing a search.
+ *
+ * @param ctx - plugin context supplying the settings service.
+ * @returns the section object, or an empty object.
+ */
+function upstreamSection(ctx) {
+  try {
+    const settings = ctx.get('settings')
+    if (settings === undefined || settings === null) return {}
+    const section = settings.get(UPSTREAM_NAMESPACE)
+    if (section === undefined || section === null || typeof section !== 'object') return {}
+    return section
+  } catch {
+    return {}
+  }
+}
+
+/**
+ * Project the effective options for the next search: the live settings section wins,
+ * then this plugin row's own config, then the built-in defaults.
+ *
+ * @param ctx - plugin context.
+ * @param config - this plugin row's config.
+ * @returns fully defaulted options.
+ */
+function optionsOf(ctx, config) {
+  const upstream = upstreamSection(ctx)
+  const pick = (key) => {
+    const shared = upstream[key]
+    if (shared !== undefined && shared !== null && shared !== '') return shared
+    const local = config[key]
+    if (local !== undefined && local !== null && local !== '') return local
+    return DEFAULTS[key]
+  }
+  return {
+    providerId: pick('providerId'),
+    baseURL: pick('baseURL'),
+    apiKeyEnv: pick('apiKeyEnv'),
+    model: pick('model'),
+    apiVersion: pick('apiVersion'),
+    maxTokens: pick('maxTokens'),
+    maxUses: pick('maxUses'),
+    sessionHeader: pick('sessionHeader'),
+    timeoutMs: pick('timeoutMs'),
+  }
+}
+
+/** Resolve the gateway's own session identifier, cached once per plugin load. */
+let cachedSessionId
+/**
+ * The value sent in the session header. Prefers an explicit `sessionId` config, then the
+ * current DSH session id (so gateway routing mirrors the conversation), then a stable
+ * per-process id. Any failure falls back rather than failing the search.
+ *
+ * @param ctx - plugin context.
+ * @param config - this plugin row's config.
+ * @returns a non-empty session identifier.
+ */
+function sessionIdOf(ctx, config) {
+  if (typeof config.sessionId === 'string' && config.sessionId.length > 0) return config.sessionId
+  if (cachedSessionId !== undefined) return cachedSessionId
+  let current
+  try {
+    current = ctx.get('agents')?.currentInitiator()?.session?.id
+  } catch {
+    current = undefined
+  }
+  cachedSessionId = typeof current === 'string' && current.length > 0 ? current : randomUUID()
+  return cachedSessionId
+}
+
+/**
+ * Resolve one search's credential without retaining it. The credential store is the
+ * primary source; the ambient environment is the fallback.
+ *
+ * @param ctx - plugin context.
+ * @param apiKeyEnv - credential reference name.
+ * @returns the key, or undefined when nothing is stored.
+ */
+async function resolveApiKey(ctx, apiKeyEnv) {
+  try {
+    const credentials = ctx.get('credentials')
+    if (credentials !== undefined && credentials !== null) {
+      const entry = await credentials.resolve(credentialRef(apiKeyEnv))
+      if (entry !== undefined && entry !== null && typeof entry.value === 'string' && entry.value.length > 0) return entry.value
+    }
+  } catch {
+    // fall through to the ambient environment
+  }
+  const ambient = process.env[apiKeyEnv]
+  return typeof ambient === 'string' && ambient.length > 0 ? ambient : undefined
+}
+
+/** Build a url -> cited_text map from every text block's citations. */
+function citationSnippets(blocks) {
+  const map = new Map()
+  for (const block of blocks) {
+    if (block.type !== 'text') continue
+    for (const cite of block.citations ?? []) {
+      if (cite.url !== undefined && cite.url !== null && cite.url.length > 0 && cite.cited_text != undefined && cite.cited_text.length > 0 && !map.has(cite.url)) map.set(cite.url, cite.cited_text)
+    }
+  }
+  return map
+}
+
+/**
+ * Map an Anthropic Messages response to the seam's normalized result, joining each
+ * result item to its citation excerpt and deduping by url.
+ *
+ * @param response - the parsed response body.
+ * @returns the normalized search result.
+ * @throws WebError when native search produced no result block.
+ */
+function mapAnthropicResponse(response) {
+  const blocks = response.content ?? []
+  const resultBlocks = blocks.filter((block) => block.type === 'web_search_tool_result')
+  if (resultBlocks.length === 0) throw new WebError('the endpoint returned no web_search_tool_result blocks; the request may not have triggered native web search', 'WEB_PROVIDER_ERROR')
+  const snippets = citationSnippets(blocks)
+  const seen = new Set()
+  const sources = []
+  for (const block of resultBlocks) {
+    for (const item of block.content ?? []) {
+      if (item.type !== 'web_search_result' || item.url === undefined || item.url.length === 0 || seen.has(item.url)) continue
+      seen.add(item.url)
+      const snippet = snippets.get(item.url)
+      sources.push({
+        url: item.url,
+        ...item.title != undefined && item.title.length > 0 ? { title: item.title } : {},
+        ...snippet != undefined && snippet.length > 0 ? { snippet } : {},
+        ...item.page_age != undefined && item.page_age.length > 0 ? { publishedAt: item.page_age } : {},
+      })
+    }
+  }
+  return { sources, truncated: false }
+}
+
+/** Strip trailing slashes so `<baseURL>/messages` never doubles a separator. */
+function trimTrailingSlashes(value) {
+  let out = value
+  while (out.endsWith('/')) out = out.slice(0, -1)
+  return out
+}
+
+/** Combine caller cancellation with a local timeout. */
+function requestSignal(signal, timeoutMs) {
+  const timeout = AbortSignal.timeout(timeoutMs)
+  if (signal === undefined || signal === null) return timeout
+  if (typeof AbortSignal.any === 'function') return AbortSignal.any([signal, timeout])
+  return signal
+}
+
+/**
+ * Register the header-completing DeepSeek search provider with `ctx.web`.
+ *
+ * @param ctx - cordis plugin context.
+ * @param config - this plugin row's config.
+ */
+export function apply(ctx, config = {}) {
+  const provider = {
+    id: config.providerId ?? DEFAULTS.providerId,
+    available() {
+      try {
+        const options = optionsOf(ctx, config)
+        return typeof options.apiKeyEnv === 'string' && options.apiKeyEnv.length > 0 && URL.canParse(String(options.baseURL))
+      } catch {
+        return false
+      }
+    },
+    async search(request, signal) {
+      const options = optionsOf(ctx, config)
+      const apiKey = await resolveApiKey(ctx, options.apiKeyEnv)
+      if (apiKey === undefined) {
+        throw new WebError('web search has no API key for "' + options.apiKeyEnv + '"; store it in the credential store or export it in the launching environment', 'WEB_PROVIDER_CREDENTIAL_MISSING')
+      }
+      const endpoint = trimTrailingSlashes(String(options.baseURL)) + '/messages'
+      const headers = {
+        'x-api-key': apiKey,
+        authorization: 'Bearer ' + apiKey,
+        'anthropic-version': options.apiVersion,
+        'content-type': 'application/json',
+        accept: 'application/json',
+        'user-agent': USER_AGENT,
+      }
+      if (typeof options.sessionHeader === 'string' && options.sessionHeader.length > 0) {
+        headers[options.sessionHeader.toLowerCase()] = sessionIdOf(ctx, config)
+      }
+      const body = {
+        model: options.model,
+        max_tokens: options.maxTokens,
+        messages: [{
+          role: 'user',
+          content: [{ type: 'text', text: 'Perform a web search for the query: ' + request.query }],
+        }],
+        tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: options.maxUses }],
+      }
+      let response
+      try {
+        response = await fetch(endpoint, {
+          method: 'POST',
+          redirect: 'error',
+          headers,
+          body: JSON.stringify(body),
+          signal: requestSignal(signal, options.timeoutMs),
+        })
+      } catch (error) {
+        if (signal?.aborted === true) throw new WebError('web search aborted', 'WEB_ABORTED', { cause: error })
+        throw new WebError('web search request to ' + endpoint + ' failed: ' + String(error), 'WEB_PROVIDER_ERROR', { cause: error })
+      }
+      if (!response.ok) {
+        let message = 'search endpoint error (HTTP ' + response.status + ')'
+        try {
+          const parsed = await response.json()
+          const detail = typeof parsed.error === 'string' ? parsed.error : parsed.error?.message ?? parsed.message
+          if (typeof detail === 'string' && detail.length > 0) message += ': ' + detail
+        } catch {
+          // a non-JSON error body leaves the status-only message in place
+        }
+        throw new WebError(message + ' [endpoint ' + endpoint + ']', 'WEB_PROVIDER_ERROR')
+      }
+      try {
+        return mapAnthropicResponse(await response.json())
+      } catch (error) {
+        if (error instanceof WebError) throw error
+        throw new WebError('the search endpoint returned an unprocessable response body: ' + String(error), 'WEB_PROVIDER_ERROR', { cause: error })
+      }
+    },
+  }
+  ctx.web.registerSearchProvider(provider)
+}

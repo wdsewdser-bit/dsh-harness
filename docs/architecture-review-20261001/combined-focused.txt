@@ -1,0 +1,48 @@
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ identity comes from live agent and strict input; members and teams remain private (85.1912ms)
+✔ task scope checks canonical board read and owner; global mirror cannot bypass ACL (137.612ms)
+✔ CAS exact history, parent chain, hash locators, TTL and soft delete preserve originals (224.8134ms)
+✔ cross-process writers reload under v14 lock; exactly one wins the object CAS (233.2728ms)
+✔ preview is pure; candidates CAS commit at next boundary, pin and verified summary keep refs (180.7529ms)
+✔ shadow unchanged; allowlist apply appends data without role upgrade or history edits (184.3296ms)
+✔ unknown protocol, pending tool chain, corruption and required budget loss fail open (152.953ms)
+✔ tool schema and plugin registration match live API; no authority writes (10.3369ms)
+✔ fresh non-Team agent gets schema immediately and same agent can join Team later (58.1996ms)
+✔ review regression: unbranded allowlisted session cannot fetch private context (119.2429ms)
+✔ review regression: missing TTL/schema and changed metadata fail closed on get/apply (387.3653ms)
+✔ review regression: rollback rejects corrupted historical view before signing another revision (142.2635ms)
+✔ bounds and missing/truncated recovery anchors reject without request edits (201.7833ms)
+✔ workspace boundary rejects original workspace and traversal (1.0879ms)
+✔ fixture oracle requires exact original line text and checksums (0.5456ms)
+✔ prepare and validate never call RPC; create requires explicit --run (15.4077ms)
+✔ budget combines cached prompt counters and stops unknown usage (0.5983ms)
+✔ lineage approves only fresh lab root and one direct child (0.2122ms)
+✔ canonical tool pairs validate structured receipt, never model success claims (0.5321ms)
+✔ canonical PTC child receipt preserves real subCallId and structured denial (0.2144ms)
+✔ seeded child excludes inherited receipts and usage from ancestor prefix (0.1986ms)
+✔ runtime gate requires fresh live PID exact lab ID and loaded module hash (0.5656ms)
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[observation-pack-v2] HMR perf-lineexcerpt loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-v13-cache-monitor] HMR perf38-bounded-anomalies loaded 2026-09-27
+[team-v14-requirements] HMR perf-ledger loaded 2026-09-27
+✔ pure preview skips legacy stateful transforms; final prepared plan is adopted once with byte/hash receipt (13.002ms)
+✔ OP fullSends count only native handoff; preview, uniterated, blocked and canceled do not consume it (180.8023ms)
+✔ app/profile brands remain independent, prepared generation and caller context survive native wrapper (3.6426ms)
+✔ public brand guard uses the bound official WeakSet for canonical prepared requests and projected clones (2.584ms)
+✔ prepare locks a detached snapshot even for identity transforms and mutable caller messages (2.451ms)
+✔ prepare cannot lock unknown protocol values and explicitly returns unprepared fail-open dispatch (1.3052ms)
+✔ unknown/image/error shapes fail open and raw safety measurement stays authoritative (4.4215ms)
+✔ transform mutations cannot change mutable caller tools or tool history; final identities are preserved (1.4446ms)
+✔ concurrent unchanged requests sharing an options object retain independent receipts after audit eviction (23.2751ms)
+✔ ledger start/terminal and cache attribution share the exact request receipt; unrelated and future events are ignored (29.3481ms)
+✔ compaction SDK policy explicitly requires audited compatibility and retains unknown auxiliary/SDK contracts (93.9971ms)
+ℹ tests 33
+ℹ suites 0
+ℹ pass 33
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2356.7439

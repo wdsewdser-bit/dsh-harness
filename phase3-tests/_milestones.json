@@ -1,0 +1,44 @@
+{
+ "version": 3,
+ "teams": {
+  "team-1": {
+   "members": {
+    "a1": {
+     "owner": "a1",
+     "stage": "finish task-9",
+     "doneWhen": "board complete",
+     "setAt": 1791760212462,
+     "done": true,
+     "doneAt": 1791760212463
+    }
+   },
+   "bands": {},
+   "compactions": {
+    "a1": {
+     "kind": "milestone",
+     "attempts": 0,
+     "status": "pending-idle",
+     "reason": "milestone",
+     "milestoneSetAt": 1791760212462,
+     "milestoneStage": "finish task-9",
+     "requestedAt": 1791760212463
+    }
+   },
+   "history": {
+    "a1": [
+     {
+      "owner": "a1",
+      "stage": "S",
+      "doneWhen": "W",
+      "setAt": 1,
+      "done": true
+     }
+    ]
+   }
+  }
+ },
+ "members": {},
+ "bands": {},
+ "compactions": {},
+ "history": {}
+}

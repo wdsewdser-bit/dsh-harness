@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "previousReport": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-2026-09-30T18-54-06-616Z-report.json",
+  "previousReportSha256": "b9cb86c669b2d7875b06023dc06f724bfbbd2a17b5dc2c81dc4789c29603ff16",
+  "currentReport": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-2026-09-30T19-40-10-849Z-report.json",
+  "currentReportSha256": "a5389e79e49a576b850755a01cbb390af3bdc8251f92747cca6c94947e03947d",
+  "comparisonMethod": "Match durable source file + event type + seq, independently of changed anonymous identity suffixes; no session mutation",
+  "requestDelta": {
+    "previous": 145785,
+    "current": 145805,
+    "restoredIndependentSameMillisecondSearchRequests": 12,
+    "newRequestsSincePreviousSnapshot": 8
+  },
+  "usageDelta": {
+    "previousObservedTotal": 44006091245,
+    "currentObservedTotal": 44011704608,
+    "recoveredAttemptSnapshots": 2028,
+    "recoveredAttemptObservedTotal": 28,
+    "newRequestsObservedTotal": 5613335,
+    "observedTotalDelta": 5613363,
+    "previousMissingTotalRequests": 2197,
+    "currentMissingTotalRequests": 181
+  },
+  "collisionAudit": {
+    "previousSameVersionDuplicateOccurrences": 12,
+    "groups": 11,
+    "requestType": "web/deepseek-search-llm-request",
+    "differentPayloadGroups": 11,
+    "samePayloadGroups": 0,
+    "finding": "Each group had distinct durable seq values and different request data despite the same millisecond; none was a proven local copy",
+    "currentSameVersionDuplicateOccurrences": 0,
+    "currentCrossVersionDuplicateRequests": 45926
+  },
+  "validation": {
+    "nodeCheck": "passed",
+    "nodeTests": { "passed": 12, "failed": 0 },
+    "parsedLedgerRows": 145805,
+    "uniqueLedgerIdentities": 145805,
+    "manifestSessions": 105,
+    "allLedgerRootsMatchManifest": true,
+    "allOutputAndCodeHashesMatchReport": true,
+    "existingKnownUsageChangedUnexpectedly": false,
+    "sourceFiles": 138,
+    "sourceBytes": 2406574817,
+    "sourceFrames": 723173,
+    "incompleteTails": 0,
+    "corruptTails": 0,
+    "failedFrames": 0,
+    "invalidJsonLines": 0,
+    "changedDuringRead": 0
+  },
+  "hashes": {
+    "tool": "d874d0e6f8777492fa5d27f2ea48c7739ef3683aabb3abad99559ca34332e2dc",
+    "tests": "e5486450d06fdf4f916135d74b5767f6dca357b21d49d4bc3009234147e394f0",
+    "ledger": "f31df752d0dd600aed1f40e3bc8faf10f625f5f86246f9dc72bf803fec5f9b03",
+    "identities": "5842c08db149800f79bdd7f5221345a90a0bf982342fbb1d49edf3639ade9fef"
+  },
+  "limitations": "Persisted DSH usage snapshots are observed counters, not guaranteed provider billing; 181 requests still lack total, and per-file snapshot reads are not globally atomic"
+}

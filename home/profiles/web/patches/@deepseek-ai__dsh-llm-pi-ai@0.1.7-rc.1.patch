@@ -1,0 +1,28 @@
+diff --git a/lib/index.js b/lib/index.js
+index 1692082..ef80cf3 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -684,6 +684,7 @@ function resolveRouteModels(request, validation = "strict") {
+ 			cost: base?.cost ?? NO_COST,
+ 			contextWindow,
+ 			maxTokens,
++			...entry.systemPromptUpdate === undefined ? {} : { systemPromptUpdate: entry.systemPromptUpdate },
+ 			...resolveModelReasoning(provider, entry, base),
+ 			...resolveModelCompat(provider, entry, request.compat, base, api)
+ 		};
+@@ -1002,6 +1003,7 @@ const modelFields = {
+ 	maxTokens: z.number().step(1).min(1),
+ 	input: z.array(z.union(MODALITIES)),
+ 	reasoningEfforts: z.union([z.const(false), reasoningEfforts]),
++	systemPromptUpdate: z.const("in-history"),
+ 	compat: compatProfile
+ };
+ const modelProfile = z.object({
+@@ -1821,6 +1823,7 @@ var PiAiAdapter = class extends LlmAdapter {
+ 			inputModalities: [...resolvedModel.input],
+ 			context: { contextWindow: resolvedModel.contextWindow },
+ 			...configuredMaxTokens === void 0 ? {} : { defaultMaxTokens: configuredMaxTokens },
++			...resolvedModel.systemPromptUpdate === undefined ? {} : { systemPromptUpdate: resolvedModel.systemPromptUpdate },
+ 			...reasoningInfo(resolvedModel, defaultLevel)
+ 		};
+ 	}

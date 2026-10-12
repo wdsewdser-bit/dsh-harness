@@ -1,0 +1,30 @@
+--- a/lib/types\\projection.js
++++ b/lib/types\\projection.js
+@@ -49,6 +49,10 @@ const teamMemberSnapshotSchema = z.object({
+     provider: z.string(),
+     context: z.enum(['fresh', 'fork']),
+     phase: z.enum(['provisioning', 'active', 'failed']),
++    frozen: z.boolean().optional(),
++    level: z.number().int().optional(),
++    groupId: z.string().optional(),
++    parentName: z.string().optional(),
+     error: z.string().optional(),
+ }).strict();
+ const teamTaskSnapshotSchema = z.object({
+@@ -190,7 +194,7 @@ function applyCurrentTeamEvent(state, event) {
+                 if (prior.name !== member.name || prior.provider !== member.provider || prior.context !== member.context) {
+                     throw new Error(`teammate "${member.id}" changed immutable identity fields`);
+                 }
+-                if (prior.phase !== 'provisioning' || member.phase === 'provisioning') {
++                if (prior.phase !== 'provisioning' && (prior.phase !== 'active' || member.phase !== 'active')) {
+                     throw new Error(`teammate "${member.name}" has an invalid ${prior.phase} -> ${member.phase} transition`);
+                 }
+             }
+@@ -257,4 +261,4 @@ export const teamProjectionDefinition = {
+         return state;
+     },
+ };
+-//# sourceMappingURL=projection.js.map
+\ No newline at end of file
++//# sourceMappingURL=projection.js.map
+

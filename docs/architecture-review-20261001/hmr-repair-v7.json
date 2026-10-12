@@ -1,0 +1,10 @@
+{
+  "version": 7,
+  "pid": 16440,
+  "startedAt": "2026-10-01T00:41:39.368Z",
+  "source": "native-hmr-staged-consumer-repair",
+  "steps": [],
+  "status": "failed",
+  "error": "HMR transactions cannot be nested",
+  "endedAt": "2026-10-01T00:41:39.474Z"
+}

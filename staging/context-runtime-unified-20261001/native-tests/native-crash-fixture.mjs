@@ -1,0 +1,18 @@
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
+import { Session, installNativeSessionBridge } from '../app/node_modules/@deepseek-ai/dsh-session/lib/index.js';
+import { ReactLoopInbox, inboxProjectionDefinition } from '../app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js';
+import JsonlSessionPersistence from '../app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js';
+const require=createRequire(new URL('../app/package.json',import.meta.url));
+const {Context}=await import(pathToFileURL(require.resolve('@deepseek-ai/cordis')));
+const {SessionProjectionRegistry}=await import(pathToFileURL(require.resolve('@deepseek-ai/dsh-session-projection')));
+const ctx=new Context(); const backend=new JsonlSessionPersistence(ctx,{root:process.argv[2],compression:'none'});
+const session=Session.create('native-crash',undefined,{id:'native-crash',version:4,cwd:process.cwd(),createdAt:Date.now(),isSeeded:false});
+const handle=await backend.create(session.header); let persisted=0;
+await new Promise(resolve=>setImmediate(resolve));
+const projection=new SessionProjectionRegistry(ctx);projection.register(inboxProjectionDefinition);
+const agent={phase:{kind:'idle'},inbox:new ReactLoopInbox(projection,session,{emit(){}}),wakeDriver(){}};
+const bridge=installNativeSessionBridge(session,{sessionId:session.id,isolated:true,flush:async()=>{await handle.append(session.snapshotEvents(persisted));persisted=session.seq;await handle.flush();return true;}});
+await bridge.accept(agent,{id:'message-A',role:'user',content:[{type:'text',text:'A'}],source:{kind:'user',rpcId:'crash-A'}},'next-step',true);
+agent.inbox.claim('next-step',1);
+process.exit(17);

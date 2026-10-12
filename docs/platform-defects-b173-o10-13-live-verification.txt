@@ -1,0 +1,11 @@
+B-173 / O-10-13 live 复核结果
+
+已收到你在 session-028e6f5b / turn 291 / seq 44154 的 live 读数。
+
+- B-173：`team_delivery_check` 已返回 `cargoTargetIsolation={ok:true,checked:13,shared:[],errors:[]}`；13 个 durable worktree 均解析到各自 `<worktree>\target`。覆盖面只包含 durable worktree，盘上额外 worktree 未被检查，这一点已作为未闭合风险记录。
+- O-10-13：`team_delivery_check` 两次分别 24.994s / 26.578s，未再超时；组板列表 group-proto 3.3s/81 行、group-rig 2.4s/53 行、group-world 4.9s/100 行，此前 240s 超时症状已消失。
+- O-10-13 的 runtime_facts 仍为 `complete:false/degraded:true`。已确认 documented/session 的假降级与 schema-null 假降级已移除；剩余原因是 loader runtime 条目缺少 entry hash，属于真实未知，暂标 partial，不伪报 complete。
+
+验证基线：新反例 3/3；focused 19/19；全量 phase1-phase11 446 tests / 445 pass / 0 fail / 1 skipped；四 profile node --check 16/16；profile parity 1/1。DSH PID 124592 / 端口 40123 保持运行。
+
+另：你刚写入清单的 B-174（tracked change 导致 lease 自锁）和 O-10-14（具名竞态拒绝正例）已发现，正在按新 goal 单独处理。

@@ -1,0 +1,79 @@
+# 白名单：默认忽略根目录下的一切，只放行 harness 的源码、测试、补丁和文档。
+# 运行数据（home/ 的其余部分、workspaces/、output/、backups/）和凭据永远不进仓库。
+/*
+!/.gitignore
+!/docs/
+!/staging/
+!/home/
+!/app/
+!/tools/
+!/patch/
+!/phase*-tests/
+!/architecture-tests/
+!/usage-tests/
+!/*.cjs
+!/*.mjs
+!/*.bat
+!/*.yml
+!/REVERT-dsh-subagent.md
+!/CLEANUP-AND-GIT-PLAN-20261012.md
+
+# home：只保留各 profile 的插件、补丁和配置
+/home/*
+!/home/AGENTS.md
+!/home/profiles/
+/home/profiles/*
+!/home/profiles/web/
+!/home/profiles/headless/
+/home/profiles/*/node_modules/
+/home/profiles/*/.plugin-manager/
+/home/profiles/*/D.pnpm-storev11/
+/home/profiles/*/tmp-*/
+/home/profiles/*/verify/
+/home/profiles/*/.context-prune-request.json
+
+# app：生产 node_modules 按 pnpm-lock.yaml 重装后套 patches/
+/app/node_modules/
+
+# tools：第三方二进制
+/tools/godot/
+/tools/chrome-for-testing/
+/tools/*.zip
+/staging/*/tools/godot/
+/staging/*/tools/chrome-for-testing/
+/staging/*/tools/*.zip
+
+# staging：junction、运行证据和实验宿主
+# staging/*/app/node_modules 里绝大多数条目是指向 /app/node_modules 的 junction。
+# 只有被修改过的 @deepseek-ai 实体文件入库，它们是用 `git add -f` 加进来的；
+# 新增被改的原生文件时同样需要 `git add -f <路径>`。
+/staging/*/app/node_modules/
+/staging/*/home/profiles/*/node_modules
+/staging/*/home/profiles/desktop
+/staging/*/home/profiles/teamtest/plugins
+/staging/*/node_modules
+/staging/*/lab-runs/
+/staging/*/lab-host-home/
+/staging/*/team-control-plane/
+/staging/*/native-multi-link-backup/
+
+# docs：请求级审计日志
+/docs/**/*.jsonl
+
+# 任何位置都不要的东西
+.credentials.yaml
+settings.yaml*
+*auth*.xml
+.env*
+.playwright-cli/
+.team-control-runtime-*/
+.backup-*/
+*.bak
+*.bak-*
+*-bak
+*.orig
+*.tmp
+*.tmp-*
+*.log
+*.7z
+*.superseded-by-*

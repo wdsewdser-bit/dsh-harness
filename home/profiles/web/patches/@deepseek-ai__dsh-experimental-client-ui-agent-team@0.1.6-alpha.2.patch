@@ -1,0 +1,908 @@
+diff --git a/lib/client.js b/lib/client.js
+index f3957d3..507b035 100644
+--- a/lib/client.js
++++ b/lib/client.js
+@@ -1,3 +1,4 @@
++/* dsh-test patch-console 0.1.6-alpha.1 v2 */
+ window.__ModuleLoader__.load({
+ 	id: "@deepseek-ai/dsh-experimental-client-ui-agent-team",
+ 	factory: (require) => {
+@@ -4294,13 +4295,13 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 		};
+ 		//#endregion
+ 		//#region \0dsh-css:/home/runner/work/deepseek-harness/deepseek-harness/packages/experimental/client-ui-agent-team/src/client/TeamAction.module.css.mjs
+-		const css = ".VoX2oq_root{position:relative}.VoX2oq_trigger,.VoX2oq_iconButton,.VoX2oq_smallButton,.VoX2oq_taskActions button,.VoX2oq_formActions button{color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:0;border-radius:6px}.VoX2oq_trigger{align-items:center;gap:5px;min-height:28px;padding:3px 7px;font-size:12px;display:inline-flex}.VoX2oq_trigger:hover,.VoX2oq_iconButton:hover,.VoX2oq_smallButton:hover,.VoX2oq_taskActions button:hover,.VoX2oq_formActions button:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_count{background:var(--dsw-alias-fill-l2);font-variant-numeric:tabular-nums;text-align:center;border-radius:8px;min-width:16px}.VoX2oq_panel{--dsh-scrollbar-thumb:var(--dsw-alias-scrollbar-bg-l2);--dsh-scrollbar-thumb-hover:var(--dsw-alias-scrollbar-hover-l2);z-index:110;box-sizing:border-box;background:var(--dsw-specific-menu);--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);width:min(560px,100vw - 32px);max-height:min(680px,100vh - 120px);box-shadow:var(--dsw-elevation-prominent);border:0;border-radius:12px;padding:10px;position:absolute;top:calc(100% + 5px);left:0;overflow:auto}.VoX2oq_toolbar,.VoX2oq_sectionTitle,.VoX2oq_taskTitle,.VoX2oq_taskActions,.VoX2oq_formActions{align-items:center;gap:8px;display:flex}.VoX2oq_toolbar{min-height:28px}.VoX2oq_spacer{flex:1}.VoX2oq_iconButton{justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex}.VoX2oq_panel h3{color:var(--dsw-alias-label-secondary);margin:12px 0 6px;font-size:12px;font-weight:500}.VoX2oq_roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;display:grid}.VoX2oq_member{border:.5px solid var(--dsw-alias-border-l1);min-width:0;color:var(--dsw-alias-label-primary);text-align:left;cursor:pointer;background:0 0;border-radius:8px;align-items:flex-start;gap:8px;padding:8px;display:flex}.VoX2oq_member:disabled{cursor:default}.VoX2oq_memberText{flex-direction:column;min-width:0;display:flex}.VoX2oq_memberText small,.VoX2oq_meta{color:var(--dsw-alias-label-tertiary);font-size:11px}.VoX2oq_diagnostic,.VoX2oq_error,.VoX2oq_warning{color:var(--dsw-alias-state-error-primary)}.VoX2oq_smallButton{align-items:center;gap:4px;margin-left:auto;padding:4px 7px;font-size:11px;display:inline-flex}.VoX2oq_tasks{flex-direction:column;gap:7px;display:flex}.VoX2oq_task,.VoX2oq_form{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:9px;padding:9px}.VoX2oq_taskTitle span{color:var(--dsw-alias-label-tertiary);margin-left:auto;font-size:11px}.VoX2oq_task p{color:var(--dsw-alias-label-secondary);white-space:pre-wrap;margin:5px 0;font-size:12px}.VoX2oq_meta{flex-wrap:wrap;gap:4px 10px;display:flex}.VoX2oq_taskActions{flex-wrap:wrap;margin-top:8px}.VoX2oq_taskActions label{color:var(--dsw-alias-label-tertiary);align-items:center;gap:4px;font-size:11px;display:inline-flex}.VoX2oq_taskActions select,.VoX2oq_form input,.VoX2oq_form textarea{box-sizing:border-box;border:.5px solid var(--dsw-alias-border-l4);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font:inherit;border-radius:6px}.VoX2oq_taskActions button,.VoX2oq_formActions button{align-items:center;gap:3px;padding:4px 6px;font-size:11px;display:inline-flex}.VoX2oq_taskActions button:disabled,.VoX2oq_formActions button:disabled{opacity:.45;cursor:default}.VoX2oq_form{gap:6px;margin-bottom:7px;display:grid}.VoX2oq_form input,.VoX2oq_form textarea{width:100%;padding:6px 8px;font-size:12px}.VoX2oq_form textarea{resize:vertical;min-height:58px}.VoX2oq_notice,.VoX2oq_error{padding:9px;font-size:12px}";
++		const css = ".VoX2oq_root{position:relative}.VoX2oq_trigger,.VoX2oq_iconButton,.VoX2oq_smallButton,.VoX2oq_taskActions button,.VoX2oq_formActions button{color:var(--dsw-alias-label-secondary);cursor:pointer;background:0 0;border:0;border-radius:6px}.VoX2oq_trigger{align-items:center;gap:5px;min-height:28px;padding:3px 7px;font-size:12px;display:inline-flex}.VoX2oq_trigger:hover,.VoX2oq_iconButton:hover,.VoX2oq_smallButton:hover,.VoX2oq_taskActions button:hover,.VoX2oq_formActions button:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_count{background:var(--dsw-alias-fill-l2);font-variant-numeric:tabular-nums;text-align:center;border-radius:8px;min-width:16px}.VoX2oq_panel{--dsh-scrollbar-thumb:var(--dsw-alias-scrollbar-bg-l2);--dsh-scrollbar-thumb-hover:var(--dsw-alias-scrollbar-hover-l2);z-index:110;box-sizing:border-box;background:var(--dsw-specific-menu);--dsw-elevation-stroke-color:var(--dsw-alias-border-l1);width:min(560px,100vw - 32px);max-height:min(680px,100vh - 120px);box-shadow:var(--dsw-elevation-prominent);border:0;border-radius:12px;padding:10px;position:absolute;top:calc(100% + 5px);left:0;display:flex;flex-direction:column;overflow:hidden}.VoX2oq_toolbar,.VoX2oq_sectionTitle,.VoX2oq_taskTitle,.VoX2oq_taskActions,.VoX2oq_formActions{align-items:center;gap:8px;display:flex}.VoX2oq_toolbar{min-height:28px}.VoX2oq_spacer{flex:1}.VoX2oq_iconButton{justify-content:center;align-items:center;width:26px;height:26px;display:inline-flex}.VoX2oq_tabBar{display:flex;align-items:flex-end;gap:2px;flex:0 0 auto;margin:4px 0 8px;padding:0 2px;border-bottom:1px solid var(--dsw-alias-border-l1);overflow-x:auto}.VoX2oq_tab{display:inline-flex;align-items:center;gap:5px;min-height:30px;padding:5px 9px;color:var(--dsw-alias-label-secondary);background:0 0;border:0;border-bottom:2px solid transparent;border-radius:6px 6px 0 0;cursor:pointer;font:inherit;font-size:12px;white-space:nowrap}.VoX2oq_tab:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_tabActive{color:var(--dsw-alias-label-primary);background:var(--dsw-alias-fill-l2);border-bottom-color:var(--dsw-alias-brand-primary)}.VoX2oq_tabCount{min-width:16px;padding:0 5px;border-radius:8px;background:var(--dsw-alias-fill-l2);font-size:10px;line-height:16px;text-align:center;font-variant-numeric:tabular-nums}.VoX2oq_tabBody{flex:1 1 auto;min-height:0;overflow:auto;padding-right:2px}.VoX2oq_panel h3{color:var(--dsw-alias-label-secondary);margin:12px 0 6px;font-size:12px;font-weight:500}.VoX2oq_roster{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;display:grid}.VoX2oq_member{border:.5px solid var(--dsw-alias-border-l1);min-width:0;color:var(--dsw-alias-label-primary);text-align:left;cursor:pointer;background:0 0;border-radius:8px;align-items:flex-start;gap:8px;padding:8px;display:flex}.VoX2oq_member:disabled{cursor:default}.VoX2oq_memberText{flex-direction:column;min-width:0;display:flex}.VoX2oq_memberText small,.VoX2oq_meta{color:var(--dsw-alias-label-tertiary);font-size:11px}.VoX2oq_diagnostic,.VoX2oq_error,.VoX2oq_warning{color:var(--dsw-alias-state-error-primary)}.VoX2oq_smallButton{align-items:center;gap:4px;margin-left:auto;padding:4px 7px;font-size:11px;display:inline-flex}.VoX2oq_tasks{flex-direction:column;gap:7px;display:flex}.VoX2oq_task,.VoX2oq_form{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:9px;padding:9px}.VoX2oq_taskTitle span{color:var(--dsw-alias-label-tertiary);margin-left:auto;font-size:11px}.VoX2oq_task p{color:var(--dsw-alias-label-secondary);white-space:pre-wrap;margin:5px 0;font-size:12px}.VoX2oq_meta{flex-wrap:wrap;gap:4px 10px;display:flex}.VoX2oq_taskActions{flex-wrap:wrap;margin-top:8px}.VoX2oq_taskActions label{color:var(--dsw-alias-label-tertiary);align-items:center;gap:4px;font-size:11px;display:inline-flex}.VoX2oq_taskActions select,.VoX2oq_form input,.VoX2oq_form textarea{box-sizing:border-box;border:.5px solid var(--dsw-alias-border-l4);background:var(--dsw-alias-bg-base);color:var(--dsw-alias-label-primary);font:inherit;border-radius:6px}.VoX2oq_taskActions button,.VoX2oq_formActions button{align-items:center;gap:3px;padding:4px 6px;font-size:11px;display:inline-flex}.VoX2oq_taskActions button:disabled,.VoX2oq_formActions button:disabled{opacity:.45;cursor:default}.VoX2oq_form{gap:6px;margin-bottom:7px;display:grid}.VoX2oq_form input,.VoX2oq_form textarea{width:100%;padding:6px 8px;font-size:12px}.VoX2oq_form textarea{resize:vertical;min-height:58px}.VoX2oq_notice,.VoX2oq_error{padding:9px;font-size:12px}";
+ 		const tagId = "@deepseek-ai/dsh-experimental-client-ui-agent-team/TeamAction.module.css";
+ 		if (typeof document !== "undefined" && document.querySelector("style[data-plugin-css=" + JSON.stringify(tagId) + "]") === null) {
+ 			const tag = document.createElement("style");
+ 			tag.dataset.plugin = "@deepseek-ai/dsh-experimental-client-ui-agent-team";
+ 			tag.dataset.pluginCss = tagId;
+-			tag.textContent = css;
++			tag.textContent = css + ".VoX2oq_roomRow{grid-column:1/-1;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:7px;border:0;border-top:1px solid var(--dsw-alias-border-l1);background:0 0;color:inherit;text-align:left;cursor:pointer;font:inherit;font-size:11px}.VoX2oq_roomRow:hover{background:var(--dsw-alias-interactive-bg-hover)}.VoX2oq_roomRowTitle{display:flex;align-items:center;gap:5px;min-width:0}.VoX2oq_roomRowMeta{color:var(--dsw-alias-label-tertiary);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.VoX2oq_roomRowCount{color:var(--dsw-alias-label-tertiary);font-variant-numeric:tabular-nums;white-space:nowrap}.VoX2oq_roomDetail{display:flex;flex-direction:column;gap:8px}.VoX2oq_roomDetailHeader{display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:1;padding:0 0 5px;background:var(--dsw-specific-menu)}.VoX2oq_roomDetailTitle{min-width:0;flex:1}.VoX2oq_roomDetailTitle strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.VoX2oq_roomDetailTitle small{color:var(--dsw-alias-label-tertiary);font-size:10px}.VoX2oq_roomSummary,.VoX2oq_roomRound{border:.5px solid var(--dsw-alias-border-l1);background:var(--dsw-alias-bg-base);border-radius:8px;padding:8px}.VoX2oq_roomSummary p,.VoX2oq_roomRound p{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--dsw-alias-label-secondary);font-size:11px;margin:5px 0 0}.VoX2oq_roomMessages{display:flex;flex-direction:column;gap:6px;margin-top:7px}.VoX2oq_roomMessage{border-left:2px solid var(--dsw-alias-border-l4);padding:5px 7px;background:var(--dsw-alias-fill-l2)}.VoX2oq_roomMessageHead{display:flex;align-items:center;gap:6px;color:var(--dsw-alias-label-tertiary);font-size:10px;margin-bottom:3px}.VoX2oq_roomMessageBody{white-space:pre-wrap;overflow-wrap:anywhere;color:var(--dsw-alias-label-primary);font-size:11px}.VoX2oq_roomList{display:flex;flex-direction:column;gap:4px;margin-top:5px;color:var(--dsw-alias-label-secondary);font-size:11px}.VoX2oq_roomEmpty{color:var(--dsw-alias-label-tertiary);font-size:11px;padding:8px;text-align:center}";
+ 			document.head.appendChild(tag);
+ 		}
+ 		var TeamAction_module_css_default = {
+@@ -4317,6 +4318,21 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			"panel": "VoX2oq_panel",
+ 			"root": "VoX2oq_root",
+ 			"roster": "VoX2oq_roster",
++			"roomDetail": "VoX2oq_roomDetail",
++			"roomDetailHeader": "VoX2oq_roomDetailHeader",
++			"roomDetailTitle": "VoX2oq_roomDetailTitle",
++			"roomEmpty": "VoX2oq_roomEmpty",
++			"roomList": "VoX2oq_roomList",
++			"roomMessage": "VoX2oq_roomMessage",
++			"roomMessageBody": "VoX2oq_roomMessageBody",
++			"roomMessageHead": "VoX2oq_roomMessageHead",
++			"roomMessages": "VoX2oq_roomMessages",
++			"roomRound": "VoX2oq_roomRound",
++			"roomRow": "VoX2oq_roomRow",
++			"roomRowCount": "VoX2oq_roomRowCount",
++			"roomRowMeta": "VoX2oq_roomRowMeta",
++			"roomRowTitle": "VoX2oq_roomRowTitle",
++			"roomSummary": "VoX2oq_roomSummary",
+ 			"sectionTitle": "VoX2oq_sectionTitle",
+ 			"smallButton": "VoX2oq_smallButton",
+ 			"spacer": "VoX2oq_spacer",
+@@ -4324,6 +4340,11 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			"taskActions": "VoX2oq_taskActions",
+ 			"taskTitle": "VoX2oq_taskTitle",
+ 			"tasks": "VoX2oq_tasks",
++			"tab": "VoX2oq_tab",
++			"tabActive": "VoX2oq_tabActive",
++			"tabBar": "VoX2oq_tabBar",
++			"tabBody": "VoX2oq_tabBody",
++			"tabCount": "VoX2oq_tabCount",
+ 			"toolbar": "VoX2oq_toolbar",
+ 			"trigger": "VoX2oq_trigger",
+ 			"warning": "VoX2oq_warning"
+@@ -4368,10 +4389,564 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			}
+ 		}
+ 		/** Render the live Team roster and compare-and-set task board. */
+-		function TeamAction({ sessionId, load, createTask, updateTask, openTeammate, t }) {
++		/**
++		 * Level and group are the v2 policy layer's own vocabulary. The domain
++		 * roster is flat and its Remote payload carries no tier at all, so the
++		 * panel reads them from the operator command channel (/team meta).
++		 */
++		const ROSTER_TIER_TONE = {
++			0: { bg: "rgba(250,173,20,.20)", fg: "#ad6800", border: "rgba(250,173,20,.55)" },
++			1: { bg: "rgba(22,119,255,.18)", fg: "#0958d9", border: "rgba(22,119,255,.50)" },
++			2: { bg: "rgba(82,196,26,.18)", fg: "#389e0d", border: "rgba(82,196,26,.50)" }
++		};
++		const ROSTER_NEUTRAL_TONE = { bg: "rgba(140,140,140,.16)", fg: "inherit", border: "rgba(140,140,140,.42)" };
++		const ROSTER_FROZEN_TONE = { bg: "rgba(255,77,79,.18)", fg: "#cf1322", border: "rgba(255,77,79,.50)" };
++		const ROSTER_STATUS_TONE = {
++			pending: { bg: "rgba(140,140,140,.16)", fg: "inherit", border: "rgba(140,140,140,.42)" },
++			in_progress: { bg: "rgba(22,119,255,.18)", fg: "#0958d9", border: "rgba(22,119,255,.50)" },
++			completed: { bg: "rgba(82,196,26,.18)", fg: "#389e0d", border: "rgba(82,196,26,.50)" }
++		};
++		/** One small rounded label. */
++		function rosterTag(text, tone, title) {
++			return (0, react_jsx_runtime.jsx)("span", {
++				title,
++				style: {
++					display: "inline-block",
++					padding: "0 6px",
++					marginRight: "4px",
++					borderRadius: "999px",
++					fontSize: "10px",
++					lineHeight: "16px",
++					fontWeight: 600,
++					whiteSpace: "nowrap",
++					background: tone.bg,
++					color: tone.fg,
++					border: `1px solid ${tone.border}`
++				},
++				children: text
++			});
++		}
++		/** A clickable full-width row inside the roster grid. */
++		function rosterRow(options) {
++			return (0, react_jsx_runtime.jsxs)("button", {
++				type: "button",
++				onClick: options.onClick,
++				title: options.title,
++				style: {
++					gridColumn: "1 / -1",
++					display: "flex",
++					alignItems: "center",
++					gap: "6px",
++					width: "100%",
++					padding: options.padding ?? "3px 4px",
++					margin: options.margin,
++					font: "inherit",
++					fontSize: "11px",
++					fontWeight: options.weight ?? 700,
++					textAlign: "left",
++					color: "inherit",
++					background: options.background ?? "transparent",
++					border: "none",
++					borderTop: options.borderTop,
++					borderRadius: "4px",
++					cursor: "pointer",
++					opacity: options.opacity ?? 1
++				},
++				children: options.children
++			}, options.key);
++		}
++		/** The level/group label of one board, as tags plus a readable title. */
++		function boardLabel(board, t) {
++			if (board.kind === "level") return { tone: ROSTER_TIER_TONE[board.tier] ?? ROSTER_NEUTRAL_TONE, tag: "L" + board.tier, title: "L" + board.tier + " " + t("levelBoard") };
++			if (board.kind === "group") return { tone: ROSTER_NEUTRAL_TONE, tag: t("group"), title: String(board.group) + " " + t("groupBoard") };
++			return { tone: ROSTER_NEUTRAL_TONE, tag: t("globalBoard"), title: t("globalBoard") };
++		}
++		/** Bucket roster members by level, then by group. */
++		function rosterSections(members, teamMeta) {
++			const known = /* @__PURE__ */ new Map();
++			if (teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.members)) {
++				for (const row of teamMeta.members) if (row !== null && typeof row === "object") known.set(row.name, row);
++			}
++			const sections = [];
++			const index = /* @__PURE__ */ new Map();
++			for (const member of members) {
++				// The forked domain carries level/groupId/frozen on the roster row itself, so
++			// the panel derives everything it shows from the Team payload alone: there is
++			// no /team meta side channel left to go stale.
++			const fromMeta = known.get(member.name);
++			const derived = typeof member.level === "number" ? {
++				tier: member.level,
++				group: member.groupId,
++				role: member.level === 0 ? "lead" : member.groupId === "verifier" ? "verifier" : member.level === 1 ? "lead" : "member",
++				frozen: member.frozen === true || (fromMeta !== void 0 && fromMeta.frozen === true),
++			} : void 0;
++			const extra = derived === void 0 ? fromMeta : { ...(fromMeta === void 0 ? {} : fromMeta), ...derived };
++				const tier = extra === void 0 || extra.tier === null || extra.tier === void 0 ? -1 : extra.tier;
++				const group = extra === void 0 || extra.group === null || extra.group === void 0 ? "" : String(extra.group);
++				const key = tier + "\u0000" + group;
++				let section = index.get(key);
++				if (section === void 0) {
++					section = { key, tier, group, rows: [] };
++					index.set(key, section);
++					sections.push(section);
++				}
++				section.rows.push({ member, extra });
++			}
++			sections.sort((a, b) => (a.tier < 0 ? 1 : b.tier < 0 ? -1 : a.tier - b.tier) || a.group.localeCompare(b.group));
++			for (const section of sections) section.rows.sort((a, b) => String(a.member.name).localeCompare(String(b.member.name)));
++			return sections;
++		}
++		/** One compact room row: round, host, next speaker and open escalations. */
++		function roomConsoleRows(teamMeta, t) {
++			const source = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.rooms)
++				? teamMeta.rooms
++				: [];
++			const rounds = teamMeta !== null && typeof teamMeta === "object" && teamMeta.rounds !== null
++				? teamMeta.rounds
++				: {};
++			const escalations = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.escalations)
++				? teamMeta.escalations
++				: [];
++			const rows = [];
++			for (const room of source) {
++				if (room === null || typeof room !== "object") continue;
++				const round = room.currentRoundId !== null && room.currentRoundId !== void 0 && rounds[room.currentRoundId] !== void 0
++					? rounds[room.currentRoundId]
++					: null;
++				const pending = escalations.filter((row) => row !== null && typeof row === "object"
++					&& row.roomId === room.roomId && row.status !== "resolved" && row.status !== "cancelled").length;
++				if (room.status !== "open" && round === null && pending === 0) continue;
++				rows.push({
++					key: String(room.roomId),
++					room,
++					round,
++					pending
++				});
++			}
++			rows.sort((left, right) => {
++				const leftMine = left.round !== null && left.round.status === "open" ? 1 : 0;
++				const rightMine = right.round !== null && right.round.status === "open" ? 1 : 0;
++				return rightMine - leftMine || String(left.room.roomId).localeCompare(String(right.room.roomId));
++			});
++			return rows;
++		}
++		/** One durable room transcript, grouped by its rounds. */
++		function RoomDetail({ room, rounds, t, css, onBack }) {
++			const jsx = react_jsx_runtime.jsx;
++			const jsxs = react_jsx_runtime.jsxs;
++			const roomRounds = Object.values(rounds ?? {})
++				.filter((round) => round !== null && typeof round === "object" && round.roomId === room.roomId)
++				.sort((left, right) => Number(left.openedAt || 0) - Number(right.openedAt || 0));
++			const messages = (Array.isArray(room.messages) ? room.messages : [])
++				.filter((message) => message !== null && typeof message === "object")
++				.slice()
++				.sort((left, right) => Number(left.createdAt || 0) - Number(right.createdAt || 0));
++			const byRound = /* @__PURE__ */ new Map();
++			for (const message of messages) {
++				const key = String(message.roundId ?? "");
++				if (!byRound.has(key)) byRound.set(key, []);
++				byRound.get(key).push(message);
++			}
++			const unassigned = byRound.get("") ?? [];
++			const time = (value) => {
++				const number = Number(value);
++				return Number.isFinite(number) && number > 0 ? new Date(number).toLocaleString() : "";
++			};
++			const messageNode = (message, index) => jsxs("div", {
++				className: css.roomMessage,
++				children: [
++					jsxs("div", {
++						className: css.roomMessageHead,
++						children: [
++							jsx("strong", { children: String(message.author || "?") }),
++							jsx("span", { children: message.turn === true ? t("roomMainSpeech") : message.kind === "clarification" ? t("roomClarification") : String(message.kind || t("roomNotice")) }),
++							jsx("span", { style: { marginLeft: "auto" }, children: time(message.createdAt) })
++						]
++					}),
++					jsx("div", { className: css.roomMessageBody, children: String(message.content || "") })
++				]
++			}, String(message.messageId || index));
++			const roundsUsed = roomRounds.length;
++			return jsxs("div", {
++				className: css.roomDetail,
++				children: [
++					jsxs("div", {
++						className: css.roomDetailHeader,
++						children: [
++							jsx("button", {
++								type: "button",
++								className: css.smallButton,
++								style: { marginLeft: 0 },
++								onClick: onBack,
++								children: t("roomBack")
++							}),
++							jsxs("div", {
++								className: css.roomDetailTitle,
++								children: [
++									jsx("strong", { children: String(room.roomId) }),
++									jsx("small", { children: t("host") + ": " + String(room.host ?? "—") + " · " + t("roomRoundBudget") + ": " + String(roundsUsed) + "/3" })
++								]
++							}),
++							rosterTag(String(room.status), ROSTER_STATUS_TONE[room.status] ?? ROSTER_NEUTRAL_TONE, String(room.status))
++						]
++					}),
++					room.summary ? jsxs("div", {
++						className: css.roomSummary,
++						children: [jsx("strong", { children: t("roomSummary") }), jsx("p", { children: String(room.summary) })]
++					}) : null,
++					Array.isArray(room.unresolved) && room.unresolved.length > 0 ? jsxs("div", {
++						className: css.roomSummary,
++						children: [
++							jsx("strong", { children: t("roomUnresolved") }),
++							jsx("div", { className: css.roomList, children: room.unresolved.map((item, index) => {
++								const text = typeof item === "string" ? item : String(item?.text ?? item?.content ?? JSON.stringify(item));
++								const status = typeof item === "object" && item?.status ? " [" + item.status + "]" : "";
++								const resolution = typeof item === "object" && item?.resolution ? " -> " + String(item.resolution) : "";
++								return jsx("div", { children: "• " + text + status + resolution }, "unresolved-" + index);
++							}) })
++						]
++					}) : null,
++					Array.isArray(room.decisions) && room.decisions.length > 0 ? jsxs("div", {
++						className: css.roomSummary,
++						children: [
++							jsx("strong", { children: t("roomDecisions") }),
++							jsx("div", { className: css.roomList, children: room.decisions.map((decision, index) => jsx("div", {
++								children: "• " + String(decision.title || decision.choice || decision.decisionId || "")
++							}, "decision-" + index)) })
++						]
++					}) : null,
++					roomRounds.map((round, roundIndex) => {
++						const roundMessages = byRound.get(String(round.roundId)) ?? [];
++						return jsxs("section", {
++							className: css.roomRound,
++							children: [
++								jsxs("div", {
++									className: css.sectionTitle,
++									children: [
++										jsx("strong", { children: t("round") + " " + String(roundIndex + 1) + " · " + String(round.topic || round.roundId) }),
++										rosterTag(String(round.status), ROSTER_STATUS_TONE[round.status] ?? ROSTER_NEUTRAL_TONE, String(round.status))
++									]
++								}),
++								round.summary ? jsx("p", { children: String(round.summary) }) : null,
++								Array.isArray(round.unresolved) && round.unresolved.length > 0 ? jsx("div", {
++									className: css.roomList,
++									children: round.unresolved.map((item, index) => {
++										const text = typeof item === "string" ? item : String(item?.text ?? item?.content ?? JSON.stringify(item));
++										const status = typeof item === "object" && item?.status ? " [" + item.status + "]" : "";
++										const resolution = typeof item === "object" && item?.resolution ? " -> " + String(item.resolution) : "";
++										return jsx("div", { children: "• " + text + status + resolution }, "round-unresolved-" + index);
++									})
++								}) : null,
++								roundMessages.length > 0 ? jsx("div", {
++									className: css.roomMessages,
++									children: roundMessages.map(messageNode)
++								}) : jsx("div", { className: css.roomEmpty, children: t("roomNoMessages") })
++							]
++						}, String(round.roundId));
++					}),
++					unassigned.length > 0 ? jsxs("section", {
++						className: css.roomRound,
++						children: [
++							jsx("strong", { children: t("roomMessages") }),
++							jsx("div", { className: css.roomMessages, children: unassigned.map(messageNode) })
++						]
++					}) : null,
++					roomRounds.length === 0 && unassigned.length === 0 ? jsx("div", { className: css.roomEmpty, children: t("roomNoMessages") }) : null
++				]
++			});
++		}
++		/** One compact dispatch row with queue age and retry state. */
++		function dispatchConsoleRows(teamMeta) {
++			const rows = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.dispatches)
++				? teamMeta.dispatches.filter((row) => row !== null && typeof row === "object"
++					&& !["completed", "cancelled"].includes(row.status))
++				: [];
++			return rows.slice().sort((left, right) => Number(left.createdAt || 0) - Number(right.createdAt || 0)).slice(0, 12);
++		}
++		function compactAge(ms) {
++			const value = Math.max(0, Number(ms || 0));
++			if (value < 1000) return "0s";
++			if (value < 60000) return Math.round(value / 1000) + "s";
++			if (value < 3600000) return Math.round(value / 60000) + "m";
++			return Math.round(value / 3600000) + "h";
++		}
++		/**
++		 * The roster as level/group sections, then the levelled task boards.
++		 * Every level and group label is clickable: a section heading filters the
++		 * roster, a board row collapses or opens its tasks.
++		 */
++		function RosterView(options) {
++			const { members, meta, sessionId, openTeammate, setError, t, css, StateDot, tab, onSelectRoom } = options;
++			const jsx = react_jsx_runtime.jsx;
++			const jsxs = react_jsx_runtime.jsxs;
++			const [filter, setFilter] = (0, react.useState)("");
++			const [closed, setClosed] = (0, react.useState)({});
++			const nodes = [];
++			const rosterRows = tab === "frozen"
++				? members.filter((member) => {
++					const known = meta !== null && typeof meta === "object" && Array.isArray(meta.members)
++						? meta.members.find((row) => row !== null && typeof row === "object" && row.name === member.name)
++						: void 0;
++					return (member.frozen === true) || (known !== void 0 && known.frozen === true);
++				})
++				: members;
++			const sections = tab === "members" || tab === "frozen" ? rosterSections(rosterRows, meta) : [];
++			if (tab === "members" || tab === "frozen") {
++			if (filter !== "") {
++				const shown = sections.find((section) => section.key === filter);
++				nodes.push(rosterRow({
++					key: "filter-bar",
++					onClick: () => setFilter(""),
++					title: t("clearFilter"),
++					weight: 500,
++					padding: "3px 8px",
++					background: "rgba(22,119,255,.14)",
++					children: [
++						jsx("span", { children: t("filtering") + ": " + (shown === void 0 ? filter : (shown.tier < 0 ? t("tierUnknown") : t("tier") + " " + shown.tier + (shown.group.length === 0 ? "" : " · " + shown.group))) }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.75 }, children: t("clearFilter") })
++					]
++				}));
++			}
++			for (const section of sections) {
++				const tone = ROSTER_TIER_TONE[section.tier] ?? ROSTER_NEUTRAL_TONE;
++				const selected = filter === section.key;
++				if (filter !== "" && !selected) continue;
++				const label = section.tier < 0 ? t("tierUnknown") : t("tier") + " " + section.tier + (section.group.length === 0 ? "" : " · " + t("group") + " " + section.group);
++				nodes.push(rosterRow({
++					key: "section-" + section.key,
++					onClick: () => setFilter(selected ? "" : section.key),
++					title: t("filterHint"),
++					margin: "10px 0 2px",
++					background: selected ? tone.bg : "transparent",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: tone.border } }),
++						jsx("span", { children: label }),
++						jsx("span", { style: { opacity: 0.6, fontWeight: 500 }, children: "(" + section.rows.length + ")" }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.5, fontWeight: 500 }, children: selected ? "\u2715" : "\u25be" })
++					]
++				}));
++				for (const row of section.rows) {
++					const member = row.member;
++					const extra = row.extra;
++					const frozen = extra !== void 0 && extra.frozen === true;
++					const status = frozen ? "frozen" : member.status;
++					const tags = [];
++					if (section.tier >= 0) tags.push(rosterTag("L" + section.tier, ROSTER_TIER_TONE[section.tier] ?? ROSTER_NEUTRAL_TONE, t("tier")));
++					if (section.group.length > 0) tags.push(rosterTag(section.group, ROSTER_NEUTRAL_TONE, t("group")));
++					// The verifier is a tier-1 peer of the group leads but is NOT one of
++					// them, and reading it as "组长" in the roster is simply wrong.
++					const identity = extra !== void 0 && extra.role === "verifier"
++						? t("roleVerifier")
++						: extra !== void 0 && extra.role === "custom"
++							? t("roleCustom")
++							: section.tier === 0 ? t("roleLead") : section.tier === 1 ? t("roleGroupLead") : section.tier === 2 ? t("roleMember") : t("tierUnknown");
++					tags.push(rosterTag(identity,
++						extra !== void 0 && extra.role === "verifier" ? ROSTER_TIER_TONE[1] : ROSTER_NEUTRAL_TONE, void 0));
++					if (frozen) tags.push(rosterTag("\u2744 " + t("frozen"), ROSTER_FROZEN_TONE, t("frozen")));
++					nodes.push(jsxs("button", {
++						type: "button",
++						className: css.member,
++						disabled: member.role === "lead" || status === "failed" || status === "provisioning",
++						title: member.role === "teammate" ? t("open") : void 0,
++						onClick: () => {
++							openTeammate(sessionId, member).catch((reason) => {
++								setError(String(reason));
++							});
++						},
++						children: [
++							jsx(StateDot, { state: frozen ? "error" : status === "running" ? "ongoing" : status === "failed" ? "error" : "done" }),
++							jsxs("span", {
++								className: css.memberText,
++								children: [
++									jsxs("span", {
++										style: { display: "flex", alignItems: "center", flexWrap: "wrap", rowGap: "2px" },
++										children: [jsx("span", { style: { fontWeight: 600, marginRight: "6px" }, children: member.name })].concat(tags)
++									}),
++									jsxs("small", { children: [
++										t(frozen ? "memberStatus.frozen" : memberStatusKey(status)),
++										member.model === void 0 ? "" : " · " + t("model") + ": " + member.model
++									] }),
++									extra !== void 0 && extra.pendingCompaction !== void 0 && jsx("small", {
++										className: css.warning,
++										children: t("pendingCompaction") + ": " + String(extra.pendingCompaction.milestoneStage ?? "")
++									}),
++									member.diagnostics.map((diagnostic) => jsx("small", {
++										className: css.diagnostic,
++										children: diagnostic
++									}, diagnostic))
++								]
++							})
++						]
++					}, member.id));
++				}
++			}
++			}
++			if (tab === "boards") {
++			// Only the levelled boards: the global one already has the interactive
++			// shared-task section below, and repeating it here reads as a duplicate.
++			const all = meta !== null && typeof meta === "object" && Array.isArray(meta.boards) ? meta.boards : [];
++			const boards = all.filter((board) => board !== null && typeof board === "object" && board.kind !== "global");
++			if (boards.length > 0) {
++				nodes.push(rosterRow({
++					key: "boards-title",
++					onClick: void 0,
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(140,140,140,.5)" } }),
++						jsx("span", { children: t("boards") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.5, fontWeight: 500 }, children: t("hintToggle") })
++					]
++				}));
++				for (const board of boards) {
++					const id = String(board.id);
++					const info = boardLabel(board, t);
++					const tasks = Array.isArray(board.tasks) ? board.tasks : [];
++					const open = closed[id] !== true;
++					nodes.push(rosterRow({
++						key: "board-" + id,
++						onClick: () => setClosed({ ...closed, [id]: open }),
++						title: open ? t("hintCollapse") : t("hintExpand"),
++						borderTop: "1px solid rgba(140,140,140,.18)",
++						opacity: 0.95,
++						children: [
++							jsx("span", { style: { width: "10px", opacity: 0.6, fontWeight: 400 }, children: open ? "\u25be" : "\u25b8" }),
++							rosterTag(info.tag, info.tone, board.id),
++							jsx("span", { style: { fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: info.title }),
++							jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontVariantNumeric: "tabular-nums" }, children: String(tasks.length) })
++						]
++					}));
++					if (!open) continue;
++					if (tasks.length === 0) {
++						nodes.push(jsx("div", {
++							style: { gridColumn: "1 / -1", paddingLeft: "18px", opacity: 0.55, fontSize: "11px" },
++							children: t("boardEmpty")
++						}, "board-empty-" + id));
++						continue;
++					}
++					for (const task of tasks) {
++						if (task === null || typeof task !== "object") continue;
++						nodes.push(jsxs("div", {
++							style: {
++								gridColumn: "1 / -1",
++								display: "flex",
++								alignItems: "center",
++								gap: "6px",
++								paddingLeft: "18px",
++								paddingBottom: "1px",
++								fontSize: "11px"
++							},
++							children: [
++								jsx("span", { style: { opacity: 0.5 }, children: "\u2022" }),
++								jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(task.subject) }),
++								rosterTag(t(statusKey(task.status)), ROSTER_STATUS_TONE[task.status] ?? ROSTER_NEUTRAL_TONE, String(task.status)),
++								task.ownerName === void 0 ? null : jsx("span", { style: { opacity: 0.6, marginLeft: "auto" }, children: String(task.ownerName) })
++							]
++						}, "task-" + id + "-" + String(task.id)));
++					}
++				}
++			}
++			}
++			const rooms = roomConsoleRows(meta, t);
++			if (tab === "rooms") {
++			if (rooms.length > 0) {
++				nodes.push(rosterRow({
++					key: "rooms-title",
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(22,119,255,.55)" } }),
++						jsx("span", { children: t("rooms") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontWeight: 500 }, children: String(rooms.length) })
++					]
++				}));
++				for (const row of rooms) {
++					const round = row.round;
++					const marker = round === null ? t("roomIdle") : t("nextSpeaker") + ": " + String(round.nextSpeaker ?? "—");
++					nodes.push(jsxs("button", {
++						type: "button",
++						className: css.roomRow,
++						onClick: () => onSelectRoom(row.room.roomId),
++						"aria-label": t("roomOpen") + ": " + String(row.room.roomId),
++						children: [
++							jsxs("div", {
++								style: { minWidth: 0 },
++								children: [
++									jsxs("div", {
++										className: css.roomRowTitle,
++										children: [
++											rosterTag(String(row.room.kind || "room"), ROSTER_TIER_TONE[0], String(row.room.roomId)),
++											jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", fontWeight: 600 }, children: String(row.room.roomId) }),
++											rosterTag(String(row.room.status), ROSTER_STATUS_TONE[row.room.status] ?? ROSTER_NEUTRAL_TONE, String(row.room.status))
++										]
++									}),
++									jsx("div", { className: css.roomRowMeta, children: [
++										t("host") + ": " + String(row.room.host ?? "—"),
++										round === null ? "" : " · " + t("round") + ": " + String(round.topic || round.roundId),
++										" · " + marker,
++										row.pending > 0 ? " · " + t("pendingEscalations") + ": " + String(row.pending) : ""
++									].join("") })
++								]
++							}),
++							jsx("span", { className: css.roomRowCount,
++								children: round === null ? "" : String((round.mainSpoken ?? round.spoken ?? []).length) + "/" + String((round.order ?? []).length) })
++						]
++					}, "room-" + row.key));
++				}
++			}
++			}
++			const dispatches = dispatchConsoleRows(meta);
++			if (tab === "dispatches") {
++			if (dispatches.length > 0) {
++				const now = Date.now();
++				nodes.push(rosterRow({
++					key: "dispatches-title",
++					weight: 700,
++					margin: "12px 0 2px",
++					children: [
++						jsx("span", { style: { width: "3px", height: "12px", borderRadius: "2px", background: "rgba(250,173,20,.65)" } }),
++						jsx("span", { children: t("dispatches") }),
++						jsx("span", { style: { marginLeft: "auto", opacity: 0.6, fontWeight: 500 }, children: String(dispatches.length) })
++					]
++				}));
++				for (const dispatch of dispatches) {
++					const queueAge = ["queued", "delivered"].includes(dispatch.status)
++						? compactAge(Number(dispatch.queueAgeMs ?? (now - Number(dispatch.createdAt || now))))
++						: "—";
++					nodes.push(jsxs("div", {
++						style: {
++							gridColumn: "1 / -1",
++							display: "flex",
++							alignItems: "center",
++							gap: "6px",
++							padding: "4px 7px",
++							borderTop: "1px solid rgba(140,140,140,.14)",
++							fontSize: "11px",
++							minWidth: 0
++						},
++						children: [
++							rosterTag(String(dispatch.status), ["timed-out", "expired", "delivery-failed", "run-failed"].includes(dispatch.status) ? ROSTER_FROZEN_TONE : ROSTER_NEUTRAL_TONE, String(dispatch.status)),
++							jsx("span", { style: { overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: String(dispatch.sender || "?") + " → " + String(dispatch.target || "?") }),
++							jsx("span", { style: { opacity: 0.65, marginLeft: "auto", whiteSpace: "nowrap" }, children: t("queueAge") + ": " + queueAge + (Number(dispatch.attempt || 0) > 1 ? " · " + t("attempt") + " " + String(dispatch.attempt) : "") }),
++							dispatch.lastError === null || dispatch.lastError === void 0 ? null : jsx("span", { title: String(dispatch.lastError), style: { opacity: 0.55 }, children: "!" })
++						]
++					}, "dispatch-" + String(dispatch.dispatchId)));
++				}
++			}
++			}
++			if (nodes.length === 0) nodes.push(jsx("div", {
++				style: { gridColumn: "1 / -1", padding: "12px 8px", opacity: 0.55, fontSize: 11, textAlign: "center" },
++				children: t("emptyTab")
++			}, "tab-empty"));
++			return nodes;
++		}
++		function TeamAction({ sessionId, load, createTask, updateTask, openTeammate, meta, t }) {
+ 			const [open, setOpen] = (0, react.useState)(false);
+ 			const [loading, setLoading] = (0, react.useState)(false);
+ 			const [view, setView] = (0, react.useState)(null);
++			const [tab, setTab] = (0, react.useState)("members");
++			const [selectedRoomId, setSelectedRoomId] = (0, react.useState)(null);
++			const [teamMeta, setTeamMeta] = (0, react.useState)(null);
+ 			const [error, setError] = (0, react.useState)(null);
+ 			const [creating, setCreating] = (0, react.useState)(false);
+ 			const [createDraft, setCreateDraft] = (0, react.useState)(EMPTY_DRAFT);
+@@ -4386,6 +4961,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				setOpen(false);
+ 				setLoading(false);
+ 				setView(null);
++				setTab("members");
++				setSelectedRoomId(null);
++				setTeamMeta(null);
+ 				setError(null);
+ 				setCreating(false);
+ 				setCreateDraft(EMPTY_DRAFT);
+@@ -4402,6 +4980,9 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				setLoading(false);
+ 				if (result.ok) {
+ 					setView(result.value);
++				void Promise.resolve(meta === void 0 ? null : meta(requestedSession)).then((value) => {
++					if (sessionRef.current === requestedSession) setTeamMeta(value);
++				}).catch(() => {});
+ 					setError(null);
+ 					return true;
+ 				} else {
+@@ -4497,8 +5078,26 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				})) === void 0) return;
+ 				setEditing(null);
+ 			};
+-			const teammates = view?.members.filter((member) => member.role === "teammate") ?? [];
++			const frozenMembers = (view?.members ?? []).filter((member) => {
++				const known = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.members)
++					? teamMeta.members.find((row) => row !== null && typeof row === "object" && row.name === member.name)
++					: void 0;
++				return member.frozen === true || (known !== void 0 && known.frozen === true);
++			});
++			const activeMembers = (view?.members ?? []).filter((member) => !frozenMembers.some((frozen) => frozen.id === member.id));
++			const teammates = activeMembers.filter((member) => member.role === "teammate");
+ 			const assignable = view?.members.filter((member) => member.status !== "failed" && member.status !== "provisioning") ?? [];
++			const metaBoards = teamMeta !== null && typeof teamMeta === "object" && Array.isArray(teamMeta.boards) ? teamMeta.boards : [];
++			const selectedRoom = selectedRoomId === null || teamMeta === null || !Array.isArray(teamMeta.rooms)
++				? undefined
++				: teamMeta.rooms.find((room) => room !== null && typeof room === "object" && String(room.roomId) === String(selectedRoomId));
++			const tabRows = [
++				{ key: "members", label: t("roster"), count: activeMembers.length },
++				{ key: "frozen", label: t("frozen"), count: frozenMembers.length },
++				{ key: "boards", label: t("boards"), count: (view?.tasks.length ?? 0) + metaBoards.filter((board) => board !== null && typeof board === "object" && board.kind !== "global").length },
++				{ key: "rooms", label: t("rooms"), count: roomConsoleRows(teamMeta, t).length },
++				{ key: "dispatches", label: t("dispatches"), count: dispatchConsoleRows(teamMeta).length }
++			];
+ 			return (0, react_jsx_runtime.jsxs)("div", {
+ 				className: TeamAction_module_css_default.root,
+ 				"data-team-action": true,
+@@ -4549,6 +5148,24 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 								})
+ 							]
+ 						}),
++						(0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.tabBar,
++							role: "tablist",
++							children: tabRows.map((row) => (0, react_jsx_runtime.jsxs)("button", {
++								type: "button",
++								role: "tab",
++								"aria-selected": tab === row.key,
++								className: TeamAction_module_css_default.tab + (tab === row.key ? " " + TeamAction_module_css_default.tabActive : ""),
++								onClick: () => {
++									setTab(row.key);
++									if (row.key !== "rooms") setSelectedRoomId(null);
++								},
++								children: [
++									(0, react_jsx_runtime.jsx)("span", { children: row.label }),
++									row.count > 0 && (0, react_jsx_runtime.jsx)("span", { className: TeamAction_module_css_default.tabCount, children: row.count })
++								]
++							}, row.key))
++						}),
+ 						error !== null && (0, react_jsx_runtime.jsx)("div", {
+ 							className: TeamAction_module_css_default.error,
+ 							role: "alert",
+@@ -4558,31 +5175,20 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 							className: TeamAction_module_css_default.notice,
+ 							children: t("loading")
+ 						}),
+-						view !== null && (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [(0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("roster") }), (0, react_jsx_runtime.jsx)("div", {
++						view !== null && (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.tabBody,
++							role: "tabpanel",
++							children: (0, react_jsx_runtime.jsxs)(react_jsx_runtime.Fragment, { children: [tab === "members" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("roster") }), (0, react_jsx_runtime.jsx)("div", {
+ 							className: TeamAction_module_css_default.roster,
+-							children: view.members.map((member) => (0, react_jsx_runtime.jsxs)("button", {
+-								type: "button",
+-								className: TeamAction_module_css_default.member,
+-								disabled: member.role === "lead" || member.status === "failed" || member.status === "provisioning",
+-								title: member.role === "teammate" ? t("open") : void 0,
+-								onClick: () => {
+-									openTeammate(sessionId, member).catch((reason) => {
+-										setError(String(reason));
+-									});
+-								},
+-								children: [(0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.StateDot, { state: member.status === "running" ? "ongoing" : member.status === "failed" ? "error" : "done" }), (0, react_jsx_runtime.jsxs)("span", {
+-									className: TeamAction_module_css_default.memberText,
+-									children: [
+-										(0, react_jsx_runtime.jsx)("span", { children: member.name }),
+-										(0, react_jsx_runtime.jsxs)("small", { children: [t(memberStatusKey(member.status)), member.model === void 0 ? "" : ` · ${t("model")}: ${member.model}`] }),
+-										member.diagnostics.map((diagnostic) => (0, react_jsx_runtime.jsx)("small", {
+-											className: TeamAction_module_css_default.diagnostic,
+-											children: diagnostic
+-										}, diagnostic))
+-									]
+-								})]
+-							}, member.id))
+-						})] }), (0, react_jsx_runtime.jsxs)("section", { children: [
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "members", members: activeMembers, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] }), tab === "frozen" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("frozen") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "frozen", members: frozenMembers, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] }), tab === "boards" && (0, react_jsx_runtime.jsxs)("section", { children: [
++							(0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("boards") }), (0, react_jsx_runtime.jsx)("div", {
++								className: TeamAction_module_css_default.roster,
++								children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "boards", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++							})] }),
+ 							(0, react_jsx_runtime.jsxs)("div", {
+ 								className: TeamAction_module_css_default.sectionTitle,
+ 								children: [(0, react_jsx_runtime.jsx)("h3", { children: t("tasks") }), (0, react_jsx_runtime.jsxs)("button", {
+@@ -4740,7 +5346,20 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 									]
+ 								}, task.id))
+ 							})
+-						] })] })
++						] }), tab === "rooms" && (selectedRoom !== void 0 ? (0, react_jsx_runtime.jsx)(RoomDetail, {
++							room: selectedRoom,
++							rounds: teamMeta.rounds ?? {},
++							t,
++							css: TeamAction_module_css_default,
++							onBack: () => setSelectedRoomId(null)
++						}) : (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("rooms") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "rooms", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot, onSelectRoom: setSelectedRoomId })
++						})] })), tab === "dispatches" && (0, react_jsx_runtime.jsxs)("section", { children: [(0, react_jsx_runtime.jsx)("h3", { children: t("dispatches") }), (0, react_jsx_runtime.jsx)("div", {
++							className: TeamAction_module_css_default.roster,
++							children: (0, react_jsx_runtime.jsx)(RosterView, { tab: "dispatches", members: view.members, meta: teamMeta, sessionId, openTeammate, setError, t, css: TeamAction_module_css_default, StateDot: _deepseek_ai_dsh_client_ui_primitives.StateDot })
++						})] })] })
++					})
+ 					]
+ 				})]
+ 			});
+@@ -4812,9 +5431,53 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			close: "关闭",
+ 			loading: "正在加载 Team…",
+ 			empty: "还没有共享任务",
++			emptyTab: "这里暂时没有内容",
+ 			roster: "成员",
+ 			tasks: "共享任务",
+ 			model: "模型",
++			tier: "级别",
++			group: "分组",
++			frozen: "已冻结",
++			frozenMembers: "已冻结成员",
++			pendingCompaction: "待压缩里程碑",
++			tierUnknown: "未登记级别",
++			boards: "看板",
++			globalBoard: "全局板",
++			levelBoard: "层看板",
++			groupBoard: "组看板",
++			boardEmpty: "该看板还没有任务",
++			roleLead: "主控",
++			roleGroupLead: "组长",
++			roleMember: "组员",
++			roleVerifier: "审查员",
++			roleCustom: "自定义",
++			filtering: "筛选中",
++			clearFilter: "显示全部",
++			filterHint: "点击按该级别与分组筛选",
++			hintToggle: "点击展开/收起",
++			hintCollapse: "点击收起任务",
++			hintExpand: "点击展开任务",
++			"memberStatus.frozen": "已冻结",
++			rooms: "协作房间",
++			roomIdle: "空闲",
++			roomBack: "返回房间列表",
++			roomOpen: "打开房间",
++			roomSummary: "摘要",
++			roomMessages: "讨论消息",
++			roomUnresolved: "未决项",
++			roomDecisions: "决议",
++			roomNoMessages: "暂无消息",
++			roomRoundBudget: "讨论预算",
++			roomMainSpeech: "主发言",
++			roomClarification: "澄清",
++			roomNotice: "通知",
++			host: "主持人",
++			round: "轮次",
++			nextSpeaker: "下一位发言",
++			pendingEscalations: "待决升级",
++			dispatches: "消息投递",
++			queueAge: "排队",
++			attempt: "第 N 次",
+ 			open: "打开 teammate 会话",
+ 			create: "新建任务",
+ 			subject: "任务标题",
+@@ -4850,9 +5513,53 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 			close: "Close",
+ 			loading: "Loading Team…",
+ 			empty: "No shared tasks yet",
++			emptyTab: "Nothing here yet",
+ 			roster: "Members",
+ 			tasks: "Shared tasks",
+ 			model: "Model",
++			tier: "Level",
++			group: "Group",
++			frozen: "Frozen",
++			frozenMembers: "Frozen members",
++			pendingCompaction: "Pending compaction milestone",
++			tierUnknown: "Unregistered",
++			boards: "Boards",
++			globalBoard: "Global board",
++			levelBoard: "level board",
++			groupBoard: "group board",
++			boardEmpty: "No tasks on this board",
++			roleLead: "Lead",
++			roleGroupLead: "Group lead",
++			roleMember: "Member",
++			roleVerifier: "Verifier",
++			roleCustom: "Custom",
++			filtering: "Filtering",
++			clearFilter: "Show all",
++			filterHint: "Click to filter by this level and group",
++			hintToggle: "Click to expand or collapse",
++			hintCollapse: "Click to collapse tasks",
++			hintExpand: "Click to expand tasks",
++			"memberStatus.frozen": "Frozen",
++			rooms: "Rooms",
++			roomIdle: "Idle",
++			roomBack: "Back to rooms",
++			roomOpen: "Open room",
++			roomSummary: "Summary",
++			roomMessages: "Messages",
++			roomUnresolved: "Unresolved",
++			roomDecisions: "Decisions",
++			roomNoMessages: "No messages",
++			roomRoundBudget: "Discussion budget",
++			roomMainSpeech: "Main speech",
++			roomClarification: "Clarification",
++			roomNotice: "Notice",
++			host: "Host",
++			round: "Round",
++			nextSpeaker: "Next speaker",
++			pendingEscalations: "Pending escalations",
++			dispatches: "Dispatches",
++			queueAge: "Queue age",
++			attempt: "attempt",
+ 			open: "Open teammate conversation",
+ 			create: "New task",
+ 			subject: "Task subject",
+@@ -4915,6 +5622,17 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 						...owner === void 0 ? {} : { owner }
+ 					});
+ 				},
++				async meta(sessionId) {
++					try {
++						const result = await ctx.remote.commands.execute(leadSessionId(sessionId), "/team meta", []);
++						if (!result || result.ok === false) return null;
++						const payload = result.value && result.value.result;
++						if (!payload || typeof payload.text !== "string") return null;
++						return JSON.parse(payload.text);
++					} catch (error) {
++						return null;
++					}
++				},
+ 				async openTeammate(sessionId, member) {
+ 					if (member.role !== "teammate") return;
+ 					const parentSessionId = leadSessionId(sessionId);
+@@ -4948,7 +5666,8 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 				"uiWorkspace",
+ 				"remote.agentTeams",
+ 				"slots",
+-				"locale"
++				"locale",
++				"remote.commands"
+ 			], registerUi);
+ 			try {
+ 				await ui;
+@@ -4976,4 +5695,4 @@ Set the \`cycles\` parameter to \`"ref"\` to resolve cyclical schemas with defs.
+ 	}
+ });
+ 
+-//# sourceMappingURL=client.js.map
+\ No newline at end of file
++//# sourceMappingURL=client.js.map

@@ -1,0 +1,36 @@
+[team-v13-mechanism-telemetry] HMR perf40-bounded-sessions loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ durable JSON missing fallback, revision and corrupt fail closed (15.2579ms)
+✔ live stale-age lock is never stolen and changed owner is never released (158.4199ms)
+✔ separate processes preserve 100 locked updates without corruption (1181.7816ms)
+✔ identity resolves known fields and uses shared fallback for unknown values (0.4909ms)
+✔ identity uses nested agent membership and isolates unresolved sessions (0.91ms)
+{"benchmark":"v14-cold-hot-20","bodyBytes":1100000,"elapsedMs":12,"coldFiles":9,"coldBytes":5500327}
+✔ cold history is content-addressed, fail-closed, and not recopied by hot updates (107.2356ms)
+﹣ 60 MB synthetic history benchmark keeps cold blob count fixed over 20 hot mutations (0.1381ms) # SKIP
+✔ control plane avoids duplicate joins and hydrates old schema history (17.8899ms)
+✔ member control lookup isolates Teams and ignores non-unique member names (30.561ms)
+[team-control-plane] read failed; serving the last good state for C:\Users\<user>\AppData\Local\Temp\v14-legacy-root-6mFpGQ\team-new.json: Expected property name or '}' in JSON at position 1 (line 1 column 2)
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27
+✔ member control lookup keeps old root key and fails on corrupt stable candidate (260.4065ms)
+✔ migration dry-run/apply/rollback preserves the original fixture (269.5054ms)
+✔ cold storage GC preserves reachable blobs and removes only aged orphans (19.8935ms)
+✔ storage inventory cache follows directory membership and audit size changes (1687.9398ms)
+✔ reachability cache invalidates when a live recovery snapshot changes (14.3096ms)
+✔ hydrated history cache invalidates after a room mutation (20.1142ms)
+✔ hydrated history cache never exposes mutable internal state (15.9134ms)
+✔ large requirement ledgers persist by cold reference and reload transparently (15.8317ms)
+✔ large v12 evidence and compaction snapshots persist by cold reference (17.4776ms)
+✔ startup and successful checkpoints remove stale temp files (12.3545ms)
+✔ audit rotation bounds files and closes cached handles on reset (38.8972ms)
+✔ ordinary mutations use delayed checkpoints and expose write timings (13.9299ms)
+ℹ tests 21
+ℹ suites 0
+ℹ pass 20
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 1
+ℹ todo 0
+ℹ duration_ms 3970.5423

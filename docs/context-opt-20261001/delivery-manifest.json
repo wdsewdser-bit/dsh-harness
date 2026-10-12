@@ -1,0 +1,638 @@
+{
+  "version": 1,
+  "at": "2026-09-30T22:12:01.950Z",
+  "profiles": [
+    {
+      "profile": "web",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\web",
+      "patchPath": "D:/dsh-test/home/profiles/web/cordis.patch.yml",
+      "patchSha256": "ad6e5f20ebcc6c26d993b0e22a891c9f08599cd5e5fb3c13fbde3644bd753f30",
+      "relevantMounts": [
+        {
+          "id": "request-message-projection",
+          "name": "./plugins/request-message-projection.mjs",
+          "config": {
+            "maxAuditRecords": 64
+          }
+        },
+        {
+          "id": "ptc-sdk-retention",
+          "name": "./plugins/ptc-sdk-retention.mjs",
+          "config": {
+            "mode": "apply",
+            "policy": "latest",
+            "compatibilityManifestPath": "D:\\dsh-test\\docs\\context-opt-20261001\\sdk-compatibility-manifest.json",
+            "directory": "D:\\dsh-test\\home\\ptc-sdk-retention-audit"
+          }
+        },
+        {
+          "id": "request-usage-ledger",
+          "name": "./plugins/request-usage-ledger.mjs",
+          "config": {
+            "directory": "D:\\dsh-test\\home\\usage-ledger",
+            "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+            "profile": "web",
+            "maxPending": 4096
+          }
+        },
+        {
+          "id": "observation-pack",
+          "name": "./plugins/observation-pack-v2.mjs",
+          "config": {
+            "maxInlineBytes": 10240,
+            "fullSends": 2,
+            "previewBytes": 1024,
+            "evidenceChars": 1500,
+            "spillDir": "D:\\dsh-test\\home\\spill",
+            "telemetryDir": "D:\\dsh-test\\home\\team-control-plane"
+          }
+        },
+        {
+          "id": "tool-agent-team-v2",
+          "name": "./plugins/team-tools-v2-r10.mjs",
+          "config": {
+            "freshProvider": "spawn",
+            "forkProvider": "fork",
+            "scopesFile": "D:\\dsh-test\\home\\write-scopes.json",
+            "rolesDir": "D:\\dsh-test\\home\\team-roles",
+            "reportDir": "D:\\dsh-test\\home\\team-reports",
+            "clearanceFile": "D:\\dsh-test\\home\\team-clearances.json",
+            "milestonePath": "D:\\dsh-test\\home\\team-milestones.json",
+            "healthPath": "D:\\dsh-test\\home\\team-health-web.json",
+            "windowTokens": 1000000,
+            "maxRoomRounds": 3,
+            "controlDir": "D:\\dsh-test\\home\\team-control-plane",
+            "reservedOutputTokens": 32768,
+            "safetyMarginTokens": 8192,
+            "activityDigestIntervalMs": 600000,
+            "enablePreStep": true
+          }
+        }
+      ],
+      "sources": [
+        {
+          "module": "request-message-projection.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/request-message-projection.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
+          "sha256": "413eadde94b3cc3f920569dd624f96e1ec2a2e98189ef223990e14afa0b6d3d4"
+        },
+        {
+          "module": "ptc-sdk-retention.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/ptc-sdk-retention.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\ptc-sdk-retention.mjs",
+          "sha256": "6b39b1c82770d906accffa1b81370caedecd3f5d7af1fc7645ddf19148bfae2e"
+        },
+        {
+          "module": "observation-pack-v2.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/observation-pack-v2.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\observation-pack-v2.mjs",
+          "sha256": "8964ae056f64e9f86f07be2f3fcf8253e9ac31d7e6f105c436935da488d0c504"
+        },
+        {
+          "module": "request-usage-ledger.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/request-usage-ledger.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-usage-ledger.mjs",
+          "sha256": "a90710d3f1b90ac6412c2d99dbe18907d2b682a6c01a039ecbe8fdc70e8f65be"
+        },
+        {
+          "module": "team-tools-v2-r10.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-tools-v2-r10.mjs",
+          "sha256": "ab8d7c6052e1fd116d6c9cd57e6b9d3f5ecbd9bd4f0d5915acf1c519adef0b5e"
+        },
+        {
+          "module": "team-worktree.mjs",
+          "path": "D:/dsh-test/home/profiles/web/plugins/team-worktree.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-worktree.mjs",
+          "sha256": "2849757298e498fce44ebd55eb72132629eba4af3c4bb23f1aba9358c4bc62cb"
+        }
+      ]
+    },
+    {
+      "profile": "headless",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\headless",
+      "patchPath": "D:/dsh-test/home/profiles/headless/cordis.patch.yml",
+      "patchSha256": "50f1230161e9a8443b705f02c550cdc16a57853e55571057df2975097bd15bdb",
+      "relevantMounts": [
+        {
+          "id": "request-message-projection",
+          "name": "./plugins/request-message-projection.mjs",
+          "config": {
+            "maxAuditRecords": 64
+          }
+        },
+        {
+          "id": "ptc-sdk-retention",
+          "name": "./plugins/ptc-sdk-retention.mjs",
+          "config": {
+            "mode": "apply",
+            "policy": "latest",
+            "compatibilityManifestPath": "D:\\dsh-test\\docs\\context-opt-20261001\\sdk-compatibility-manifest.json",
+            "directory": "D:\\dsh-test\\home\\ptc-sdk-retention-audit"
+          }
+        },
+        {
+          "id": "request-usage-ledger",
+          "name": "./plugins/request-usage-ledger.mjs",
+          "config": {
+            "directory": "D:\\dsh-test\\home\\usage-ledger",
+            "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+            "profile": "headless",
+            "maxPending": 4096
+          }
+        },
+        {
+          "id": "observation-pack",
+          "name": "./plugins/observation-pack-v2.mjs",
+          "config": {
+            "maxInlineBytes": 10240,
+            "fullSends": 2,
+            "previewBytes": 1024,
+            "evidenceChars": 1500,
+            "spillDir": "D:\\dsh-test\\home\\spill",
+            "telemetryDir": "D:\\dsh-test\\home\\team-control-plane"
+          }
+        },
+        {
+          "id": "tool-agent-team-v2",
+          "name": "./plugins/team-tools-v2-r10.mjs",
+          "config": {
+            "freshProvider": "spawn",
+            "forkProvider": "fork",
+            "scopesFile": "D:\\dsh-test\\home\\write-scopes.json",
+            "rolesDir": "D:\\dsh-test\\home\\team-roles",
+            "reportDir": "D:\\dsh-test\\home\\team-reports",
+            "clearanceFile": "D:\\dsh-test\\home\\team-clearances.json",
+            "milestonePath": "D:\\dsh-test\\home\\team-milestones.json",
+            "healthPath": "D:\\dsh-test\\home\\team-health-headless.json",
+            "windowTokens": 1000000,
+            "maxRoomRounds": 3,
+            "controlDir": "D:\\dsh-test\\home\\team-control-plane",
+            "reservedOutputTokens": 32768,
+            "safetyMarginTokens": 8192,
+            "activityDigestIntervalMs": 600000,
+            "enablePreStep": true
+          }
+        }
+      ],
+      "sources": [
+        {
+          "module": "request-message-projection.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/request-message-projection.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\request-message-projection.mjs",
+          "sha256": "413eadde94b3cc3f920569dd624f96e1ec2a2e98189ef223990e14afa0b6d3d4"
+        },
+        {
+          "module": "ptc-sdk-retention.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/ptc-sdk-retention.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\ptc-sdk-retention.mjs",
+          "sha256": "6b39b1c82770d906accffa1b81370caedecd3f5d7af1fc7645ddf19148bfae2e"
+        },
+        {
+          "module": "observation-pack-v2.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/observation-pack-v2.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\observation-pack-v2.mjs",
+          "sha256": "8964ae056f64e9f86f07be2f3fcf8253e9ac31d7e6f105c436935da488d0c504"
+        },
+        {
+          "module": "request-usage-ledger.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/request-usage-ledger.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\request-usage-ledger.mjs",
+          "sha256": "a90710d3f1b90ac6412c2d99dbe18907d2b682a6c01a039ecbe8fdc70e8f65be"
+        },
+        {
+          "module": "team-tools-v2-r10.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/team-tools-v2-r10.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\team-tools-v2-r10.mjs",
+          "sha256": "ab8d7c6052e1fd116d6c9cd57e6b9d3f5ecbd9bd4f0d5915acf1c519adef0b5e"
+        },
+        {
+          "module": "team-worktree.mjs",
+          "path": "D:/dsh-test/home/profiles/headless/plugins/team-worktree.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\headless\\plugins\\team-worktree.mjs",
+          "sha256": "2849757298e498fce44ebd55eb72132629eba4af3c4bb23f1aba9358c4bc62cb"
+        }
+      ]
+    },
+    {
+      "profile": "desktop",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\web",
+      "patchPath": "D:/dsh-test/home/profiles/desktop/cordis.patch.yml",
+      "patchSha256": "ad6e5f20ebcc6c26d993b0e22a891c9f08599cd5e5fb3c13fbde3644bd753f30",
+      "relevantMounts": [
+        {
+          "id": "request-message-projection",
+          "name": "./plugins/request-message-projection.mjs",
+          "config": {
+            "maxAuditRecords": 64
+          }
+        },
+        {
+          "id": "ptc-sdk-retention",
+          "name": "./plugins/ptc-sdk-retention.mjs",
+          "config": {
+            "mode": "apply",
+            "policy": "latest",
+            "compatibilityManifestPath": "D:\\dsh-test\\docs\\context-opt-20261001\\sdk-compatibility-manifest.json",
+            "directory": "D:\\dsh-test\\home\\ptc-sdk-retention-audit"
+          }
+        },
+        {
+          "id": "request-usage-ledger",
+          "name": "./plugins/request-usage-ledger.mjs",
+          "config": {
+            "directory": "D:\\dsh-test\\home\\usage-ledger",
+            "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+            "profile": "web",
+            "maxPending": 4096
+          }
+        },
+        {
+          "id": "observation-pack",
+          "name": "./plugins/observation-pack-v2.mjs",
+          "config": {
+            "maxInlineBytes": 10240,
+            "fullSends": 2,
+            "previewBytes": 1024,
+            "evidenceChars": 1500,
+            "spillDir": "D:\\dsh-test\\home\\spill",
+            "telemetryDir": "D:\\dsh-test\\home\\team-control-plane"
+          }
+        },
+        {
+          "id": "tool-agent-team-v2",
+          "name": "./plugins/team-tools-v2-r10.mjs",
+          "config": {
+            "freshProvider": "spawn",
+            "forkProvider": "fork",
+            "scopesFile": "D:\\dsh-test\\home\\write-scopes.json",
+            "rolesDir": "D:\\dsh-test\\home\\team-roles",
+            "reportDir": "D:\\dsh-test\\home\\team-reports",
+            "clearanceFile": "D:\\dsh-test\\home\\team-clearances.json",
+            "milestonePath": "D:\\dsh-test\\home\\team-milestones.json",
+            "healthPath": "D:\\dsh-test\\home\\team-health-web.json",
+            "windowTokens": 1000000,
+            "maxRoomRounds": 3,
+            "controlDir": "D:\\dsh-test\\home\\team-control-plane",
+            "reservedOutputTokens": 32768,
+            "safetyMarginTokens": 8192,
+            "activityDigestIntervalMs": 600000,
+            "enablePreStep": true
+          }
+        }
+      ],
+      "sources": [
+        {
+          "module": "request-message-projection.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/request-message-projection.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
+          "sha256": "413eadde94b3cc3f920569dd624f96e1ec2a2e98189ef223990e14afa0b6d3d4"
+        },
+        {
+          "module": "ptc-sdk-retention.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/ptc-sdk-retention.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\ptc-sdk-retention.mjs",
+          "sha256": "6b39b1c82770d906accffa1b81370caedecd3f5d7af1fc7645ddf19148bfae2e"
+        },
+        {
+          "module": "observation-pack-v2.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/observation-pack-v2.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\observation-pack-v2.mjs",
+          "sha256": "8964ae056f64e9f86f07be2f3fcf8253e9ac31d7e6f105c436935da488d0c504"
+        },
+        {
+          "module": "request-usage-ledger.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/request-usage-ledger.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-usage-ledger.mjs",
+          "sha256": "a90710d3f1b90ac6412c2d99dbe18907d2b682a6c01a039ecbe8fdc70e8f65be"
+        },
+        {
+          "module": "team-tools-v2-r10.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/team-tools-v2-r10.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-tools-v2-r10.mjs",
+          "sha256": "ab8d7c6052e1fd116d6c9cd57e6b9d3f5ecbd9bd4f0d5915acf1c519adef0b5e"
+        },
+        {
+          "module": "team-worktree.mjs",
+          "path": "D:/dsh-test/home/profiles/desktop/plugins/team-worktree.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-worktree.mjs",
+          "sha256": "2849757298e498fce44ebd55eb72132629eba4af3c4bb23f1aba9358c4bc62cb"
+        }
+      ]
+    },
+    {
+      "profile": "teamtest",
+      "realDirectory": "D:\\dsh-test\\home\\profiles\\teamtest",
+      "patchPath": "D:/dsh-test/home/profiles/teamtest/cordis.patch.yml",
+      "patchSha256": "32c8201b87b025f4a52b0a42334b1b29700fd5e1ee7700130e907ad5262e009c",
+      "relevantMounts": [
+        {
+          "id": "request-message-projection",
+          "name": "./plugins/request-message-projection.mjs",
+          "config": {
+            "maxAuditRecords": 64
+          }
+        },
+        {
+          "id": "ptc-sdk-retention",
+          "name": "./plugins/ptc-sdk-retention.mjs",
+          "config": {
+            "mode": "apply",
+            "policy": "latest",
+            "compatibilityManifestPath": "D:\\dsh-test\\docs\\context-opt-20261001\\sdk-compatibility-manifest.json",
+            "directory": "D:\\dsh-test\\home\\ptc-sdk-retention-audit"
+          }
+        },
+        {
+          "id": "request-usage-ledger",
+          "name": "./plugins/request-usage-ledger.mjs",
+          "config": {
+            "directory": "D:\\dsh-test\\home\\usage-ledger",
+            "identityManifestPath": "D:\\dsh-test\\docs\\usage-audit-20261001\\history-identities.json",
+            "profile": "teamtest",
+            "maxPending": 4096
+          }
+        },
+        {
+          "id": "observation-pack",
+          "name": "./plugins/observation-pack-v2.mjs",
+          "config": {
+            "maxInlineBytes": 10240,
+            "fullSends": 2,
+            "previewBytes": 1024,
+            "evidenceChars": 1500,
+            "spillDir": "D:\\dsh-test\\home\\evidence-archive"
+          }
+        },
+        {
+          "id": "tool-agent-team-v2",
+          "name": "./plugins/team-tools-v2-r10.mjs",
+          "config": {
+            "freshProvider": "spawn",
+            "forkProvider": "fork",
+            "scopesFile": "D:\\dsh-test\\home\\write-scopes.json",
+            "rolesDir": "D:\\dsh-test\\home\\team-roles",
+            "reportDir": "D:\\dsh-test\\home\\team-reports",
+            "clearanceFile": "D:\\dsh-test\\home\\team-clearances.json",
+            "milestonePath": "D:\\dsh-test\\home\\team-milestones.json",
+            "windowTokens": 1000000
+          }
+        }
+      ],
+      "sources": [
+        {
+          "module": "request-message-projection.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/request-message-projection.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
+          "sha256": "413eadde94b3cc3f920569dd624f96e1ec2a2e98189ef223990e14afa0b6d3d4"
+        },
+        {
+          "module": "ptc-sdk-retention.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/ptc-sdk-retention.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\ptc-sdk-retention.mjs",
+          "sha256": "6b39b1c82770d906accffa1b81370caedecd3f5d7af1fc7645ddf19148bfae2e"
+        },
+        {
+          "module": "observation-pack-v2.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/observation-pack-v2.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\observation-pack-v2.mjs",
+          "sha256": "8964ae056f64e9f86f07be2f3fcf8253e9ac31d7e6f105c436935da488d0c504"
+        },
+        {
+          "module": "request-usage-ledger.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/request-usage-ledger.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\request-usage-ledger.mjs",
+          "sha256": "a90710d3f1b90ac6412c2d99dbe18907d2b682a6c01a039ecbe8fdc70e8f65be"
+        },
+        {
+          "module": "team-tools-v2-r10.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/team-tools-v2-r10.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-tools-v2-r10.mjs",
+          "sha256": "ab8d7c6052e1fd116d6c9cd57e6b9d3f5ecbd9bd4f0d5915acf1c519adef0b5e"
+        },
+        {
+          "module": "team-worktree.mjs",
+          "path": "D:/dsh-test/home/profiles/teamtest/plugins/team-worktree.mjs",
+          "realPath": "D:\\dsh-test\\home\\profiles\\web\\plugins\\team-worktree.mjs",
+          "sha256": "2849757298e498fce44ebd55eb72132629eba4af3c4bb23f1aba9358c4bc62cb"
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/README.md",
+      "bytes": 9271,
+      "sha256": "e7285e648101ba68682779253a446fbfb3c7765979ce400748cc2fdd895685b5"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/sdk-compatibility-manifest.json",
+      "bytes": 1675,
+      "sha256": "a761a13fd1786f991b77210463645dd94455fb6030ff2e7fbebdda2e4b376780"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/runtime-canary.json",
+      "bytes": 39506,
+      "sha256": "b14d92f84f4d56f5fea6961fdd13a6b87b22eb0b36b636313af7c8fbf92eab2b"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/bridge-tests.txt",
+      "bytes": 1285,
+      "sha256": "61ec08db838c1af623daf4a449db6f8fafbc94e02cef3b29d92781ccce096d2a"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/dsh-root-notice.md",
+      "bytes": 1665,
+      "sha256": "b937216cc7aaf231ae1f42627e3331315fe9768ea0a90679905409766211f502"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/dsh-root-notice-receipt.json",
+      "bytes": 509,
+      "sha256": "204ada455f1a32fa233c577dee8b8c4b35291191a92f0fb4c4cb478f84b863c0"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/focused-tests-correct-resolver.txt",
+      "bytes": 6067,
+      "sha256": "7b9da92868370cf6b30096d2451ef6f3bdb4c530f3fb522ca1b2b55014a67a66"
+    },
+    {
+      "path": "D:/dsh-test/docs/context-opt-20261001/regression.txt",
+      "bytes": 171010,
+      "sha256": "48899baf8286e878dd87353f02771a990612dae20da933bee7b5badbc142c176"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/context-sdk-01/report.json",
+      "bytes": 7472,
+      "sha256": "51192dac82c22f7735fe7ba3d7819e486c54b72424f1eb5dc288d0c2afa72f5c"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/context-sdk-01/calls.jsonl",
+      "bytes": 2774,
+      "sha256": "8b3d46b2c084d6899289a622420669b3b098646abab1de72a0049fd7dc6afe80"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/context-sdk-01/post-repair-report.json",
+      "bytes": 7560,
+      "sha256": "ce6e88c9c217dfb8a63c03dc198db8cf07d75c5edf797016c5ba93399e51af5e"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/context-sdk-01/post-repair-calls.jsonl",
+      "bytes": 2277,
+      "sha256": "52515ba184b231bc6757d3f57e07e8179df9b2f3ba75f1d150f4da598d196474"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/context-sdk-01/combined-post-repair-report.json",
+      "bytes": 5571,
+      "sha256": "f65c37950c47b4de448467eee8f34caea68ffcb21bb81df2ab58473637fa1160"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/usage-lab-20261001/obs-line-01/report.json",
+      "bytes": 9673,
+      "sha256": "1fd2dd188549d03ec3511ed0e27846d3fa459ca1478e48300541f515f96f718a"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/usage-lab-20261001/obs-line-01/calls.jsonl",
+      "bytes": 7296,
+      "sha256": "d41c8e79f95df887555de85300162772d169f27c3f06a1dbd9ae5596248aeb5c"
+    },
+    {
+      "path": "D:/dsh-test/workspaces/usage-lab-20261001/obs-line-01/source-update.json",
+      "bytes": 612,
+      "sha256": "7dffb1b65c4432d4c4ba9d1b6fce88feeeb903296fd5ddf268668c5b34012ee8"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/request-message-projection.test.mjs",
+      "bytes": 14569,
+      "sha256": "70daf69cc0b71ea80d01fad3a83e20120bd76a092e561eb7e72d2552800f9f47"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/ptc-sdk-retention.test.mjs",
+      "bytes": 15500,
+      "sha256": "b8861016678b92820f122f3303f33047ab2115405b0c107f17149298f90c7d45"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/ptc-sdk-retention-real.test.mjs",
+      "bytes": 20548,
+      "sha256": "07c098c447a0b72c42cca4cdb211cddeaf5573bd0e040716f1c880620ee739da"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/observation-pack-lineage.test.mjs",
+      "bytes": 25355,
+      "sha256": "812d891079969db0f977433ef329e0a3b6a2ac6ac8d56d170eeef165d6512ee8"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/request-usage-ledger.test.mjs",
+      "bytes": 23147,
+      "sha256": "ed6f66f2347683c02a6323a7f1c6b8a5663d20bdc3d72acca2c2ed1fc0c9c65d"
+    },
+    {
+      "path": "D:/dsh-test/usage-tests/team-milestone-surface-dedup.test.mjs",
+      "bytes": 4649,
+      "sha256": "d55306c1aa1bdda2302f88dbba7c0d5d58baf504d1dae56c17fd5c46d01efb9c"
+    },
+    {
+      "path": "D:/dsh-test/phase7-tests/delivery-process-windows-hide.test.mjs",
+      "bytes": 3856,
+      "sha256": "caf640aaef6e28ea55739ff495c6a7b818ea86e2f69bce51c5c593bb2343e720"
+    },
+    {
+      "path": "D:/dsh-test/phase10-tests/observation-pack-v2.test.mjs",
+      "bytes": 7377,
+      "sha256": "ab8dc5059c5e09ac862722874caf065aa1defc059ce285ebcfe2b64f29e3e9e9"
+    },
+    {
+      "path": "D:/dsh-test/tools/context-opt-runtime-probe.mjs",
+      "bytes": 18325,
+      "sha256": "f26320f65b144f2ed5fb454bb83e2f39a380957d9142537f612ce554d969f2f6"
+    },
+    {
+      "path": "D:/dsh-test/tools/context-opt-delivery-snapshot.mjs",
+      "bytes": 9065,
+      "sha256": "4c6afda0f89ffe9c267cea85d2b8b6deabc547e8b2bb25f0709832e23e008ecc"
+    },
+    {
+      "path": "D:/dsh-test/tools/context-opt-root-notice.mjs",
+      "bytes": 1366,
+      "sha256": "4debd49b11504a70a2c271f56406d90563f7ef74f03044aa74be61600684de84"
+    }
+  ],
+  "verification": {
+    "profileParity": true,
+    "syntaxPassed": 14,
+    "unrelatedProfileConfigPreserved": true,
+    "focused": {
+      "tests": 56,
+      "passed": 56,
+      "note": "11 bridge tests without resolver; 45 remaining with resolver; latest runner additionally 2/2"
+    },
+    "fullRegression": {
+      "tests": 562,
+      "passed": 559,
+      "failed": 2,
+      "skipped": 1,
+      "green": false,
+      "residual": [
+        "B96 isolated DSH_HOME assertion",
+        "legacy standing GROUP LEAD identity assertion",
+        "health script prints 3 FAIL but exits 0"
+      ]
+    },
+    "realSDKPairs": 2,
+    "retainedHTTP403": true,
+    "failedUsageUnknown": true,
+    "realOPCalls": 4,
+    "windowAcceptance": {
+      "userConfirmedActualTeamUseWithoutPopup": true,
+      "independentVisualObservation": false,
+      "furtherWindowChecksStoppedAtUserRequest": true
+    }
+  },
+  "runtime": {
+    "liveProcess": {
+      "Id": 16440,
+      "StartTime": "2026-09-30T16:37:18.1485795+08:00"
+    },
+    "canaryPath": "D:/dsh-test/docs/context-opt-20261001/runtime-canary.json",
+    "canarySha256": "b14d92f84f4d56f5fea6961fdd13a6b87b22eb0b36b636313af7c8fbf92eab2b",
+    "bridgeHash": "413eadde94b3cc3f920569dd624f96e1ec2a2e98189ef223990e14afa0b6d3d4",
+    "sdkCopies": [
+      1,
+      1,
+      1
+    ],
+    "sdkApplied": true,
+    "opAppliedOnThirdSend": true,
+    "actualUsageLedgerObservedProjection": true,
+    "mockProviderUnregistered": true,
+    "externalCanaryHttpRequests": 0,
+    "scope": "existing DSH process wiring; mock adapter, not model task quality or production billing"
+  },
+  "settings": {
+    "reducer": {
+      "revision": 26,
+      "enabled": true,
+      "routeMode": "session",
+      "remoteAllowed": false,
+      "localProviders": []
+    },
+    "opencodego": {
+      "api": "openai-completions",
+      "baseURL": "http://127.0.0.1:8788/v1"
+    }
+  },
+  "boundaries": {
+    "noDshRestart": true,
+    "noActiveTeamCancellation": true,
+    "noOriginalJournalRewrite": true,
+    "noDataCleanup": true,
+    "noReducerRouteChange": true,
+    "noProtocolSwitch": true,
+    "noGlobalThinkingChange": true
+  },
+  "residualRisks": [
+    "SDK certificate applies only to five known versions",
+    "Small fixtures do not establish all-task quality",
+    "Raw token reductions do not establish money saved; cache heat and prices differ",
+    "Window behavior accepted by user; not independently observed here"
+  ]
+}

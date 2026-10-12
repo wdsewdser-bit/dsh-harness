@@ -1,0 +1,141 @@
+{
+  "type": "object",
+  "properties": {
+    "action": {
+      "type": "string",
+      "enum": [
+        "state",
+        "memo_put",
+        "memo_get",
+        "memo_diff",
+        "propose",
+        "preview",
+        "commit",
+        "rollback"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceId": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "sha256": {
+          "type": "string"
+        },
+        "locator": {
+          "type": "string"
+        },
+        "expectedRevision": {
+          "type": "integer"
+        },
+        "parentRevision": {
+          "type": "integer"
+        },
+        "scope": {
+          "type": "string",
+          "enum": [
+            "member",
+            "task"
+          ]
+        },
+        "taskId": {
+          "type": "string"
+        },
+        "text": {
+          "type": "string"
+        },
+        "evidenceRefs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "integer"
+              },
+              "sha256": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "sourceId",
+              "revision",
+              "sha256"
+            ]
+          }
+        },
+        "ttlMs": {
+          "type": "integer"
+        },
+        "deleted": {
+          "type": "boolean"
+        },
+        "includeDeleted": {
+          "type": "boolean"
+        },
+        "fromRevision": {
+          "type": "integer"
+        },
+        "toRevision": {
+          "type": "integer"
+        },
+        "proposalId": {
+          "type": "string"
+        },
+        "targetRevision": {
+          "type": "integer"
+        },
+        "offset": {
+          "type": "integer"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "op": {
+                "type": "string",
+                "enum": [
+                  "select",
+                  "pin",
+                  "exclude",
+                  "replace_summary"
+                ]
+              },
+              "sourceId": {
+                "type": "string"
+              },
+              "revision": {
+                "type": "integer"
+              },
+              "sha256": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "op",
+              "sourceId",
+              "revision",
+              "sha256"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

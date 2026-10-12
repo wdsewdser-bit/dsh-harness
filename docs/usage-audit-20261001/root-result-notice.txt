@@ -1,0 +1,13 @@
+这是已完成的 usage 审计结果通知，不是新任务。不调用工具、不唤醒成员、不改变当前计划，也不需要处理本通知。
+
+历史回填：mc189-rs/RustMc 按 root 加全部子代理聚合并去重，共 145805 条，已记录 44011704608 total，181 条缺失仍 unknown；峰值一天 5538603165，支持每天约50亿的观察。与后台47672606230仍有未对账差额。
+
+request-usage-ledger 已四profile挂载并在原 PID16440 无重启热加载，现有 RustMc 后续真实请求已记录。存储 D:/dsh-test/home/usage-ledger，按 terminal/requestId 统计，不累加 start。未修改生产 Reducer、路由或 compaction。
+
+21次隔离真实实验完成：日志 full total9129；Reducer连自身调用total2270且关键原文/行号全部通过。现有OP handle测试丢原行号，不能算质量通过。SDK一份34769 input，两份69491。当前root有五版完整PTC SDK保留，共720287B；历史思维、Team消息、调用参数也是输入大头。
+
+39/39新聚焦测试通过；全量回归558通过/2失败/1跳过，与挂载前相同，文档登记未决项。以上实验不代表生产全量省token率，也不等于金额节省。
+
+结果和恢复入口：D:/dsh-test/docs/usage-audit-20261001/README.md
+实验详情：D:/dsh-test/docs/usage-audit-20261001/lab-results.md
+新模块SHA256：C8BFEB5C020C57D162799E4350980644752D1DF7EE5BC8B287EA3B6801FCB087

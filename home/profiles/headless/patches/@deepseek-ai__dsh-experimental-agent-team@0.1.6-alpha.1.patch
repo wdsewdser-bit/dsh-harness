@@ -1,0 +1,337 @@
+diff --git a/lib/index.js b/lib/index.js
+index 5338e93463af6bd0afc967da19c7be854a8cc4ff..0310f3768fc9a7d15576547380ec03c69049ebd0 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -353,8 +353,8 @@ function resolveActiveMember(root, state, rawName) {
+ 		id: root.id,
+ 		name
+ 	};
+-	const member = state.members.find((candidate) => candidate.name === name);
+-	if (member === void 0 || member.phase !== "active") throw new TeamError(`active teammate "${name}" not found`, "TEAM_MEMBER_NOT_FOUND");
++	const member = state.members.find((candidate) => candidate.name === name && candidate.phase === "active" && candidate.frozen !== true);
++	if (member === void 0) throw new TeamError(`active teammate "${name}" not found`, "TEAM_MEMBER_NOT_FOUND");
+ 	return {
+ 		id: member.id,
+ 		name
+@@ -451,10 +451,14 @@ var TeamRoster = class {
+ 				id: member.id,
+ 				name: member.name,
+ 				role: "teammate",
+-				status: member.phase === "failed" ? "failed" : member.phase === "provisioning" ? "provisioning" : live?.status ?? "inactive",
++				status: member.frozen === true ? "frozen" : member.phase === "failed" ? "failed" : member.phase === "provisioning" ? "provisioning" : live?.status ?? "inactive",
+ 				description: member.description,
+ 				provider: member.provider,
+ 				context: member.context,
++				...member.frozen === void 0 ? {} : { frozen: member.frozen === true },
++				...member.level === void 0 ? {} : { level: member.level },
++				...member.groupId === void 0 ? {} : { groupId: member.groupId },
++				...member.parentName === void 0 ? {} : { parentName: member.parentName },
+ 				...model === void 0 ? {} : { model },
+ 				diagnostics: member.error === void 0 ? [] : [member.error]
+ 			});
+@@ -544,7 +548,7 @@ var TeamRoster = class {
+ 	async spawnAdmitted(caller, request) {
+ 		const membership = this.membership(caller);
+ 		if (membership.role !== "lead") throw new TeamError("only the Team Lead can create teammates", "TEAM_LEAD_REQUIRED");
+-		const signal = AbortSignal.any([request.signal, this.lifecycle.signal]);
++		const signal = request.signal === void 0 ? this.lifecycle.signal : AbortSignal.any([request.signal, this.lifecycle.signal]);
+ 		signal.throwIfAborted();
+ 		const root = membership.root;
+ 		const name = this.memberName(request.name);
+@@ -556,12 +560,15 @@ var TeamRoster = class {
+ 			description,
+ 			provider: requiredText(request.provider, "provider", 200),
+ 			context: request.context,
++			...request.level === void 0 ? {} : { level: request.level },
++			...request.groupId === void 0 ? {} : { groupId: request.groupId },
++			...request.parentName === void 0 ? {} : { parentName: request.parentName },
+ 			phase: "provisioning"
+ 		};
+ 		await this.journal.transact(root.id, async () => {
+ 			const state = this.journal.state(root);
+-			if (state.members.some((member) => member.name === name)) throw new TeamError(`teammate name "${name}" was already used in this Team`, "TEAM_MEMBER_NAME_TAKEN");
+-			if (state.members.length >= this.maxMembers) throw new TeamError(`Team member limit ${this.maxMembers} reached`, "TEAM_MEMBER_LIMIT");
++			if (state.members.some((member) => member.name === name && member.phase !== "failed")) throw new TeamError(`teammate name "${name}" was already used in this Team`, "TEAM_MEMBER_NAME_TAKEN");
++			if (state.members.filter((member) => member.phase !== "failed" && member.frozen !== true).length >= this.maxMembers) throw new TeamError(`Team member limit ${this.maxMembers} reached`, "TEAM_MEMBER_LIMIT");
+ 			await this.journal.appendAndFlush(root, "team/member", {
+ 				version: 2,
+ 				teamId: TeamId(root.id),
+@@ -695,10 +702,42 @@ var TeamRoster = class {
+ 			description: member.description,
+ 			provider: member.provider,
+ 			context: member.context,
++			...member.level === void 0 ? {} : { level: member.level },
++			...member.groupId === void 0 ? {} : { groupId: member.groupId },
++			...member.parentName === void 0 ? {} : { parentName: member.parentName },
+ 			...live?.options.model === void 0 ? {} : { model: live.options.model },
+ 			diagnostics: []
+ 		};
+ 	}
++	/**
++	* Persist one active teammate's frozen flag as a new member snapshot.
++	* @param caller - exact live Team Lead authorizing the change.
++	* @param targetName - durable teammate name.
++	* @param frozen - desired frozen state.
++	* @returns the updated active member row.
++	*/
++	async setMemberFrozen(caller, targetName, frozen) {
++		const membership = this.membership(caller);
++		if (membership.role !== "lead") throw new TeamError("only the Team Lead can freeze teammates", "TEAM_LEAD_REQUIRED");
++		const root = membership.root;
++		const name = targetName.trim();
++		let updated;
++		await this.journal.transact(root.id, async () => {
++			const state = this.journal.state(root);
++			const current = state.members.find((candidate) => candidate.name === name && candidate.phase === "active");
++			if (current === void 0) throw new TeamError(`active teammate "${name}" not found`, "TEAM_MEMBER_NOT_FOUND");
++			updated = {
++				...current,
++				frozen: frozen === true
++			};
++			await this.journal.appendAndFlush(root, "team/member", {
++				version: 2,
++				teamId: TeamId(root.id),
++				member: updated
++			});
++		});
++		return this.memberView(updated);
++	}
+ 	/** Validate a never-reused model-facing teammate name. */
+ 	memberName(value) {
+ 		if (!MEMBER_NAME.test(value) || value.length > 64 || value === "lead") throw new TeamError("teammate name must be lower-kebab-case, at most 64 characters, and not \"lead\"", "TEAM_INVALID_MEMBER_NAME");
+@@ -764,7 +803,7 @@ var TeamMailbox = class {
+ 		if (this.lifecycle.disposed) throw new TeamError("Agent Teams service is disposing", "TEAM_DISPOSED");
+ 		const operation = this.sendAdmitted(caller, {
+ 			...request,
+-			signal: AbortSignal.any([request.signal, this.lifecycle.signal])
++			signal: request.signal === void 0 ? this.lifecycle.signal : AbortSignal.any([request.signal, this.lifecycle.signal])
+ 		});
+ 		return await this.trackDispatch(operation);
+ 	}
+@@ -849,7 +888,7 @@ var TeamMailbox = class {
+ 		if (this.lifecycle.disposed) return Promise.resolve(false);
+ 		if (this.inFlightMessages.has(message.id)) return Promise.resolve(false);
+ 		this.inFlightMessages.add(message.id);
+-		const operation = this.trackDispatch(this.tryDispatchAdmitted(root, message, AbortSignal.any([signal, this.lifecycle.signal])));
++		const operation = this.trackDispatch(this.tryDispatchAdmitted(root, message, signal === void 0 ? this.lifecycle.signal : AbortSignal.any([signal, this.lifecycle.signal])));
+ 		const forget = () => {
+ 			this.inFlightMessages.delete(message.id);
+ 		};
+@@ -1102,6 +1141,10 @@ const teamMemberSnapshotSchema = z$1.object({
+ 		"active",
+ 		"failed"
+ 	]),
++	level: z$1.number().int().optional(),
++	groupId: z$1.string().optional(),
++	parentName: z$1.string().optional(),
++	frozen: z$1.boolean().optional(),
+ 	error: z$1.string().optional()
+ }).strict();
+ const teamTaskSnapshotSchema = z$1.object({
+@@ -1234,12 +1277,14 @@ function applyCurrentTeamEvent(state, event) {
+ 			const index = state.members.findIndex((candidate) => candidate.id === member.id);
+ 			const prior = state.members[index];
+ 			const named = state.members.find((candidate) => candidate.name === member.name);
+-			if (named !== void 0 && named.id !== member.id) throw new Error(`teammate name "${member.name}" is reused by another member`);
++			// Failed provisioning attempts stay visible for diagnostics but no longer
++			// reserve the public name or count against the live quota.
++			if (named !== void 0 && named.id !== member.id && named.phase !== "failed") throw new Error(`teammate name "${member.name}" is reused by another member`);
+ 			if (prior === void 0) {
+ 				if (member.phase !== "provisioning") throw new Error(`teammate "${member.name}" must begin provisioning`);
+ 			} else {
+ 				if (prior.name !== member.name || prior.provider !== member.provider || prior.context !== member.context) throw new Error(`teammate "${member.id}" changed immutable identity fields`);
+-				if (prior.phase !== "provisioning" || member.phase === "provisioning") throw new Error(`teammate "${member.name}" has an invalid ${prior.phase} -> ${member.phase} transition`);
++				if (prior.phase !== "provisioning" && (prior.phase !== "active" || member.phase !== "active")) throw new Error(`teammate "${member.name}" has an invalid ${prior.phase} -> ${member.phase} transition`);
+ 			}
+ 			if (index < 0) state.members.push(member);
+ 			else state.members[index] = member;
+@@ -1737,9 +1782,19 @@ let TeamService = (() => {
+ 		* @param request - immutable name, description, prompt, context mode, provider, and cancellation.
+ 		* @returns the active roster row.
+ 		*/
+-		async spawnTeammate(caller, request) {
+-			return await this.roster.spawn(caller, request);
+-		}
++	async spawnTeammate(caller, request) {
++		return await this.roster.spawn(caller, request);
++	}
++	/**
++	* Persist one active teammate's frozen flag.
++	* @param caller - exact live Team Lead authorizing the change.
++	* @param targetName - durable teammate name.
++	* @param frozen - desired frozen state.
++	* @returns the updated active member row.
++	*/
++	async setMemberFrozen(caller, targetName, frozen) {
++		return await this.roster.setMemberFrozen(caller, targetName, frozen);
++	}
+ 		/**
+ 		* Queue one durable peer message, then attempt immediate delivery.
+ 		* @param caller - exact live sending Team member.
+diff --git a/lib/invariant.js b/lib/invariant.js
+index 65128b99a9c7941ac9264da9b8605c289c2e67ed..91b8d1a38000c92572b1eda5c287aee19762a898 100644
+--- a/lib/invariant.js
++++ b/lib/invariant.js
+@@ -147,6 +147,9 @@ const teamMemberSnapshotSchema = z.object({
+ 		"active",
+ 		"failed"
+ 	]),
++	level: z.number().int().optional(),
++	groupId: z.string().optional(),
++	parentName: z.string().optional(),
+ 	error: z.string().optional()
+ }).strict();
+ const teamTaskSnapshotSchema = z.object({
+diff --git a/lib/types/mailbox.js b/lib/types/mailbox.js
+index bcd850ab2bbd8158ad6d3b7d3eb0bc09b80a6e9a..5e187e3bcabe283d8c37a077d69f55dfcee8fb5e 100644
+--- a/lib/types/mailbox.js
++++ b/lib/types/mailbox.js
+@@ -46,7 +46,7 @@ export class TeamMailbox {
+             throw new TeamError('Agent Teams service is disposing', 'TEAM_DISPOSED');
+         const operation = this.sendAdmitted(caller, {
+             ...request,
+-            signal: AbortSignal.any([request.signal, this.lifecycle.signal]),
++            signal: request.signal === undefined ? this.lifecycle.signal : AbortSignal.any([request.signal, this.lifecycle.signal]),
+         });
+         return await this.trackDispatch(operation);
+     }
+@@ -138,7 +138,7 @@ export class TeamMailbox {
+         if (this.inFlightMessages.has(message.id))
+             return Promise.resolve(false);
+         this.inFlightMessages.add(message.id);
+-        const operation = this.trackDispatch(this.tryDispatchAdmitted(root, message, AbortSignal.any([signal, this.lifecycle.signal])));
++        const operation = this.trackDispatch(this.tryDispatchAdmitted(root, message, signal === undefined ? this.lifecycle.signal : AbortSignal.any([signal, this.lifecycle.signal])));
+         const forget = () => {
+             this.inFlightMessages.delete(message.id);
+         };
+diff --git a/lib/types/projection.js b/lib/types/projection.js
+index 029fe9699efff9a2edad2418d13f24f53627611e..835db60f7612ba235dba0d0474f9173cfab7c764 100644
+--- a/lib/types/projection.js
++++ b/lib/types/projection.js
+@@ -49,6 +49,10 @@ const teamMemberSnapshotSchema = z.object({
+     provider: z.string(),
+     context: z.enum(['fresh', 'fork']),
+     phase: z.enum(['provisioning', 'active', 'failed']),
++    frozen: z.boolean().optional(),
++    level: z.number().int().optional(),
++    groupId: z.string().optional(),
++    parentName: z.string().optional(),
+     error: z.string().optional(),
+ }).strict();
+ const teamTaskSnapshotSchema = z.object({
+@@ -190,7 +194,7 @@ function applyCurrentTeamEvent(state, event) {
+                 if (prior.name !== member.name || prior.provider !== member.provider || prior.context !== member.context) {
+                     throw new Error(`teammate "${member.id}" changed immutable identity fields`);
+                 }
+-                if (prior.phase !== 'provisioning' || member.phase === 'provisioning') {
++                if (prior.phase !== 'provisioning' && (prior.phase !== 'active' || member.phase !== 'active')) {
+                     throw new Error(`teammate "${member.name}" has an invalid ${prior.phase} -> ${member.phase} transition`);
+                 }
+             }
+diff --git a/lib/types/roster.js b/lib/types/roster.js
+index 0eee1ed0b63704571123927fd3dbc93d16aeabca..a8cc94ef7d44009388bf99ec3179c1d8255fe271 100644
+--- a/lib/types/roster.js
++++ b/lib/types/roster.js
+@@ -19,8 +19,8 @@ export function resolveActiveMember(root, state, rawName) {
+     const name = rawName.trim();
+     if (name === 'lead')
+         return { id: root.id, name };
+-    const member = state.members.find(candidate => candidate.name === name);
+-    if (member === undefined || member.phase !== 'active') {
++    const member = state.members.find(candidate => candidate.name === name && candidate.phase === 'active' && candidate.frozen !== true);
++    if (member === undefined) {
+         throw new TeamError(`active teammate "${name}" not found`, 'TEAM_MEMBER_NOT_FOUND');
+     }
+     return { id: member.id, name };
+@@ -119,7 +119,9 @@ export class TeamRoster {
+                 id: member.id,
+                 name: member.name,
+                 role: 'teammate',
+-                status: member.phase === 'failed'
++                status: member.frozen === true
++                    ? 'frozen'
++                    : member.phase === 'failed'
+                     ? 'failed'
+                     : member.phase === 'provisioning'
+                         ? 'provisioning'
+@@ -127,6 +129,10 @@ export class TeamRoster {
+                 description: member.description,
+                 provider: member.provider,
+                 context: member.context,
++                ...member.frozen === undefined ? {} : { frozen: member.frozen === true },
++                ...member.level === undefined ? {} : { level: member.level },
++                ...member.groupId === undefined ? {} : { groupId: member.groupId },
++                ...member.parentName === undefined ? {} : { parentName: member.parentName },
+                 ...model === undefined ? {} : { model },
+                 diagnostics: member.error === undefined ? [] : [member.error],
+             });
+@@ -236,14 +242,17 @@ export class TeamRoster {
+             description,
+             provider: requiredText(request.provider, 'provider', 200),
+             context: request.context,
++            ...request.level === undefined ? {} : { level: request.level },
++            ...request.groupId === undefined ? {} : { groupId: request.groupId },
++            ...request.parentName === undefined ? {} : { parentName: request.parentName },
+             phase: 'provisioning',
+         };
+         await this.journal.transact(root.id, async () => {
+             const state = this.journal.state(root);
+-            if (state.members.some(member => member.name === name)) {
++            if (state.members.some(member => member.name === name && member.phase !== 'failed')) {
+                 throw new TeamError(`teammate name "${name}" was already used in this Team`, 'TEAM_MEMBER_NAME_TAKEN');
+             }
+-            if (state.members.length >= this.maxMembers) {
++            if (state.members.filter(member => member.phase !== 'failed' && member.frozen !== true).length >= this.maxMembers) {
+                 throw new TeamError(`Team member limit ${this.maxMembers} reached`, 'TEAM_MEMBER_LIMIT');
+             }
+             await this.journal.appendAndFlush(root, 'team/member', { version: 2, teamId: TeamId(root.id), member });
+@@ -406,14 +415,48 @@ export class TeamRoster {
+             id: member.id,
+             name: member.name,
+             role: 'teammate',
+-            status: live?.status ?? 'inactive',
++            status: member.frozen === true ? 'frozen' : live?.status ?? 'inactive',
+             description: member.description,
+             provider: member.provider,
+             context: member.context,
++            ...member.frozen === undefined ? {} : { frozen: member.frozen === true },
++            ...member.level === undefined ? {} : { level: member.level },
++            ...member.groupId === undefined ? {} : { groupId: member.groupId },
++            ...member.parentName === undefined ? {} : { parentName: member.parentName },
+             ...live?.options.model === undefined ? {} : { model: live.options.model },
+             diagnostics: [],
+         };
+     }
++    /**
++     * Persist one active teammate's frozen flag as a new member snapshot.
++     * @param caller - exact live Team Lead authorizing the change.
++     * @param targetName - durable teammate name.
++     * @param frozen - desired frozen state.
++     * @returns the updated active member row.
++     */
++    async setMemberFrozen(caller, targetName, frozen) {
++        const membership = this.membership(caller);
++        if (membership.role !== 'lead') {
++            throw new TeamError('only the Team Lead can freeze teammates', 'TEAM_LEAD_REQUIRED');
++        }
++        const root = membership.root;
++        const name = targetName.trim();
++        let updated;
++        await this.journal.transact(root.id, async () => {
++            const state = this.journal.state(root);
++            const current = state.members.find(candidate => candidate.name === name && candidate.phase === 'active');
++            if (current === undefined) {
++                throw new TeamError(`active teammate "${name}" not found`, 'TEAM_MEMBER_NOT_FOUND');
++            }
++            updated = { ...current, frozen: frozen === true };
++            await this.journal.appendAndFlush(root, 'team/member', {
++                version: 2,
++                teamId: TeamId(root.id),
++                member: updated,
++            });
++        });
++        return this.memberView(updated);
++    }
+     /** Validate a never-reused model-facing teammate name. */
+     memberName(value) {
+         if (!MEMBER_NAME.test(value) || value.length > 64 || value === 'lead') {

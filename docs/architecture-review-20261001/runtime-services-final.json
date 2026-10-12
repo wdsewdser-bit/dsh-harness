@@ -1,0 +1,51 @@
+{
+  "version": 4,
+  "codeIdentity": "20261001-loaded-service-probe-v4",
+  "source": "loaded-runtime-services",
+  "capturedAt": "2026-10-01T02:51:21.380Z",
+  "pid": 16440,
+  "labSessionId": "session-d86a7eb6-0aef-42f2-b01c-6939fd81a260",
+  "moduleHash": "44beabd8dc2ce3485e89994f40ab736ef4b79ebc8184febaed893c34658d3599",
+  "services": {
+    "requestMessageProjection": {
+      "version": 2,
+      "pid": 16440,
+      "moduleHash": "a6b8e5bf8ffa77f7ba8cf4a21f35693f8ff5085ce7ef334390e3bd7bbc496c00",
+      "boundary": "llm.streamWithRegistration+adapterStream.forAdapter",
+      "registrations": 4,
+      "calls": 37,
+      "disposed": false,
+      "installed": true
+    },
+    "contextWorkspace": {
+      "pid": 16440,
+      "moduleHash": "679f1d410979c784eadb70224ad17b78a3c298c95a9873574456b93acff75e0d",
+      "instanceId": "9bf60be1-bd2e-4de4-a05a-56d3b8f5d0f2",
+      "config": {
+        "mode": "shadow",
+        "appliedSessionIds": []
+      },
+      "availableActions": [
+        "state",
+        "memo_put",
+        "memo_get",
+        "memo_diff",
+        "propose",
+        "preview",
+        "commit",
+        "rollback"
+      ],
+      "limits": {
+        "inputBytes": 32768,
+        "textBytes": 16384,
+        "outputBytes": 65536,
+        "documentBytes": 8388608,
+        "objects": 256,
+        "history": 64,
+        "operations": 32,
+        "suffixBytes": 16384,
+        "ttlMs": 2592000000
+      }
+    }
+  }
+}

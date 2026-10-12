@@ -1,0 +1,38 @@
+{
+  "version": 10,
+  "pid": 16440,
+  "startedAt": "2026-10-01T01:57:23.569Z",
+  "modules": [
+    {
+      "name": "team-tools-v2-r10.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs"
+    },
+    {
+      "name": "team-control-plane.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-control-plane.mjs"
+    },
+    {
+      "name": "team-activity-digest.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-activity-digest.mjs"
+    },
+    {
+      "name": "team-v12-evidence-scheduler.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-evidence-scheduler.mjs"
+    },
+    {
+      "name": "team-v12-runtime.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-v12-runtime.mjs"
+    },
+    {
+      "name": "team-query-efficiency.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-query-efficiency.mjs"
+    },
+    {
+      "name": "team-message-operation.mjs",
+      "url": "file:///D:/dsh-test/home/profiles/web/plugins/team-message-operation.mjs"
+    }
+  ],
+  "status": "failed",
+  "error": "The requested module './request-usage-ledger.mjs' does not provide an export named 'observeRequestBudget'",
+  "endedAt": "2026-10-01T01:57:23.690Z"
+}

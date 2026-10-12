@@ -1,0 +1,95 @@
+diff --git a/lib/index.js b/lib/index.js
+index c43f35651e05bebe3e7d84d05aa26b7c1486c928..e6c83b665e84a9ba7d2a85858d328d92623ac32f 100755
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -148,7 +148,7 @@
+ 		const snapshot = {
+ 			header: structuredClone(loaded.header),
+ 			inheritedEventCount: loaded.inheritedEventCount,
+-			events: loaded.events.map((event) => structuredClone(event))
++			events: [...loaded.events]
+ 		};
+ 		signal?.throwIfAborted();
+ 		return snapshot;
+@@ -272,11 +272,24 @@
+ 	}
+ }
+ function sourceLive(session) {
++	let events;
+ 	return {
+ 		header: session.header,
+-		events: session.snapshotEvents()
++		live: session,
++		get events() {
++			events ??= session.snapshotEvents();
++			return events;
++		}
+ 	};
+ }
++/** Fold the latest logged title from a live Session without materializing its full history. */
++function foldSessionTitleFromLive(session) {
++	for (let seq = session.seq - 1; seq >= 0; seq--) {
++		const event = session.eventAt(SessionSeq(seq));
++		if (event.type === "session/title") return foldSessionTitle([event]);
++	}
++	return void 0;
++}
+ function orderedResults(ids, resolved) {
+ 	return ids.map((sessionId) => resolved.get(sessionId));
+ }
+@@ -301,7 +314,7 @@
+ 	return {
+ 		header: structuredClone(session.header),
+ 		inheritedEventCount: session.inheritedEventCount,
+-		events: session.snapshotEvents().map((event) => structuredClone(event))
++		events: [...session.snapshotEvents()]
+ 	};
+ }
+ function compareSessions(a, b) {
+@@ -859,6 +872,14 @@
+ 		return snapshotSessionEvent(event);
+ 	});
+ }
++/** Read the already-validated live surface without replaying the full log. */
++function currentSurfaceEventsFromLive(sessionId, session) {
++	return session.surface.nodes.map((seq) => {
++		const event = session.eventAt(seq);
++		if (event === void 0 || event.seq !== seq || !isSurfaceEvent(event)) throw new SessionQueryError(`invalid session surface: current node ${seq} is not a surface event`, "SESSION_QUERY_INVALID_SURFACE");
++		return snapshotSessionEvent(event);
++	});
++}
+ /**
+ * Trace one target after one canonical surface fold and whole-log validation.
+ * @param sessionId - owner of the event log.
+@@ -1126,7 +1147,7 @@
+ 	*/
+ 	async readTitleSnapshots(sessionIds, signal) {
+ 		return this._corpus.projectMany(sessionIds, (source) => {
+-			const title = foldSessionTitle(source.events);
++			const title = source.live === void 0 ? foldSessionTitle(source.events) : foldSessionTitleFromLive(source.live);
+ 			return {
+ 				session: structuredClone(source.header),
+ 				...title === void 0 ? {} : { title }
+@@ -1164,6 +1185,22 @@
+ 	* @throws when source resolution fails or the session surface is invalid.
+ 	*/
+ 	async readSurface(sessionId) {
++		const live = this._ctx.sessions.get(sessionId);
++		if (live !== void 0) {
++			let events;
++			try {
++				events = currentSurfaceEventsFromLive(sessionId, live);
++			} catch (error) {
++				if (error instanceof SessionQueryError) throw error;
++				throw new SessionQueryError(`invalid session surface: ${error instanceof Error ? error.message : "unknown error"}`, "SESSION_QUERY_INVALID_SURFACE", { cause: error });
++			}
++			return {
++				session: structuredClone(live.header),
++				inheritedEventCount: live.inheritedEventCount,
++				capturedThroughSeq: live.seq === 0 ? null : SessionSeq(live.seq - 1),
++				events
++			};
++		}
+ 		const loaded = await this._corpus.load(sessionId);
+ 		return {
+ 			session: structuredClone(loaded.header),

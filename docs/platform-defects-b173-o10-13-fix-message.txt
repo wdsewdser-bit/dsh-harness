@@ -1,0 +1,11 @@
+本轮平台修复说明（B-173 / O-10-13）
+
+请在不重启 DSH、不中断 active Team 的前提下，按顺序做一次 live 复核并回报：
+
+1. 调 `team_delivery_check`，记录耗时、`deliverable`、`blockers`、`cargoTargetIsolation.ok / checked / shared / errors`。B-173 的平台修法是：`team_worktree_setup` 用 `cargo metadata` 对主检出与目标 worktree 做权威 target-dir 解析，发现共享 target 时 fail-closed 拒绝；`team_delivery_check` 对所有 durable worktreePath 加主检出做同一检查，并把共享或无法验证的 Cargo target 写进 blockers。
+
+2. 分别调 `team_task_list(board:"group-proto", limit:100)`、`group-rig`、`group-world`，记录每个调用的耗时和返回行数。O-10-13 的平台修法是：组板/全局板只对最终返回页计算 integration，不再对整板每个完成卡逐次跑 git；主分支 ancestry 改为一次 `git rev-list main` 的集合判定；`team_delivery_check` 预索引 evidence/packets，并只对没有 delivery-reference 的卡做 integration 判定。
+
+3. 调 `team_v12(action:"runtime_facts")`，回报 `collection.complete / degraded / reasons`。修法是：没有持久化 schema 的插件 `schemaVersion=null` 只保留 `schema-unknown` 差异，不再算 runtime evidence 缺失；默认收集显式声明 documented/session 为空观察，不再把“未提供可选层”自动算作 degraded。
+
+验证基线：focused 19/19；全量 phase1-phase11 为 446 tests / 445 pass / 0 fail / 1 skipped；四 profile 16/16 `node --check`；profile parity 1/1。请只回报实际调用读数；若仍超时，请给出首次超时前最后一个完成步骤。

@@ -1,0 +1,6 @@
+# Test-only overlay for a real headless provider smoke.
+- id: agent-default-model
+  config:
+    provider: opencodego
+    model: deepseek-v4.1-flash
+    reasoningEffort: low
