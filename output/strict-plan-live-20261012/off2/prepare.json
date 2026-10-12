@@ -1,0 +1,78 @@
+{
+  "workspaceId": "a5000000-0000-4000-8000-0000000000a5",
+  "home": "D:/dsh-test/output/strict-plan-live-20261012/off2/home",
+  "sandbox": "D:/dsh-test/output/strict-plan-live-20261012/off2/workspace",
+  "nativeCode": "D:/dsh-test/app",
+  "strict": "off",
+  "strictConfig": {
+    "teamV12RuntimeDeliveryPolicy": null,
+    "assertion": "no requirePlan in config.deliveryPolicy"
+  },
+  "constraintLedger": "production cordis.patch.yml already carries the entry; not appended",
+  "overlaidPlugins": [
+    {
+      "file": "team-v15-delivery-service.mjs",
+      "beforeSha256": "25F177FC069229AC3AE037ECBB1582674A32094F0BBA229C631F659A3B611417",
+      "afterSha256": "56D3F7F5FDD899D5F47D4BA89EC7E659EAA160856BC6003EB8546D7812AAB680",
+      "changed": true
+    },
+    {
+      "file": "team-v15-delivery-presentation.mjs",
+      "beforeSha256": "AC2328ACFA60C481602E20EB761B9174AED9ABEE107B5F4A5A3817D568CF22B7",
+      "afterSha256": "3C8763D7453FC5C399944525987C7FAEA4BFC6D43DF02C34F098038713391CF8",
+      "changed": true
+    },
+    {
+      "file": "team-v15-goal-delivery.mjs",
+      "beforeSha256": "15D3990A30699550FD1C90BB042386C3AC7F4E51CD80D253D9C9CF1F9395A0F9",
+      "afterSha256": "49DC27D5900E222B5C7DE8C7305F579814FB0781B320E9A95F4EF07D9DB0C7FB",
+      "changed": true
+    },
+    {
+      "file": "session-plan-delivery.mjs",
+      "beforeSha256": "5E63FF04E0A8B6AAD18F5D5872073D53506D787F24D17D0BCD3A53467920D508",
+      "afterSha256": "7DC4AD9D8579DCD129D0BC4A858FB12EFE231FAFDE4373EF256CAEE59E301B88",
+      "changed": true
+    },
+    {
+      "file": "team-v12-runtime.mjs",
+      "beforeSha256": "86A8212860CF9D6E5FAC05FB89365BF926806F7C56F7484C541FA8860069C52E",
+      "afterSha256": "76079319A49C948E2A0DB662CF902D84A7B3603CDEAB8D5B8A8DCA4B0D05FD04",
+      "changed": true
+    },
+    {
+      "file": "team-tools-v2-r10.mjs",
+      "beforeSha256": "39B54BE8916B72DEC048B4B84B2F0DA011654C42FB4D557AB2D7BF4A38C6F966",
+      "afterSha256": "8ECB75CABB1A294DD0C50F864CEECE6F3189035EE4CCE80E89F541D951505047",
+      "changed": true
+    }
+  ],
+  "nativeOverlay": {
+    "mechanism": "driver/native-overlay.mjs via NODE_OPTIONS --import at --start (production files are not written)",
+    "files": [
+      {
+        "file": "@deepseek-ai/dsh-goal/lib/index.js",
+        "productionSha256": "C9A84437E4BC802E9404BF6DD52D7AB5DCD53E5B320234C5DF2E29AC002C71EE",
+        "stagingSha256": "6BB5985F65C987193C4DDA95D4A0B4E3B84B082F3CA0087A135A6B575140C104"
+      },
+      {
+        "file": "@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js",
+        "productionSha256": "7E81327F31A12BB0E9E5A21F0407FFF4C75EA506A1EEBF98B6243CE4089035CC",
+        "stagingSha256": "18070A88A63600EE7FBC922400A1AB0FDADEC07FA27542E678045FB970FCA9F6"
+      },
+      {
+        "file": "@deepseek-ai/dsh-session/lib/index.js",
+        "productionSha256": "E0C3B500E2EB08442138599F63DABF2CFA968128EF91FA23F28568A0DD7A8D88",
+        "stagingSha256": "E6B9E61986C73286B4B35167214BBB3218202BF92E26FCC7B89CE19D876FF8A8"
+      }
+    ],
+    "notOverlaid": [
+      "@deepseek-ai/dsh-client-ui-chat/lib/client.js (browser-side static bundle)"
+    ]
+  },
+  "permission": "workspace-write / approval ask (production preset unchanged)",
+  "isolatedDisabledEntries": [
+    "browser-use-stagehand-native"
+  ],
+  "seed": "c2c6678 seed"
+}

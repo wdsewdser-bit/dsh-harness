@@ -2451,3 +2451,13 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 核对：6 个文件写后哈希相符；两份配置的差异各只有那一行，解析无错误；两个 profile 里这两个插件和导入它们的插件都能导入。
 - `plugin-coupling-baseline.json` 重新接受：`team-v14-context-delivery.mjs` 现在与生产相同，不再出现在报告里。
 - 留下的不一致同前：生产的 `team-v12-runtime.mjs` 不在部署工具清单认可的来历里，staging 版本是它的超集。
+
+## Checkpoint 2026-10-12 15:40 UTC（严格计划交付隔离验证）
+
+- 用户 14:36 UTC 回复“可以”，对应先验证 staging 里交付计划那组改动。只验证，未部署，生产无改动。
+- 这组改动是 6 个插件 + 4 个原生文件，不是之前说的三个插件；原生文件里和 PTC 的 `native/ptc-job` 格式改动写在一起。
+- 方案 `strict-plan-live-test-20261012-protocol.md`（提交 990650be），结果 `strict-plan-live-test-20261012-result.md`。
+- 开关关（off2，149 请求）：团队完成任务和目标，新拒绝为 0，重启读回正常。开关开（on1，139 请求）：`plan_register` 四次 `RECOVERY_PATH_DENIED`，目标 blocked，组长如实上报。off1（55 请求）因预加载经 `NODE_OPTIONS` 传给了沙箱里的子进程而作废。
+- 新发现：开关打开后，空白普通会话也被写入永久的 `requiresPlan: true`（`team-v12-runtime.mjs:1890` 的 tier 0 包含未组队的普通会话）。
+- 驱动 `output/strict-plan-live-20261012/driver/{plan-host.mjs,native-overlay.mjs,watch.sh}`。三次宿主已停，40124 无监听，真实工作区 HEAD ab5de82。
+- 建议：不打开开关；不单独为对齐而部署，等 PTC 那组一起；功能要可用需先收窄开关范围并给出不依赖预配 recipe 的路径。

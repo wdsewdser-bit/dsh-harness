@@ -25,7 +25,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 |---|---|---|---|---|
 | 多段窗口（W2）+ 权威基线投递 | accepted（隔离副本：真实折叠、冷恢复、页面历史、后继回合） | 已部署，名单模式，只含 1 个会话；原生产根没有发生过折叠 | [window-multi-acceptance-20261011.md](context-runtime-unified-20261001/window-multi-acceptance-20261011.md) | 费用收益未证明，见第 3 节 |
 | W2 乐观提交 | accepted | 未部署，生产无调用方 | 计划第 16 节末行；[oracle-w2-optimistic-commit-20261006.md](context-runtime-unified-20261001/oracle-w2-optimistic-commit-20261006.md) | 调用方、路由证书续签、恢复重试 |
-| Strict 空计划交付门禁 | accepted（真实普通会话 UI） | 完全未部署 | [strict-plan-delivery-20261011.md](context-runtime-unified-20261001/strict-plan-delivery-20261011.md) | 生产 opt-in 需用户授权 |
+| Strict 空计划交付门禁 | accepted（真实普通会话 UI） | 完全未部署 | [strict-plan-delivery-20261011.md](context-runtime-unified-20261001/strict-plan-delivery-20261011.md) | 2026-10-12 真实模型隔离验证：开关关闭时对团队无影响；只开开关走不通（缺 `planReadRoots` 和证明链配置），且开关会把所有新建普通会话永久标成必须有计划。不建议打开，见 [strict-plan-live-test-20261012-result.md](context-runtime-unified-20261001/strict-plan-live-test-20261012-result.md) |
 | Instant + 同实例 PTC 后台 | accepted（16 项运行时测试、真实 Web UI、原生 Team 邮箱 + 1 个真实子会话；LLM 是 fixture） | 完全未部署 | [ptc-background-20261011.md](context-runtime-unified-20261001/ptc-background-20261011.md) | 真实模型行为、交互审批交接、独立安全/并发审查 |
 | 步级压缩与 hypothesis、active identity | — | 2026-10-06 已部署并核验（仅冷恢复会话和全新会话各 1 回合） | 计划第 16 节“生产部署 2026-10-06”行 | 未覆盖多成员 Team；回滚未演练 |
 | E5 经济策略、E8 auto | partial / pending | off | 计划第 16 节 | 未启用 |

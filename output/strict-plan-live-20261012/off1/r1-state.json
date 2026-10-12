@@ -1,0 +1,16 @@
+{
+  "hostPid": 40096,
+  "home": "D:/dsh-test/output/strict-plan-live-20261012/off1/home",
+  "status": "stopped",
+  "startedAt": "2026-10-12T14:48:57.557Z",
+  "protectedProductionFiles": 758,
+  "minutes": 40,
+  "maxRequests": 150,
+  "nodeOptions": "--import=file:///D:/dsh-test/output/strict-plan-live-20261012/driver/native-overlay.mjs",
+  "overlayLog": "D:/dsh-test/output/strict-plan-live-20261012/off1/overlay-r1.log",
+  "reason": "requested-stop",
+  "code": 1,
+  "signal": null,
+  "stoppedAt": "2026-10-12T14:58:42.923Z",
+  "terminals": 55
+}
