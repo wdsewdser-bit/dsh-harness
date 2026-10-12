@@ -2407,3 +2407,13 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 真实验证：隔离宿主 `output/team-run-followup-20261012/v1`，workspace-write / approval ask，12:33:05 启动，12:38:52 UTC requested-stop，23 个请求（上限 150）。两次压缩请求未命中/命中为 992/51200 和 909/50688，与前一条对话请求的公共前缀为全部消息。清单块和追加小节照常。
 - 停宿主后核对：40124 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
 - 未做：紧凑形态回退的真实验证（需要大型团队才能复现）；生产部署。详见 `constraint-ledger-team-run-20261012-followup.md`。
+
+### 检查点 2026-10-12 约 13:25 UTC：约束清单和压缩请求投影部署到生产（Claude）
+
+- 授权：用户 13:17 UTC 回复“部署吧 然后你开始测试3”。范围按我上一条回复的建议：第 1、2 项部署，第 3 项（紧凑形态回退）不部署、先测试。
+- 没有用 `tools/deploy-production.mjs`：它的变更集不能缩小，当前是 50 个文件，其中有未获生产授权的 PTC 包、W2 折叠修复和 26 个原生文件。改用一次性脚本 `tools-oneoff/deploy-ledger-and-compaction-prefix-20261012.mjs`（`--plan` / `--apply` / `--rollback`），只写 6 个文件，写前核对生产文件的原哈希和 staging 文件的已验证哈希，宿主在监听时拒绝。
+- 写入：`home/profiles/{web,headless}/plugins/constraint-ledger.mjs`（新增，68C63F80）、`request-message-projection.mjs`（4AF4102B → 7ECF041E，与 staging 的差异只有压缩请求前缀投影）、两个 `cordis.patch.yml` 各加两行登记 `constraint-ledger`（紧跟 `request-message-projection` 条目，不带配置，清单目录取默认的 `DSH_HOME/constraint-ledger`）。
+- 备份 `D:/dsh-test/backups/context-runtime-production-constraint-ledger-20261012`（含 `deploy-backup.json`，格式是这个脚本自己的，所以没有追加进 `deploy-previous-chronological.txt`）。回滚：`node tools-oneoff/deploy-ledger-and-compaction-prefix-20261012.mjs --rollback`。
+- 核对：6 个文件写后哈希相符；四个插件文件 `node --check` 通过；两份配置用宿主自带的 yaml 解析无错误，插入项无重复 id；部署后 `deploy-production.mjs --plan` 待写 46、问题 0（少掉的 4 个就是这次的插件文件）。
+- 没有启动生产宿主（边界不变），所以生产里的加载是靠隔离副本验证的：副本用的是同样字节的这两个插件。部署时 40120–40129 无监听。
+- 未做：第 3 项、W2 折叠修复、PTC 包都没有进生产。
