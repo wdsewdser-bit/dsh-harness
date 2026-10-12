@@ -2311,3 +2311,13 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 最新完整入口 `D:/dsh-test/docs/context-runtime-unified-20261001/CLAUDE-HANDOFF-20261011.md`，107行；包含整体/各包状态、生产边界、精确改动路径、优先级、native/fixture区别、命令、证据、回滚及已暂停的定时任务。旧20261006交接只作历史资料。
 - 交接前只读复核stage-closeout pending0、full complete/success true及1484pass/0fail/1skip；40123/40124无监听，8788监听PID36508。只证明代理端口存在，没测试provider；不擅自消费新请求。
 - 文档SHA256 `5C7E43AB7F4CE8622ADC389779BE24F1563779C8DD5C70DD98D0FA6455BA6A72`；已核对六必需章节且无token URL/Bearer内容。没有新runtime改动；后续由Claude先读该交接与本台账末尾，再按既有授权推进。
+
+### 检查点 2026-10-12 05:45 UTC：closeout 留痕、原生补丁审计、三条语义合同测试（Claude）
+
+- 来源：外部评审核对文档 D 节第 2、3 条；当前状态入口 `docs/CURRENT_STATE.md` 第 5.1 节。只动 staging，未部署生产，未启动任何宿主。
+- `tools/stage-closeout.mjs`：写入模式必须带 `--reason=<至少10字符>`，否则在任何写入之前以 REASON_REQUIRED 退出；每次改写追加到 `manifest-rewrite-log.jsonl`。本次改动自身即按新流程收口：tools 清单 F80291FB -> FB5E2453，备份 `backups/closeout-reason-log-20261012`，随后 `--check` pending 0。
+- 新增 `tools/native-patch-audit.mjs` 与 `native-patch-baseline.json`：19 个被改原生包，4 个由 pnpm 补丁承载，15 个只是 staging 副本；6 个登记补丁的包不在清单；10 个未登记补丁文件。未加入 tools 清单（该清单本就只登记 77 个工具中的 32 个）。
+- 新增 `architecture-tests/upstream-compat-contract.test.mjs`（7 项：§65 两个物理副本各 2 项加存在性检查、§58、§59）与 `architecture-tests/manifest-acceptance.test.mjs`（2 项）。变异验证：分别破坏 r10 的重建告警、Team prompt 段和 `dsh-subagent-v15` 的 Team 分支，对应测试均变红，还原后按 SHA 核对一致。
+- 聚焦 5 文件 14/14，`output/regressions/2026-10-12T05-39-36-753Z-e340acb7`。全量 232 文件 1494 tests / 1493 pass / 0 fail / 0 cancelled / 1 既有 skip，`output/regressions/2026-10-12T05-39-48-266Z-726e9b0a`。
+- **事故记录**：第一次变异验证写的是 `staging/.../app/node_modules/@deepseek-ai/dsh-subagent/lib/index.js`，该目录是指向生产 `D:/dsh-test/app/node_modules` 的 junction，生产文件因此被改动约 10 秒后还原。还原后 SHA256 `566ACCB62B480BEB54930BDAB0EDE88231E64424C1588C3EB01F23497BBE3B2E` 与改动前副本一致，mtime 变为 2026-10-12T05:36:05Z；当时 40123/40124 无监听。staging 里可编辑的实体副本是 `-v15` 目录，以后以 native 清单登记路径为准，写前先 lstat/realpath。
+- 剩余：15 个包转 pnpm 补丁未做（会改变生产安装结果，需用户授权）；§59 测试只覆盖 Team 插件自己的 prompt 段。

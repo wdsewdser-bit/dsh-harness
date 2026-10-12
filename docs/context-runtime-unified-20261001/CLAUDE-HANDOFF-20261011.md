@@ -83,7 +83,7 @@
 
 ```powershell
 Set-Location D:/dsh-test/staging/context-runtime-unified-20261001
-node tools/stage-closeout.mjs --check
+node tools/stage-closeout.mjs --check   # 写入模式自 2026-10-12 起必须带 --reason=<原因>
 node tools/run-regression.mjs --files native-tests/ptc-background-runtime.test.mjs native-tests/session-plan-delivery.test.mjs phase11-tests/unified-team-delivery-gate.test.mjs phase11-tests/unified-delivery-authority.test.mjs native-tests/instant-window-compaction-race.test.mjs
 node tools/run-regression.mjs
 ```

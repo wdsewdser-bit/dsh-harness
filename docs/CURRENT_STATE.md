@@ -31,8 +31,8 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 | E5 经济策略、E8 auto | partial / pending | off | 计划第 16 节 | 未启用 |
 | Team 基础（权限、冻结、任务板、结算） | 历史版本 v2–v15 已在生产运行 | 在用 | [agent-team-v2-design.md](agent-team-v2-design.md) 及各版本 ledger | 权限是否在所有工具入口闭合，未证（核对文档 C 节） |
 
-最新全量回归：230 文件 / 1485 项 / 1484 通过 / 0 失败 / 1 既有跳过（2026-10-11 23:06 UTC）。
-数字来自仓库自己的记录，本页更新时没有重跑。
+最新全量回归：232 文件 / 1494 项 / 1493 通过 / 0 失败 / 1 既有跳过（2026-10-12 05:39 UTC，实际重跑，`output/regressions/2026-10-12T05-39-48-266Z-726e9b0a`）。
+比 10-11 多出的 2 个文件、9 项是 5.1 节新增的合同测试。
 
 ## 3. 一条必须知道的负面结果
 
@@ -51,20 +51,30 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 | `agent-team-v2-design.md` §57 | 结论被 §58 推翻（真因是 `reconcileRegistry` 传错对象且异常被空 `catch` 吞掉） | 未改原文；读 §57 时接着读 §58 |
 | `agent-team-v2-design.md` 文件头 | “状态：待评审”“落盘位置 `D:\dsh\docs\`” 都是 2026-09-11 的原始值 | 未改原文 |
 | `CLEANUP-AND-GIT-PLAN-20261012.md` | 写仓库是私有；第四、五节顺序颠倒 | 未改；仓库现为公开 |
-| 外部评审核对文档 D 第 2 条 | 写“被改的原生包 19 个，只有 10 个登记在 `patchedDependencies`” | 数字不准，见第 5 节候选 1 |
+| 外部评审核对文档 D 第 2 条 | 写“被改的原生包 19 个，只有 10 个登记在 `patchedDependencies`” | 数字不准：实测 19 个包只有 4 个登记，见 5.1 |
 
-## 5. 下一阶段候选（待用户选择，均未开工）
+## 5. 下一阶段候选
 
-按我的建议顺序排列。前三条是交接文档里已有的 P1，后面是外部评审核对后新增的。
+### 5.1 已完成（2026-10-12，仅 staging，未部署生产）
 
-1. **统一原生补丁通道并补清单字段。** 本次实测：`native-change-manifest.json` 的 51 条覆盖 19 个包，其中只有 4 个在 `app/pnpm-workspace.yaml` 的 `patchedDependencies` 里，另外 15 个是直接改 staging 副本（`cordis`、`cordis-plugin-loader`、`dsh-agent`、`dsh-session`、`dsh-tools`、`dsh-goal`、`dsh-subagent`、`dsh-system-prompt` 等）。反过来有 6 个登记了补丁的包不在清单里。`app/patches/` 下 `dsh-tool-fs` 的补丁文件没有登记。上游升级后没有重打补丁的脚本，`deploy --apply` 只会拒绝。清单里也没有上游版本号。时机：下一次跟上游升级之前。
-2. **让 `stage-closeout` 不再静默改写清单。** `tools/stage-closeout.mjs` 第 82–102 行在非 `--check` 模式下把清单的 `after` 直接改成磁盘现状，所以清单只证明“磁盘和记录一致”，不证明“这个改动被审过”。最小改法是改写时强制留一条带原因的记录，或者拆成“登记新改动”和“校验”两个命令。
-3. **三条窄的语义合同测试。** 只固定已经坏过的三件事：子代理结算不唤醒 root（§65）、system prompt 跨回合字节稳定（§59）、registry 重建出错不被吞（§58）。和第 1 条一起做，升级时才有东西可跑。
-4. **PTC 后台进生产前的三个门槛**（交接文档 P1）：交互审批交接的真实回执；有界的真实模型行为测试（`opencodego/deepseek-v4.1-flash`，首批 16 个请求上限）；独立安全/并发审查。其中真实模型测试会消耗额度，需要用户点头。
-5. **`unknown` 结果要有去处。** 现在只落一个 `.unknown.json` 加一条通知，没有给人看的未决清单。时机：PTC 后台生产启用之前。
-6. **补两个崩溃切点测试。** 临时文件已写未改名、改名后入账前，目前靠幂等分支兜底，没有单独测试。照现有 crash-child 的写法补。
-7. **工具入口权限的架构测试。** 枚举运行时注册的全部工具，每个要么命中策略检查，要么在显式豁免表里。
-8. **先回答 W2 还值不值得继续投入。** 在给 W2 加“回合内分段折叠”之前，在普通单代理会话上试一版“小绑定头 + 非权威工作摘要 + 按编号取回”的形状（astra 在窗口经济性咨询第 2 点提的方向）。这是方向性决定，不是施工项。
+- **`stage-closeout` 改写清单必须给原因。** 非 `--check` 运行必须带 `--reason=<至少 10 个字符>`，否则在写任何文件前以 `REASON_REQUIRED` 退出；每次改写追加一行到 `manifest-rewrite-log.jsonl`（时间、原因、每个条目的前后哈希）。旧用法 `stage-closeout.mjs <备份目录>` 不再可用。
+- **原生补丁审计。** 新工具 `tools/native-patch-audit.mjs`：列出每个被改原生包的上游版本和承载方式，`--check` 对照 `native-patch-baseline.json`，上游版本或承载方式一变就失败。首份基线：19 个包里 4 个由 pnpm 补丁承载，15 个只是 staging 副本；6 个登记了补丁的包不在清单里；`app/patches/` 有 10 个未登记的补丁文件（9 个是旧版本残留，1 个是 `dsh-tool-fs@0.1.7-rc.2`）。
+- **三条语义合同测试。** `architecture-tests/upstream-compat-contract.test.mjs`：§65 Team 成员的子代理结算不唤醒父级（staging 规范副本和已安装副本各测一遍）、§58 registry 重建失败会进日志且仅存在于名册的成员可寻址、§59 Team 的 system prompt 段在 Team 状态变化时字节不变。三条都做过变异验证，破坏实现后会变红。`architecture-tests/manifest-acceptance.test.mjs` 把上面两个工具的行为也纳入全量回归。
+
+这一步**没有**做的：没有把那 15 个包转成 pnpm 补丁。所以“上游升级后改动会丢”的问题仍在，现在只是升级时会被 `native-patch-audit --check` 和合同测试拦下来，而不是悄悄发生。§59 的测试只覆盖 Team 插件自己贡献的那一段，不组装整份原生 prompt。
+
+上游升级时的顺序：升级前跑 `node tools/native-patch-audit.mjs --check`；升级并重打改动后跑合同测试；确认后 `--write-baseline --reason=...`，再 `node tools/stage-closeout.mjs <备份目录> --reason=...`。
+
+注意：staging 的 `app/node_modules/@deepseek-ai/` 下，不带 `-v15` 后缀的包目录可能是指向生产安装的 junction，往里写就是改生产。写之前先看 `native-change-manifest.json` 里登记的路径。
+
+### 5.2 待选（均未开工）
+
+1. **把 15 个 staging 副本承载的包转成登记的 pnpm 补丁**，并清掉 9 个旧版本补丁残留、处理未登记的 `dsh-tool-fs` 补丁。这会改变生产 `pnpm install` 的结果，需要用户授权，并在隔离目录里先验证“干净安装 + 打补丁 = 当前 staging 字节”。
+2. **PTC 后台进生产前的三个门槛**（交接文档 P1）：交互审批交接的真实回执；有界的真实模型行为测试（`opencodego/deepseek-v4.1-flash`，首批 16 个请求上限）；独立安全/并发审查。其中真实模型测试会消耗额度，需要用户点头。
+3. **`unknown` 结果要有去处。** 现在只落一个 `.unknown.json` 加一条通知，没有给人看的未决清单。时机：PTC 后台生产启用之前。
+4. **补两个崩溃切点测试。** 临时文件已写未改名、改名后入账前，目前靠幂等分支兜底，没有单独测试。照现有 crash-child 的写法补。
+5. **工具入口权限的架构测试。** 枚举运行时注册的全部工具，每个要么命中策略检查，要么在显式豁免表里。
+6. **先回答 W2 还值不值得继续投入。** 在给 W2 加“回合内分段折叠”之前，在普通单代理会话上试一版“小绑定头 + 非权威工作摘要 + 按编号取回”的形状（astra 在窗口经济性咨询第 2 点提的方向）。这是方向性决定，不是施工项。
 
 不建议做的（理由见核对文档 E 节）：全量状态权威矩阵、另起一份 happens-before 图、逐模块六维度记分、七项指标联合置信边界。
 
