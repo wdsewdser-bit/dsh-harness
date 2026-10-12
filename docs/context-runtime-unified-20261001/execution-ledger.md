@@ -2398,3 +2398,12 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 产物仓库 109 个提交，454 个测试通过，静态检查 5 项通过；团队自己的最终验收未走完；未在浏览器里看过。
 - 停宿主后核对：40124 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
 - 未做：改清单上限；修压缩请求缓存；生产部署。都等用户决定。
+
+### 检查点 2026-10-12 约 12:45 UTC：团队实测暴露的三个问题的修复（Claude）
+
+- 授权：用户 12:16 UTC 回复“那你处理吧”。只改 staging，不动生产。
+- 改动（提交 7a923216）：`constraint-ledger.mjs` 上限按字符、写满返回处理提示、`(same as N)` 去重；`request-message-projection.mjs` 对原生压缩请求的历史做与对话请求相同的投影；`team-v14-context-delivery.mjs` 和 `team-v12-runtime.mjs` 给必需来源加紧凑形态回退。headless 已同步，`stage-closeout` 待办 0，原因记入 `manifest-rewrite-log.jsonl`。
+- 测试：新增 21 个用例全部通过；全量回归 235 个文件，1528 通过，0 失败，1 跳过。
+- 真实验证：隔离宿主 `output/team-run-followup-20261012/v1`，workspace-write / approval ask，12:33:05 启动，12:38:52 UTC requested-stop，23 个请求（上限 150）。两次压缩请求未命中/命中为 992/51200 和 909/50688，与前一条对话请求的公共前缀为全部消息。清单块和追加小节照常。
+- 停宿主后核对：40124 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
+- 未做：紧凑形态回退的真实验证（需要大型团队才能复现）；生产部署。详见 `constraint-ledger-team-run-20261012-followup.md`。
