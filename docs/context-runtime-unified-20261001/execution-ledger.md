@@ -2417,3 +2417,12 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 核对：6 个文件写后哈希相符；四个插件文件 `node --check` 通过；两份配置用宿主自带的 yaml 解析无错误，插入项无重复 id；部署后 `deploy-production.mjs --plan` 待写 46、问题 0（少掉的 4 个就是这次的插件文件）。
 - 没有启动生产宿主（边界不变），所以生产里的加载是靠隔离副本验证的：副本用的是同样字节的这两个插件。部署时 40120–40129 无监听。
 - 未做：第 3 项、W2 折叠修复、PTC 包都没有进生产。
+
+### 检查点 2026-10-12 约 13:55 UTC：紧凑形态回退的真实测试（Claude）
+
+- 授权：同上（用户 13:17 UTC）。只在隔离副本里运行。方案 `compact-fallback-live-test-20261012-protocol.md`，结果 `compact-fallback-live-test-20261012-result.md`。
+- 原地续跑 `output/constraint-ledger-team-20261012/cod1`（`--run item3b`），13:29:03 启动，13:50:04 UTC requested-stop，100 个请求（上限 500），守护 755 个文件未触发。第一次启动（`--run item3`）因 staging 运行时导入失败和请求上限口径立刻停止，未发请求。
+- 结果：新增拒绝 0；integration-lead 基线 17 项里 3 项紧凑，verifier 基线 28 项里 17 项紧凑，两人都继续工作。没有人调用 `requirements_snapshot` 取完整内容。续跑期间无新压缩。
+- 被测的是“生产版本 + 仅第 3 项”的 `team-v12-runtime.mjs`（1A1C428F）。staging 版本依赖未部署的 `deliveryPlanRequired`，在生产插件集上导入失败。
+- 停宿主后核对：40120–40129 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
+- 未做：第 3 项的生产部署。
