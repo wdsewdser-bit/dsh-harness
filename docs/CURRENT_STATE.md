@@ -13,7 +13,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 | 现在做到哪了、下一步是什么 | [CLAUDE-HANDOFF-20261011.md](context-runtime-unified-20261001/CLAUDE-HANDOFF-20261011.md) | 最新交接，107 行 |
 | 各检查点 E0–E8 的登记状态 | [implementation-plan.md 第 16 节](context-runtime-unified-20261001/implementation-plan.md)（“## 16. 施工登记与最终交付”下的表） | 文件开头 30 多行是按时间倒序堆叠的历史补充，不是当前状态 |
 | 某一步具体做了什么、证据在哪 | [execution-ledger.md](context-runtime-unified-20261001/execution-ledger.md) | 2313 行、约 60 万字节。从文件末尾往回读，不要通读 |
-| 外部评审说了什么、哪些成立 | [external-review-20261011-verification.md](external-review-20261011-verification.md) | 只读核对，没有重跑测试；它引用的 `implementation-plan.md` 行号是加提示前的，现在整体后移 2–4 行 |
+| 外部评审说了什么、哪些成立 | [external-review-20261011-verification.md](external-review-20261011-verification.md) | 只读核对，没有重跑测试；它说 W2 只有负面结果，漏了 10-11 的多段折叠实测，见第 3 节；它引用的 `implementation-plan.md` 行号是加提示前的，现在整体后移 2–4 行 |
 | Team 的原始设计与历史事故 | [agent-team-v2-design.md](agent-team-v2-design.md) | 靠追加章节更正旧结论，旧章节上没有标记。见第 4 节 |
 | 仓库里有什么、没有什么 | 根目录 `CLEANUP-AND-GIT-PLAN-20261012.md` 第三节 | 该文件写“私有”，仓库已在 2026-10-12 转为公开 |
 
@@ -23,7 +23,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 
 | 模块 | staging | 生产 | 权威文档 | 还缺什么 |
 |---|---|---|---|---|
-| 多段窗口（W2）+ 权威基线投递 | accepted（隔离副本：真实折叠、冷恢复、页面历史、后继回合） | 已部署，名单模式，只含 1 个会话；原生产根没有发生过折叠 | [window-multi-acceptance-20261011.md](context-runtime-unified-20261001/window-multi-acceptance-20261011.md) | 净收益未证明，见第 3 节 |
+| 多段窗口（W2）+ 权威基线投递 | accepted（隔离副本：真实折叠、冷恢复、页面历史、后继回合） | 已部署，名单模式，只含 1 个会话；原生产根没有发生过折叠 | [window-multi-acceptance-20261011.md](context-runtime-unified-20261001/window-multi-acceptance-20261011.md) | 费用收益未证明，见第 3 节 |
 | W2 乐观提交 | accepted | 未部署，生产无调用方 | 计划第 16 节末行；[oracle-w2-optimistic-commit-20261006.md](context-runtime-unified-20261001/oracle-w2-optimistic-commit-20261006.md) | 调用方、路由证书续签、恢复重试 |
 | Strict 空计划交付门禁 | accepted（真实普通会话 UI） | 完全未部署 | [strict-plan-delivery-20261011.md](context-runtime-unified-20261001/strict-plan-delivery-20261011.md) | 生产 opt-in 需用户授权 |
 | Instant + 同实例 PTC 后台 | accepted（16 项运行时测试、真实 Web UI、原生 Team 邮箱 + 1 个真实子会话；LLM 是 fixture） | 完全未部署 | [ptc-background-20261011.md](context-runtime-unified-20261001/ptc-background-20261011.md) | 真实模型行为、交互审批交接、独立安全/并发审查 |
@@ -34,12 +34,16 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 最新全量回归：232 文件 / 1494 项 / 1493 通过 / 0 失败 / 1 既有跳过（2026-10-12 05:39 UTC，实际重跑，`output/regressions/2026-10-12T05-39-48-266Z-726e9b0a`）。
 比 10-11 多出的 2 个文件、9 项是 5.1 节新增的合同测试。
 
-## 3. 一条必须知道的负面结果
+## 3. W2 的收益：三次实测和当前判断
 
-2026-10-08 在真实大 Team 上切窗提交成功，但请求从约 667KB 变成约 687KB：检查点正文 261KB，外加每个请求约 63KB 的权威消息。
-出处：`execution-ledger.md` “检查点（10-08 约 00:00）”一节；
-[consult-window-economics-20261008-answer.md](context-runtime-unified-20261001/consult-window-economics-20261008-answer.md)。
-结论是继续限名单，不全面开放。“提交成功”不等于“省钱”，在这条被推翻之前，不要把 W2 写成有收益。
+| 时间 | 结果 |
+|---|---|
+| 10-08 第一次，已被压缩过两次的大根 | 提交成功，请求从约 667KB 变成约 687KB，变大 |
+| 10-08 第二次，未压缩的大根 | 步区间只折到 2 条消息，被净收益门槛拒绝 |
+| 10-11，同一个根的隔离副本，多段 + R | 模型正文减少 36.86%（2,158,609 B 变 1,362,998 B），原文冷恢复一致；折叠后第一个请求几乎零缓存命中 |
+
+当前判断见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md)：W2 保留在名单模式，定位是“必须缩上下文时不丢原文”，不是省钱；不再加新能力；下一步是一次同任务对照实验（待用户批准）。
+“提交成功”和“字节变少”都不等于“省钱”。在对照实验出结果之前，不要把 W2 写成有费用收益。
 
 ## 4. 已知过期或容易误读的地方
 
@@ -74,7 +78,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 3. **`unknown` 结果要有去处。** 现在只落一个 `.unknown.json` 加一条通知，没有给人看的未决清单。时机：PTC 后台生产启用之前。
 4. **补两个崩溃切点测试。** 临时文件已写未改名、改名后入账前，目前靠幂等分支兜底，没有单独测试。照现有 crash-child 的写法补。
 5. **工具入口权限的架构测试。** 枚举运行时注册的全部工具，每个要么命中策略检查，要么在显式豁免表里。
-6. **先回答 W2 还值不值得继续投入。** 在给 W2 加“回合内分段折叠”之前，在普通单代理会话上试一版“小绑定头 + 非权威工作摘要 + 按编号取回”的形状（astra 在窗口经济性咨询第 2 点提的方向）。这是方向性决定，不是施工项。
+6. **W2 对照实验**（不折 / 摘要压缩 / W2 多段 / 单代理会话的“小交接 + 按编号取回”，四组约 64 个真实模型请求）。设计和事先写死的判定规则见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md)。会消耗额度，需要用户批准。在它出结果之前，不做规则 T、权威瘦身和 E5 auto。
 
 不建议做的（理由见核对文档 E 节）：全量状态权威矩阵、另起一份 happens-before 图、逐模块六维度记分、七项指标联合置信边界。
 
