@@ -195,13 +195,13 @@
     "name": "team-v15-window-collector.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-collector.mjs",
     "before": null,
-    "after": "9DADEE3D597627C9BD3E1DBEE8C358B75ECF46BF011324916167AB30EAACFF8D"
+    "after": "F175B9F7A5980F33851CAE4879A041F9501DB3D6EFDDED84B83D89224685A1CC"
   },
   {
     "name": "team-v15-window-protocol.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-protocol.mjs",
     "before": null,
-    "after": "4B05A283CF95368E2ED2A10E31D5CFDC04E4694B99D9E795FA7F1890954FE054"
+    "after": "A1BFAFABEDE1E2DF38E3FD67F0AD688EF1AC3BE2799C951D348AC0B461D57939"
   },
   {
     "name": "request-message-projection.mjs",

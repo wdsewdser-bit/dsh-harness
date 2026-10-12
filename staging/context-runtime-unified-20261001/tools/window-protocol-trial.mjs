@@ -10,8 +10,8 @@ export function createProtocolTrialEvidence(binding, sessionId, now = Date.now()
   const paths = {
     projection: ['../home/profiles/web/plugins/team-v15-window-projection.mjs', '1fa23c04cc6fbb9ae6c0d36234f571bf34cc4a3a421d087971a364aca458bb64'],
     requestProjection: ['../home/profiles/web/plugins/request-message-projection.mjs', '4af4102b89dd878b6c0f695eaa0fa2aaab25afee605a0d0f93f4f88a2800e4e7'],
-    protocol: ['../home/profiles/web/plugins/team-v15-window-protocol.mjs', '4b05a283cf95368e2ed2a10e31d5cfdc04e4694b99d9e795fa7f1890954fe054'],
-    collector: ['../home/profiles/web/plugins/team-v15-window-collector.mjs', '9dadee3d597627c9bd3e1dbee8c358b75ecf46bf011324916167ab30eaacff8d'],
+    protocol: ['../home/profiles/web/plugins/team-v15-window-protocol.mjs', 'a1bfafabede1e2df38e3fd67f0ad688ef1ac3be2799c951d348ac0b461d57939'],
+    collector: ['../home/profiles/web/plugins/team-v15-window-collector.mjs', 'f175b9f7a5980f33851cae4879a041f9501db3d6efdded84b83d89224685a1cc'],
     historyRecall: ['../home/profiles/web/plugins/team-v15-history-recall.mjs', '9d3fe6985e88b66c29148a448b5850cb34c3ca9b7b4906baa22048a6a29e9463'],
     usageLedger: ['../home/profiles/web/plugins/request-usage-ledger.mjs', 'f19d86fa4cfc45b6f650480b01de5819bf9b56674c5033e63a3ef02755b63680'],
     windowEconomicsRuntime: ['../home/profiles/web/plugins/team-v15-window-economics-runtime.mjs', '18a0cb95f47682ef9f48eeffcf5a2eb15cc39c2c0f78bff7c2982e4f8c287c86'],

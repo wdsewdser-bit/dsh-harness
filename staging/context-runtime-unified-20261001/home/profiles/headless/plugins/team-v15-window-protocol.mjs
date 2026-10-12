@@ -1,6 +1,7 @@
 import { windowHash as hash } from './team-v15-window-checkpoint.mjs'
 
-const messageOf = event => event.type === 'user/message' ? event.data : event.data?.message
+// Only an event whose message has a role is a conversation message (team/message/queued has a data.message without one).
+const messageOf = event => { const message = event.type === 'user/message' ? event.data : event.data?.message; return typeof message?.role === 'string' ? message : undefined }
 
 // This proves a bounded canonical turn, not provider acceptance or an issued certificate.
 export function proveCompletedReasoningSpan(source, span, options) {
@@ -12,7 +13,10 @@ export function proveCompletedReasoningSpan(source, span, options) {
     const first = selected[0].seq, last = selected.at(-1).seq
     const start = events.filter(event => event.type === 'turn/start' && event.seq < first).at(-1)
     const end = events.find(event => event.type === 'turn/end' && event.seq > last)
-    if (!start || !end || start.data.turn !== end.data.turn || end.data.reason?.kind !== 'completed') return false
+    // A whole turn must have completed. A step range may also lie in a turn that ended otherwise (error, interrupt):
+    // the turn is over either way, and the range is finished steps only.
+    if (!start || !end || start.data.turn !== end.data.turn || typeof end.data.reason?.kind !== 'string'
+      || (span.scope !== 'steps' && end.data.reason.kind !== 'completed')) return false
     const turn = events.filter(event => event.seq > start.seq && event.seq < end.seq)
     if (turn.some(event => event.type === 'turn/start' || event.type === 'turn/end')) return false
     const group = turn.filter(event => messageOf(event)?.id && !['system', 'developer'].includes(messageOf(event).role))

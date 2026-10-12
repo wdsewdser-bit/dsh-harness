@@ -41,6 +41,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 | 10-08 第一次，已被压缩过两次的大根 | 提交成功，请求从约 667KB 变成约 687KB，变大 |
 | 10-08 第二次，未压缩的大根 | 步区间只折到 2 条消息，被净收益门槛拒绝 |
 | 10-11，同一个根的隔离副本，多段 + R | 模型正文减少 36.86%（2,158,609 B 变 1,362,998 B），原文冷恢复一致；折叠后第一个请求几乎零缓存命中 |
+| 10-12，同一份副本离线复算（非真实折叠） | 10-11 有 28 个工具步共 56 万字节没折，两个原因都已在 staging 修掉；按新规则复算只剩 11 步 14 万字节（全在最后一个被打断的回合，按规则保护），折叠后正文推算约 93 万字节、缩减约 57% |
 
 当前判断见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md)：W2 保留在名单模式，定位是“必须缩上下文时不丢原文”，不是省钱；不再加新能力；下一步是一次同任务对照实验（待用户批准）。
 “提交成功”和“字节变少”都不等于“省钱”。在对照实验出结果之前，不要把 W2 写成有费用收益。
@@ -65,6 +66,8 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 - **原生补丁审计。** 新工具 `tools/native-patch-audit.mjs`：列出每个被改原生包的上游版本和承载方式，`--check` 对照 `native-patch-baseline.json`，上游版本或承载方式一变就失败。首份基线：19 个包里 4 个由 pnpm 补丁承载，15 个只是 staging 副本；6 个登记了补丁的包不在清单里；`app/patches/` 有 10 个未登记的补丁文件（9 个是旧版本残留，1 个是 `dsh-tool-fs@0.1.7-rc.2`）。
 - **三条语义合同测试。** `architecture-tests/upstream-compat-contract.test.mjs`：§65 Team 成员的子代理结算不唤醒父级（staging 规范副本和已安装副本各测一遍）、§58 registry 重建失败会进日志且仅存在于名册的成员可寻址、§59 Team 的 system prompt 段在 Team 状态变化时字节不变。三条都做过变异验证，破坏实现后会变红。`architecture-tests/manifest-acceptance.test.mjs` 把上面两个工具的行为也纳入全量回归。
 
+- **W2 步折叠的两处漏折。** Team 邮件入队记录（`team/message/queued`，没有 `role`）不再被当成对话消息，它夹在工具调用和结果之间时不再让这一步被判成“无结果”；以 error / interrupted 结束的回合里已完成的步成为折叠候选（整回合折叠仍只认正常结束，最后一个未正常结束的回合仍整体保护）。细节和复算数字见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md) 补记三。生产里的 W2 仍是修之前的版本。
+
 这一步**没有**做的：没有把那 15 个包转成 pnpm 补丁。所以“上游升级后改动会丢”的问题仍在，现在只是升级时会被 `native-patch-audit --check` 和合同测试拦下来，而不是悄悄发生。§59 的测试只覆盖 Team 插件自己贡献的那一段，不组装整份原生 prompt。
 
 上游升级时的顺序：升级前跑 `node tools/native-patch-audit.mjs --check`；升级并重打改动后跑合同测试；确认后 `--write-baseline --reason=...`，再 `node tools/stage-closeout.mjs <备份目录> --reason=...`。
@@ -78,7 +81,7 @@ implemented（写了代码）、tested（有测试）、enabled（在某个范�
 3. **`unknown` 结果要有去处。** 现在只落一个 `.unknown.json` 加一条通知，没有给人看的未决清单。时机：PTC 后台生产启用之前。
 4. **补两个崩溃切点测试。** 临时文件已写未改名、改名后入账前，目前靠幂等分支兜底，没有单独测试。照现有 crash-child 的写法补。
 5. **工具入口权限的架构测试。** 枚举运行时注册的全部工具，每个要么命中策略检查，要么在显式豁免表里。
-6. **W2 对照实验**（不折 / 摘要压缩 / W2 多段 / 单代理会话的“小交接 + 按编号取回”，四组约 64 个真实模型请求）。设计和事先写死的判定规则见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md)。会消耗额度，需要用户批准。在它出结果之前，不做规则 T、权威瘦身和 E5 auto。
+6. **W2 对照实验**（先在隔离副本上用修过的步折叠真实重跑一次，确认补记三的推算；不折 / 摘要压缩 / W2 多段 / 单代理会话的“小交接 + 按编号取回”，四组约 64 个真实模型请求）。设计和事先写死的判定规则见 [w2-continue-decision-20261012.md](context-runtime-unified-20261001/w2-continue-decision-20261012.md)。会消耗额度，需要用户批准。在它出结果之前，不做规则 T、权威瘦身和 E5 auto。
 
 不建议做的（理由见核对文档 E 节）：全量状态权威矩阵、另起一份 happens-before 图、逐模块六维度记分、七项指标联合置信边界。
 

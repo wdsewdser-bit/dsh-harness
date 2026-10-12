@@ -16,7 +16,9 @@ export const inject = ['agents', 'agentTeams', 'sessions', 'sessionQuery', 'team
 export const provide = ['windowCheckpointRuntime']
 const fail = code => { throw Object.assign(new Error(code), { code }) }
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
-const rawMessage = event => event.type === 'user/message' ? event.data : event.data?.message
+// The conversation message an event carries, if any. Other events have a data.message too (team/message/queued is
+// the record of a Team mail entering a queue: an id, a sender and a target, no role); those are not conversation.
+const rawMessage = event => { const message = event.type === 'user/message' ? event.data : event.data?.message; return typeof message?.role === 'string' ? message : undefined }
 const terminalTasks = new Set(['completed', 'resolved', 'cancelled', 'failed'])
 const moduleHash = createHash('sha256').update(readFileSync(new URL(import.meta.url))).digest('hex')
 export const windowBoundaryTypes = Object.freeze(['turn/start', 'turn/end', 'step/start', 'step/end', 'tool/call', 'tool/result',
@@ -115,15 +117,17 @@ export function createServerWindowCollector(ctx, config) {
       || hash(artifact.events.map(event => ({ seq: event.seq, sha256: hash(event) }))) !== hash(receipt.eventRefs)) fail('WINDOW_RECOVERY_ARTIFACT_INVALID')
     return plain(artifact.events)
   }
-  function completedTurns(events) {
+  // Every turn that has ended, with whether it ended normally. A turn that ended in an error or was interrupted is
+  // never a whole-turn candidate, but the steps it did finish are as finished as any other.
+  function endedTurns(events) {
     const turns = [], used = new Set()
     let start
     for (const event of events) {
       if (event.type === 'turn/start') { start = event; continue }
       if (event.type !== 'turn/end') continue
-      if (start && start.data?.turn === event.data?.turn && event.data?.reason?.kind === 'completed'
+      if (start && start.data?.turn === event.data?.turn && typeof event.data?.reason?.kind === 'string'
         && !used.has(event.data.turn)) {
-        turns.push(events.filter(row => row.seq >= start.seq && row.seq <= event.seq))
+        turns.push({ completed: event.data.reason.kind === 'completed', events: events.filter(row => row.seq >= start.seq && row.seq <= event.seq) })
         used.add(event.data.turn)
       }
       start = undefined
@@ -145,7 +149,9 @@ export function createServerWindowCollector(ctx, config) {
     return { protectedIds, pendingIds }
   }
   // The stretches of the conversation a window may replace. A completed turn whose every message is still in the
-  // conversation and unprotected is one candidate, as it always was. Otherwise the turn is searched for completed
+  // conversation and unprotected is one candidate, as it always was. Otherwise the turn, and any turn that ended
+  // without completing (an error, an interrupt; the last turn of the conversation stays protected as open until it
+  // completes), is searched for completed
   // steps: an assistant message with tool calls together with every one of its tool results. The longest unbroken
   // run of such steps (by bytes) is the candidate; the user's own input, the final answer, anything pending or in
   // the recent tail, and any step whose results are incomplete stay where they are.
@@ -164,11 +170,11 @@ export function createServerWindowCollector(ctx, config) {
       && (['team-v12-runtime', 'team-activity-digest', 'team-idle-watch', 'step-compaction'].includes(message.source?.plugin)
         || (message.source?.plugin === 'tool-agent-team-v2' && (message.source.form === 'snapshot' || message.source.kind === 'team-plugin-message')))
     const candidates = []
-    for (const eventsInTurn of completedTurns(events)) {
+    for (const { completed, events: eventsInTurn } of endedTurns(events)) {
       const group = eventsInTurn.filter(event => rawMessage(event)?.id && !['system', 'developer'].includes(rawMessage(event).role))
       if (!group.length) continue
       const turn = eventsInTurn[0].data.turn
-      if (spanMode === 'single' && rawMessage(group[0]).role === 'user' && rawMessage(group.at(-1)).role === 'assistant' && group.every(intact) && consecutive(group)) {
+      if (completed && spanMode === 'single' && rawMessage(group[0]).role === 'user' && rawMessage(group.at(-1)).role === 'assistant' && group.every(intact) && consecutive(group)) {
         candidates.push({ scope: 'turn', turn, group, all: eventsInTurn }); continue
       }
       const runs = []

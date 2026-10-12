@@ -2321,3 +2321,13 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 聚焦 5 文件 14/14，`output/regressions/2026-10-12T05-39-36-753Z-e340acb7`。全量 232 文件 1494 tests / 1493 pass / 0 fail / 0 cancelled / 1 既有 skip，`output/regressions/2026-10-12T05-39-48-266Z-726e9b0a`。
 - **事故记录**：第一次变异验证写的是 `staging/.../app/node_modules/@deepseek-ai/dsh-subagent/lib/index.js`，该目录是指向生产 `D:/dsh-test/app/node_modules` 的 junction，生产文件因此被改动约 10 秒后还原。还原后 SHA256 `566ACCB62B480BEB54930BDAB0EDE88231E64424C1588C3EB01F23497BBE3B2E` 与改动前副本一致，mtime 变为 2026-10-12T05:36:05Z；当时 40123/40124 无监听。staging 里可编辑的实体副本是 `-v15` 目录，以后以 native 清单登记路径为准，写前先 lstat/realpath。
 - 剩余：15 个包转 pnpm 补丁未做（会改变生产安装结果，需用户授权）；§59 测试只覆盖 Team 插件自己的 prompt 段。
+
+### 检查点 2026-10-12 06:20 UTC：W2 步折叠的两处漏折（Claude）
+
+- 来源：用户问“为什么折叠了还有 40 万上下文”；分析见 `w2-continue-decision-20261012.md` 补记一至三。只动 staging，未部署生产，未启动宿主，未发模型请求。
+- 根因一：`team/message/queued` 事件的 `data.message` 有 id 无 role，被 collector 的 `rawMessage` 当成对话消息，夹在工具调用与结果之间时该步被判成无结果。改 `team-v15-window-collector.mjs` 的 `rawMessage` 与 `team-v15-window-protocol.mjs` 的 `messageOf`，只认带 role 的消息。
+- 根因二：`completedTurns` 只认正常结束的回合。改为 `endedTurns`，任何已结束回合都搜索已完成的步；整回合候选仍只认 completed；最后一个未正常结束的回合仍由 `protection` 整体保护。协议证明对步区间放宽到“回合已结束”。
+- 测试：`native-tests/window-install-runtime.test.mjs` 新增 4 条；聚焦 2 文件 79/79，`output/regressions/` 下 06:0x 那一次。全量 232 文件 1498 tests / 1497 pass / 0 fail / 0 cancelled / 1 既有 skip，`output/regressions/2026-10-12T06-04-34-494Z-f20187c0`。
+- 离线复算（scratchpad 脚本，读 `output/window-isolated-live-20261011`，只读）：旧规则折 60/88 步、留 563,881 B 工具步；新规则折 77/88 步、留 141,003 B（11 步全在最后一个 interrupted 回合）。
+- closeout：备份 `backups/stage-closeout-20261012-step-fold-queued-and-ended-turns`，collector 9dadee3d -> f175b9f7，protocol 4b05a283 -> a1bfafab，tools 清单里 `window-protocol-trial.mjs` 的 pin 随之更新，`--check` pending 0。
+- 剩余：推算的 57% 缩减没有真实折叠验证；生产 W2 仍是旧版本，部署需用户授权。
