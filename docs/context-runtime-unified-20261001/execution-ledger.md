@@ -2331,3 +2331,12 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 离线复算（scratchpad 脚本，读 `output/window-isolated-live-20261011`，只读）：旧规则折 60/88 步、留 563,881 B 工具步；新规则折 77/88 步、留 141,003 B（11 步全在最后一个 interrupted 回合）。
 - closeout：备份 `backups/stage-closeout-20261012-step-fold-queued-and-ended-turns`，collector 9dadee3d -> f175b9f7，protocol 4b05a283 -> a1bfafab，tools 清单里 `window-protocol-trial.mjs` 的 pin 随之更新，`--check` pending 0。
 - 剩余：推算的 57% 缩减没有真实折叠验证；生产 W2 仍是旧版本，部署需用户授权。
+
+### 检查点 2026-10-12 06:30 UTC：修过的步折叠在隔离副本上真实重跑（Claude）
+
+- 授权：用户 06:16 UTC 回复“可以”，范围是隔离副本上一次真实折叠加一个真实模型请求。
+- 新副本 `output/window-isolated-refold-20261012`，由生产根（SHA 02524788，未变）复制；插件为生产插件加 staging 的 collector f175b9f7 与 protocol a1bfafab。驱动脚本由 `tools/window-isolated-live-20261011.mjs` 改 root 并覆盖这两个文件而来，副本存于该目录 `driver-refold-host.mjs`。
+- 宿主 PID 31124，端口 40124，06:20 启动，requested-stop 结束；守护 747 个生产文件无变化；40123/40124 无监听；浏览器标签已关。
+- `/window fold`：COMMITTED，toWindowId 1，一个 replace-many、40 段。正文 2,158,609 B -> 925,852 B（57.11%），157 条消息，检查点 220,260 B，留 11 个工具步 141,003 B，80 条证人一致。
+- 后继请求 4a5403d0-f5e8-46c8-91c5-34a10c57fc38：success，15,974 ms，adapterPayload 1,226,612 B，input 335,351 / output 415 / cacheRead 1,408（适配器回报）。回答符合文本核验，无工具调用。请求后会话 3155 events / 163 messages，证人仍全部一致。
+- 未做：冷重启后再发请求；不折叠的对照请求；生产部署。
