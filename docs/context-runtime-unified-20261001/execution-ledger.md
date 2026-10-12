@@ -2388,3 +2388,13 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 全量回归最终版 1506 通过、1 失败（`v14-tool-doc-cache`，单独重跑两次通过，判断为偶发）。
 - 停宿主后核对：真实工作区 HEAD ab5de82，40124 和 40125 无监听，浏览器标签已关。
 - 未做：生产部署；大 Team 根和自动压缩下的验证。
+
+### 检查点 2026-10-12 约 11:50 UTC：约束清单大型团队实测（Claude）
+
+- 授权：用户要求用 Team 做一个大型任务来实测。只在隔离副本里运行，不动生产。方案预先登记在 `constraint-ledger-team-run-20261012-protocol.md`（b71db586）。
+- 隔离宿主 `output/constraint-ledger-team-20261012/cod1`，workspace-write / approval ask，守护 755 个文件，09:27:44 启动，11:26:36 UTC requested-stop（团队空闲 7 分钟）。2077 个请求（上限 3000），18 个会话，10 次压缩。
+- 结果见 `constraint-ledger-team-run-20261012-result.md`：压缩后 264 个对话请求全部带完整清单块；机械违规 0；摘要来源 34 条里误收 0、重复 2；`constraint_note` 99 次调用里 1 次 `CONSTRAINT_LEDGER_FULL`（组长，按预登记触发“有害”条款，原因是上限按字节算）。
+- 顺带发现的既有问题（未改）：压缩请求不经过投影层，10 次里 8 次只剩 6–8 条公共前缀；verifier 和 integration 组长压缩后被 `team-context-safety-debt` 连续拒绝 17 和 10 个回合。
+- 产物仓库 109 个提交，454 个测试通过，静态检查 5 项通过；团队自己的最终验收未走完；未在浏览器里看过。
+- 停宿主后核对：40124 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
+- 未做：改清单上限；修压缩请求缓存；生产部署。都等用户决定。
