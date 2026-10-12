@@ -979,6 +979,58 @@ function requirementContextSummary(row, fetch) {
   }
 }
 
+// Dispatch states that are over; mirrors TERMINAL_DISPATCH_STATES in the control plane, which does not export it.
+const FINISHED_DISPATCH_STATES = new Set(['completed', 'delivery-failed', 'run-failed', 'timed-out', 'cancelled', 'expired'])
+const FINISHED_TASK_PHASES = new Set(['accepted', 'cancelled', 'expired'])
+
+/**
+ * Which task ids a member is working on right now, and which are over. A task id in neither set is
+ * neutral. In use: an active task the member owns, an unfinished dispatch targeting the member, or the
+ * member's active lease. A task awaiting acceptance is in use for every member: its latest packet is a
+ * group-acceptance with no later verifier-review. Packets carry no target, so that rule is member-independent.
+ */
+export function memberTaskUse({ tasks = [], dispatches = {}, leases = {}, packets = {} } = {}, memberName) {
+  const rows = (value) => (Array.isArray(value) ? value : Object.values(value ?? {}))
+  const inUse = new Set()
+  const ended = new Set()
+  // Accepted, cancelled or deleted: nothing more will happen to it. A submitted task reads status completed
+  // while its phase is still under review, so status alone does not close it.
+  const closed = new Set()
+  for (const task of rows(tasks)) {
+    const id = text(task?.id)
+    if (!id) continue
+    if (FINISHED_TASK_PHASES.has(text(task.phase).toLowerCase()) || ['deleted', 'cancelled'].includes(text(task.status).toLowerCase())) closed.add(id)
+    // A phase of accepted/cancelled/expired ends the task even while its status still reads in_progress.
+    if (!activeTask(task) || FINISHED_TASK_PHASES.has(text(task.phase).toLowerCase())) ended.add(id)
+    else if (text(task.ownerName ?? task.contract?.owner) === memberName) inUse.add(id)
+  }
+  for (const dispatch of rows(dispatches)) {
+    if (text(dispatch?.target) === memberName && dispatch.taskId != null && !FINISHED_DISPATCH_STATES.has(text(dispatch.status))) {
+      inUse.add(text(dispatch.taskId))
+    }
+  }
+  for (const lease of rows(leases)) {
+    if (text(lease?.member) === memberName && lease.status === 'active' && lease.taskId != null) inUse.add(text(lease.taskId))
+  }
+  // Order by createdAt, which packetPut stamps on every row; object insertion order breaks ties and
+  // covers rows without one (Array.prototype.sort is stable). A closed task never waits.
+  const latest = new Map()
+  for (const packet of rows(packets).map((row, index) => ({ row, index }))
+    .sort((a, b) => (Number(a.row?.createdAt) || 0) - (Number(b.row?.createdAt) || 0) || a.index - b.index).map((item) => item.row)) {
+    for (const id of Array.isArray(packet?.taskIds) ? packet.taskIds : []) latest.set(text(id), packet.kind)
+  }
+  for (const [id, kind] of latest) if (kind === 'group-acceptance' && !closed.has(id)) inUse.add(id)
+  for (const id of inUse) ended.delete(id)
+  return { inUse, ended }
+}
+
+/** 0: the member is using it, keep it in full. 2: every task it names is over, compact it first. 1: otherwise. */
+export function requirementCompactRank(taskIds, use) {
+  const ids = Array.isArray(taskIds) ? taskIds.map(String) : []
+  if (ids.some((id) => use?.inUse?.has(id))) return 0
+  return ids.length > 0 && ids.every((id) => use?.ended?.has(id)) ? 2 : 1
+}
+
 function decisionContextSummary(row, fetch) {
   return {
     decisionId: row.decisionId, revision: row.revision, status: row.status,
@@ -3628,6 +3680,12 @@ function install(agent, ctx, config, identityFor) {
       })
       const requirements = scopedContextRequirements(state, mine)
       const contextRequirements = requirements
+      // What the member is working on decides which rows keep their full text under budget pressure.
+      const taskUse = memberTaskUse({ tasks: boardTasks(state), dispatches: state.dispatches, leases: state.leases, packets: state.packets }, mine.name)
+      const relevance = (row) => {
+        const compactRank = requirementCompactRank(row.taskIds, taskUse)
+        return { compactRank, ...(compactRank === 0 ? { wantFull: true } : {}) }
+      }
       for (const row of contextRequirements.requirements) {
         const taskId = Array.isArray(row.taskIds) && row.taskIds.length > 0 ? String(row.taskIds[0]) : null
         const fetch = { action: 'requirements_snapshot', input: taskId ? { taskId } : {} }
@@ -3638,6 +3696,7 @@ function install(agent, ctx, config, identityFor) {
           content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
           // Tier >=1 keeps the full row; the summary is the compact form the budget may fall back to.
           ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
+          ...relevance(row),
           metadata: { fetch },
         })
       }
@@ -3650,6 +3709,7 @@ function install(agent, ctx, config, identityFor) {
           id: 'decision:' + row.decisionId, revision: row.revision, priority: 9, required: true,
           content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
           ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
+          ...relevance(row),
           metadata: { fetch },
         })
       }

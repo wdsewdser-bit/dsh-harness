@@ -112,16 +112,25 @@ export function nativeMessageIds(messages) {
   return ids
 }
 
-export function visibleContextVersions(messages, { member, sessionId } = {}) {
+function scanVisibleContext(messages, { member, sessionId } = {}) {
   const versions = new Map()
+  const compact = new Map()
   for (const message of messages ?? []) {
     const manifest = parseContextManifest(message)
     if (!manifest) continue
     if (member !== undefined && text(manifest.member) !== text(member)) continue
     if (sessionId !== undefined && text(manifest.sessionId) !== text(sessionId)) continue
-    for (const item of manifest.items) versions.set(item.id, item.hash)
+    for (const item of manifest.items) {
+      versions.set(item.id, item.hash)
+      if (item.form === 'compact') compact.set(item.id, item.hash)
+      else compact.delete(item.id)
+    }
   }
-  return versions
+  return { versions, compact }
+}
+
+export function visibleContextVersions(messages, options = {}) {
+  return scanVisibleContext(messages, options).versions
 }
 
 export const IDENTITY_ROLE_FILES = Object.freeze({
@@ -167,8 +176,10 @@ export function identitySource(rolesDir, mine) {
 }
 
 /** Rebuild source cursors from durable committed-delivery receipts. */
-export function durableContextVersions(receipts = [], { member, sessionId, epochId } = {}) {
+function scanDurableContext(receipts = [], { member, sessionId, epochId } = {}) {
   const versions = new Map()
+  // id -> hash of the source whose latest confirmed delivery was in compact form.
+  const compact = new Map()
   for (const row of receipts ?? []) {
     if (member !== undefined && text(row?.member) !== text(member)) continue
     if (sessionId !== undefined && text(row?.sessionId) !== text(sessionId)) continue
@@ -177,7 +188,14 @@ export function durableContextVersions(receipts = [], { member, sessionId, epoch
     // that their candidate prompt reached the actual request boundary.
     if (row?.contentReceiptVersion === 3) {
       for (const [id, version] of Object.entries(row?.versions ?? {})) {
-        if (id && version) versions.set(text(id), text(version))
+        if (!id || !version) continue
+        // A cursor restates what item receipts already established; its own form
+        // marks decide only for hashes the receipts do not cover.
+        const restated = versions.get(text(id)) === text(version)
+        versions.set(text(id), text(version))
+        if (restated) continue
+        if (row.compactVersions?.[id] === version) compact.set(text(id), text(version))
+        else compact.delete(text(id))
       }
     }
     const dispatched = row?.dispatch?.handedToAdapter === true
@@ -185,9 +203,20 @@ export function durableContextVersions(receipts = [], { member, sessionId, epoch
     for (const item of dispatched && Array.isArray(row?.items) ? row.items : []) {
       if (!item?.id || !item?.hash) continue
       versions.set(text(item.id), text(item.hash))
+      if (item.form === 'compact') compact.set(text(item.id), text(item.hash))
+      else compact.delete(text(item.id))
     }
   }
-  return versions
+  return { versions, compact }
+}
+
+export function durableContextVersions(receipts = [], options = {}) {
+  return scanDurableContext(receipts, options).versions
+}
+
+/** Sources whose latest confirmed delivery carried only the compact form. */
+export function durableCompactVersions(receipts = [], options = {}) {
+  return scanDurableContext(receipts, options).compact
 }
 
 export function completeContextBaseline(manifest) {
@@ -222,10 +251,11 @@ export function committedContextEpoch(session) {
 export function committedContextCursor(previous, receipts, manifest, { member, sessionId, dispatch, now = Date.now() } = {}) {
   const dispatched = dispatch?.handedToAdapter === true && dispatch.stage === 'handed-to-adapter' && text(dispatch.requestId)
   const epochId = text(manifest?.baselineId ?? previous?.epochId) || null
-  const versions = Object.fromEntries(durableContextVersions(
+  const scanned = scanDurableContext(
     [...(receipts ?? []), ...(previous ? [previous] : []), { member, sessionId, dispatch, baselineId: manifest?.baselineId, items: manifest?.items ?? [] }],
     { member, sessionId, epochId },
-  ))
+  )
+  const versions = Object.fromEntries(scanned.versions)
   const noticeVersions = { ...(epochId && previous?.epochId !== epochId ? {} : previous?.noticeVersions ?? {}) }
   for (const item of manifest?.debt ?? []) {
     if (item?.id && item?.hash) noticeVersions[item.id] = item.hash
@@ -235,6 +265,8 @@ export function committedContextCursor(previous, receipts, manifest, { member, s
   }
   return {
     member, sessionId, contentReceiptVersion: 3, versions, noticeVersions,
+    // Which of those hashes were last delivered only in compact form; absent when none, so older readers see no change.
+    ...(scanned.compact.size ? { compactVersions: Object.fromEntries(scanned.compact) } : {}),
     epochId,
     baselineProof: dispatch?.handedToAdapter === true && dispatch.stage === 'handed-to-adapter' && dispatch.requestId
       && completeContextBaseline(manifest) ? manifest : previous?.epochId === epochId ? previous?.baselineProof ?? null : null,
@@ -339,12 +371,24 @@ export function buildContextDelivery({
   baselineId = null,
   bindingHash = null,
 }) {
-  const known = force ? new Map() : durableContextVersions(acknowledged, { member, sessionId, epochId: baselineId })
+  const durable = force ? { versions: new Map(), compact: new Map() }
+    : scanDurableContext(acknowledged, { member, sessionId, epochId: baselineId })
+  const known = durable.versions
+  const compactKnown = durable.compact
   if (!force && !baselineId) {
-    for (const [id, version] of visibleContextVersions(visible, { member, sessionId })) known.set(id, version)
+    const seen = scanVisibleContext(visible, { member, sessionId })
+    for (const [id, version] of seen.versions) {
+      known.set(id, version)
+      if (seen.compact.has(id)) compactKnown.set(id, version)
+      else compactKnown.delete(id)
+    }
   }
+  // A source last delivered in compact form is delivered again in full when the caller
+  // marks it wantFull. That resend is best effort, never required: see add() and required.
   const changed = sources.map((source) => ({ ...source, hash: hash([source.revision, source.content]) }))
-    .filter((source) => known.get(source.id) !== source.hash)
+    .map((source) => (source.wantFull === true && known.get(source.id) === source.hash && compactKnown.get(source.id) === source.hash
+      ? { ...source, refill: true } : source))
+    .filter((source) => source.refill === true || known.get(source.id) !== source.hash)
     .sort((a, b) => Number(a.priority ?? 50) - Number(b.priority ?? 50) || text(a.id).localeCompare(text(b.id)))
   const requiredSources = sources.filter(source => source.required === true).map(source => ({ id: source.id, hash: hash([source.revision, source.content]) }))
   const sourceBinding = bindingHash ?? hash({ baselineId, required: requiredSources })
@@ -418,14 +462,14 @@ export function buildContextDelivery({
       id: source.id,
       hash: source.hash,
       revision: source.revision,
-      required: source.required === true,
+      required: source.required === true && source.refill !== true,
       estimatedTokens: estimateTokens(source.content),
       fetch: source.fetch ?? source.metadata?.fetch ?? null,
       safetyCritical: source.safetyCritical === true,
     })
   }
-  const required = changed.filter((source) => source.required === true)
-  const optional = changed.filter((source) => source.required !== true)
+  const required = changed.filter((source) => source.required === true && source.refill !== true)
+  const optional = changed.filter((source) => source.required !== true || source.refill === true)
   const admitRequired = () => {
     items.length = 0
     omitted.length = 0
@@ -433,13 +477,14 @@ export function buildContextDelivery({
   }
   admitRequired()
   // Compact fallback runs only when a required source did not fit at full size.
-  // Candidates are compacted least urgent first (higher priority number, then
-  // reverse id). After each change every required source is re-admitted in the
-  // original order, until all of them fit or no candidate is left.
+  // Candidates are compacted least urgent first (higher compactRank, then higher
+  // priority number, then reverse id). After each change every required source is
+  // re-admitted in the original order, until all of them fit or no candidate is left.
   if (omitted.some((source) => source.required)) {
     const candidates = required
       .filter((source) => typeof source.compactContent === 'string' && source.safetyCritical !== true)
-      .sort((a, b) => Number(b.priority ?? 50) - Number(a.priority ?? 50) || text(b.id).localeCompare(text(a.id)))
+      .sort((a, b) => Number(b.compactRank ?? 0) - Number(a.compactRank ?? 0)
+        || Number(b.priority ?? 50) - Number(a.priority ?? 50) || text(b.id).localeCompare(text(a.id)))
     for (const source of candidates) {
       compacted.add(source)
       admitRequired()

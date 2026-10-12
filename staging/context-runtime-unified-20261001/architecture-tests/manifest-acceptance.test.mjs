@@ -25,3 +25,9 @@ test('native patch carriage matches the accepted baseline', () => {
   const result = run('tools/native-patch-audit.mjs', '--check')
   assert.equal(result.status, 0, 'upstream version or patch channel changed; re-examine the edits, then --write-baseline with a reason\n' + result.stdout + result.stderr)
 })
+
+test('the set of staged plugins that cannot be deployed alone matches the accepted baseline', () => {
+  const result = run('tools/plugin-coupling-audit.mjs', '--check')
+  assert.equal(result.status, 0, 'a staged plugin gained or lost a dependency on another staged change, or production changed; '
+    + 'review the report, then --write-baseline with a reason\n' + result.stdout + result.stderr)
+})
