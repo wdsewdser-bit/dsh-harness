@@ -2468,3 +2468,10 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 新测试 `native-tests/strict-plan-scope.test.mjs` 6/6；`goal-durable-requirement` 13、`session-plan-delivery` 22、`context-delivery-relevance` 18、`unified-team-delivery-gate` 4、`manifest-acceptance` 3，全过。
 - `stage-closeout` 已跑（备份 `backups/context-runtime-strict-scope-closeout-20261012`，待办 0），耦合基线已重新接受。
 - 欠：全量回归（等另一线程的生产 live 复核释放 40124 后跑）；真实宿主里成员事件时机未实测。
+
+## Checkpoint 2026-10-12 21:55 UTC（回归测试不再写生产 home）
+
+- 根因：终端环境 `DSH_HOME=D:\dsh-test\home`，`team-policy.mjs:673` 在没有 `controlDir` 时回退到 `DSH_HOME/.team-control-runtime-<pid>`，回归测试因此在生产 home 下建临时目录。已积 647 个（33M，2026-09-26 至 2026-10-12），未删除，等用户确认。
+- 修法：`tools/run-regression.mjs` 在 `DSH_HOME` 未设置或指向生产 home 时，把测试进程的 `DSH_HOME` 换成本次运行目录下的 `home`；调用方特意指定的目录原样传递（`compact-test-runner.test.mjs` 的既有约定）。
+- 全量回归 237 文件 1554 条：1553 过、0 失败、1 跳过，生产 home 下目录数前后都是 647。报告 `output/regressions/2026-10-12T21-47-06-687Z-bf5516f9/summary.json`。
+- 没覆盖：直接用 `node --test` 跑单个文件仍沿用终端的 `DSH_HOME`。
