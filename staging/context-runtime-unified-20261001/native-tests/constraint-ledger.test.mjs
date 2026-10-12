@@ -52,11 +52,39 @@ test('a full ledger refuses a new line instead of evicting an old one, and retir
   assert.throws(() => retireEntry(doc, { n: 1, reason: 'again' }), { code: 'CONSTRAINT_ALREADY_RETIRED' })
   assert.equal(addEntry(doc, { kind: 'forbidden', text: 'one too many' }).added, true)
   assert.equal(doc.entries.length, CONSTRAINT_LEDGER_LIMITS.activeEntries + 1, 'the retired line is kept')
-  const bytes = store.read(SID)
-  const long = index => ({ kind: 'wontfix', text: String(index).padStart(3, '0') + 'y'.repeat(260) })
-  for (let index = 0; index < 14; index += 1) addEntry(bytes, long(index))
-  assert.throws(() => addEntry(bytes, long(14)), { code: 'CONSTRAINT_LEDGER_FULL' }, 'the byte cap refuses well before the entry cap')
-  assert.equal(bytes.entries.length, 14)
+})
+
+test('the ledger is capped by characters, not bytes: fourteen long Chinese rules fit, and the line that would pass 8000 characters is refused', t => {
+  const doc = createConstraintStore(directory(t)).read(SID)
+  const chinese = index => ({ kind: 'wontfix', text: String(index).padStart(2, '0') + '商'.repeat(288) })
+  const charsOf = entry => `${entry.n}. [WONTFIX] ${entry.text}`.length + 1
+  const used = () => doc.entries.reduce((sum, entry) => sum + charsOf(entry), 0)
+  for (let index = 0; index < 14; index += 1) addEntry(doc, chinese(index))
+  assert.equal(doc.entries.length, 14, 'fourteen rules of about 290 characters each are all accepted')
+  assert.ok(Buffer.byteLength(doc.entries.map(entry => `${entry.n}. [WONTFIX] ${entry.text}`).join('\n')) > 4096, 'the same rules are over 4096 bytes, so a byte cap would have refused them')
+  assert.ok(used() < CONSTRAINT_LEDGER_LIMITS.activeChars)
+  let refused = null
+  for (let index = 14; refused === null; index += 1) {
+    try { addEntry(doc, chinese(index)) } catch (error) { refused = { index, error } }
+  }
+  assert.equal(refused.error.code, 'CONSTRAINT_LEDGER_FULL')
+  assert.ok(doc.entries.length < CONSTRAINT_LEDGER_LIMITS.activeEntries, 'the character cap, not the entry cap, refused it')
+  assert.ok(used() <= CONSTRAINT_LEDGER_LIMITS.activeChars, 'what is recorded stays within 8000 characters')
+  assert.ok(used() + charsOf({ n: doc.nextN, text: chinese(refused.index).text }) > CONSTRAINT_LEDGER_LIMITS.activeChars, 'and the refused line would have passed it')
+})
+
+test('a full ledger returns the active lines and a hint, and retiring one line makes room for the next add', t => {
+  const service = createConstraintLedgerService({ directory: directory(t) })
+  for (let index = 0; index < CONSTRAINT_LEDGER_LIMITS.activeEntries; index += 1) assert.equal(service.note(SID, { action: 'add', kind: 'forbidden', text: 'rule number ' + index }).ok, true)
+  const full = service.note(SID, { action: 'add', kind: 'forbidden', text: 'one too many' })
+  assert.equal(full.ok, false); assert.equal(full.code, 'CONSTRAINT_LEDGER_FULL')
+  assert.equal(full.active.length, CONSTRAINT_LEDGER_LIMITS.activeEntries)
+  assert.equal(full.active[0], '1. [FORBIDDEN] rule number 0')
+  assert.deepEqual(full.active, service.note(SID, { action: 'list' }).active, 'the same format as list')
+  assert.ok(full.hint.length > 0 && /retire/.test(full.hint))
+  assert.equal(service.note(SID, { action: 'retire', n: 1, reason: 'merged into rule 2' }).ok, true)
+  assert.equal(service.note(SID, { action: 'add', kind: 'forbidden', text: 'one too many' }).added, true)
+  assert.equal(service.note(SID, { action: 'list' }).active.length, CONSTRAINT_LEDGER_LIMITS.activeEntries, 'one line retired and one added: still forty active')
 })
 
 test('lines recorded before any compaction are not inserted: they are still in the history as tool results', t => {
@@ -122,7 +150,8 @@ test('the summary section is parsed strictly and merged without duplicating what
     { kind: 'forbidden', text: 'never lower the difficulty.', source: null },
     { kind: 'wontfix', text: 'monsters path through unlocked closed doors', source: null },
     { kind: 'wontfix', text: '商店硬编码 20 不改', source: null }])
-  assert.deepEqual(parseSummarySection('## Critical Context\n- x'), { found: false, lines: [] })
+  assert.deepEqual(parseSummarySection('## Critical Context\n- x'), { found: false, lines: [], dropped: 0 })
+  assert.equal(parsed.dropped, 0, 'nothing in this summary is marked as a repeat')
   const service = createConstraintLedgerService({ directory: directory(t) })
   service.note(SID, { action: 'add', kind: 'forbidden', text: 'Never lower the difficulty' })
   assert.deepEqual(end(service, 'c1', summary), { added: 3, skipped: 1, baselineN: 4, sectionFound: true })
@@ -130,6 +159,29 @@ test('the summary section is parsed strictly and merged without duplicating what
   assert.deepEqual(doc.entries.map(entry => entry.origin), ['tool', 'compaction', 'compaction', 'compaction'])
   assert.equal(doc.baselineCompactionId, 'c1')
   assert.equal(renderBlock(doc).split('\n').length, 7, 'open tag, header, four lines, close tag')
+})
+
+test('a summary line marked as a repeat is dropped and counted, and not staged; the same-as wording inside a rule is kept', t => {
+  const summary = [SECTION_HEADING,
+    '- [FORBIDDEN] never lower the difficulty (same as 3)',
+    '- [FORBIDDEN] never lower the difficulty. (Same as 12).',
+    '- [UNUSABLE] tool A is broken -> use B (already recorded)',
+    '- [WONTFIX] Monsters path through doors (ALREADY RECORDED)   ',
+    '- [FORBIDDEN] keep the shop at 20 (same as 3) (source: msg 4)',
+    '- [WONTFIX] results are the same as 3 runs before and must not change',
+    '- [FORBIDDEN] run `node --test` at the repo root (source: msg 2)'].join('\n')
+  const parsed = parseSummarySection(summary)
+  assert.equal(parsed.dropped, 5, 'the five marked lines are counted')
+  assert.deepEqual(parsed.lines, [
+    { kind: 'wontfix', text: 'results are the same as 3 runs before and must not change', source: null },
+    { kind: 'forbidden', text: 'run `node --test` at the repo root', source: 'msg 2' }])
+  const service = createConstraintLedgerService({ directory: directory(t) })
+  assert.deepEqual(end(service, 'c1', summary), { added: 2, skipped: 0, baselineN: 2, sectionFound: true })
+  assert.deepEqual(service.read(SID).entries.map(entry => entry.text), ['results are the same as 3 runs before and must not change', 'run `node --test` at the repo root'])
+})
+
+test('the summarizer is told a possible repeat gets a same-as mark', () => {
+  assert.match(COMPACTION_ADDENDUM, /you may still list it, but end it with " \(same as N\)", where N is that line's number/)
 })
 
 test('a summary staged for one compaction is not committed by the end of another', t => {

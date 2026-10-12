@@ -350,17 +350,25 @@ export function buildContextDelivery({
   const sourceBinding = bindingHash ?? hash({ baselineId, required: requiredSources })
   const items = []
   const omitted = []
+  // Build-local choice: sources delivered in their compact form. Hash, bindingHash
+  // and requiredSources are computed from full content and never read this set.
+  const compacted = new Set()
+  const fullRow = (source) => '[' + source.id + '@' + source.revision + ']\n' + source.content
+  const compactRow = (source) => '[' + source.id + '@' + source.revision + ' compact]\n' + source.compactContent
+  const rowFor = (source) => (compacted.has(source) ? compactRow(source) : fullRow(source))
   const preparedStats = new WeakMap()
   for (const source of changed) {
     preparedStats.set(source, {
-      line: tokenStats('[' + source.id + '@' + source.revision + ']\n' + source.content),
+      line: tokenStats(fullRow(source)),
+      ...(typeof source.compactContent === 'string' ? { compactLine: tokenStats(compactRow(source)) } : {}),
       debt: tokenStats('[context-debt] required source "' + source.id
         + '" was omitted by the context budget; read-before-act.'
         + (source.fetch ? ' fetch=' + JSON.stringify(source.fetch) : '')),
     })
   }
-  const sourceLineStats = (source) => preparedStats.get(source)?.line
-    ?? tokenStats('[' + source.id + '@' + source.revision + ']\n' + source.content)
+  const sourceLineStats = (source) => (compacted.has(source)
+    ? preparedStats.get(source)?.compactLine ?? tokenStats(compactRow(source))
+    : preparedStats.get(source)?.line ?? tokenStats(fullRow(source)))
   const sourceDebtStats = (source) => preparedStats.get(source)?.debt
     ?? tokenStats('[context-debt] required source "' + source.id
       + '" was omitted by the context budget; read-before-act.'
@@ -370,12 +378,13 @@ export function buildContextDelivery({
     receiptId: hash({
       baselineId: baselineId ?? null,
       bindingHash: baselineId ? sourceBinding : null,
-      items: selected.map((source) => [source.id, source.hash]),
+      items: selected.map((source) => (compacted.has(source) ? [source.id, source.hash, 'compact'] : [source.id, source.hash])),
       debt: debt.map((source) => source.id),
     }).slice(0, 24),
     ...(baselineId ? { baselineId } : {}),
     ...(baselineId ? { bindingHash: sourceBinding, required: requiredSources } : {}),
-    items: selected.map((source) => ({ id: source.id, hash: source.hash, revision: source.revision, ...source.metadata })),
+    items: selected.map((source) => ({ id: source.id, hash: source.hash, revision: source.revision, ...source.metadata,
+      ...(compacted.has(source) ? { form: 'compact' } : {}) })),
     ...(debt.length ? { debt: debt.map((source) => ({
       id: source.id,
       hash: source.hash,
@@ -385,7 +394,7 @@ export function buildContextDelivery({
   })
   const render = (selected, debt = []) => {
     const manifest = manifestFor(selected, debt)
-    const lines = selected.map((source) => '[' + source.id + '@' + source.revision + ']\n' + source.content)
+    const lines = selected.map(rowFor)
     for (const source of debt) {
       const fetch = source.fetch ? ' fetch=' + JSON.stringify(source.fetch) : ''
       lines.push('[context-debt] required source "' + source.id + '" was omitted by the context budget; read-before-act.'
@@ -417,7 +426,26 @@ export function buildContextDelivery({
   }
   const required = changed.filter((source) => source.required === true)
   const optional = changed.filter((source) => source.required !== true)
-  for (const source of required) add(source)
+  const admitRequired = () => {
+    items.length = 0
+    omitted.length = 0
+    for (const source of required) add(source)
+  }
+  admitRequired()
+  // Compact fallback runs only when a required source did not fit at full size.
+  // Candidates are compacted least urgent first (higher priority number, then
+  // reverse id). After each change every required source is re-admitted in the
+  // original order, until all of them fit or no candidate is left.
+  if (omitted.some((source) => source.required)) {
+    const candidates = required
+      .filter((source) => typeof source.compactContent === 'string' && source.safetyCritical !== true)
+      .sort((a, b) => Number(b.priority ?? 50) - Number(a.priority ?? 50) || text(b.id).localeCompare(text(a.id)))
+    for (const source of candidates) {
+      compacted.add(source)
+      admitRequired()
+      if (!omitted.some((row) => row.required)) break
+    }
+  }
   // A missing required source must remain visible instead of being hidden by
   // lower-priority optional content that happens to fit.
   if (!omitted.some((source) => source.required)) {
@@ -431,6 +459,7 @@ export function buildContextDelivery({
     maxTokens, omitted, debtItems: debt,
     debt: debt.length > 0,
     failClosed: debt.some((source) => source.safetyCritical || baselineId),
+    compacted: items.filter((source) => compacted.has(source)).map((source) => source.id),
   }
 }
 

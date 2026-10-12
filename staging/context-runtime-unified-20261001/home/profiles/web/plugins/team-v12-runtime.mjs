@@ -965,6 +965,30 @@ function contextSummary(value, max = 240) {
   return valueText.length <= max ? valueText : valueText.slice(0, Math.max(0, max - 3)) + '...'
 }
 
+// Summary form of a requirement or decision row: what tier 0 receives in full, and the
+// compact fallback that tier >=1 sources carry for the context budget.
+function requirementContextSummary(row, fetch) {
+  return {
+    requirementId: row.requirementId, revision: row.revision, status: row.status,
+    scope: row.scope, taskIds: row.taskIds,
+    summary: contextSummary(row.text ?? row.quote),
+    acceptanceSummary: Array.isArray(row.acceptance) && row.acceptance.length > 0
+      ? row.acceptance.length + ' acceptance criteria; fetch the full ledger before acting'
+      : undefined,
+    fetch,
+  }
+}
+
+function decisionContextSummary(row, fetch) {
+  return {
+    decisionId: row.decisionId, revision: row.revision, status: row.status,
+    scope: row.scope, taskIds: row.taskIds,
+    choice: contextSummary(row.choice ?? row.title),
+    rationale: contextSummary(row.rationale),
+    fetch,
+  }
+}
+
 function mirrorTaskRequirement(state, taskId, contract, source = 'task-contract') {
   const acceptance = taskAcceptance(contract)
   if (acceptance.length === 0) return { ok: true, skipped: true }
@@ -3607,38 +3631,25 @@ function install(agent, ctx, config, identityFor) {
       for (const row of contextRequirements.requirements) {
         const taskId = Array.isArray(row.taskIds) && row.taskIds.length > 0 ? String(row.taskIds[0]) : null
         const fetch = { action: 'requirements_snapshot', input: taskId ? { taskId } : {} }
-        const content = Number(mine.tier) === 0
-          ? {
-              requirementId: row.requirementId, revision: row.revision, status: row.status,
-              scope: row.scope, taskIds: row.taskIds,
-              summary: contextSummary(row.text ?? row.quote),
-              acceptanceSummary: Array.isArray(row.acceptance) && row.acceptance.length > 0
-                ? row.acceptance.length + ' acceptance criteria; fetch the full ledger before acting'
-                : undefined,
-              fetch,
-            }
-          : { ...row, history: undefined }
+        const summary = requirementContextSummary(row, fetch)
+        const tier0 = Number(mine.tier) === 0
         sources.push({
           id: 'requirement:' + row.requirementId, revision: row.revision, priority: 8, required: true,
-          content: JSON.stringify(content),
+          content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
+          // Tier >=1 keeps the full row; the summary is the compact form the budget may fall back to.
+          ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
           metadata: { fetch },
         })
       }
       for (const row of contextRequirements.decisions) {
         const taskId = Array.isArray(row.taskIds) && row.taskIds.length > 0 ? String(row.taskIds[0]) : null
         const fetch = { action: 'requirements_snapshot', input: taskId ? { taskId } : {} }
-        const content = Number(mine.tier) === 0
-          ? {
-              decisionId: row.decisionId, revision: row.revision, status: row.status,
-              scope: row.scope, taskIds: row.taskIds,
-              choice: contextSummary(row.choice ?? row.title),
-              rationale: contextSummary(row.rationale),
-              fetch,
-            }
-          : { ...row, history: undefined }
+        const summary = decisionContextSummary(row, fetch)
+        const tier0 = Number(mine.tier) === 0
         sources.push({
           id: 'decision:' + row.decisionId, revision: row.revision, priority: 9, required: true,
-          content: JSON.stringify(content),
+          content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
+          ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
           metadata: { fetch },
         })
       }
@@ -3732,6 +3743,8 @@ function install(agent, ctx, config, identityFor) {
       // mid-turn and does not fit in it must still be delivered: spend the full pack budget on it rather than end
       // the turn as blocked, which the member cannot see the reason for and may never be woken from.
       if (delivery.failClosed && !fullBudget) delivery = build(tierCap)
+      if (delivery.compacted.length) ctx.logger?.info?.('team-v14 context delivery compacted '
+        + delivery.compacted.length + ' required source(s) for ' + mine.name + ': ' + delivery.compacted.join(', '))
       if (delivery.failClosed) {
         const debt = delivery.debtItems.map((row) => row.id + (row.fetch ? ' via ' + JSON.stringify(row.fetch) : ''))
         const reason = 'team-context-safety-debt: required identity or task contract was omitted; fetch it before continuing: '

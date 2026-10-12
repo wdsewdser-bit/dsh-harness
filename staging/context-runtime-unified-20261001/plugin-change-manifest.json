@@ -39,7 +39,7 @@
     "name": "team-v12-runtime.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-runtime.mjs",
     "before": "26FD653AF657007AA9F40C7CD4E91E6E750AA108F15DC134E40C260FD53E6DCF",
-    "after": "482A2FC7F3CADCE5EBAFA670212DA81303B206571012550D00E1DEE04828CABF"
+    "after": "0B0B3E5C6BAF26C8F9C6EA6F23B055210A020E102238BD7822E8BF1FE3A9A2BD"
   },
   {
     "name": "team-v13-mechanism-telemetry.mjs",
@@ -51,7 +51,7 @@
     "name": "team-v14-context-delivery.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v14-context-delivery.mjs",
     "before": "1B630D12A0C80FC110CB9320C2AD08A8D8391E10D6A7E89FB81C8EFA730F6ED8",
-    "after": "96F901FCE4C9ADE965E1F543F86660E6EB532D2C281F6F2174EA69DEFD43CC0A"
+    "after": "7F52A10A94F7A493CCEC54AEE77C6B80D4EE076A8902AF5BC261247DB158B911"
   },
   {
     "name": "team-v14-memory-anchor.mjs",
@@ -207,7 +207,7 @@
     "name": "request-message-projection.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
     "before": "A6B8E5BF8FFA77F7BA8CF4A21F35693F8FF5085CE7EF334390E3BD7BBC496C00",
-    "after": "4AF4102B89DD878B6C0F695EAA0FA2AAAB25AFEE605A0D0F93F4F88A2800E4E7"
+    "after": "7ECF041E6AA4248EAE78B8C979AAA679DD01F58F1E3F67AE5812527A4DB8013A"
   },
   {
     "name": "team-v15-window-surface.mjs",
@@ -303,6 +303,6 @@
     "name": "constraint-ledger.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/constraint-ledger.mjs",
     "before": null,
-    "after": "76B8F0A3B9745AFD71F465102DE871D48D257F93BBCC3A9966C5010FB492BD2F"
+    "after": "68C63F80A57B98C3E3370362EDA33691741E9FC7A88031BCF9CDE3FD45BBFF8E"
   }
 ]

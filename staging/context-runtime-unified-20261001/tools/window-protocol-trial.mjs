@@ -9,7 +9,7 @@ export function createProtocolTrialEvidence(binding, sessionId, now = Date.now()
   if (!binding?.sdkSha256 || binding.schemaCount !== 75 || typeof sessionId !== 'string') fail('LAB_PROTOCOL_BINDING_REQUIRED')
   const paths = {
     projection: ['../home/profiles/web/plugins/team-v15-window-projection.mjs', '1fa23c04cc6fbb9ae6c0d36234f571bf34cc4a3a421d087971a364aca458bb64'],
-    requestProjection: ['../home/profiles/web/plugins/request-message-projection.mjs', '4af4102b89dd878b6c0f695eaa0fa2aaab25afee605a0d0f93f4f88a2800e4e7'],
+    requestProjection: ['../home/profiles/web/plugins/request-message-projection.mjs', '7ecf041e6aa4248eae78b8c979aaa679dd01f58f1e3f67ae5812527a4db8013a'],
     protocol: ['../home/profiles/web/plugins/team-v15-window-protocol.mjs', 'a1bfafabede1e2df38e3fd67f0ad688ef1ac3be2799c951d348ac0b461d57939'],
     collector: ['../home/profiles/web/plugins/team-v15-window-collector.mjs', 'f175b9f7a5980f33851cae4879a041f9501db3d6efdded84b83d89224685a1cc'],
     historyRecall: ['../home/profiles/web/plugins/team-v15-history-recall.mjs', '9d3fe6985e88b66c29148a448b5850cb34c3ca9b7b4906baa22048a6a29e9463'],
@@ -50,7 +50,7 @@ export function createProtocolTrialEvidence(binding, sessionId, now = Date.now()
     ['transition','../home/profiles/web/plugins/team-v15-window-transition.mjs','765918ee52854d2ff3a32b2fa1743099600f5b61022e42b19b33eacec5390135'],
     ['participation','../home/profiles/web/plugins/team-v15-window-participation.mjs','3113ac5a8a3a2443aa148a120dcec57eef4e264b2a0c801cf9e9e8e79e519f86'],
     ['control','../home/profiles/web/plugins/team-control-plane.mjs','105b00d39f756abc7691948082bb1dc5a823cbaa1bb8660cf72207622a834f43'],
-    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','482a2fc7f3cadce5ebafa670212da81303b206571012550d00e1dee04828cabf'],
+    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','0b0b3e5c6baf26c8f9c6ea6f23b055210a020e102238bd7822e8bf1fe3a9a2bd'],
     ['goalDelivery','../home/profiles/web/plugins/team-v15-goal-delivery.mjs','49dc27d5900e222b5c7de8c7305f579814fb0781b320e9a95f4ef07d9db0c7fb'],
     ['goalDomain','../app/node_modules/@deepseek-ai/dsh-goal/lib/index.js','6bb5985f65c987193c4dda95d4a0b4e3b84b082f3ca0087a135a6b575140c104'],
     ['nativeSession','../app/node_modules/@deepseek-ai/dsh-session/lib/index.js','e6b9e61986c73286b4b35167214bbb3218202bf92e26fcc7b89ce19d876ff8a8'],

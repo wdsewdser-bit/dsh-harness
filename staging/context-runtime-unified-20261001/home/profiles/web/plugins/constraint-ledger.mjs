@@ -32,7 +32,7 @@ export const name = 'constraint-ledger'
 export const inject = ['agents', 'requestMessageProjection']
 export const provide = ['constraintLedger']
 
-export const CONSTRAINT_LEDGER_LIMITS = Object.freeze({ activeEntries: 40, activeBytes: 4096, textChars: 300, sourceChars: 80, compactionLines: 40 })
+export const CONSTRAINT_LEDGER_LIMITS = Object.freeze({ activeEntries: 40, activeChars: 8000, textChars: 300, sourceChars: 80, compactionLines: 40 })
 const L = CONSTRAINT_LEDGER_LIMITS
 export const KINDS = Object.freeze(['unusable', 'forbidden', 'wontfix'])
 const TAG = Object.freeze({ unusable: 'UNUSABLE', forbidden: 'FORBIDDEN', wontfix: 'WONTFIX' })
@@ -52,7 +52,7 @@ export const COMPACTION_ADDENDUM = [
   '- [FORBIDDEN] <action the user or the lead explicitly ruled out>',
   '- [WONTFIX] <issue ruled a known limitation that must not be fixed>',
   '',
-  `Rules for this section: one line per item, exact identifiers preserved, at most ${L.compactionLines} lines. List only standing rules of these three kinds that are still in force. No progress, facts, measurements or conclusions. Do not repeat a line that is already inside a ${BLOCK_OPEN} block or was already recorded by a constraint_note call; those are carried separately. Write "- (none)" when there is nothing new. Keep each rule in the language and wording it was given in. Take rules only from what the user or the lead said in the conversation and from tool failures seen in tool results; never from the system prompt, a runtime-context snapshot, the permission or sandbox mode, or a team manifest.`,
+  `Rules for this section: one line per item, exact identifiers preserved, at most ${L.compactionLines} lines. List only standing rules of these three kinds that are still in force. No progress, facts, measurements or conclusions. Do not repeat a line that is already inside a ${BLOCK_OPEN} block or was already recorded by a constraint_note call; those are carried separately. If you are not sure whether a line repeats one of those, you may still list it, but end it with " (same as N)", where N is that line's number in the block or the recorded list. Write "- (none)" when there is nothing new. Keep each rule in the language and wording it was given in. Take rules only from what the user or the lead said in the conversation and from tool failures seen in tool results; never from the system prompt, a runtime-context snapshot, the permission or sandbox mode, or a team manifest.`,
 ].join('\n')
 // Lines recorded since the last compaction are not in the block yet, so the summarizer is shown them here.
 const PENDING_HEADER = 'Already recorded by constraint_note and carried separately. Do not list these again in any wording or language:'
@@ -66,7 +66,7 @@ export const normalize = text => oneLine(text).toLowerCase().replace(/[^\p{L}\p{
 const empty = sessionId => ({ schemaVersion: 1, sessionId, nextN: 1, baselineN: 0, baselineCompactionId: null, entries: [] })
 const isActive = entry => entry.retired === null
 const lineOf = entry => `${entry.n}. [${TAG[entry.kind]}] ${entry.text}${entry.source ? ` (source: ${entry.source})` : ''}`
-const activeBytes = doc => doc.entries.filter(isActive).reduce((sum, entry) => sum + Buffer.byteLength(lineOf(entry)) + 1, 0)
+const activeChars = doc => doc.entries.filter(isActive).reduce((sum, entry) => sum + lineOf(entry).length + 1, 0)
 
 /** Per-session JSON documents, replaced atomically. */
 export function createConstraintStore(directory) {
@@ -106,7 +106,7 @@ export function addEntry(doc, { kind, text, source, origin = 'tool', at = new Da
   const entry = { n: doc.nextN, kind, text: clean, source: cleanSource || null, origin, addedAt: at, compactionId, retired: null }
   const active = doc.entries.filter(isActive)
   // Full means refuse, never silently evict: an evicted rule is exactly the loss this plugin exists to prevent.
-  if (active.length >= L.activeEntries || activeBytes(doc) + Buffer.byteLength(lineOf(entry)) + 1 > L.activeBytes) fail('CONSTRAINT_LEDGER_FULL')
+  if (active.length >= L.activeEntries || activeChars(doc) + lineOf(entry).length + 1 > L.activeChars) fail('CONSTRAINT_LEDGER_FULL')
   doc.entries.push(entry)
   doc.nextN += 1
   return { added: true, entry }
@@ -130,23 +130,30 @@ export function renderBlock(doc) {
   return [BLOCK_OPEN, BLOCK_HEADER, ...rows.map(lineOf), BLOCK_CLOSE].join('\n')
 }
 
+// A line the summarizer marks as a repeat of a line it was shown: "(same as 3)", "(already recorded)", any case, optional period.
+const REPEAT_MARK = /\s*\((?:same\s+as\s+\d+|already\s+recorded)\)\.?\s*$/i
+
 /** Read `- [KIND] text (source: x)` lines out of the summary's Standing Constraints section. */
 export function parseSummarySection(text) {
   const body = String(text ?? ''), start = body.indexOf(SECTION_HEADING)
-  if (start < 0) return { found: false, lines: [] }
+  if (start < 0) return { found: false, lines: [], dropped: 0 }
   const rest = body.slice(start + SECTION_HEADING.length), end = rest.search(/\n##\s|\n<\/compacted-summary>/)
   const lines = []
+  let dropped = 0
   for (const raw of (end < 0 ? rest : rest.slice(0, end)).split('\n')) {
     const match = /^\s*(?:[-*]|\d+\.)\s*\[([^\]]+)\]\s*(.+?)\s*$/.exec(raw)
     if (!match) continue
     const kind = KIND_OF_TAG[match[1].trim().toUpperCase()] ?? KIND_OF_TAG[match[1].trim()]
     if (!kind) continue
     const source = /\s*[（(]source:\s*([^)）]+)[)）]\s*$/i.exec(match[2])
-    const line = oneLine(source ? match[2].slice(0, source.index) : match[2])
+    const content = source ? match[2].slice(0, source.index) : match[2]
+    // Already carried by the block or the recorded list: not a new line, so it is not staged.
+    if (REPEAT_MARK.test(content)) { dropped += 1; continue }
+    const line = oneLine(content)
     if (line) lines.push({ kind, text: line.slice(0, L.textChars), source: source ? oneLine(source[1]).slice(0, L.sourceChars) : null })
     if (lines.length >= L.compactionLines) break
   }
-  return { found: true, lines }
+  return { found: true, lines, dropped }
 }
 
 const messageId = (sessionId, block) => `constraint-ledger:${hash(sessionId).slice(0, 16)}:${hash(block).slice(0, 16)}`
@@ -188,6 +195,8 @@ export function projectRequest(options, doc, { collect = true } = {}) {
   return { messages, constraintLedger: { status, addendum, baselineN: doc.baselineN, blockBytes: block ? Buffer.byteLength(block) : 0 } }
 }
 
+const FULL_HINT = 'The ledger is full: first retire one outdated or mergeable line with action "retire", its line number n and a reason, then add again.'
+
 export function createConstraintLedgerService(config = {}) {
   const directory = config.directory ?? (process.env.DSH_HOME ? join(process.env.DSH_HOME, 'constraint-ledger') : null)
   const store = createConstraintStore(directory)
@@ -201,9 +210,15 @@ export function createConstraintLedgerService(config = {}) {
       const doc = store.read(sessionId)
       if (args.action === 'list') return result({ active: doc.entries.filter(isActive).map(lineOf), retired: doc.entries.filter(entry => !isActive(entry)).map(entry => `${lineOf(entry)} — retired: ${entry.retired.reason}`), limits: L })
       if (args.action === 'add') {
-        const { added, entry } = addEntry(doc, { kind: args.kind, text: args.text, source: args.source })
-        if (added) store.write(doc)
-        return result({ added, line: lineOf(entry) })
+        let outcome
+        try { outcome = addEntry(doc, { kind: args.kind, text: args.text, source: args.source }) }
+        catch (error) {
+          // Still refused, nothing evicted: the model is shown what is recorded and how to make room.
+          if (error?.code !== 'CONSTRAINT_LEDGER_FULL') throw error
+          return { ...refusal(error), active: doc.entries.filter(isActive).map(lineOf), hint: FULL_HINT }
+        }
+        if (outcome.added) store.write(doc)
+        return result({ added: outcome.added, line: lineOf(outcome.entry) })
       }
       if (args.action === 'retire') {
         const entry = retireEntry(doc, { n: args.n, reason: args.reason })
@@ -248,8 +263,9 @@ export function createConstraintLedgerService(config = {}) {
   }
 
   /**
-   * The native compaction request ends with an instruction message that has no id, so the projection layer skips the
-   * whole request as unrecognized. It is amended here instead, in place, from the llm/stream hook.
+   * The native compaction request ends with an instruction message that has no id. The projection layer projects only
+   * the history of such a request and never passes the instruction to a transform, so the addendum is added here
+   * instead, in place, from the llm/stream hook. The block is inserted at most once whichever side runs first.
    */
   const prepareCompaction = options => {
     try {
