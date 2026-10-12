@@ -2433,3 +2433,12 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 脚本 `tools-oneoff/deploy-compact-fallback-20261012.mjs`，写 4 个文件：`home/profiles/{web,headless}/plugins/team-v12-runtime.mjs`（9D59EEDE → 1A1C428F，生产版本 + 仅紧凑回退，文件在 `tools-oneoff/item3-only/`）和 `team-v14-context-delivery.mjs`（96F901FC → 7F52A10A，即 staging 版本）。这是真实测试里验证过的字节。
 - 备份 `D:/dsh-test/backups/context-runtime-production-compact-fallback-20261012`，回滚 `--rollback`。部署时 40120–40129 无监听。两个 profile 里这两个文件和导入它们的插件都能导入。
 - 留下的不一致：生产的 `team-v12-runtime.mjs` 现在既不是清单里的 before 也不是 after，`deploy-production.mjs --plan` 会把它报成 drifted。下次整体部署 staging 的 Team 插件时，staging 版本是它的超集（多出交付计划相关的三处），可以直接覆盖，但要先把这一条写进部署工具认可的来历里。
+
+### 检查点 2026-10-12 约 14:35 UTC：上下文交付的两项优化（Claude）
+
+- 授权：用户 14:00 UTC 回复“可以做”。只改 staging；真实验证只在隔离副本里。
+- 改动（提交 e1f67ba0）：`team-v14-context-delivery.mjs` 和 `team-v12-runtime.mjs`（web 与 headless 相同）加相关性分级和摘要条目的补全文；新测试 `native-tests/context-delivery-relevance.test.mjs`；新工具 `tools/plugin-coupling-audit.mjs` 和基线，接入 `architecture-tests/manifest-acceptance.test.mjs`。`stage-closeout` 待办 0。实现由子代理完成，我验收时用离线核对发现并改了一处分级错误。
+- 全量回归 236 个文件，1546 通过，0 失败，1 跳过。
+- 真实验证：`cod1 --run opt1`，14:21:09 启动，14:28:54 UTC requested-stop，26 个请求（上限 500）。结果见 `context-delivery-relevance-live-test-20261012-result.md`：在等验收的两条被补成全文，没有重复，没有误补，新增拒绝 0。
+- 停宿主后核对：40120–40129 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
+- 未做：这两项优化的生产部署；把生产的 `contextPackMaxTokens` 从 32000 提到 80000（用户 14:14 UTC 回复“可以”，执行时被本机的权限检查以生产部署为由拦下，没有改，等用户明确确认）；“每个上限必须有降级路径”的架构测试。
