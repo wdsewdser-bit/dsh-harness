@@ -2426,3 +2426,10 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 被测的是“生产版本 + 仅第 3 项”的 `team-v12-runtime.mjs`（1A1C428F）。staging 版本依赖未部署的 `deliveryPlanRequired`，在生产插件集上导入失败。
 - 停宿主后核对：40120–40129 无监听，真实工作区 HEAD ab5de82，全局 gitconfig 不存在，浏览器标签已关。
 - 未做：第 3 项的生产部署。
+
+### 检查点 2026-10-12 约 14:05 UTC：紧凑形态回退部署到生产（Claude）
+
+- 授权：用户 14:00 UTC 回复“可以做”，对应我上一条里的“先把测过的第 3 项部署到生产，然后在 staging 里做优化”。
+- 脚本 `tools-oneoff/deploy-compact-fallback-20261012.mjs`，写 4 个文件：`home/profiles/{web,headless}/plugins/team-v12-runtime.mjs`（9D59EEDE → 1A1C428F，生产版本 + 仅紧凑回退，文件在 `tools-oneoff/item3-only/`）和 `team-v14-context-delivery.mjs`（96F901FC → 7F52A10A，即 staging 版本）。这是真实测试里验证过的字节。
+- 备份 `D:/dsh-test/backups/context-runtime-production-compact-fallback-20261012`，回滚 `--rollback`。部署时 40120–40129 无监听。两个 profile 里这两个文件和导入它们的插件都能导入。
+- 留下的不一致：生产的 `team-v12-runtime.mjs` 现在既不是清单里的 before 也不是 after，`deploy-production.mjs --plan` 会把它报成 drifted。下次整体部署 staging 的 Team 插件时，staging 版本是它的超集（多出交付计划相关的三处），可以直接覆盖，但要先把这一条写进部署工具认可的来历里。
