@@ -1887,7 +1887,28 @@ function install(agent, ctx, config, identityFor) {
       }
       return ctx.tools.captureProofCancellation(exec)
     } })
-  const requiresPlan = () => deliveryPlanRequired(agent) || (Number(member()?.tier) === 0 && config.deliveryPolicy?.requirePlan === true)
+  // Every ordinary session is a tier 0 Team lead, so the switch only binds a root that has teammates. The roster is the
+  // Team journal projection over the root's own session log, so it also holds after a cold restore. A teammate that is
+  // still provisioning or failed does not count: the marker below can never be taken back.
+  const hasTeammates = () => {
+    try {
+      return (ctx.agentTeams.listMembers?.(agent) ?? []).some(row => row?.role !== 'lead' && String(row?.id) !== String(agent.id)
+        && text(row?.name) !== memberName() && !['provisioning', 'failed'].includes(text(row?.status)))
+    } catch { return false }
+  }
+  const requiresPlan = () => deliveryPlanRequired(agent) || (Number(member()?.tier) === 0 && config.deliveryPolicy?.requirePlan === true && hasTeammates())
+  // The GoalService reads this native marker at completion. Written at most once, because requiresPlan() is already
+  // true from the first marker on.
+  const ensurePlanMarker = () => {
+    try {
+      if (deliveryPlanRequired(agent) || !requiresPlan()) return false
+      agent.session.append('native/goal-policy-required', { version: 1, sessionId: agent.session.id, policy: 'delivery', requiresPlan: true })
+      return true
+    } catch (error) {
+      ctx.logger?.warn?.('strict plan marker write failed: ' + String(error?.message ?? error))
+      return false
+    }
+  }
   const deliveryService = createDeliveryService({ control: deliveryControl, readDurable: () => controlPlane.readControlPlaneSnapshot(cp().file),
     registry: planRegistry, collectContext: collectDelivery, requiresPlan, agent })
   register(registerDeliveryService(ctx, agent, deliveryService))
@@ -1909,9 +1930,16 @@ function install(agent, ctx, config, identityFor) {
   const goalGate = Number(member()?.tier) === 0 && typeof ctx.goals?.registerCompletionGate === 'function'
     ? createGoalDeliveryGate({ agent, authority: deliveryService.authority, readDurable: readDeliveryState,
       getGoal: () => ctx.goals.get(agent), flush: () => ctx.sessions.flush(agent.session),
-      required: () => requiresPlan() || Object.keys(readDeliveryState().v15PlanDelivery?.plans ?? {}).length > 0, requiresPlan }) : undefined
+      required: () => { ensurePlanMarker(); return requiresPlan() || Object.keys(readDeliveryState().v15PlanDelivery?.plans ?? {}).length > 0 }, requiresPlan }) : undefined
   if (requiresPlan() && !goalGate) refuse('GOAL_DELIVERY_BRIDGE_UNAVAILABLE', 'strict delivery requires the native completion gate')
-  if (goalGate) register(ctx.goals.registerCompletionGate(agent, goalGate))
+  if (goalGate) { ensurePlanMarker(); register(ctx.goals.registerCompletionGate(agent, goalGate)) }
+  // The first teammate of this root turns the strict switch on for it. Observers run inside the append that publishes
+  // the Team event, and the marker is a second append, so it waits for that one to return.
+  if (goalGate) register(ctx.on('session/event', async (session, event) => {
+    if (event?.type !== 'team/member' || text(session?.id) !== text(agent.session?.id)) return
+    await Promise.resolve()
+    if (ensurePlanMarker()) await ctx.sessions.flush(agent.session).catch(error => ctx.logger?.warn?.('strict plan marker flush failed: ' + String(error?.message ?? error)))
+  }))
   const goalRecovery = goalGate ? createGoalOutboxRecovery(goalGate, text(agent.session?.id)) : undefined
   if (goalGate) {
     const deliveryPresentation = installDeliveryPresentation(scoped, agent, deliveryService, () => ctx.sessions.flush(agent.session))

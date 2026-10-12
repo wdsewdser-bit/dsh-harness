@@ -2461,3 +2461,10 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 新发现：开关打开后，空白普通会话也被写入永久的 `requiresPlan: true`（`team-v12-runtime.mjs:1890` 的 tier 0 包含未组队的普通会话）。
 - 驱动 `output/strict-plan-live-20261012/driver/{plan-host.mjs,native-overlay.mjs,watch.sh}`。三次宿主已停，40124 无监听，真实工作区 HEAD ab5de82。
 - 建议：不打开开关；不单独为对齐而部署，等 PTC 那组一起；功能要可用需先收窄开关范围并给出不依赖预配 recipe 的路径。
+
+## Checkpoint 2026-10-12 21:40 UTC（严格计划开关范围收窄，仅 staging）
+
+- 用户 21:20 UTC 经协调者同意开工方案 A。改 `team-v12-runtime.mjs`（web=headless，41E7816F）：开关只对确有其他成员的 tier 0 根生效，标记由插件写入。未动原生文件，未部署。
+- 新测试 `native-tests/strict-plan-scope.test.mjs` 6/6；`goal-durable-requirement` 13、`session-plan-delivery` 22、`context-delivery-relevance` 18、`unified-team-delivery-gate` 4、`manifest-acceptance` 3，全过。
+- `stage-closeout` 已跑（备份 `backups/context-runtime-strict-scope-closeout-20261012`，待办 0），耦合基线已重新接受。
+- 欠：全量回归（等另一线程的生产 live 复核释放 40124 后跑）；真实宿主里成员事件时机未实测。

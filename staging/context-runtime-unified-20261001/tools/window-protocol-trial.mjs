@@ -50,7 +50,7 @@ export function createProtocolTrialEvidence(binding, sessionId, now = Date.now()
     ['transition','../home/profiles/web/plugins/team-v15-window-transition.mjs','765918ee52854d2ff3a32b2fa1743099600f5b61022e42b19b33eacec5390135'],
     ['participation','../home/profiles/web/plugins/team-v15-window-participation.mjs','3113ac5a8a3a2443aa148a120dcec57eef4e264b2a0c801cf9e9e8e79e519f86'],
     ['control','../home/profiles/web/plugins/team-control-plane.mjs','105b00d39f756abc7691948082bb1dc5a823cbaa1bb8660cf72207622a834f43'],
-    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','76079319a49c948e2a0db662cf902d84a7b3603cdeab8d5b8a8dca4b0d05fd04'],
+    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','41e7816ffd4525681b6defcbf932ea90248a9321679a2464dfe7e31b09f99ed0'],
     ['goalDelivery','../home/profiles/web/plugins/team-v15-goal-delivery.mjs','49dc27d5900e222b5c7de8c7305f579814fb0781b320e9a95f4ef07d9db0c7fb'],
     ['goalDomain','../app/node_modules/@deepseek-ai/dsh-goal/lib/index.js','6bb5985f65c987193c4dda95d4a0b4e3b84b082f3ca0087a135a6b575140c104'],
     ['nativeSession','../app/node_modules/@deepseek-ai/dsh-session/lib/index.js','e6b9e61986c73286b4b35167214bbb3218202bf92e26fcc7b89ce19d876ff8a8'],
