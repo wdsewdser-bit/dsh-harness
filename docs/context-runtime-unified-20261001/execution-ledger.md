@@ -2476,3 +2476,4 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 全量回归 237 文件 1554 条：1553 过、0 失败、1 跳过，生产 home 下目录数前后都是 647。报告 `output/regressions/2026-10-12T21-47-06-687Z-bf5516f9/summary.json`。
 - 没覆盖：直接用 `node --test` 跑单个文件仍沿用终端的 `DSH_HOME`。
 - 补充（21:58 UTC）：`architecture-tests/compact-test-runner.test.mjs` 原先断言“测试进程看到的 `DSH_HOME` 等于外层进程的”，在终端指向生产 home 时直接跑会与新规则冲突。改成显式给运行器一个目录并断言原样传递，另加一条用例：`DSH_HOME` 指向生产或未设置时，测试进程拿到的不是生产 home。该文件 4/4，经运行器跑 7/7。
+- 残留目录（22:00 UTC）：清点 647 个，645 个可处理，2 个（pid 23452、37708）对应进程仍在且一天内有修改，跳过。清单在 `docs/stale-team-control-runtime-20261012.csv`。移动到 `output/stale-team-control-runtime-20261012/` 的操作被权限检查拦下，**没有移动也没有删除**，目录仍在生产 home 下，等用户本人决定。
