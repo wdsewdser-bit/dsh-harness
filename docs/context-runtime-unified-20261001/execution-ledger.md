@@ -2377,3 +2377,14 @@ runner额外自测两次各1200项成功/失败，50KB噪声保留，stdout<5KB�
 - 一次非读取调用：条件 E 的模型执行了 `Get-ChildItem` 列目录，只读，无后果。
 - 停宿主后核对：守护文件无变化，沙箱无变化，真实工作区 HEAD ab5de82，40124 和 40125 无监听，浏览器标签已关。
 - 未做：运行时实现。没有改任何运行时代码，没有部署。
+
+### 检查点 2026-10-12 约 09:10 UTC：约束清单在 staging 里的实现和真实验证（Claude）
+
+- 授权：用户 08:13 UTC 回复“实现吧”。只改 staging，不动生产。
+- 新增 `home/profiles/{web,headless}/plugins/constraint-ledger.mjs`、`native-tests/constraint-ledger.test.mjs`（10 个测试通过），`plugin-change-manifest.json` 登记，`stage-closeout --check` 待办 0。
+- 隔离宿主 `output/constraint-ledger-impl-20261012/live1`，Read Only，守护 753 个文件，四次启动均 requested-stop。副本里另放了只用于测试的 `zz-request-dump.mjs`，不在 staging 里。
+- 真实验证发现并修掉三处：压缩请求不经过投影层（改用 `llm/stream` 钩子）；去重挡不住摘要器改写；摘要器把运行时权限说明误收成约束。详见 `constraint-ledger-design-20261012.md` 末尾。
+- 修完后：带清单的会话两次压缩后都遵守三条约束，对照会话违反；重复收录和误收为 0。
+- 全量回归最终版 1506 通过、1 失败（`v14-tool-doc-cache`，单独重跑两次通过，判断为偶发）。
+- 停宿主后核对：真实工作区 HEAD ab5de82，40124 和 40125 无监听，浏览器标签已关。
+- 未做：生产部署；大 Team 根和自动压缩下的验证。

@@ -298,5 +298,11 @@
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-ptc-background.mjs",
     "before": null,
     "after": "DD823515B30F6987130496AE0E059DC9C861E7290BC27CF3F641EE6FDC43C687"
+  },
+  {
+    "name": "constraint-ledger.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/constraint-ledger.mjs",
+    "before": null,
+    "after": "76B8F0A3B9745AFD71F465102DE871D48D257F93BBCC3A9966C5010FB492BD2F"
   }
 ]
