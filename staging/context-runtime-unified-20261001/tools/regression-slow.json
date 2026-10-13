@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "note": "Files skipped by default `node tools/run-regression.mjs`. Run them with --slow (everything) or --only-slow. Measured on 2026-10-12 from a full run of 1554 tests / 270 s.",
+  "slow": {
+    "native-tests/subagent-durable-delivery.test.mjs": "30.5 s, 2 tests: real Team host, durable acceptance and cold resume of every child",
+    "native-tests/instant-history-runtime.test.mjs": "20.6 s, 2 tests: real SessionController web host cold start (~8 s each) plus idle exit; lab uses port 40124",
+    "native-tests/ptc-background-runtime.test.mjs": "10.9 s, 16 tests: real process death during a started tool, fsync-heavy recovery",
+    "architecture-tests/manifest-acceptance.test.mjs": "3.7 s, 3 tests: plugin-coupling audit of the staged manifest; run before a deploy",
+    "usage-tests/team-milestone-surface-dedup.test.mjs": "3.3 s, 5 tests: replays a 112 MB real production session journal",
+    "phase5-tests/worktree-git-e2e.test.mjs": "3.5 s, 1 test: end-to-end real git worktree flow",
+    "architecture-tests/live-lab-runner.test.mjs": "0.2 s, 14 tests: reads and writes production workspaces and app via the live lab runner; optional"
+  }
+}
