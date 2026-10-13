@@ -93,7 +93,7 @@
 
 **端口。** 隔离宿主都用 40124，一次只能跑一个。生产宿主用 40123。全量回归里有测试会起宿主，不能和隔离宿主同时跑，否则报 `HOST_WRITER_BUSY`。
 
-**启动生产宿主有副作用。** 它会加载已有会话，包括用户正在用的团队；`team-activity-digest` 启动后每 10 分钟触发一次，长时间开着可能唤醒用户的团队。做核对只开几分钟。启动命令和注意事项在 `C:\Users\yadaz\.claude\projects\D--dsh-test\memory\dsh-context-runtime-resume.md`。
+**启动生产宿主有副作用。** 它会加载已有会话，包括用户正在用的团队；`team-activity-digest` 启动后每 10 分钟触发一次，长时间开着可能唤醒用户的团队。做核对只开几分钟。启动命令和注意事项在 `C:\Users\<用户>\.claude\projects\D--dsh-test\memory\dsh-context-runtime-resume.md`。
 
 **隔离副本怎么建。** 用现成的驱动，不要手搭：
 - `output/strict-plan-live-20261012/driver/plan-host.mjs`（最新，`--prepare --name <n> --strict on|off`，`--start --name <n> --run <r> --minutes N --max-requests N`，停止是在副本目录下建 `<run>-stop` 文件）。它带生产文件签名守护、导入失败自动停、请求数上限。
