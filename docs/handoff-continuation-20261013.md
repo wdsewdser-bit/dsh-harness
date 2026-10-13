@@ -20,7 +20,7 @@
 |---|---|---|
 | 生产 | `D:\dsh-test\home`、`D:\dsh-test\app` | 正在使用的 DSH。**未经用户本人同意不要写** |
 | staging | `D:\dsh-test\staging\context-runtime-unified-20261001` | 所有开发在这里做。只有这里有 `node_modules`，测试只能在这里跑 |
-| 我的分支 | `claude/project-thread-qfam5f`，HEAD `8a0f0ca8`，已推送 | 工作树 `D:\dsh-test\.claude\worktrees\hungry-aryabhata-59fbb8`，干净 |
+| 我的分支 | `claude/project-thread-qfam5f`，已推送（本文档是其最新提交） | 工作树 `D:\dsh-test\.claude\worktrees\hungry-aryabhata-59fbb8`，干净 |
 | 主检出区 | `D:\dsh-test`，停在 `main` | 显示大量未提交改动：staging 文件与我的分支内容相同（已在分支上提交）；`home/profiles` 下是生产部署的结果；`docs` 下是归档线程的工作 |
 | 仓库 | `wdsewdser-bit/dsh-harness`，公开 | `.gitignore` 是白名单式的，staging 下的文件要 `git add -f` |
 | 隔离实验 | `D:\dsh-test\output\<实验名>\` | 每个实验一个目录，含驱动脚本、副本、日志 |
