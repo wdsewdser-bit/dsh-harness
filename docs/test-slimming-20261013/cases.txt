@@ -1,0 +1,1791 @@
+## architecture-tests/compact-test-runner.test.mjs tests=3 ms=1025
+  1ms compact reporter takes only aggregate counters and retains actionable errors
+  14ms compact discovery includes the established suites and ignores output fixtures
+  1010ms actual runner retains noisy full logs, bounds stdout and propagates failing exit
+## architecture-tests/context-runtime-receipt.test.mjs tests=4 ms=210
+  53ms registered loaded service requires exact real dispatch, not preview or caller metadata
+  63ms changed view and disabled route cannot inherit the old consumption receipt
+  38ms foreign agents, unknown protocol, and disposed plugin cannot claim a live installed receipt
+  55ms real LlmRuntime adapter boundary records consumption even after replay-state filtering changes request identity
+## architecture-tests/context-workspace.test.mjs tests=14 ms=719
+  19ms identity comes from live agent and strict input; members and teams remain private
+  18ms action CAS contract rejects missing revisions without writing and leaves read actions usable
+  31ms task scope checks canonical board read and owner; global mirror cannot bypass ACL
+  53ms CAS exact history, parent chain, hash locators, TTL and soft delete preserve originals
+  203ms cross-process writers reload under v14 lock; exactly one wins the object CAS
+  54ms preview is pure; candidates CAS commit at next boundary, pin and verified summary keep refs
+  51ms shadow unchanged; allowlist apply appends data without role upgrade or history edits
+  46ms unknown protocol, pending tool chain, corruption and required budget loss fail open
+  13ms tool schema and plugin registration match live API; no authority writes
+  16ms fresh non-Team agent gets schema immediately and same agent can join Team later
+  34ms review regression: unbranded allowlisted session cannot fetch private context
+  99ms review regression: missing TTL/schema and changed metadata fail closed on get/apply
+  28ms review regression: rollback rejects corrupted historical view before signing another revision
+  54ms bounds and missing/truncated recovery anchors reject without request edits
+## architecture-tests/instant-natural-lab.test.mjs tests=3 ms=9
+  1ms natural Instant verifier requires real preempt, paired PTC and exact successor, rejecting old partial replay
+  6ms actual natural canonical schema validates and duplicate input, foreign pair or false terminal rejects
+  1ms real stream middleware remains a synchronous async iterable, forwarding all chunks and cancellation
+## architecture-tests/lab-ptc-binding.test.mjs tests=3 ms=21
+  14ms offline real stage services and plugin render loaded TypeScript schemas without dispatch
+  3ms missing foreign non-PTC and caller certificates cannot replace loaded facts
+  4ms native owned children bind their real runtime route without taking over generic Session routing
+## architecture-tests/live-lab-runner.test.mjs tests=14 ms=182
+  1ms workspace boundary rejects original workspace and traversal
+  1ms fixture oracle requires exact original line text and checksums
+  10ms prepare and validate never call RPC; create requires explicit --run
+  1ms budget combines cached prompt counters and stops unknown usage
+  0ms lineage approves only fresh lab root and one direct child
+  1ms canonical tool pairs validate structured receipt, never model success claims
+  0ms canonical PTC child receipt preserves real subCallId and structured denial
+  0ms seeded child excludes inherited receipts and usage from ancestor prefix
+  2ms runtime gate requires fresh live PID exact lab ID and loaded module hash
+  130ms logical RPC adapter matches every installed rc2 gateway descriptor parameter
+  17ms stage template is offline, syntactically executable, bounded, and schema-bound
+  2ms one wait and one roster verification stop before info when child is still active
+  0ms canonical receipt relationships reject changed message identity and task revision
+  18ms run rejects missing or unknown full SDK certificate before any RPC
+## architecture-tests/manifest-acceptance.test.mjs tests=3 ms=3651
+  132ms stage-closeout refuses to write without a stated reason, before touching anything
+  91ms native patch carriage matches the accepted baseline
+  3428ms the set of staged plugins that cannot be deployed alone matches the accepted baseline
+## architecture-tests/native-compaction-natural-lab.test.mjs tests=8 ms=294
+  1ms new native-compaction admission is independently bounded and denies bootstrap/foreign/oversized requests
+  0ms summary oracle requires all official sections and exact full plan identity
+  1ms quality oracle refuses false completion, lost input and stale scope without supplying model answers
+  1ms partial recovery keeps the original request budget and locator observation gate
+  0ms artifact decoder accepts only the exact native sandbox annotation, never arbitrary trailing text
+  221ms actual three-summary/recovery canonical fixture is accepted; source, parent, tail, completion and dispatch tampering are rejected
+  68ms large-context filler is deterministic, diverse, declared and sized to about the requested token count
+  1ms size-dependent caps scale with N while the no-argument limits stay byte-for-byte the original ones
+## architecture-tests/request-plan.test.mjs tests=12 ms=232
+  13ms pure preview skips legacy stateful transforms; final prepared plan is adopted once with byte/hash receipt
+  58ms OP fullSends count only native handoff; preview, uniterated, blocked and canceled do not consume it
+  15ms observation pack unregisters from native Cordis effect teardown across restart and dispose
+  3ms canonical aliases agree while an independent official brand preserves prepared generation and caller context
+  3ms public brand guard recognises the brand of either dsh-llm instance, never an unbranded request, and follows projected clones
+  3ms prepare locks a detached snapshot even for identity transforms and mutable caller messages
+  2ms prepare cannot lock unknown protocol values and explicitly returns unprepared fail-open dispatch
+  3ms unknown/image/error shapes fail open and raw safety measurement stays authoritative
+  2ms transform mutations cannot change mutable caller tools or tool history; final identities are preserved
+  16ms concurrent unchanged requests sharing an options object retain independent receipts after audit eviction
+  12ms ledger start/terminal and cache attribution share the exact request receipt; unrelated and future events are ignored
+  102ms compaction SDK policy explicitly requires audited compatibility and retains unknown auxiliary/SDK contracts
+## architecture-tests/team-digest-progress.test.mjs tests=1 ms=794
+  794ms architecture-tests\team-digest-progress.test.mjs
+## architecture-tests/team-efficiency.test.mjs tests=1 ms=750
+  750ms architecture-tests\team-efficiency.test.mjs
+## architecture-tests/team-family-natural-lab.test.mjs tests=3 ms=2
+  1ms family bootstrap denies every sampling and a permit is exact-session scoped
+  1ms family route, output, payload and cumulative eight-request boundaries reject before sampling
+  0ms family acceptance cannot be manufactured from absent native journals or missing descendants
+## architecture-tests/team-family-natural-verifier.test.mjs tests=16 ms=169
+  24ms original eight real requests bind four native journals and root-plus-three-descendant usage
+  12ms family verifier rejects missing descendant
+  12ms family verifier rejects foreign physical parent
+  13ms family verifier rejects wrong logical role
+  8ms family verifier rejects request payload changed
+  8ms family verifier rejects duplicate request identity
+  7ms family verifier rejects native prefix removed
+  11ms family verifier rejects answer outside observed round
+  7ms family verifier rejects false completion
+  8ms family verifier rejects wrong active epoch
+  11ms family verifier rejects wrong identity bundle hash
+  7ms family verifier rejects foreign provider terminal
+  8ms family verifier rejects not handed to actual adapter
+  7ms family verifier rejects invented usage
+  12ms family verifier rejects non-final usage
+  13ms family verifier rejects missing native provider replay
+## architecture-tests/unified-lab-host.test.mjs tests=9 ms=178
+  1ms isolated host maps every native participant to its exact physical staged alias
+  43ms changed native files must physically remain in staging, not production junctions
+  1ms only isolated Team runtime enables server hypothesis intent; production input stays unchanged
+  0ms isolated profile mounts the actual economics observer without enabling window actions
+  0ms recursive state remapping and feature isolation reject production writes
+  1ms lab copies only the exact Responses route and excludes credential writes and automatic requests
+  0ms old goal alias and arbitrary readonly manifest paths are rejected
+  129ms canonical preload resolves real CJS requires to all five exact native aliases
+  2ms prepared role files match stage identity manifest and actual goal target evidence
+## architecture-tests/unified-natural-lab.test.mjs tests=10 ms=7
+  1ms isolated admission binds exact root and route with bounded requests and payload
+  0ms bootstrap denies all sampling and tool admission cannot escape the static probe
+  0ms native W2 scenario has its own six-request bound without expanding older probes
+  1ms native lab overlay preserves isolated base config and only authorizes the exact new session
+  0ms probe verification uses paired canonical tool messages, never missing structuredContent
+  0ms memo scenario permits only fixed isolated CAS probe code and exact SDK arguments
+  1ms fixed memo probe checks business rejection without confusing it with native tool errors
+  0ms view cycle admits dynamic proposals only from its own admitted canonical tool result
+  1ms fixed view cycle and verifier require preview purity, stale denial, rollback and original memo
+  2ms W0 two-turn verifier requires exact canonical original retention, shadow dispatches and incomplete task authority
+## architecture-tests/upstream-compat-contract.test.mjs tests=7 ms=895
+  0ms §65 at least one dsh-subagent build is present to check
+  1ms §65 a Team member parent receives the settlement notice without a new turn (staged canonical)
+  1ms §65 a non-Team parent is still woken, so the patch stays scoped to Teams (staged canonical)
+  1ms §65 a Team member parent receives the settlement notice without a new turn (installed)
+  1ms §65 a non-Team parent is still woken, so the patch stays scoped to Teams (installed)
+  875ms §58 a failed registry rebuild is logged, and a roster-only member becomes addressable
+  16ms §59 the Team system-prompt section does not change while Team state changes
+## architecture-tests/window-history-quality.test.mjs tests=6 ms=9
+  6ms bounded fixed SDK program fetches every page and returns exact raw artifact with late corrections
+  0ms guard accepts only native own-session locate and its observed descriptor; foreign and forged reads cannot authorize a locator
+  1ms SDK returns the exact server packet and rejects self-assembled or altered packets
+  1ms SDK program refuses truncated pages and never turns first-page fetch into completion
+  0ms compact archive program preserves exact original; known runtime warning is not truncation
+  0ms quality oracle derives the late correction; prompt has no prefilled answer and completion claims fail
+## architecture-tests/window-native-natural-verifier.test.mjs tests=2 ms=373
+  38ms actual six-request W2 case independently binds durable journal, current authority and exact history delivery
+  335ms W2 natural verifier rejects forged durability, originals, surface, current authority and SDK parent receipt
+## native-tests/active-identity-runtime.test.mjs tests=5 ms=512
+  139ms native ToolRuntime activation and real agent pre-step consume only the approved durable role bundle
+  104ms native pre-step: a common-only (AGENTS.md) change waits for activation, then reaches the next turn without the old common
+  108ms host bootstrap activates the configured bundle once for a root that has none, and never re-activates by itself
+  75ms a required identity that outgrows the mid-turn delta cap is delivered with the full pack budget, not a blocked turn
+  85ms a pending message far larger than the context-pack cap still gets the required identity instead of a blocked turn
+## native-tests/agent-lifecycle.test.mjs tests=4 ms=16
+  9ms native AgentRegistry create does not enter factory while a transition fence is held
+  2ms native AgentRegistry resume waits before invoking the persisted factory
+  3ms native create owns asynchronous scope installation and later preset-parent binding as one writer
+  3ms rejected creation retains the host writer until asynchronous partial cleanup settles
+## native-tests/compaction-prefix-projection.test.mjs tests=7 ms=23
+  9ms compaction request carries the conversation projection of its history and keeps the instruction object
+  2ms a compaction prefix transform sees the conversation purpose and never the instruction; the legacy transform is not called
+  2ms a registration without a pure preview is skipped on compaction prefixes and is never dispatched
+  4ms the projected compaction request stays writable and unfrozen, so an assigned messages array reaches the native layer
+  2ms unrecognized shapes stay wholly unrecognized and reach the native layer with their messages unchanged
+  2ms prepare keeps the compaction-prefix projection and the prepared stream dispatches that same plan
+  2ms a throwing compaction-prefix transform fails open: the request is still sent with the prefix the other transforms produced
+## native-tests/constraint-ledger.test.mjs tests=14 ms=119
+  6ms a recorded line is stored, deduplicated by normalized text, and survives a reload
+  1ms invalid input is refused with a code and writes nothing
+  2ms a full ledger refuses a new line instead of evicting an old one, and retiring frees room without deleting
+  6ms the ledger is capped by characters, not bytes: fourteen long Chinese rules fit, and the line that would pass 8000 characters is refused
+  59ms a full ledger returns the active lines and a hint, and retiring one line makes room for the next add
+  3ms lines recorded before any compaction are not inserted: they are still in the history as tool results
+  7ms after a compaction the block sits right after the system prompt, identically on every request
+  7ms a compaction request gets the same block and the addendum on the native instruction only
+  6ms the summary section is parsed strictly and merged without duplicating what is already recorded
+  3ms a summary line marked as a repeat is dropped and counted, and not staged; the same-as wording inside a rule is kept
+  0ms the summarizer is told a possible repeat gets a same-as mark
+  1ms a summary staged for one compaction is not committed by the end of another
+  9ms a retired line leaves the block and a damaged document fails open
+  8ms apply wires the tool per agent, the session events and one projection, and undoes all of it
+## native-tests/context-delivery-compact-fallback.test.mjs tests=10 ms=17
+  11ms reproduction: a baseline whose large required sources exceed the cap fails closed without compact forms
+  1ms compact fallback fits the baseline: the least urgent large requirement is compacted, the rest stay full
+  1ms tie order: higher priority number is compacted first, then reverse id; compacted lists the selected forms
+  1ms compact forms keep the full-content hash, so a later delta does not resend them
+  1ms the same inputs produce the same output on every call
+  1ms regression: when every required source fits in full, compact forms change neither body nor manifest
+  1ms regression pin: full-fit output matches the pre-change module byte for byte
+  0ms safety-critical sources are never compacted, even when they carry a compact form
+  1ms a required source still omitted after every compact form is debt, and fails closed with a baseline
+  1ms without a baseline the compact fallback runs before debt is judged
+## native-tests/context-delivery-relevance.test.mjs tests=18 ms=25
+  13ms without compactRank the order is unchanged; an explicit equal rank on every source changes nothing
+  1ms a higher compactRank is compacted first and a rank 0 source keeps its full text
+  1ms rank is only the first key: equal ranks fall back to priority number, then reverse id
+  1ms rank never compacts a safety-critical source or a source without a compact form
+  2ms a source last delivered compact and now wantFull comes back in full, with no compact mark
+  1ms the compact mark is read from item receipts as well as from the cursor
+  2ms a resend that does not fit in the budget is dropped: no debt, no failClosed, state stays compact
+  1ms a resend yields to a required source that changed, which is never starved by it
+  0ms full delivery is never resent for wantFull, and a changed hash is an ordinary required update
+  1ms baseline delivery keeps its rule when wantFull is set: required, compacted if needed, else fail closed
+  1ms a visible compact delivery (no baseline) is resent the same way
+  0ms compact marks follow the latest confirmed delivery and ignore unconfirmed or foreign rows
+  0ms memberTaskUse: owned active tasks are in use, finished tasks are ended, other members tasks are neutral
+  0ms memberTaskUse: unfinished dispatches and active leases for the member count; finished or foreign ones do not
+  0ms requirementCompactRank: 0 when any task is in use, 2 when all are over, 1 otherwise
+  0ms memberTaskUse: a submitted task (status completed, phase under review) still waits for acceptance
+  0ms memberTaskUse: a task whose latest packet is a group-acceptance is in use for any member
+  0ms memberTaskUse: packet order follows createdAt, falls back to insertion order, and ignores missing packets
+## native-tests/deployment-copy-lineage.test.mjs tests=3 ms=376
+  134ms a physical copy accepts only the canonical hash recorded by a prior deploy
+  126ms canonical lineage cannot authorize an unrelated copy edit
+  115ms the same current files without a prior deployment record remain refused
+## native-tests/execution-proof-runtime.test.mjs tests=13 ms=4158
+   330ms test
+   285ms acceptance
+  615ms actual native ToolRuntime executes official bash and durable test/acceptance proof with real parent tokens
+   78ms pre
+   72ms acl
+   259ms post
+  410ms actual pre-execute, monotonic ACL and post-execute deny proof persistence
+   264ms callerCancel
+   261ms hardAbort
+   252ms source
+  778ms native bridge cancellation after drained shell success and physical change after execution reject proof
+  279ms proof cancellation observer rejects forged execution objects even with copied real token
+  275ms real zero-exit is insufficient and actual checker failure cannot create proof
+## native-tests/goal-convergence.test.mjs tests=15 ms=1642
+  145ms total admitted rounds do not authorize blocker without real observations at service or actual ToolRuntime
+  134ms exact same blocker counts once per actual goal round and gates stable cause
+  118ms missing observation, changed blocker and direct human turn each break consecutive chain
+  102ms verified canonical progress resets and cannot be fabricated with a free pass or round number
+  95ms same-round progress invalidates blocker but repeating another blocker cannot restore it
+  117ms JSONL replay preserves audits but startup/fork disarm and explicit resume start a new chain
+  94ms failed observation durability neither authorizes block nor survives a fresh JSONL replay
+  131ms actual goal_progress tool derives round from canonical source, persists reports, and blocked awaits durability
+  82ms ordinary human request no longer becomes long-running intent by prompt inference
+  100ms actual SessionStore fork carries audit but not autonomous block authority; rearm resets child only
+  93ms same id with a different cause resets and a new goal cannot inherit the old chain
+  106ms verified-wait accepts only producer-attested canonical successful tool evidence and resets
+  113ms pure fold and real replay reject forged goal/round identity while checkpoint carries bounded audit
+  103ms block rejects a changed actual round during durable authorization rather than committing stale count
+  109ms failure after block mutation returns no success and fresh JSONL restores the durable active phase
+## native-tests/goal-durable-requirement.test.mjs tests=13 ms=1274
+  147ms binding flush failure cannot return a receipt or commit the control-plane binding; retry keeps one marker
+  92ms a crash boundary after the session requirement and before control-plane binding fails closed on cold load
+  77ms cold loading cannot remove an installed delivery policy before the first plan binding
+  85ms an edited objective cannot rebind unchanged old plan proof and claim completion
+  110ms pause and resume do not invalidate a plan when its objective remains identical
+  108ms the actual UI Remote endpoint rejects incomplete delivery and returns the still-active canonical goal
+  93ms the actual UI Remote endpoint cannot bypass a missing gate after cold non-Team restoration
+  119ms the actual UI Remote endpoint returns completion only after the bound receipt is durable
+  94ms JSONL rejects malformed durable delivery requirement: foreignSession
+  87ms JSONL rejects malformed durable delivery requirement: invalidVersion
+  87ms JSONL rejects malformed durable delivery requirement: missingObjective
+  88ms JSONL rejects malformed durable delivery requirement: invalidPlanRevision
+  88ms JSONL rejects malformed durable delivery requirement: invalidPlanHash
+## native-tests/history-recall-runtime.test.mjs tests=14 ms=2615
+  262ms registered raw Query recall restores original bytes after two actual compactions, preserves journal and exact trace
+  205ms actual Query tool pairing retains complete nonadjacent raw invocation and result
+  162ms a current tail raw event remains readable when recall itself appends native audit events
+  69ms real registered ACL denies foreign Query reads and rechecks explicit current scope on every page
+  79ms wrong expected source vector, missing references and caller source fabrication never clear raw recall debt
+  207ms native assembly requires all exact pages and full artifact dispatch has a distinct durable receipt
+  523ms official Node PTC returns server assembly through a native parent; only complete outer dispatch clears debt
+  71ms assembly never trusts caller status or fake full-fetched progress without every exact page
+  183ms preview, uniterated, late truncation, forged call, foreign reader, unbranded and abort do not acknowledge full artifacts
+  104ms current source and ACL are rechecked after assembling a packet and before acknowledgement
+  206ms successful exact assembly resolves only matching prior source debt, never unrelated missing locators
+  278ms actual branded LlmRuntime adapter confirms every exact page separately from server fetch
+  173ms late truncated output, foreign reader, unbranded and aborted requests cannot confirm page dispatch
+  93ms raw source changed after return and current cross-session ACL revoked refuse adapter confirmation
+## native-tests/host-lifecycle-disposer-race.test.mjs tests=15 ms=27
+  8ms connection-end effect disposer does not fail while host dispose holds the writer
+  2ms connection-end effect disposer does not fail while an async plugin install holds the writer
+  2ms deferred disposer is idempotent when invoked repeatedly while the writer is open
+  1ms deferred disposer is a no-op when its fiber was cascade-disposed by the open writer
+  2ms deferred disposer is dropped silently when the gate closes before it can run
+  1ms disposer called after the gate closed keeps the synchronous HOST_CLOSED failure
+  1ms an external disposer under a read lease is deferred until the lease is released, with no side effect before
+  1ms connection-end effect disposer does not fail while a window transition holds a read lease
+  1ms a disposer queued behind read leases waits for every one of them
+  2ms deferred disposer failure is reported through the logger, not swallowed, and still releases the writer
+  1ms gate-level queued release hands its failure to onError and still releases the writer
+  0ms a synchronous release failure with no writer still throws to the caller
+  1ms deferred disposer queues behind earlier writers and ahead of later ones
+  1ms a writer awaiting a foreign continuation that awaits a queued disposer does not deadlock
+  3ms host dispose does not deadlock on a foreign teardown that awaits a peer disposer (agent-loop shape)
+## native-tests/host-lifecycle.test.mjs tests=19 ms=109
+  42ms actual app boot prelude can mount Loader without a false competing writer
+  5ms lifecycle observation preserves falsy rejection values
+  2ms Fiber config and Registry delete reject before fenced side effects
+  1ms teardown requested under a read lease changes nothing until the lease is released
+  2ms async native plugin remains pending through setup and effect collection
+  1ms failed async effect stays pending through its async cleanup
+  3ms Loader config waits before options mutation and actual async setup
+  2ms nested awaited installation does not wait on its own host writer
+  5ms global and scoped persona sections and disposers are fenced
+  3ms owner survives module HMR, epoch rejects ABA and old callbacks, veto survives failure
+  1ms synchronous effect failure owns asynchronous partial cleanup
+  1ms native failed plugin remains pending until cleanup, not its method return
+  1ms real event callback from previous activation cannot revive after A-B-A
+  24ms real tool registry, scoped restrictions and guard disposal reject before mutation
+  6ms volatile references retain old values until host transition releases
+  1ms attached scope parent rebind participates before ancestry mutation
+  3ms two host readers order a third async installation and rejected setup cleanup
+  2ms disabling Loader entry stays pending through actual async disposal
+  5ms native tool body admission rechecks host revoke after preparation
+## native-tests/hypothesis-runtime.test.mjs tests=9 ms=744
+  106ms native schema dispatch uses server intent and exact membership, not extra tool fields or agent.name
+  91ms durable server intent binds exact authority with CAS, reads physical state and rejects stale ownership before body
+  54ms server intent cannot bind caller evidence, foreign requirement, unknown tool or task revision
+  90ms native hook reinstallation recovers durable intent and clearing/rebinding cannot reset same-hypothesis history
+  62ms concurrent same-hypothesis calls cannot bypass admission or the durable no-progress budget
+  72ms native stable error codes count as new observations without trusting model status
+  88ms authority change after admitted body records unknown historical outcome, not proof or a permanent retry lock
+  113ms native final observer records post-policy block and final-content failure, never intermediate success
+  68ms native repeated probes wait for durable final observations and stop before the next body
+## native-tests/instant-follow-codec.test.mjs tests=2 ms=25
+  18ms host actual follow wire codec preserves native generation on all frames and rejects invalid generation
+  6ms remote actual follow wire codec preserves native generation on all frames and rejects invalid generation
+## native-tests/instant-history-runtime.test.mjs tests=2 ms=20612
+  10367ms actual SessionController direct steer reconnect preserves native generation and superseded predecessor terminal
+  10245ms actual SessionController queued-input promotion reconnect preserves native generation and superseded predecessor terminal
+## native-tests/instant-stream-accumulator.test.mjs tests=5 ms=2
+  1ms native reconnect keeps immutable superseded partial and current generation
+  0ms late generation, foreign attempt and mismatched generation cannot overwrite successor
+  0ms gap and wrong chunk index fail closed without fabricating a terminal
+  0ms native terminal cannot commit a missing, negative or mismatched dense index
+  0ms legacy frames retain old baseline shape and attached lifecycle resets native state
+## native-tests/instant-web-presentation.test.mjs tests=2 ms=2
+  1ms actual Web assistant definition renders superseded canonical attempt after reload, not completion
+  1ms actual Web transient fold rejects old generation without retiring current attempt
+## native-tests/instant-window-compaction-race.test.mjs tests=15 ms=1354
+  84ms harness: summary adapter and conversation adapter are wired to the real engine and agent
+  64ms steer lands while the compactNow summary request is in flight: durable accept, compaction commits, successor drains A,B once after it closes
+  181ms hard abort during the compactNow summary request: no commit, no successor, accepted inputs retained and later drained once in order
+  131ms abort lands exactly when the summary stream completes: abort wins, compaction cannot commit
+  64ms W2 transition (prepared-durable) + steer A,B: durable accept, nothing consumed into the checkpoint, successor drains once on the new window
+  56ms W2 transition (commit-appended) + steer A,B: durable accept, nothing consumed into the checkpoint, successor drains once on the new window
+  61ms W2 transition (commit-durable) + steer A,B: durable accept, nothing consumed into the checkpoint, successor drains once on the new window
+  63ms W2 transition (before-publish) + steer A,B: durable accept, nothing consumed into the checkpoint, successor drains once on the new window
+  68ms W2 transition (after-receipt) + steer A,B: durable accept, nothing consumed into the checkpoint, successor drains once on the new window
+  185ms hard abort inside a W2 transition (prepared-durable): commit stays valid, no successor, A,B retained, later user turn drains A,B,C once
+  173ms hard abort inside a W2 transition (commit-durable): commit stays valid, no successor, A,B retained, later user turn drains A,B,C once
+  52ms preempt (A) lands while a running turn is compacting in pre-step: summary commits, claimed prompt F and A both delivered exactly once
+  59ms step preempt (A) then compaction in the successor pre-step while B arrives: no stale request, A,B drained once in one request, partial output discarded
+  57ms window transition attempted during an in-flight compactNow plus steer is refused without side effects; compaction and input both survive
+  56ms abort during the post-commit durability checkpoint: compactNow outcome agrees with the committed world
+## native-tests/lab-tool-admission.test.mjs tests=2 ms=16
+  13ms real native tool runtime denies altered program before any body, including dangerous suffix
+  3ms monotonic lab admission survives a pre-execute listener that force-allows
+## native-tests/native-bridge.test.mjs tests=24 ms=439
+  6ms exact opt-in and real SessionStore flush(false) are fail closed
+  16ms accepted-before-ack, serialized A/B/C, transport duplicate and reservation replay
+  2ms flush failure rejects acceptance but retains same input ID for retry
+  2ms duplicate user input after successor sampling starts cannot preempt again
+  2ms ordinary Team message is queued but does not preempt user sampling
+  2ms durable acceptance generation survives restore and failed flush retry signals only once
+  2ms a later successful flush announces earlier failed acceptance without stale generation replay
+  3ms input transport identity binds target, source kind and wakeup rather than silently changing delivery
+  3ms queued promotion is one durable inbox transition and retry does not preempt twice
+  11ms queued promotion refuses foreign, removed, non-user and hard-aborted pending input
+  4ms subscribe-before-check catches acceptance during preparation and hard abort wins
+  3ms writer fence covers actual Session append, stale release, CAS and accepts pending input
+  5ms real tool mutation settles after hardabort with original success value/meta and durable receipt
+  6ms late body admission after asynchronous wrapper and nested transport is denied
+  5ms GoalService completion bridge validates canonical receipt at service boundary
+  309ms actual JSONL persisted accepted input survives abrupt subprocess exit and claim recovery
+  32ms actual driver consumes transformed quiet notices once without replaying their reserved inbox batch
+  3ms reservation commit is the final delivered message and cannot consume later arrivals
+  5ms actual ReactLoop driver preempts stream, batches steer, preserves history and marks UI superseded
+  7ms actual retry hook receives sampling abort and cannot dispatch old generation again
+  2ms actual API prompt waits for durable acceptance, including duplicate retry
+  4ms actual driver hardabort prevents successor even with an accepted steer
+  2ms ordinary non-opt-in inbox claim and tool cancellation retain the released contract
+  3ms nested calls keep parent generation even after successor sampling begins
+## native-tests/native-compaction-tail.test.mjs tests=5 ms=20
+  13ms manual retention is validated, configurable and inherited by exact route
+  1ms retention larger than history yields no range and never calls summarizer
+  1ms manual compaction with unavailable durability cannot report success
+  3ms overflow and pressure retain their configured balanced real surface tail
+  2ms three actual manual compactions preserve raw original events and current tail corrections
+## native-tests/native-goal-delivery.test.mjs tests=14 ms=2144
+  1ms automatic outbox recovery waits for a real event or changed outbox rather than polling every step
+  186ms actual GoalService completes only after canonical durable receipt and JSONL effect flush
+  109ms missing enablement and unbound goal cannot bypass the service boundary
+  161ms failed JSONL flush leaves queued receipt, returns no completion and replays from durable active goal
+  141ms durable goal effect survives ack failure; fresh gate recovers without repeating the goal transition
+  110ms queued receipt and complete goal with mismatched consumed marker never prove outbox consumption
+  105ms service gate without native opt-in is durable; HMR removal cannot fall back to unguarded completion
+  99ms cold non-Team restoration cannot forget a previously bound goal completion requirement
+  83ms an installed gate cannot downgrade a durable requirement to an unbound completion
+  92ms editing a bound objective invalidates the old plan binding before completion
+  220ms actual registered model goal tool awaits durable service completion and propagates flush failure
+  500ms abrupt process exit after goal flush recovers only durable matching outbox effect
+  125ms recovery acknowledges an older durable effect without completing or modifying the new goal
+  212ms goal/change alone is insufficient; malformed native markers and arbitrary unknown events stay rejected
+## native-tests/ptc-background-runtime.test.mjs tests=16 ms=10929
+  790ms Instant handles user input before the same running PTC instance settles; late result survives a closed turn
+  660ms Instant handles authorized Team input before the same running PTC instance settles; late result survives a closed turn
+  645ms superseded PTC cannot start a later child tool; its already-started result is still recorded and failure is collected
+  719ms pending detached result blocks legacy Goal and Team delivery, then canonical collection clears the debt
+  411ms wrong Team binding cannot preempt, and a modified result file is not collected or acknowledged
+  633ms explicit job kill cancels the original instance and still preserves the already-started child effect
+  635ms structured timeout is not misreported as cancellation or success
+  626ms structured output-limit is not misreported as cancellation or success
+  400ms notification recovery is idempotent when failure occurs before acceptance
+  396ms notification recovery is idempotent when failure occurs after durable acceptance
+  719ms duplicate consumption is monotonic; cold replay rejects forged collection, notification and detach receipts
+  364ms owner teardown cancels and drains one program; another caller cannot kill or collect it
+  684ms partial mutation and a failed later child keep separate canonical effect references
+  681ms large output remains intact in its durable artifact while collection returns a small verified receipt
+  1431ms real process death during a started tool recovers unknown effects without restarting the original program
+  1135ms real process death after artifact fsync but before terminal receipt recovers unknown effects without restarting the original program
+## native-tests/session-plan-delivery.test.mjs tests=22 ms=6918
+  141ms strict no-goal session persists an empty-plan partial verdict, not accepted prose
+  103ms strict policy cannot be downgraded by cold config, missing plugin or a legacy gate
+  541ms strict policy retains the existing receipt-backed accepted and stale-source paths
+   75ms accepted-empty
+   67ms unknown-code
+   67ms invalid-policy
+  210ms JSONL keeps accepted status nonempty and strict marker types validated
+  493ms ordinary non-Team plan uses actual shell proofs, same durable gate and UI remote; cold JSONL retains completion
+  517ms ordinary plan without goal cannot turn partial evidence or assistant claims into accepted delivery
+   91ms team
+   93ms unknown
+  185ms local route refuses current Team membership and failed membership lookups
+  177ms cold non-Team session cannot drop its completion gate or original source scope
+  426ms compacted summary that lost the plan identity registers debt and commit names what is missing
+  534ms explicit compaction_anchor repairs the debt for that summary only and the next compaction needs a new anchor
+  436ms a later complete summary clears the compaction debt without any anchor record
+  361ms ten-item plan with six proven stays partial although the summary claims everything is complete
+  462ms a complete summary or no compaction at all adds no compaction debt
+  480ms a premature commit that the gate refused does not leave unknown-effect debt once the missing proof exists
+  561ms repeated refused commits stay recoverable, also after a cold reload
+  450ms refused commits never clear another tool's unknown effect
+  448ms a session_delivery failure after the write began keeps its unknown effect and is never classified as refused
+## native-tests/strict-plan-scope.test.mjs tests=6 ms=809
+  111ms R1 a root without teammates writes no strict marker, reports nothing required and completes its goal
+  180ms R2 the first teammate writes exactly one strict marker; completion then needs a bound plan
+  125ms R2 a teammate that is still provisioning or failed does not switch the root on
+  151ms R3 the marker is monotonic: no teammate and no configuration afterwards relaxes it
+  105ms R4 a cold restore with teammates but no strict marker writes it at assembly, once
+  138ms R5 with the switch off a root with teammates behaves as before
+## native-tests/subagent-durable-delivery.test.mjs tests=6 ms=30541
+  16643ms actual Team follow-up waits for durable acceptance and cold resumes every child for its next identity turn
+  13894ms actual Team child transport failure retains terminal evidence and closes without a late writer flush
+  0ms subagent inbox retains an admitted delivery until its durability barrier settles
+  3ms subagent inbox closes admission immediately but cannot release an unsettled writer
+  0ms subagent inbox returns a failed durability receipt instead of acknowledging success
+  0ms subagent inbox keeps synchronous release for the legacy void-returning Agent
+## native-tests/team-execution-proof.test.mjs tests=5 ms=1102
+  803ms registered team_v12 execution_prove executes real fixed recipes and persists test/acceptance authority
+  69ms tier2 agent cannot certify root execution proof
+  68ms host history settlement is read-only and restricted to installed live Team agents
+  68ms registered Team action refuses missing native cancellation method
+  95ms registered Team action rejects extra caller fields and foreign proof slots
+## native-tests/window-collector-runtime.test.mjs tests=42 ms=14189
+  558ms server W2 uses actual Team/CP/identity, live writer and maintenance; next native request consumes committed surface
+  402ms prepared W2 internal writer read tolerates only own intent plus ordered durable A/B/C input; public reads remain fenced
+  513ms durable commit recovery accepts current legal CP changes without replaying old authority; current request rebinds
+  199ms server W2 refuses foreign session, active work, late plan source change and current ACL loss
+  387ms server W2 settles already accepted deferred CP changes before making its current proposal
+  471ms real host reconstruction after prepared-durable acquires new owner/current authority and preserves exact durable history
+  491ms real host reconstruction after commit-durable acquires new owner/current authority and preserves exact durable history
+  413ms native window adapter guard rejects a dropped current authority body before actual adapter entry
+  425ms live abort persistence failure stays fenced and cannot become durable through a recovery retry
+  434ms historical durable commit can be confirmed when current source is unavailable, but successor adapter remains closed
+  102ms actual root CP/plan/identity and native surface supply W0 authority; preview never writes or mutates journal
+  201ms host surface authority reads current native messages without accepting caller history or dispatch claims
+  217ms fsynced/readback original artifacts enable exact spans; restore is own-session ACL-bound and survives service recreation
+  180ms actual immutable preparation/dispatch keeps every raw message; preview/uniterated calls create no dispatch receipt
+  419ms W1 reasoning remains blocked by default; exact whole-turn server proof is required for a bounded isolated projection
+  486ms W1 binds each official request to actual collector authority and native actor; late native effects block dispatch
+  119ms request brand, exact registered source plan and current authority are not caller-substitutable
+  186ms missing late authority domains and current history debt forbid exclusions, never default to clean coverage
+  180ms tampered recovery body and foreign receipts are refused
+  166ms cancelled/incomplete turns are never marked completed; current queued input stays authoritative and unconsumed
+  121ms native authority boundary and actual host config epoch changes invalidate prior checkpoints
+  98ms official lead membership without tier is a root only with its exact live root credential
+  112ms artifact/checkpoint budgets stop with explicit debt or refusal; collector off has no runtime effect
+  215ms before any window commit a concurrent session title append cannot fail the request: nothing window-specific was injected
+  210ms before any window commit a concurrent uncertain native effect append cannot fail the request: nothing window-specific was injected
+  440ms a refused dispatch names which bindings moved; a source that moves inside the adapter boundary itself is still refused
+  400ms after a committed window, ordinary movement between prepare and adapter entry restates current authority instead of failing the turn
+  343ms optimistic_commit_idle_host_first_attempt
+  361ms foreign_register_during_intent_fsync_succeeds_and_aborts
+  601ms aborted_transition_leaves_session_readable
+  470ms foreign_register_after_commit_append_commit_stands
+  341ms async_host_writer_pending_at_commit_aborts
+  334ms recover_tolerates_host_epoch_churn
+  345ms fault_matrix_with_host_writer_at_each_point: before-prepare
+  353ms fault_matrix_with_host_writer_at_each_point: prepared-durable
+  348ms fault_matrix_with_host_writer_at_each_point: before-commit
+  371ms fault_matrix_with_host_writer_at_each_point: commit-appended
+  349ms fault_matrix_with_host_writer_at_each_point: commit-durable
+  357ms fault_matrix_with_host_writer_at_each_point: before-publish
+  760ms bounded_retry_under_continuous_churn
+  342ms lazy_install_callers_unaffected_during_transition
+  366ms a host that changes while the control plane settles skips the boundary before anything is written
+## native-tests/window-consumer-wire.test.mjs tests=5 ms=7
+  3ms actual browser history and follow-frame parser accepts native many metadata without normalization
+  1ms browser parser retains exact metadata restrictions for malformed and unmarked many events
+  2ms browser system-prompt interpretation retains gap prompts and inherited checkpoint positions
+  0ms browser partial history with any unknown earlier many endpoint withholds its system prompt
+  1ms actual bundled and split session-log contributors serialize all many ranges losslessly
+## native-tests/window-context-baseline.test.mjs tests=8 ms=72
+  1ms cold restore uses committed native window and summary events, never intent; subsequent reads are incremental
+  8ms partial baseline preserves explicit required-source debt and cannot inherit older coverage or advance
+  0ms only complete matching baseline with an actual dispatch advances a recoverable cursor
+  1ms final request rejects missing, truncated, wrong-version, stale-state and partially delivered required sources
+  1ms receipt write failure stays debt, retries only its failed receipt and stops after three attempts
+  2ms successful durable retry clears debt without replaying obsolete baseline manifests
+  2ms real native cold session keeps the committed epoch after the event listener was absent
+  57ms actual adapter dispatch and control-plane disk readback are both needed to clear baseline debt
+## native-tests/window-economics-runtime.test.mjs tests=3 ms=17
+  9ms actual native LlmRuntime preemption keeps interrupted usage unknown in economics
+  5ms real LlmRuntime observer records only handed adapter payload and leaves request unchanged
+  3ms usage buffer is bounded and effect cleanup unregisters bridge and tool registrations
+## native-tests/window-executor-runtime.test.mjs tests=9 ms=5504
+  1014ms idle session without window state passes the guard and falls back below the floor
+  915ms a foldable session folds with a durable window and stays healthy
+  767ms a new process without the install refuses steps for a committed session
+  826ms a rebuilt projection service or reloaded window code hands the session over at the next idle boundary
+  159ms missing certificate and missing plan both fall back without writing an intent
+  183ms a failed install is retried after a backoff instead of being remembered for ever
+  169ms concurrent callers share one install, and nothing is installed under a running turn
+  725ms an operator fold skips the size rule and nothing else
+  746ms an install whose context was disposed by a hot reload is refused at the guard and handed over, not trusted
+## native-tests/window-file-protection.test.mjs tests=11 ms=543
+  79ms same-process OS guard denies writes, delete, replacement and ancestor rename; release restores writers
+  7ms a preexisting writable handle blocks guard acquisition, never widens sharing or leaks ancestor handles
+  7ms guard rejects junction/reparse and missing paths, with no dangling handles after failed acquisition
+  143ms CP protects the locked hot reference closure, reads actual bytes and excludes the UI panel-cache overlay
+  79ms fresh canonical read rejects tampered referenced cold bytes despite warmed caches; failed fence releases all protection
+  86ms missing reference fails closed rather than treating enumeration or absent optional source as protection
+  11ms preexisting writable mapped view cannot outlive write ownership and mutate a protected source
+  0ms OS capability is explicit Windows NTFS support, not caller-provided verified evidence
+  4ms ancestor handle itself denies DELETE access, independently of a leaf file rename
+  93ms source closure is read after obtaining CP lock and holding its index, not before an async wait
+  35ms case-sensitive NTFS objects are never merged by a lowercase held-path cache
+## native-tests/window-host-participation.test.mjs tests=1 ms=246
+  246ms two real Team control fences bind the host by revision: a third plugin install proceeds and invalidates both; so does revoke
+## native-tests/window-install-runtime.test.mjs tests=37 ms=18324
+  561ms admit: static denies, runtime admits root once, non-root denied, revoke honors the static list
+  28ms certificate: stable, invalidated on module change, expectedModules gated
+  550ms installSessionWindow commits once, injects current authority, reports window state
+  221ms refreshRoute re-reads configFingerprint after a host epoch change
+  645ms refreshRoute refuses a route the certificate was not issued for
+  247ms stale certificate refuses commit without writing an intent
+  498ms recover settles a prepared-but-uncommitted intent to clean
+  927ms needsRecover fences commit after a durable-commit crash and recover clears it
+  367ms install failure rolls back admission; a later install succeeds
+  380ms install failure before admit leaves no half install
+  494ms handover dispose releases the session gate; the same session installs again and recovers
+  420ms dispose keeps a live committed install and still serves current authority
+  362ms dispose removes the install once the agent has left the roster
+  383ms a Team with no registered contract folds on the published projection of its approved task plans
+  159ms approvals between folds do not move the plan a window is bound to; publishing does, once
+  0ms the projection says what it cannot vouch for
+  1096ms a settled lossy fold is reported, whoever made it; a fold of this session that is still running or failed blocks
+  441ms after a fold the conversation may grow past the authority size limit again; only the authority message is bounded
+  415ms a request branded in another dsh-llm module instance is accepted by the window, an unbranded one is not
+  148ms live authority carries what is in force as text and cites settled history by count and hash
+  584ms after a fold the current authority is stated as changes against the checkpoint, and in full once the checkpoint is gone
+  704ms an authority too large to restate refuses the fold up front, and never a request of a session that already folded
+  960ms a turn that cannot be folded in the middle does not stop the fold: the largest unbroken run is folded
+  0ms a delivery check can say what it does not know about requirements
+  146ms on a busy Team what is open but not this session's own is carried as brief rows, so the authority stays small
+  427ms a baseline put back after a summary fold is what later requests state their changes against
+  583ms a fold that would not free the share the host asks for is refused before anything is written
+  348ms the request limit includes the every-request authority, not just the replaced surface
+  1152ms inbox brief rows have fixed fields and exact paged retrieval, while injected messages remain unresolved
+  738ms the finished steps of a long completed turn are folded; the input, the final answer and an unfinished step stay
+  753ms a runtime state message between steps is folded with them; what a teammate wrote ends the run and stays
+  272ms a step whose tool result is missing is not folded, and neither is anything after a gap
+  878ms multiple step ranges share one atomic checkpoint and keep human inputs, teammate decisions and final replies in order
+  707ms a Team mail queued between a tool call and its result is not conversation and does not break the step
+  729ms the finished steps of a turn that ended with error are folded once a later turn has completed; its input stays
+  704ms the finished steps of a turn that ended with interrupted are folded once a later turn has completed; its input stays
+  295ms a turn that ended with an error and is still the last turn stays whole
+## native-tests/window-live-barrier.test.mjs tests=2 ms=81
+  65ms live barrier reuses the active routed writer without appending its buffered events twice
+  16ms live barrier refuses foreign identity, missing opt-in and stale writer before mutation
+## native-tests/window-multi-surface.test.mjs tests=9 ms=44
+  4ms multi-range fold preserves gaps and journal, with one checkpoint and generation
+  1ms multi-range ordering uses current surface position rather than numeric seq
+  1ms overlap, reverse order, missing endpoints and invalid ranges reject without admission
+  0ms all shadowed sources must be cited and source arrays must be valid before mutation
+  1ms only user window checkpoints may use multi-range replacement; system head stays protected
+  1ms Session seed, both folds and subsequent appends agree after a multi-range checkpoint
+  35ms durable JSONL records one checkpoint, retains originals and cold restores multi-range surface
+  1ms legacy replace metadata, tool content restrictions and system head rewrite remain compatible
+  1ms V4 codec rejects malformed multi-range rows before recoverable-tail handling
+## native-tests/window-projection-runtime.test.mjs tests=21 ms=106
+  16ms a later raw fallback on the same turn signal must not inherit the previous checkpoint binding
+  9ms two prepared requests sharing a signal retain their independent native checkpoint bindings
+  9ms W0 real Session/LlmRuntime shadow is pure and preserves request, surface, journal and raw authority
+  6ms W1 actual prepared adapter payload is immutable, nonempty, bounded and keeps authority over memo
+  6ms uniterated and aborted requests have no actual dispatch receipt
+  4ms source revisions changing after prepare reject before native adapter and receipt
+  1ms wrong actor conservatively keeps the original request
+  1ms wrong session conservatively keeps the original request
+  1ms auxiliary purpose conservatively keeps the original request
+  1ms unknown route conservatively keeps the original request
+  3ms unknown block conservatively keeps the original request
+  2ms native raw admission remains authoritative even with small W1 preview
+  4ms actual llm waterfall raw request rejection is preserved
+  3ms post-native source CAS prevents forAdapter synchronous source mutation from dispatching
+  3ms wrong actor after immutable prepare is rejected at actual dispatch boundary
+  3ms native forAdapter cannot forward a different actor after the pre-boundary check
+  4ms native forAdapter cannot drop the bound checkpoint after the pre-boundary check
+  2ms unknown request model fails open to unchanged messages at actual adapter
+  4ms downstream transform cannot drop checkpoint and bypass source dispatch fence
+  25ms a large host binding is excluded from the budget while the actual checkpoint body is still counted
+  0ms provider replay signatures remain in the model budget; checkpoint provenance does not
+## native-tests/window-responses-protocol.test.mjs tests=6 ms=11
+  5ms installed PiAiAdapter and Responses converter preserve real DS reasoning and complete tool pairs without degradation
+  2ms whole completed-turn deletion removes its reasoning/calls/results atomically and leaves later exact replay unchanged
+  1ms missing tool result is silently synthesized by official converter and must never count as exact recovery
+  1ms malformed same-route replay is degraded by actual adapter and must not silently certify a projected request
+  2ms canonical whole-turn reasoning proof binds exact events, signed replay and route without trusting completion claims
+  1ms trial replay guard rejects actual adapter degradation before terminal transport or provider dispatch
+## native-tests/window-token-meter.test.mjs tests=8 ms=21
+  3ms multi-range pricing keeps gaps, inserts one checkpoint, and matches native surface
+  2ms all multi-range validation precedes any node or projection mutation
+  2ms multi-range pricing uses current position after an earlier replacement, not numeric seq order
+  2ms pressure prices native windows exactly and stores only compact retained-node prices
+  0ms v6 prices legacy unpriced single replacement and keeps the exact retained total
+  2ms legacy expansion and shrink followed by a window cannot make pressure checkpoints negative
+  1ms legacy adjacent shadow-price range mismatch remains a failure without partial state
+  10ms bundled TokenMeter, projections, and v5-to-v6 cold checkpoint replay agree
+## native-tests/window-transition-runtime.test.mjs tests=34 ms=4409
+  13ms missing control-plane participation stays blocked; exact opt-in mandatory
+  37ms one durable replacement record is commit authority, preserves exact old journal and tail
+  20ms intent boundary fences append, compaction, reads and critical writers while preserving enqueue
+  3ms fault at before-prepare never publishes mixed view; replay is idempotent
+  20ms fault at prepared-durable never publishes mixed view; replay is idempotent
+  21ms fault at before-commit never publishes mixed view; replay is idempotent
+  24ms fault at commit-appended never publishes mixed view; replay is idempotent
+  19ms fault at commit-durable never publishes mixed view; replay is idempotent
+  22ms fault at before-publish never publishes mixed view; replay is idempotent
+  2601ms 120 transitions + replay preserve old journal and monotonic window IDs
+  19ms historical durable commit is confirmed under changed authority without a fresh proposal validator or flush
+  17ms two concurrent transition calls serialize by rejecting second CAS owner
+  12ms actual JSONL persistBatch failure blocks visibility until recovery
+  16ms actual JSONL readStoredLog failure blocks visibility until recovery
+  28ms stale authority at commit aborts in the commit step itself: one durable resolution, readable without recover
+  19ms a commit-step abort whose own persistence fails stays fenced until that write is resolved
+  18ms double recovery rejects competing worker and leaves exactly one durable resolution
+  25ms a release that fails does not replace a durable commit receipt or the abort marker
+  9ms a defect inside a commit validator is not turned into a retryable abort
+  18ms durable duplicate abort resolution refuses recovery without journal rewrite
+  18ms durable wrong-intent abort resolution refuses recovery without journal rewrite
+  38ms real native Inbox claim shares window fence; durable A/B/C enqueue wakes only after commit
+  13ms multi-range failure at before-prepare keeps a complete old or new surface and recovers idempotently
+  30ms multi-range failure at prepared-durable keeps a complete old or new surface and recovers idempotently
+  24ms multi-range failure at before-commit keeps a complete old or new surface and recovers idempotently
+  32ms multi-range failure at commit-appended keeps a complete old or new surface and recovers idempotently
+  27ms multi-range failure at commit-durable keeps a complete old or new surface and recovers idempotently
+  24ms multi-range failure at before-publish keeps a complete old or new surface and recovers idempotently
+  2ms multi-range preparation rejects missing sources, overlap, reorder, ambiguity and protected tail before a durable intent
+  19ms durable multi-range commit confirmation verifies its exact ranges and rejects a modified commit without rewriting history
+  305ms isolated subprocess crash at prepared-durable reconstructs exact durable authority
+  302ms isolated subprocess crash at commit-appended reconstructs exact durable authority
+  303ms isolated subprocess crash at commit-durable reconstructs exact durable authority
+  312ms isolated subprocess crash at before-publish reconstructs exact durable authority
+## phase1-tests/write-scope-guard.test.mjs tests=1 ms=140
+  140ms phase1-tests\write-scope-guard.test.mjs
+## phase10-tests/action-fusion-v2.test.mjs tests=6 ms=297
+  5ms rust context resolves the workspace root and crate name
+  164ms fusion appends one validation block and deduplicates identical content
+  13ms a crate-scoped rule is skipped when no Cargo.toml exists
+  14ms failed edits and non-mutating tools pass through unchanged
+  14ms requireFile skips a rule when its project marker is absent
+  86ms a successful crate check enters the per-crate cooldown
+## phase10-tests/auto-research.test.mjs tests=3 ms=9
+  6ms the capability floor rejects a cheaper candidate that breaks the fixture
+  0ms the Pareto frontier keeps a capability winner beside a higher-scoring peer
+  3ms the research report exposes all four real fault categories
+## phase10-tests/compaction-economics.test.mjs tests=7 ms=1
+  1ms remaining requests uses the observed per-boundary mean
+  0ms a missing cache ratio defers instead of guessing
+  0ms window protection compacts even without an economic ratio
+  0ms economic compaction fires when the horizon repays the rewrite
+  0ms growth and cooldown gates defer an otherwise economic compaction
+  0ms non-positive saving is reported explicitly
+  0ms cache usage summarizes the cached prompt share
+## phase10-tests/compaction-shadow.test.mjs tests=4 ms=67
+  24ms shadow economics emits a compact decision without touching the session
+  21ms identical idle evaluations do not inflate telemetry counters
+  21ms missing cache ratio defers rather than guessing
+  0ms pressure-assisted compaction exposes pressure and the measured ratio
+## phase10-tests/cost-attribution.test.mjs tests=2 ms=2
+  1ms cost attribution reports token and quality deltas without hiding regressions
+  2ms a mechanism with five dormant sessions is excluded from benefit claims
+## phase10-tests/evidence-reducer.test.mjs tests=7 ms=72
+  1ms parseReceipt extracts one JSON object from prose or a fence
+  1ms verifyReceipt accepts exact quotes and rejects mismatches
+  1ms renderReceipt carries the marker, quotes and archive identity
+  28ms apply replaces a long log with a verified receipt
+  13ms an unverifiable receipt fails open and keeps the original log
+  14ms a non-local route is refused when remote reduction is disabled
+  15ms the operator settings document round-trips the reducer route
+## phase10-tests/observation-pack-v2.test.mjs tests=7 ms=124
+  4ms createObservation writes a content-addressed archive with a handle
+  37ms delayed projection keeps the first two sends and replaces the third
+  33ms projection never rewrites the system prefix
+  24ms a corrupted archive fails open and keeps the original text
+  12ms reducer receipts and small results are never archived
+  11ms an observation source marker prevents a second packing pass
+  2ms a symlink archive is rejected instead of followed
+## phase10-tests/v13.1-core.test.mjs tests=10 ms=104
+  0ms reducer route safety applies to session and explicit routes
+  1ms verified reducer receipts bind archive, model and fixture into v12 evidence
+  52ms telemetry accumulates consecutive sessions without a firing event
+  0ms telemetry migration backfills fired counts from historical kind histograms
+  0ms compaction decisions are mirrored with economic reason and debt
+  0ms shared observation metadata identifies reducer and pack processors
+  5ms ObservationPack produces measured savings and verifies its archive
+  44ms failure memory blocks only the same action plus failure fingerprint
+  1ms cache monitor binds a hit-rate drop to an exact same-request handoff receipt
+  0ms compaction anchors do not require concatenated milestone text
+## phase11-tests/platform-defects-eighteenth-pass.test.mjs tests=3 ms=908
+  275ms B-173: shared Cargo target is rejected while per-checkout targets pass
+  631ms O-10-13: one main ancestry read classifies a whole task page
+  2ms O-10-13: runtime_facts does not degrade every plugin for a null schemaVersion
+## phase11-tests/platform-defects-eleventh-pass.test.mjs tests=5 ms=7
+  5ms B-99: tier identity mapping is explicit and unknown tiers fail closed
+  1ms B-100: waiting resolves the real group card instead of its global projection
+  0ms B-101: an upward info receipt reports direct delivery truthfully
+  0ms B-102: condition is a non-blocking verifier severity
+  0ms B-103: delivered inbox rows with no wake ids remain individually ackable
+## phase11-tests/platform-defects-fifteenth-pass.test.mjs tests=9 ms=2056
+  2ms B-156: waiting projections expose an inactive responsible member
+  0ms B-157: lock timeout never claims that no mutation was written
+  651ms B-158/B-163: completed commits distinguish integrated from not integrated
+  1038ms B-159: a clearance survives only disjoint main advances
+  1ms B-160: legacy task-terminal closure records its real reason and accepts a late conclusion
+  361ms B-161: task commit bindings canonicalize and reject sentinel or short values
+  0ms B-170: source-ancestor substitution requires explicit opt-in
+  2ms B-162: individually settled messages clear the aggregate wake
+  0ms O-10-4: waiting_resolve names ticket_id versus task_id mistakes
+## phase11-tests/platform-defects-fifth-pass.test.mjs tests=10 ms=1358
+  10ms B-73: legacy unresolved itemId survives normalization and remains resolvable
+  2ms B-74: decision missingConfirmations is derived on every mutation and normalization
+  1ms worktree refusals identify the dirty source and invalid destination
+  3ms B-76: evidence rows retain their writer and remain visible to that writer
+  1ms B-79: evidence id resolution distinguishes prefix, ambiguity, missing and invalid forms
+  0ms B-77: ordinary phase advancement cannot roll back packet phases
+  9ms B-78: tier-2 writes fail closed without their own worktree
+  1331ms B-80/B-81: stale integration branch is merged without rebasing and a missing destination worktree is created
+  0ms B-82: receipt notice does not mutate a frozen downstream content array
+  0ms B-83: unavailable gate reports the concrete gate, read stage, task, and state
+## phase11-tests/platform-defects-fortieth-pass.test.mjs tests=1 ms=155
+  155ms a completed edit task can acquire its approved plan again without reopen
+## phase11-tests/platform-defects-forty-fifth-pass.test.mjs tests=9 ms=9
+  1ms B-237: exact-limit pages expose total and truncation metadata
+  2ms B-238: editing the default description updates the default acceptance text
+  0ms B-240: dependency diagnostics survive a missing scheduler reason
+  0ms B-242: delete preflight names every dependent task
+  1ms B-243: waiting_set reuses the same responsibility row when the responsible actor changes
+  0ms B-244: a completed run may leave a task open only with a named residual dependency
+  0ms B-246: approval received mid-turn waits for the next turn
+  1ms B-249: target selection has a single-owner result contract
+  4ms B-245: read-only git commands with a PowerShell path stay non-writing
+## phase11-tests/platform-defects-forty-first-pass.test.mjs tests=3 ms=28
+  14ms B-213c: all no-lease -File variants report the missing plan lease, not write capability
+  11ms B-213c: a sanctioned in-scope -File script remains allowed with a valid lease
+  4ms B-213c: unverifiable non-File composition is named without claiming write capability
+## phase11-tests/platform-defects-forty-fourth-pass.test.mjs tests=7 ms=6
+  5ms B-237 masks PowerShell line and block comments before path extraction
+  0ms B-238 selects commit_sha or branch_head explicitly and preserves the default
+  0ms B-236 exposes both safe plan-replacement recovery paths
+  0ms inbox ack exposes one live wake id and ignores blank legacy wakes for context
+  0ms inbox ack accounting failures do not enter deterministic failure memory
+  0ms B-239 reports the git and phase halves independently
+  0ms worktree setup refuses a task owned by another member
+## phase11-tests/platform-defects-forty-second-pass.test.mjs tests=4 ms=218
+  92ms B-47: an inactive-owner unplanned scope can be repaired by the own-group lead
+  63ms B-47: the recovery path stays closed while the owner is active
+  61ms B-47: the recovery path stays closed while a run lease is active
+  0ms B-47: the pure verdict rejects cross-group, plan-controlled and non-lead edits
+## phase11-tests/platform-defects-forty-third-pass.test.mjs tests=7 ms=194
+  84ms B-227 rejects a tier-1 owner on a global board at create and reassign
+  2ms B-228 excludes a dependent active card from the candidate scope conflict
+  0ms B-230 exposes blocked phase transitions and the reopen recovery action
+  0ms B-233 keeps a broad directory claim authoritative over a contained file
+  1ms B-231 names an execution-phase task whose owner is inactive
+  15ms B-232 keeps decision aliases schema-compatible and supports explicit supersede
+  92ms B-234 binds evidence to a completed read-only card without fabricating a commit
+## phase11-tests/platform-defects-fourteenth-pass.test.mjs tests=46 ms=12102
+  2373ms B-110: mergeExact fast-forwards an ancestor source and reports commit creation
+  0ms B-116: one verifier report can clear both task and branch-head commits
+  0ms B-117/B-118: query formation and input form remain explicit and context-free
+  703ms B-119: worktree sync refusal names behind and dirty preconditions
+  3ms B-121: generator and fixture-manifest output flags are parsed as writes
+  1ms B-122: a structured wait survives phase revision changes until its condition clears
+  0ms B-123: a report with major issues cannot advertise cleared commits
+  1ms B-112: ready queue names the dependency phase gate and honors an explicit override
+  0ms B-112 supplement: ready queue separates no-plan from plan-not-approved
+  9ms B-114: frozen participants are excluded from both speaking and close quorum
+  1ms B-115: room decision projections retain proposed rows on both read paths
+  2ms B-111: read output exposes structured truncation and continuation fields
+  1ms B-124: reopen requires and stores a card-level reason in the same mutation
+  0ms B-126: task creation can assign an owner atomically
+  1ms B-127: PTC completion sanitizes nested undefined values before lossless JSON validation
+  1ms B-128: direct task-row writeScopes edits are refused with the plan recovery path
+  0ms B-129: PTC tool failures preserve the structured HarnessError code
+  1254ms B-130: mergeExact allows only named untracked paths and reports what was ignored
+  1503ms B-132: worktree setup reports its merge shape and never hides a merge commit
+  1ms B-133: waiting closure lifecycle is explicit and same-task rehangs do not overwrite
+  0ms B-133 closure two: waiting projections preserve structured post-completion tickets
+  1ms B-136: waiting_list no longer references an undefined lower helper
+  1ms B-139: failure-memory clear resolves the exact blocked call signature
+  0ms B-137: a milestone bound to another task is not reported as this task owner forgetting
+  93ms B-140: complete unions evidence pointers instead of shrinking the proof set
+  0ms B-141: dead-letter counts separate system notifications from peer messages
+  86ms B-142: reassign clears the previous owner worktree binding
+  88ms B-147: reassign closes the previous owner waiting tickets without touching the replacement
+  0ms B-143: ignored evidence filters make query formation partial or rejected
+  0ms B-144: evidence id resolution declares the reader and visible author scope
+  185ms B-148: team health refreshes a stale disabled snapshot and mirrors recovery
+  0ms B-149: task output drops legacy undeclared fields while preserving lifecycle
+  57ms B-150: reassign adds the replacement owner to the approved plan
+  1ms B-151: discussion contract reads allow empty write scopes and synchronize lifecycle
+  0ms B-152: task acceptance requirements do not leak to unrelated group members
+  0ms R23: stored legacy task fields are removed and lifecycle follows status
+  0ms R23: replacing an approved plan preserves a post-approval task phase
+  0ms R23: member-to-group merge binds the exact task commit and rejects unrelated drift
+  57ms D-4: control-plane audit status reads real rows and versions mutations
+  2ms D-4: legacy unversioned audit rows are explicit, not reported as an empty log
+  363ms D-5: clearance commits are validated against the repository before registration
+  0ms D-6: a lower-severity probe cannot overwrite a formal clearance
+  1471ms D-7: mergeExact refuses a detached destination instead of reporting a false landing
+  2060ms B-153: worktree setup can resolve a stale-base conflict through an explicit pinned strategy
+  1781ms B-154: a member merge may consume an exact task commit even when the branch tip advanced
+  0ms B-155: request-bound approval waits ignore unrelated plan approval
+## phase11-tests/platform-defects-fourth-pass.test.mjs tests=14 ms=2168
+  3ms B-46/B-66 distinguish git write commands and read-only git options
+  0ms B-58 scope conflict ignores stale nested contract lifecycle
+  8ms B-41/B-54 packet revision and supersedes track the actual previous packet
+  4ms B-62 timed-out wake dead letters can be cancelled
+  4ms B-182b timed-out dead letters have a tier-0 retirement path
+  0ms B-185 group acceptance packet must name the group branch tip
+  34ms B-187 verifier conditions and blockers are delivered directly to tier 0
+  0ms B-190 ready=false names the reason and the scope holder
+  1ms B-193 blocked tasks do not hold the runnable scope and holders can see waiters
+  0ms batch 194 escalation reads separate automated dead letters from human decisions
+  3ms B-44 plan proposal rejects unsupported glob scopes
+  0ms B-52 waiting ticket records the waiter separately from the task owner
+  1334ms B-67 pure ancestor worktree branch is fast-forwarded to the moving base
+  777ms B-71 all-gitignored edit scopes are recognized as non-product
+## phase11-tests/platform-defects-nineteenth-pass.test.mjs tests=4 ms=3333
+  1004ms B-174: lease sync preserves an unrelated unstaged tracked edit
+  920ms B-174: overlapping main changes are rejected without losing the local edit
+  723ms B-174: staged edits remain fail-closed
+  686ms B-174: the default setup path still rejects every tracked edit
+## phase11-tests/platform-defects-ninth-pass.test.mjs tests=3 ms=4
+  1ms B-92: a recent proof edit requires an exact echo and records its age
+  0ms B-93: reassignment computes a deterministic worktree binding for tier-2 edit cards
+  3ms B-94: a newline ends a write command before the next cmdlet is parsed
+## phase11-tests/platform-defects-second-pass.test.mjs tests=5 ms=293
+  151ms delivery check treats an unbound or other-task milestone as neutral
+  4ms packet contentDigest v2 is recomputable from the stored row
+  51ms a completed discussion card can advance directly to accepted
+  85ms team_task_update exposes the completed discussion acceptance path
+  2ms a visible or durably received debt notice does not acknowledge the omitted content
+## phase11-tests/platform-defects-seventeenth-pass.test.mjs tests=1 ms=4375
+  4375ms B-172: a cleared source that already contains main is not wrapped by a destination refresh
+## phase11-tests/platform-defects-sixteenth-pass.test.mjs tests=6 ms=68
+  1ms B-167: plan proposals reuse the active-task scope conflict gate
+  61ms O-10-8: heartbeat extends expiresAt when no explicit expiry is supplied
+  0ms O-10-9: inbox_ack names namespace mistakes in both directions
+  0ms B-169: clearance documentation names both blocking severities
+  0ms B-171: active task-scoped privilege can replace only the missing merge pointer
+  5ms O-10-12: approved privilege persists to the next wake and expires at that turn end
+## phase11-tests/platform-defects-sixth-pass.test.mjs tests=8 ms=1223
+  1ms B-85: a group lead cannot approve foreign-group or global-scope plans
+  1ms B-86: evidence query envelope exposes prefix status and rejected form
+  0ms waiting_resolve is idempotent and can match the waiter when the task owner changed
+  1ms B-87: dependency release requires final acceptance, not completed alone
+  2ms B-88: merge lock is outside the destination worktree
+  0ms B-89: merge phase reporting distinguishes an idempotent no-op
+  1218ms B-91: lease-time member worktree sync fast-forwards the member branch to main
+  0ms B-90: contract writes expose a compare-and-set conflict
+## phase11-tests/platform-defects-tenth-pass.test.mjs tests=5 ms=66
+  1ms B-85 live: a group lead cannot approve a repository-root governance scope
+  1ms B-95: a dependency-blocked task may be reassigned while its owner is active
+  5ms B-96: tier-0 and group leads may create bounded external evidence checkouts
+  0ms B-97: a deleted losing card no longer occupies its write scope
+  60ms B-98: release refuses a deleted tombstone instead of resurrecting it
+## phase11-tests/platform-defects-third-pass.test.mjs tests=8 ms=146
+  5ms A-9 parses positional write targets and inline Join-Path expressions
+  0ms B-33 only derives a room wait when an open room round exists
+  1ms B-36 distinct explicit waits coexist and resolve independently
+  1ms B-37 evidence query filters records instead of returning the latest row
+  52ms B-38 recording evidence appends it to the task card
+  0ms B-39 tier 0 can read tier-2 milestones for delivery-check audit
+  59ms B-28 bind_fix accepts null as the no-commit sentinel
+  28ms B-40 milestone set verifies the durable document before returning success
+## phase11-tests/platform-defects-thirteenth-pass.test.mjs tests=7 ms=4
+  2ms B-108: ack retires both durable inbox and dispatch-pending carriers
+  0ms B-108: a permanent queued dispatch row has an explicit clear path
+  0ms B-108: repeated dispatch acknowledgement is idempotent and visible as cleared
+  0ms B-108: wake-level ack clears queued redelivery state after all messages handled
+  0ms B-108: inbox acknowledgement cannot cross member scope
+  1ms B-109: provider waits require a real recorded provider failure
+  0ms B-109: fuzzy resolve refuses an active derived row instead of hitting an old ticket
+## phase11-tests/platform-defects-thirtieth-pass.test.mjs tests=3 ms=154
+  2ms B-193 verifier can read landing-token evidence without broadening private evidence
+  139ms B-195 release reports an expired lease instead of lease-release-order
+  14ms B-195 write refusal names no active lease or its expiry
+## phase11-tests/platform-defects-thirty-eighth-pass.test.mjs tests=7 ms=44
+  11ms B-218 regression: a scoped -File script with runtime paths is allowed
+  6ms B-218 regression: a -File script outside the approved plan remains denied
+  7ms B-218 regression: a scoped -File script still enforces the bound worktree carrier
+  2ms B-218 regression: inline pwsh -Command stays fail-closed
+  4ms B-218 regression: a bash wrapper around a scoped -File script stays fail-closed
+  4ms B-218 regression: a shell separator around a scoped script stays fail-closed
+  9ms B-218 regression: a missing or non-UTF-8 top-level script stays fail-closed
+## phase11-tests/platform-defects-thirty-fifth-pass.test.mjs tests=6 ms=18
+  5ms B-218: a pwsh -File script exposes its static writes to the guard
+  3ms B-218: a pwsh -File script follows a static nested script invocation
+  6ms B-218: pre-execute rejects writes made by a pwsh -File script
+  2ms B-218: a non-UTF-8 script is opaque instead of silently unscanned
+  0ms B-219: a dynamic expression target is opaque instead of a fake path
+  1ms B-220: waiting_set updates the existing open ticket for the same task
+## phase11-tests/platform-defects-thirty-first-pass.test.mjs tests=4 ms=196
+  13ms B-198 restarted host skips recovered job ids instead of colliding with them
+  118ms B-199 plan approval distinguishes a real event from an idempotent no-op
+  0ms B-200 blocked release refusal reports every checked condition and a constructible path
+  65ms B-202 complete refusal names the missing call argument and existing evidence
+## phase11-tests/platform-defects-thirty-fourth-pass.test.mjs tests=6 ms=12
+  4ms B-213 resolves a Join-Path assignment to its path instead of the cmdlet name
+  1ms B-213 keeps literal variable targets while refusing unknown dynamic targets
+  0ms B-213b treats an unknown cmdlet with a write-shaped switch as opaque
+  0ms B-213b keeps known read-only cmdlets with path switches non-opaque
+  0ms B-213b refuses a write through a dynamically invoked cmdlet name
+  7ms worktree carrier keeps tier-1 writes inside the member worktree
+## phase11-tests/platform-defects-thirty-ninth-pass.test.mjs tests=2 ms=21
+  16ms cross-turn jobs survive Agent disposal while their Session remains live
+  5ms owner disposal still reclaims jobs when no live Session registry exists
+## phase11-tests/platform-defects-thirty-second-pass.test.mjs tests=2 ms=69
+  58ms B-197 a group lead can read its member leases through both supported argument shapes
+  11ms B-203 live pwsh-153 skips a recovered id and keeps its completed output readable
+## phase11-tests/platform-defects-thirty-seventh-pass.test.mjs tests=7 ms=364
+  1ms B-222 correction: an inactive target remains cold-resumable for action delivery
+  1ms queued inbox rows can be acknowledged by the target after inbox_list exposes them
+  0ms a replacement lead can receive messages from the previous lead's members through a durable re-parent override
+  1ms a blocked task without an active lease does not block a successor claim
+  172ms an approved plan can explicitly declare no remaining product write scope
+  119ms an approved empty write scope can complete a criteria-only task with evidence and no commit
+  69ms team_member_reparent persists the override and rehydrates the replacement lead authority
+## phase11-tests/platform-defects-thirty-sixth-pass.test.mjs tests=1 ms=3
+  3ms B-221: acknowledged legacy wake rows stay handled across wake-state rehydration
+## phase11-tests/platform-defects-thirty-third-pass.test.mjs tests=3 ms=77
+  1ms B-207 completed dependency mode releases a completed content dependency before final acceptance
+  75ms B-207 task tools expose and persist an explicit completed dependency threshold
+  1ms B-210 same-owner plan proposal is advisory while execution conflicts remain fail-closed
+## phase11-tests/platform-defects-twelfth-pass.test.mjs tests=5 ms=3
+  2ms B-104: task update rejects unknown fields and accepts explicit contract fields
+  1ms B-105: task edit updates the row and nested contract deterministically
+  0ms B-106: requeued handoffs expose their original payload in inbox_list
+  0ms B-106: pending handoffs have an ack path and terminal retry is visible
+  0ms B-107: only main merges advance a task to integrated
+## phase11-tests/platform-defects-twentieth-pass.test.mjs tests=7 ms=56
+  3ms pwsh here-strings stay data while an explicit write target remains visible
+  1ms managed worktree targets without a plan binding name the real cause
+  51ms lease heartbeat can rebind contractRevision
+  1ms a retired pending inbox acknowledgement is idempotent and target-scoped
+  0ms phase refusal guidance lists every adjacent step
+  0ms integrated history suppresses only historical packet gates
+  0ms a waiter may resolve its own explicit ticket but not set waits or resolve another ticket
+## phase11-tests/platform-defects-twenty-eighth-pass.test.mjs tests=2 ms=142
+  0ms B-186 only tier 0 may cross the integration boundary
+  141ms B-186 team_task_update refuses owner terminal advance and reopen repairs accepted state
+## phase11-tests/platform-defects-twenty-fifth-pass.test.mjs tests=1 ms=51
+  51ms D-new-16: acquire persists the active lease before returning its receipt
+## phase11-tests/platform-defects-twenty-first-pass.test.mjs tests=4 ms=11
+  1ms runtime_facts compact mode keeps signal rows and omits unobserved-entry noise
+  6ms job journal preserves terminal status and marks a dead host running row orphaned
+  3ms job journal treats a reused PID with a different process token as a dead host
+  1ms job event hub replays recovered rows to listeners attached after startup
+## phase11-tests/platform-defects-twenty-fourth-pass.test.mjs tests=4 ms=65
+  1ms D-new-14 follow-up: tier 0 member filtering applies when explicitly requested
+  1ms D-new-15: git -C and carrier verdict distinguish bound worktrees from the shared checkout
+  62ms D-new-15: the write guard rejects shared-checkout writes and commits but allows the bound worktree
+  2ms tier 0 keeps the shared-checkout compatibility path
+## phase11-tests/platform-defects-twenty-ninth-pass.test.mjs tests=3 ms=1297
+  359ms B-187 owner may complete from integration-ready without phase rollback
+  1ms B-190 opaque approval waits ignore unrelated plan approval
+  937ms B-192 preserved unstaged rows retain raw porcelain bytes
+## phase11-tests/platform-defects-twenty-second-pass.test.mjs tests=5 ms=3
+  1ms D-新-2 compact runtime facts omit noise-only plugins regardless of runtime entry shape
+  1ms D-新-3 verifier scratch is platform-managed and verifier-only
+  0ms D-新-4 cross-board blockers are rejected with the board that owns the task
+  0ms D-新-5 mixed controlled edits explicitly state the whole call was atomic
+  0ms D-新-7 contract projection exposes stale revision state
+## phase11-tests/platform-defects-twenty-seventh-pass.test.mjs tests=2 ms=3
+  2ms B-182: structured post-completion waits survive task-terminal
+  1ms B-183: task-scoped requirement authorization inherits taskIds and scope
+## phase11-tests/platform-defects-twenty-sixth-pass.test.mjs tests=3 ms=120
+  76ms B-175: board-qualified dependencies gate readiness across boards
+  1ms B-176: a dependency wait may name a non-task object and remains explicit
+  43ms B-177: blocked release requires a named dependency and is durable
+## phase11-tests/platform-defects-twenty-third-pass.test.mjs tests=7 ms=5
+  2ms D-new-8: an explicit null ownerName is not revived from a stale contract owner
+  0ms D-new-9: ready rows name whether a lease belongs to the task or the member
+  1ms D-new-10: a committed native team message becomes an ackable inbox row
+  1ms D-new-11: no-plan scope refusal points at plan creation instead of plan replacement
+  1ms D-new-12: narrowing a directory scope to a contained file bypasses the stale self-conflict
+  0ms D-new-13: identical directory scopes do not block one side from narrowing to a child file
+  0ms D-new-14: a member can read its own leases while tier 0 can scope another member
+## phase11-tests/session-list-cache.test.mjs tests=2 ms=129
+  84ms session list cache coalesces reads, revalidates in the background, and disposes cleanly
+  45ms session list cache loads a disk snapshot before the first network-equivalent read
+## phase11-tests/unified-active-identity.test.mjs tests=12 ms=981
+  109ms delivery revision changes on same-name activation and A to B to A
+  66ms a proposal edit after durable publication cannot turn approved activation into an apparent failure
+  98ms active bundle is durable, disk edits wait for explicit activation, and role mapping stays exact
+  86ms activation rejects full-manifest hash mismatch, stale CAS, non-root callers, and tool-supplied authority fields
+  97ms A to B to A advances the identity epoch every time
+  133ms activation queues behind the real control-plane window fence
+  44ms roles root must be within the configured physical allowlist
+  44ms proposal byte budget is finite and enforced before activation
+  79ms common-only identity change re-versions every role and delivers the new common without the old one
+  68ms common-only edit without regenerating the manifest hash is rejected and leaves the active identity untouched
+  76ms single role-file change updates that role only; other roles keep identical text under a new bundle revision
+  81ms activation in the middle of a step does not alter the captured identity; the next turn delivers the new one
+## phase11-tests/unified-budget-admission.test.mjs tests=20 ms=843
+  1ms the conversation budget reserves the output the route really sends
+  6ms a step that cannot fit is refused with a reason, and the refusal is recorded
+  3ms a step that fits is entered and nothing is recorded
+  0ms the idle summary budget counts the unpruned replay and the summary output
+  4ms an idle fold whose summary request cannot fit is not sent; it is left for the step-boundary fold
+  5ms an idle pressure fold that fits still runs
+  67ms a refused step puts the input it had claimed straight back and wakes the member again after a delay
+  139ms refusals caused by other wakes do not use the attempts up; only a wake this plugin sent counts
+  92ms after the last retry the member is left alone with its input intact, and its lead is told once
+  77ms a step that fits again cancels the pending wake
+  46ms a turn that is being cancelled is refused without restoring its input or scheduling a wake
+  77ms input withdrawn after the refusal (a cancel clears the inbox) cancels the wake
+  154ms a pending wake survives a hot reload of the plugin
+  62ms a wake that fails asynchronously is recorded instead of becoming an unhandled rejection
+  6ms a provider "parameters rejected" 400 close to the window is handed to the engine as a context overflow
+  3ms what the step is about to add counts against the window, not only what the session already holds
+  6ms a request that certainly cannot fit is answered locally, whoever built it, the engine summary included
+  4ms a waiting retry is on disk and is taken up again after a restart
+  44ms a member out of retries is recorded as paused until one of its steps goes through
+  46ms the operator can list waiting and paused sessions, and a paused lead is told in its own session
+## phase11-tests/unified-context-debt.test.mjs tests=3 ms=4
+  3ms notice-only receipt cannot retire content in visible or durable history
+  1ms legacy versions-only cursors are unknown until item receipts prove content
+  0ms history receipts stay unknown; migration replays actual dispatch and isolates scope
+## phase11-tests/unified-context-dispatch.test.mjs tests=3 ms=14
+  8ms actual adapter boundary alone retires full context; preview and uniterated stream do not
+  2ms actual abort before adapter cannot create a content receipt
+  4ms final projection removal, auxiliary purpose and foreign session never acknowledge the candidate
+## phase11-tests/unified-control-durability.test.mjs tests=3 ms=150
+  55ms control publication fsyncs cold references and main snapshot before durable callbacks
+  45ms file synchronization failure rejects publication without an afterDurable success
+  50ms failed deferred checkpoint discards unpublished authority before the next writer
+## phase11-tests/unified-control-writer.test.mjs tests=3 ms=232
+  132ms public writers require CAS and cannot bypass an active window fence
+  47ms cooperative publication rejects stale and nonmonotonic snapshots without side effects
+  53ms directory aliases share the physical writer fence
+## phase11-tests/unified-delivery-authority.test.mjs tests=13 ms=608
+  76ms actual control-plane persistence precedes sync consumer; queued outbox is acknowledged in a new lock
+  42ms actual persistence serialization failure cannot call the consumer or publish a durable receipt
+  45ms exact receipt readback mismatch blocks consumption while retaining the durable queued receipt
+  40ms server context CAS changes throw before mutation and do not increase durable revision or pollute hot state
+  39ms missing or stale plan file verification rejects before persistence
+  58ms queued crash replay is idempotent; callback failure keeps receipt recoverable and cannot authorize acknowledgment
+  50ms a synchronous consumer rejection does not produce acknowledgment authority
+  57ms explicit goal authorization uses a server preview or a complete bound ref and never guesses the current plan
+  49ms async callbacks are rejected before calling them; returned thenables fail with a replayable queued receipt
+  49ms a persisted receipt cannot be replayed after source authority changes
+  46ms source changes between persistence and the hook block consumption through server recapture
+  56ms shared delivery service requires a durable current receipt, not merely a covered preview
+  0ms missing delivery service fails closed only for registered plans and exact agent identity works across plugin contexts
+## phase11-tests/unified-delivery-debt.test.mjs tests=8 ms=54
+  8ms clean authoritative stores return a source-bound snapshot without mutating the locked state
+  9ms external missing, corrupt, unsupported, oversized and escaped sources fail closed
+  4ms current-plan Room, waiting, compaction, plan-read and descendant input debt cannot be hidden by notices
+  4ms unrelated plans and Teams do not silently become current-plan blockers or clear its debt
+  8ms only exact current-session dispatched body clears context fetch debt, not history or old versions
+  0ms accepted native input with missing or mismatched canonical admission remains pending
+  7ms a new compaction epoch and unavailable owner input state cannot reuse old body cursors to clear debt
+  14ms exact collector snapshot participates in delivery CAS bindings even with an empty debt list
+## phase11-tests/unified-delivery-source.test.mjs tests=4 ms=65
+  23ms server physical manifest changes for dirty file and new untracked file, not a supplied evidence source id
+  12ms scope traversal, physical junction escape and bounded tree overflow cannot produce a manifest
+  18ms exact environment/recipe refs and explicit server debt collector are required, never client booleans
+  12ms pending full-plan fetch and pending native input prevent a clean completion debt snapshot
+## phase11-tests/unified-engine-compaction-recovery.test.mjs tests=11 ms=47
+  11ms an engine compaction gets the anchor check, a namespaced settled ledger row and one recovery notice
+  5ms a fold this plugin ran itself is not post-processed a second time
+  3ms the same compaction id is post-processed once
+  3ms an errored close is left to the engine
+  2ms a session outside the Team is skipped without noise
+  4ms missing anchors are recorded on the row without making it a blocking debt, and the notice still goes out
+  3ms a notice that cannot be injected while the close event is being published is delivered right after it
+  4ms an undelivered engine notice is owed and re-sent at the next step
+  6ms several engine folds inside one step send one notice; a new step sends a new one
+  6ms an ownerless or command-issued close is recorded as manual, not as the automatic path
+  2ms a throwing listener body never propagates to the event publisher
+## phase11-tests/unified-evidence-binding.test.mjs tests=20 ms=2836
+  2ms exact task and board bind acceptance despite colliding ac-1 ids
+  2ms every explicitly current version, source, recipe and environment must match
+  0ms criterion metadata is retained and contract revision is independent of lifecycle revision
+  2ms criterion metadata cannot override current source or plan/contract versions
+  0ms non-Git acceptance requires an explicit current manifest; legacy records remain readable
+  1ms environment details, including extra keys, cannot be hidden by an unchanged declared fingerprint
+  1ms explicit reuse resolves unchanged source evidence and validates the complete target
+  4ms unchecked reuse flags, expired or altered receipts and stale sources cannot authorize reuse
+  2ms generated verification plans retain board and explicit contract/plan/source/environment binding
+  0ms default evidence ids and exact fingerprints cannot collapse colliding tasks or boards
+  76ms reuse_receipt_put persists a lawful receipt and review_package covers only its target requirement
+  47ms reuse hits are counted once per distinct authorization and name the reused evidence
+  1762ms stored receipts stop covering after tree change, expiry, tampering or requirement change, with readable reasons
+  61ms forged or incomplete receipts are refused before persistence with stable business codes
+  42ms only a lead or tier 0 may record a receipt
+  53ms verification_plan consults persisted receipts and reuses exactly one check of the plan
+  43ms a v15 server proof is a lawful reuse source for a task that carries no binding of its own
+  643ms v15 reuse stops when the current source, plan or proof no longer matches, and never accepts weaker proofs
+  54ms recording legacy evidence keeps v15 proofs and the registry revision in v12Evidence
+  39ms a v15 proof is reusable across tasks whose own contract revisions differ
+## phase11-tests/unified-execution-proof.test.mjs tests=28 ms=3501
+   114ms test
+   98ms acceptance
+  213ms test and acceptance proofs bind exact server recipe, physical sources and durable authority
+  58ms caller cannot supply results, status, hashes, commands or foreign slots
+   71ms 0
+   63ms 1
+   65ms 2
+   63ms 3
+   64ms 4
+   63ms 5
+   61ms 6
+   62ms 7
+   62ms 8
+   61ms 9
+  637ms zero exit, prose passed, incomplete/duplicate/failed checks, background, truncation and exceptions fail closed
+   67ms source
+   69ms environment
+   66ms recipe
+   67ms plan
+   68ms task
+   70ms contract
+   86ms lease
+   79ms owner
+   62ms authorization
+   63ms cancellation
+   64ms nativeCancellation
+  762ms changes during actual execution invalidate source, environment, recipe, plan, task, lease and authorization
+  222ms pre-cancel and durable readback mismatch do not return durable success
+## phase11-tests/unified-failure-telemetry.test.mjs tests=3 ms=47
+  46ms failure handling events count as live telemetry firings
+  0ms legacy failure kinds migrate without resetting fired and no-trigger state stays dormant
+  0ms cache-hit-drop remains a firing kind for old telemetry migration
+## phase11-tests/unified-history-recall.test.mjs tests=7 ms=617
+  130ms raw JSON byte pages, full fetched only after every page, durable hashes and repeat idempotency
+  94ms wrong revision/hash, unknown/missing locator, missing seq and changed source remain durable debt
+  55ms caller cannot supply original text, passed status or source revision; cross scope denied before query
+  86ms tool call/result references include exact non-adjacent pair; incomplete call cannot full fetch
+  90ms large artifacts and unavailable exact provider never become full fetched
+  62ms unrelated tool result citations cannot manufacture pairing-complete receipts
+  101ms expired or unavailable raw source invalidates a previously full-fetched receipt and restores debt
+## phase11-tests/unified-hypothesis-memory.test.mjs tests=8 ms=470
+  26ms transport success without verified progress does not reset the no-progress budget
+  52ms identity is task-level, wrapper changes do not reset same-cause failures, and one bounded smaller probe is allowed
+  60ms only server-read new evidence with exact ref, hash, passed status and matching source identity counts
+  43ms a new server error code or explicit observed progress resets the no-progress streak
+  64ms foreign server observations and foreign or malformed evidence never authorize another task
+  3ms bad and old durable files are rejected without replacing their bytes
+  83ms attempt, key, audit and time budgets are explicit and bounded
+  140ms parallel processes preserve durable attempts and duplicate attemptId is idempotent
+## phase11-tests/unified-hypothesis-runtime.test.mjs tests=8 ms=181
+  32ms before/final hooks derive owner and scope, record final success/error once by callId
+  24ms changing wrapper or path does not reset a repeated hypothesis without a new proof
+  119ms only a durable, current proof bound to source, environment, recipe, task and contract counts as new evidence
+  1ms foreign owner, absent lease and ambiguous lease fail closed before the tool runs
+  0ms missing server callbacks fail closed without registering observation hooks
+  2ms caller cannot supply identity, status, progress or evidence claims; observation API stays fixed-scope
+  1ms dispose removes both hooks and clears pending observations
+  1ms attempt metadata requires a server callback and a declared current task requirement
+## phase11-tests/unified-implementation-proof.test.mjs tests=3 ms=247
+  98ms server source scan writes exact implementation and live authority proofs with independent durable readback
+  74ms caller passed fields, foreign slots, stale contracts and expired leases cannot manufacture proof
+  75ms source outside current task write scope and stale plan bytes are rejected without proof
+## phase11-tests/unified-memory-truncation.test.mjs tests=10 ms=17
+  2ms middle and tail constraints survive as explicit fetch debt, exact locator/hash and declared units
+  0ms object acceptance uses structured text and carries original JSON hash instead of object coercion
+  1ms requirements, decisions, modern and legacy room fields retain their actual control paths
+  1ms recovery 200-char projection registers a second-stage debt even for a complete capture
+  0ms maxChars clips even oversized initial anchor but always reserves the entire debt marker
+  8ms metadata and acceptance lists are bounded with explicit overflow/read debt
+  2ms overflow recovery hashes explicitly identify captured projections rather than authoritative originals
+  1ms row omission is distinguished from field clipping and source snapshot remains unchanged
+  1ms complete short fields retain facts shape and digest semantics without false debt
+  0ms oversized board/task paths authenticate the real control root and require a complete read
+## phase11-tests/unified-milestone-runtime.test.mjs tests=6 ms=36
+  5ms apply publishes immutable default-path facts from the actual instance and HMR cleanup invalidates them
+  5ms override instances expose their own paths and distinct config identities
+  4ms missing configured files stay unknown and junction paths resolve to the actual file
+  2ms legacy minimal hosts without provide remain usable and never claim a loaded runtime source
+  8ms compactOnIdle still folds the pending milestone from its configured path
+  11ms a milestone ticked below the configured floor is recorded, not folded; pressure and the default are unchanged
+## phase11-tests/unified-milestone-source.test.mjs tests=1 ms=15
+  15ms runtime-owned configured writer path must match the strict delivery source, not any clean alternate file
+## phase11-tests/unified-native-summary.test.mjs tests=6 ms=15
+  1ms native engine summary ContentBlock[] is actual summary text
+  0ms legacy string and command text remain supported without recursion loops
+  1ms no range, failed, missing summary and unknown blocks have distinct outcomes
+  7ms null engine and /compact results cannot consume or mark a milestone compacted
+  4ms native summary object remains visible to the real idle compaction anchor path
+  3ms failed native result retains pending work and failure classification
+## phase11-tests/unified-plan-delivery.test.mjs tests=14 ms=35
+  13ms ten requirements with six proven cannot complete; preview reports accurate partial scope without writes
+  2ms missing tasks, implemented but untested, tested but not enabled, and old packets stay uncovered
+  0ms task completed, model flags and evidence inserted only into commit input cannot authorize delivery
+  2ms complete delivery validates a bound receipt and queues exactly one outbox event; replay is idempotent
+  4ms plan/tree/contract/task/evidence/runtime/lease/debt changes after preview conflict before any write
+  3ms old, wrong-scope or mismatched evidence cannot provide any current-plan coverage
+  1ms actual entrypoint/load receipt and artifact hash are mandatory enablement facts
+  2ms mandatory deletion, optionalization, conditionalization, dimension removal and task remapping require exact authorization
+  0ms file readback alone cannot certify an incomplete registration contract
+  3ms missing source identity, environment, recipe, owner lease, debt snapshot or readback fail closed
+  2ms conditional requirements need explicit current not-applicable authorization and review evidence
+  0ms mutating a registered plan without revision does not become accepted authority
+  0ms conflicting durable evidence mirrors fail closed even if one copy claims passed
+  1ms an idempotency key cannot be reused for a newer request or revive a stale receipt
+## phase11-tests/unified-plan-refs.test.mjs tests=5 ms=29
+  7ms exact current registered product plan returns full text and a pending read receipt
+  8ms stale plan, task mapping, changed source and oversized full read fail closed
+  4ms physical junction escape does not inherit an allowed logical parent
+  6ms read receipts are distinct across session and compaction epoch
+  3ms dispatch observer accepts only the exact full successful tool result
+## phase11-tests/unified-plan-registry.test.mjs tests=7 ms=409
+  90ms actual durable registry reads all ten source items, retains missing task coverage and binds current recovery
+  48ms caller cannot replace complete source with six items or fabricated readback receipts
+  68ms stale source bytes, changed full prose and wrong declared plan id fail without persistence
+  0ms source requires exactly one explicit canonical contract and rejects duplicate declarations
+  73ms root authorization, source budget and unauthorized physical path all fail closed
+  68ms plan revision CAS and mandatory weakening require canonical authorization, not fresh file hash alone
+  61ms unsupported durable hook never returns success, and changed disk readback is rejected
+## phase11-tests/unified-prestep-reject-log.test.mjs tests=4 ms=294
+  123ms a real team-context-safety-debt rejection is recorded with its code, session and step
+  9ms an upstream reject is passed through unchanged and recorded as upstream
+  75ms a normal pre-step enter writes no reject log
+  87ms an unwritable reject log cannot change the rejection or throw
+## phase11-tests/unified-runtime-proof.test.mjs tests=4 ms=576
+  180ms actual installed context callback produces durable deployment only after exact adapter dispatch
+  119ms caller facts and undeclared slots cannot create runtime proof
+  137ms disabled and disposed live instances cannot reuse a prior dispatch
+  140ms each delivery rechecks live runtime facts; persisted passed receipt cannot hide later disablement
+## phase11-tests/unified-team-delivery-gate.test.mjs tests=4 ms=333
+  149ms actual old Team gate keeps legacy clean-board behavior but cannot lose a registered full plan
+  50ms actual Team check fails closed for durable strict policy with no registered plan or service
+  86ms actual Team gate consumes the shared server verdict, never a complete-card or packet assertion
+  48ms every field the delivery check returns is declared in its output schema
+## phase11-tests/unified-window-decision.test.mjs tests=7 ms=1
+  1ms below 200k nothing is folded, even when a milestone was ticked or the cache is cold
+  0ms between 200k and 500k a fold needs a finished phase or a cold cache
+  0ms only elapsed time makes the cache cold; the hit share of the last request does not
+  0ms from 500k a fold is due at the next safe boundary without any other reason
+  0ms the hard cap is 75% of the model window, does not wait for a boundary and always compacts
+  0ms a durable window is chosen only where it is allowed and not backing off
+  0ms unknown inputs never produce a fold; settings are honoured and never invert the bands
+## phase11-tests/unified-window-economics-runtime.test.mjs tests=3 ms=16
+  12ms real adapter receipts and terminal usage are read-only, scoped, unknown-safe and deduplicated
+  2ms usage accounting stays bounded and disposal unregisters hooks, tools and service
+  2ms missing protocol, usage fields and currency remain unknown instead of receiving defaults
+## phase11-tests/unified-window-economics.test.mjs tests=12 ms=4
+  2ms economics preview preserves the route and estimates while unknown price/cache-write/reasoning stay unknown
+  0ms economic transition is shadowed only when costs align, conservative horizon clears break-even and quality is verified
+  0ms nonpositive benefit, incompatible units, unverified quality or unknown horizon cannot suggest economic transition
+  0ms transition cost and warm benefit in different units cannot form a break-even ratio
+  0ms known price version without provider, model and protocol leaves route economics unknown
+  0ms hard safety reports raw pressure and safe-compaction requirement independently of economics
+  0ms missing hard-safety measurements stay unknown and cannot imply continue
+  0ms checkpoint suggestions require an explicit shadow requirement and stay non-operative
+  1ms usage aggregation scopes one root team and includes its descendants and auxiliary purposes
+  0ms terminal dedupe is request plus attempt plus terminal; distinct retry attempts still count
+  0ms transport failure and preemption stay separate; unknown token/byte/fee fields do not become zero
+  0ms unresolved root membership fails closed and aggregate never returns body or secret values
+## phase11-tests/unified-window-fold-hook.test.mjs tests=7 ms=36
+  6ms a due milestone fold goes to the window when it takes it: no summary call, milestone settled, no debt
+  13ms every refusal, error or out-of-scope session folds by compaction exactly as before
+  2ms a milestone below the floor is not offered to the window either
+  9ms a very large context is folded at the next idle boundary without a finished phase, when the rule is on
+  2ms a proactive attempt that folded nothing is not retried on every idle
+  3ms a window fold that leaves the context over the pressure line is followed by the summary fold at once
+  3ms a fold the engine made on its own sets the cooldown too
+## phase11-tests/unified-window-manager.test.mjs tests=8 ms=46
+  12ms off, default and directory-less configs install no observer and create no file
+  9ms shadow records only transitions of the verdict for a session
+  2ms non-main requests and non-success terminals produce no record
+  3ms idleDecision re-runs the rule on the cached terminal size and its age
+  5ms observer faults never reach the request stream
+  5ms dispose removes the observer and stops further writes
+  3ms records carry no message body
+  7ms a ticked, not yet folded milestone is read from the milestone file; verdicts survive an agent being recreated
+## phase11-tests/unified-window-participation.test.mjs tests=3 ms=210
+  74ms participation derives native host coverage and never certifies a missing Loader
+  87ms actual CP mutate and mutateHot share a held window file lock, with durable CAS
+  49ms real participant adapter holds actual CP lock and refuses unknown identity/config writers
+## phase11-tests/unified-window-projection.test.mjs tests=17 ms=23
+  2ms missing authority blocks without rewriting the original messages
+  3ms revoked recovery ACL blocks without rewriting the original messages
+  1ms wrong event hash blocks without rewriting the original messages
+  1ms pending span blocks without rewriting the original messages
+  1ms uncovered memory debt blocks without rewriting the original messages
+  1ms protected recent tail blocks without rewriting the original messages
+  2ms reasoning history blocks without rewriting the original messages
+  2ms unknown block blocks without rewriting the original messages
+  1ms unknown protocol blocks without rewriting the original messages
+  1ms expired certificate blocks without rewriting the original messages
+  1ms changed transform order blocks without rewriting the original messages
+  1ms payload cap blocks without rewriting the original messages
+  3ms completed tool pairs stay atomic; pending and split calls block
+  1ms checkpoint source and authority CAS reject stale and caller-mutated checkpoint
+  2ms pure preview never writes source or records estimated bytes as provider tokens
+  2ms W0 preview preserves caller mutability and immutable candidate independence
+  0ms async server readers and clock cannot certify an unknown snapshot
+## phase11-tests/unified-window-wiring.test.mjs tests=12 ms=1348
+  2ms scope: off unless enabled; list names sessions; team-roots takes only a tier-0 root that is its own session
+  3ms a session with no window state passes the guard untouched
+  7ms a session whose window is not restored is refused, its claimed input goes straight back, and it is woken after recovery
+  8ms the guard does not depend on the services folding needs, and refuses when it cannot answer
+  1307ms a failed install of a refused session is retried on a timer, not only at the next idle event
+  5ms a wake that fails asynchronously is recorded, not left as an unhandled rejection
+  3ms recovery waits for an idle boundary and a failed install keeps the session refused
+  3ms the fold handle answers only for sessions in scope, and passes the facts through
+  2ms turning the feature off does not strip protection from a session that already holds a window
+  5ms the operator command reports state and folds on request, inside the scope only
+  2ms a windowed session whose conversation lost its checkpoint gets one baseline message, queued without a wake
+  0ms a list may name workspace folders: Team roots working there are in scope, members and other folders are not
+## phase11-tests/v14-acceptance-verifier.test.mjs tests=1 ms=1637
+  1637ms phase11-tests\v14-acceptance-verifier.test.mjs
+## phase11-tests/v14-armed-roots.test.mjs tests=2 ms=1
+  0ms shared armed-root set keeps one foreground root and replaces it on a real root turn
+  0ms observer-generated wakes do not steal foreground focus from the new root
+## phase11-tests/v14-bounded-wake.test.mjs tests=1 ms=835
+  835ms phase11-tests\v14-bounded-wake.test.mjs
+## phase11-tests/v14-cache-monitor-lru.test.mjs tests=1 ms=0
+  0ms cache monitor anomaly fingerprints are bounded and least-recently-used
+## phase11-tests/v14-continuation.test.mjs tests=16 ms=514
+  3ms continuation only targets approved idle owners and is revision keyed
+  1ms successful terminal dependency only; stale lifecycle cannot revive terminal task
+  0ms edit requires durable approved plan; idle in-progress recovery obeys lease and room wait
+  6ms overlapping in-progress edit scopes cannot both resume
+  1ms continuation batch expands on backlog and aging promotes old runnable work
+  1ms verifier waits past SLA produce an explicit escalation candidate
+  0ms durable attempt never re-sends delivered or unresolved queued episode
+  84ms registered post-execute and idle hooks dispatch once per durable owner/revision
+  62ms slow completion handoff returns without waiting for mailbox I/O and still delivers
+  46ms legacy control root is reused and downstream block still schedules a successful mutation
+  43ms plan approval reconciles its wait and wakes the owner in the same scan
+  44ms completion summary retries a failed mailbox send, confirms receipt, and stays within its Team
+  82ms missing group lead stays queued and idle hook delivers when the same Team roster recovers
+  93ms crashed completion send becomes uncertain after its deadline and is never blindly resent
+  0ms manual pause and frozen owners never become automatic continuation targets
+  48ms continuation recovers from one delivery failure without root polling
+## phase11-tests/v14-failure-memory.test.mjs tests=11 ms=1358
+  38ms same action in separate sessions never cross-blocks
+  102ms transient and provider failures are recorded but never hard-block
+  2ms corrupt memory fails closed and is never silently reset
+  43ms audited clear removes deterministic block and permits retry
+  42ms fingerprint clear is explicit, audited, and exposes count against threshold
+  56ms denial includes count, threshold, fingerprint and executable clear path
+  53ms different deterministic errors with one exit code do not combine into a block
+  54ms post-execute uses canonical result and preserves a failure if next throws
+  7ms settings corruption is visible and cannot be overwritten by a patch
+  930ms telemetry, debt and settings merge across concurrent processes
+  30ms deterministic failures expire outside the bounded window
+## phase11-tests/v14-global-task-completion.test.mjs tests=9 ms=756
+  100ms tier 0 can complete an in-progress global task and mirror the domain result
+  71ms the task owner can complete an in-progress global task
+  76ms a domain-completed global task is reconciled without replaying completion
+  323ms B-166: complete accepts frozen args with a non-null commit_sha
+  13ms an HMR scan that misses an existing agent reinstalls Team tools on its next status event
+  54ms tier 0 can read an exact group board by board id
+  56ms D-新-7 task projection exposes stale contract and requirement revisions
+  56ms D-新-4 task creation rejects a blocker that exists on another board
+  7ms a stale HMR status callback ignores an inactive plugin context
+## phase11-tests/v14-identity-context.test.mjs tests=14 ms=19
+  1ms resolveIdentity tolerates a throwing cordis context
+  1ms resolveIdentity never throws when every source is a throwing proxy
+  0ms resolveIdentity keeps a stable fallback id for the same agent object
+  0ms resolveIdentity still reads plain identity fields
+  1ms web and headless identity modules stay byte-identical
+  0ms failure-memory fingerprints tolerate a throwing cordis identity context
+  1ms continuation scan never throws from an inactive plugin context
+  7ms old members receive only the changed role identity on their next context turn
+  4ms tier 0 receives root.md while tier 1 receives lead.md
+  0ms durable delivery receipts suppress a source after visible history is gone
+  1ms context requirement snapshots avoid full-ledger history cloning without changing active rows
+  0ms required context debt is visible, fetchable, and fails closed for safety-critical sources
+  1ms large task deliverables are bounded without removing the full-contract fetch path
+  1ms policy header and registry defaults agree on 8/8/30
+## phase11-tests/v14-live-observation-lazy.test.mjs tests=7 ms=10
+  0ms runtime guard declares the sessions service used by live history reads
+  2ms lazy live events preserve page operations without a full snapshot
+  1ms explicit array methods materialize once and preserve dense results
+  0ms live observation bridge is idempotent, retains laziness, and restores the service
+  0ms prepared observations pass through unchanged
+  3ms tail-backed cold events preserve page operations without full replay
+  4ms cold observation bridge uses the tail reader for projection-none reads
+## phase11-tests/v14-member-route.test.mjs tests=1 ms=56
+  56ms member routes are durable, replaceable, and survive a control-plane restart
+## phase11-tests/v14-observation.test.mjs tests=3 ms=63
+  4ms observation keys are session scoped and missing call ids stay traceable
+  1ms reducer input is bounded and reports scanned ranges and fallback
+  58ms workspace lock queues briefly then fails open after bounded wait
+## phase11-tests/v14-panel.test.mjs tests=7 ms=61
+  2ms operator panel projection has true statuses, bounded text and no synthetic dispatches
+  0ms meta side projections prefer v14 receipts and stay bounded
+  0ms meta uses one durable hot read and indexed task reconciliation
+  1ms overview component renders each bounded operations section
+  1ms room component shows latest round first and folds older rounds
+  2ms panel JSON cache reuses unchanged files and invalidates on content changes
+  54ms panel inbox projection keeps pending rows and bounds already-injected history
+## phase11-tests/v14-policy-cache.test.mjs tests=3 ms=12
+  9ms team policy service cache is bounded and keeps recently used Teams
+  1ms refreshBoards can reuse a caller-owned hot snapshot without reloading
+  2ms refreshBoards clones only board tasks whose revision changed
+## phase11-tests/v14-profile-parity.test.mjs tests=1 ms=7
+  7ms profile parity fails closed when shared plugin hashes or exports drift
+## phase11-tests/v14-provider-safety.test.mjs tests=4 ms=54
+  1ms safety refusals are classified separately from permanent auth failures
+  8ms safety refusal records request evidence and activates a bounded fallback without blocking the provider
+  45ms idle watch prefers lightweight health status and keeps the legacy fallback
+  0ms operator panel prefers lightweight health status and keeps the legacy fallback
+## phase11-tests/v14-reconcile-fastpath.test.mjs tests=2 ms=48
+  47ms idle dispatch reconciliation stays read-only
+  1ms reconcile work detection mirrors due leases and dispatches
+## phase11-tests/v14-room-memory.test.mjs tests=12 ms=12
+  4ms Room index and migration preserve legacy messages, summaries, unresolved items and decisions
+  0ms Room queries separate hot tail/history and cursor increments only through relevant messages
+  1ms wake delivery, injection and handling remain distinct and each transition is idempotent
+  0ms legacy wake bodies are moved to inbox rows and hot tracking stays bounded
+  1ms requirement and decision changes produce scoped version diffs with history and stable digest
+  1ms requirement ledger mutations use copy-on-write snapshots
+  1ms legacy Room migration is stable across unrelated revisions and preserves access, resolved state and round facts
+  0ms Room cursor requires an injection receipt when strict path is requested
+  0ms Room cursor accepts previously injected relevant rows across latest-first batches
+  1ms Room message since supports optional newest-tail max/limit bounds
+  1ms requirements revisions stay linear and decisions require explicit confirmation
+  2ms pressure memory fixture distinguishes empty, missing and loaded sources
+## phase11-tests/v14-room-seat.test.mjs tests=3 ms=17
+  0ms room seat rules keep unseatable members out of level and root rooms
+  10ms forced close waives an unseatable missing speaker only when the caller proves it
+  7ms frozen next speaker is skipped so the host can finish and force-close
+## phase11-tests/v14-runtime-bridge.test.mjs tests=31 ms=1634
+  1ms Team runtime declares services required by native Agent publication and completion
+  128ms registered active identity drives next-turn delivery; disk edits cannot bypass activation
+  100ms registered hypothesis binding uses durable current plan and membership, leaving ordinary tool arguments unchanged
+  65ms actual Team runtime binds the current goal durably through the loaded service gate and exposes recovery
+  10ms actual Team goal binding remains root-only and refuses a loaded legacy GoalService without the bridge
+  59ms registered history recall preserves exact own events and denies foreign Team scope
+  209ms actual registered delivery preview uses runtime-owned debt, never a policy function claiming no blockers
+  5ms actual runtime exposes loaded window blockers and keeps production session opt-in closed
+  61ms actual registered Team plan_register uses complete source and persists exact readback before exposing recovery
+  12ms actual Team plan registration remains root-authorized and exact read roots default closed
+  63ms actual Team runtime plan_ref_get persists full read before returning and confirms only full dispatch
+  10ms post hook mirrors result.value even when next blocks and persists a compact receipt
+  6ms failed original result never creates a successful mirror
+  5ms ordinary team_v12 read does not increment control-plane revision
+  61ms room_snapshot and inbox_list enforce caller scope and filter inbox rows
+  43ms task_contract_set rejects a stale revision after the locked recheck
+  91ms pre-step is idempotent for 20 calls, cursor waits for session commit, and native message ids prevent duplicate body
+  45ms pre-step deduplicates a committed context manifest when no inbox is pending
+  62ms pre-step uses the durable receipt after the visible manifest leaves history
+  78ms post-compaction baseline reinjects a bounded root context once
+  39ms tier 0 context keeps only active relevant requirements and compact acceptance
+  78ms cold window epoch recovery accepts its own history receipt but rejects changed required source state before dispatch
+  58ms failed durable readback cannot be cleared by a retry that finds only a hot dispatch receipt
+  130ms cold observer reconfirms an exact durable older manifest without rolling back upgraded optional coverage
+  43ms new requirement is delivered without a new Room message
+  44ms provider safety refusal activates a reduced Team context fallback
+  43ms unexpected ready-gate read failure rejects closed
+  42ms claim gate allows zero-scope discussion/review tasks without weakening edit tasks
+  44ms waiting_set accepts an unowned task and snake_case condition alias
+  0ms requirement record authorization keeps leads inside their own board and scope
+  0ms waiting authorization lets a group lead manage waits for its own member task
+## phase11-tests/v14-scheduler.test.mjs tests=9 ms=5
+  2ms ready queue derives active execution from live leases instead of in_progress status
+  0ms pending work outranks stale scope and terminal lifecycle never revives
+  0ms room timeout detection is durable and only reports the current speaker
+  0ms room timeout delivery retries are bounded and respect backoff
+  0ms awaiting-close rounds have a deadline, bounded host re-wakes and a configured cadence
+  0ms waiting responsibility and completion handoff stay compact
+  0ms reconcile accepts evidence-only discussion sources and keeps edit commits mandatory
+  0ms delivery blockers ignore superseded attempts and completed-task failures
+  0ms terminal wake rows remain visible as dead letters until a new episode supersedes them
+## phase11-tests/v14-session-list-cache.test.mjs tests=2 ms=86
+  26ms session artifact listing coalesces concurrent reads and caches the result
+  60ms session artifact listing invalidates on local persistence changes
+## phase11-tests/v14-startup-arming.test.mjs tests=9 ms=913
+  130ms idle watch ignores restored stopped Teams until the current process sees that Team running
+  104ms idle watch periodic scan recovers a missed idle transition after the root is armed
+  110ms idle watch does not duplicate a durable reminder after plugin reload
+  93ms idle watch retries the same stalled progress after the bounded retry window
+  60ms idle watch still wakes the root when every open task is explicitly operator-owned
+  111ms continuation scan does not resume restored tasks before current-process activity
+  122ms activity digest does not wake restored active-looking Teams before current-process activity
+  109ms activity digest disposal waits for its already-started durable record
+  75ms switching roots disarms the old root and a queued background wake cannot steal focus back
+## phase11-tests/v14-storage.test.mjs tests=21 ms=4699
+  17ms durable JSON missing fallback, revision and corrupt fail closed
+  149ms live stale-age lock is never stolen and changed owner is never released
+  1327ms separate processes preserve 100 locked updates without corruption
+  0ms identity resolves known fields and uses shared fallback for unknown values
+  0ms identity uses nested agent membership and isolates unresolved sessions
+  215ms cold history is content-addressed, fail-closed, and not recopied by hot updates
+  0ms 60 MB synthetic history benchmark keeps cold blob count fixed over 20 hot mutations
+  44ms control plane avoids duplicate joins and hydrates old schema history
+  115ms member control lookup isolates Teams and ignores non-unique member names
+  314ms member control lookup keeps old root key and fails on corrupt stable candidate
+  320ms migration dry-run/apply/rollback preserves the original fixture
+  54ms cold storage GC preserves reachable blobs and removes only aged orphans
+  1705ms storage inventory cache follows directory membership and audit size changes
+  46ms reachability cache invalidates when a live recovery snapshot changes
+  73ms hydrated history cache invalidates after a room mutation
+  53ms hydrated history cache never exposes mutable internal state
+  49ms large requirement ledgers persist by cold reference and reload transparently
+  49ms large v12 evidence and compaction snapshots persist by cold reference
+  43ms startup and successful checkpoints remove stale temp files
+  79ms audit rotation bounds files and closes cached handles on reset
+  48ms ordinary mutations use delayed checkpoints and expose write timings
+## phase11-tests/v14-telemetry-session-lru.test.mjs tests=1 ms=18
+  18ms mechanism telemetry bounds persisted session details
+## phase11-tests/v14-tool-doc-cache.test.mjs tests=1 ms=3
+  3ms team tool JSON cache reuses unchanged files and invalidates on content changes
+## phase11-tests/v14-usage-cache.test.mjs tests=1 ms=11
+  11ms team usage cache bounds persisted session history
+## phase11-tests/v14-waiting.test.mjs tests=9 ms=5
+  1ms waiting record keeps distinct tickets per request, bounds TTL, and resolves
+  0ms waiting tickets automatically clear when revision or unblock condition changes
+  1ms derived waiting rows identify dependency, lease, room and frozen responsibility
+  2ms continuation respects an open manual ticket and resumes after resolve
+  0ms expired manual tickets and missing rooms remain blocked until explicit facts resolve them
+  0ms waiting conditions accept prompt aliases and reject malformed input
+  0ms waiting times accept ISO-8601 and reject invalid strings
+  1ms approval waits auto-close after plan-approved and ignore unrelated revisions
+  0ms reconciliation preserves structured terminal waits, deduplicates responsibility, and exposes stale counts
+## phase11-tests/v14-wake-claim-atomic.test.mjs tests=1 ms=55
+  55ms wake claim records the first and merged pending messages in one mutation
+## phase11-tests/v14-write-scope.test.mjs tests=4 ms=20
+  7ms tier 0 operational directories are allowed but product and arbitrary paths stay denied
+  3ms static scope resolves the Team membership when the root agent has no name
+  7ms run_code rejects direct filesystem access but allows controlled child dispatch
+  3ms D-新-3 verifier scratch is writable without granting product write access
+## phase2-tests/action-fusion-file.test.mjs tests=1 ms=217
+  217ms phase2-tests\action-fusion-file.test.mjs
+## phase2-tests/action-fusion.test.mjs tests=1 ms=249
+  249ms phase2-tests\action-fusion.test.mjs
+## phase2-tests/observation-evidence.test.mjs tests=1 ms=97
+  97ms phase2-tests\observation-evidence.test.mjs
+## phase2-tests/observation-pack.test.mjs tests=1 ms=88
+  88ms phase2-tests\observation-pack.test.mjs
+## phase3-tests/team-policy.test.mjs tests=1 ms=99
+  99ms phase3-tests\team-policy.test.mjs
+## phase3-tests/team-tools-v2.test.mjs tests=1 ms=568
+  568ms phase3-tests\team-tools-v2.test.mjs
+## phase4-tests/freeze-capacity.test.mjs tests=1 ms=105
+  105ms phase4-tests\freeze-capacity.test.mjs
+## phase4-tests/freeze-projection.test.mjs tests=1 ms=98
+  98ms phase4-tests\freeze-projection.test.mjs
+## phase4-tests/policy-reconcile.test.mjs tests=1 ms=98
+  98ms phase4-tests\policy-reconcile.test.mjs
+## phase4-tests/spawn-authority.test.mjs tests=1 ms=237
+  237ms phase4-tests\spawn-authority.test.mjs
+## phase4-tests/spawn-budget.test.mjs tests=1 ms=103
+  103ms phase4-tests\spawn-budget.test.mjs
+## phase4-tests/team-isolation.test.mjs tests=1 ms=103
+  103ms phase4-tests\team-isolation.test.mjs
+## phase4-tests/team-operator.test.mjs tests=1 ms=271
+  271ms phase4-tests\team-operator.test.mjs
+## phase5-tests/step-compaction.test.mjs tests=1 ms=379
+  379ms phase5-tests\step-compaction.test.mjs
+## phase5-tests/team-worktree.test.mjs tests=1 ms=88
+  88ms phase5-tests\team-worktree.test.mjs
+## phase5-tests/worktree-git-e2e.test.mjs tests=1 ms=3466
+  3466ms phase5-tests\worktree-git-e2e.test.mjs
+## phase6-tests/idle-watch.test.mjs tests=1 ms=702
+  702ms phase6-tests\idle-watch.test.mjs
+## phase6-tests/milestone-scope.test.mjs tests=1 ms=90
+  90ms phase6-tests\milestone-scope.test.mjs
+## phase6-tests/milestone-tail-delivery.test.mjs tests=1 ms=259
+  259ms phase6-tests\milestone-tail-delivery.test.mjs
+## phase6-tests/milestone.test.mjs tests=1 ms=85
+  85ms phase6-tests\milestone.test.mjs
+## phase6-tests/team-usage.test.mjs tests=1 ms=1828
+  1828ms phase6-tests\team-usage.test.mjs
+## phase6-tests/usage-projection.test.mjs tests=1 ms=320
+  320ms phase6-tests\usage-projection.test.mjs
+## phase7-tests/control-plane-v5.test.mjs tests=1 ms=447
+  447ms phase7-tests\control-plane-v5.test.mjs
+## phase7-tests/delivery-gate.test.mjs tests=1 ms=403
+  403ms phase7-tests\delivery-gate.test.mjs
+## phase7-tests/delivery-process-windows-hide.test.mjs tests=1 ms=6
+  6ms delivery Git and Cargo child processes stay hidden with unchanged command and result semantics
+## phase7-tests/health.test.mjs tests=1 ms=104
+  104ms phase7-tests\health.test.mjs
+## phase7-tests/lifecycle-restart-dual.test.mjs tests=1 ms=591
+  591ms phase7-tests\lifecycle-restart-dual.test.mjs
+## phase7-tests/room-wake-signal.test.mjs tests=1 ms=385
+  385ms phase7-tests\room-wake-signal.test.mjs
+## phase7-tests/runtime-guard.test.mjs tests=1 ms=222
+  222ms phase7-tests\runtime-guard.test.mjs
+## phase7-tests/team-tools-v5.test.mjs tests=1 ms=231
+  231ms phase7-tests\team-tools-v5.test.mjs
+## phase7-tests/write-scope-active-plan.test.mjs tests=1 ms=1194
+  1194ms phase7-tests\write-scope-active-plan.test.mjs
+## phase8-tests/dispatch-quiet-reconcile.test.mjs tests=1 ms=100
+  100ms phase8-tests\dispatch-quiet-reconcile.test.mjs
+## phase8-tests/plan-recovery-v2.test.mjs tests=1 ms=199
+  199ms phase8-tests\plan-recovery-v2.test.mjs
+## phase8-tests/privilege-grant.test.mjs tests=1 ms=1346
+  1346ms phase8-tests\privilege-grant.test.mjs
+## phase8-tests/room-snapshot-injection-priority.test.mjs tests=1 ms=236
+  236ms phase8-tests\room-snapshot-injection-priority.test.mjs
+## phase8-tests/room-snapshot-v2-headless.test.mjs tests=1 ms=250
+  250ms phase8-tests\room-snapshot-v2-headless.test.mjs
+## phase8-tests/room-snapshot-v2.test.mjs tests=1 ms=238
+  238ms phase8-tests\room-snapshot-v2.test.mjs
+## phase8-tests/team-activity-digest-timer.test.mjs tests=1 ms=448
+  448ms phase8-tests\team-activity-digest-timer.test.mjs
+## phase8-tests/team-activity-digest.test.mjs tests=1 ms=111
+  111ms phase8-tests\team-activity-digest.test.mjs
+## phase8-tests/team-hardening.test.mjs tests=1 ms=549
+  549ms phase8-tests\team-hardening.test.mjs
+## phase8-tests/team-idle-watch-bootstrap.test.mjs tests=1 ms=1269
+  1269ms phase8-tests\team-idle-watch-bootstrap.test.mjs
+## phase8-tests/team-idle-watch-no-cap.test.mjs tests=1 ms=1180
+  1180ms phase8-tests\team-idle-watch-no-cap.test.mjs
+## phase8-tests/team-idle-watch.test.mjs tests=1 ms=185
+  185ms phase8-tests\team-idle-watch.test.mjs
+## phase8-tests/team-message-batch.test.mjs tests=1 ms=126
+  126ms phase8-tests\team-message-batch.test.mjs
+## phase8-tests/team-tools-r9-reopen.test.mjs tests=1 ms=319
+  319ms phase8-tests\team-tools-r9-reopen.test.mjs
+## phase8-tests/team-tools-v2-reopen-scope.test.mjs tests=1 ms=86
+  86ms phase8-tests\team-tools-v2-reopen-scope.test.mjs
+## phase8-tests/worktree-merge-postcondition.test.mjs tests=1 ms=84
+  84ms phase8-tests\worktree-merge-postcondition.test.mjs
+## phase9-tests/control-plane-recovery.test.mjs tests=4 ms=22
+  1ms an unowned contract can be claimed by exactly the candidate owner
+  12ms room host replacement and frozen-speaker force close are audited
+  5ms cross-group room decisions stay proposed until every affected lead confirms
+  3ms single-confirmer room decisions do not project a stale missing confirmation
+## phase9-tests/v12-contract-persistence-integration.test.mjs tests=19 ms=8
+  2ms contract normalizes legacy fields, migrates idempotently, and preserves unknown fields
+  1ms ready gate rejects incomplete contracts and unmet dependencies
+  0ms ready gate rejects dependency cycles
+  0ms ready gate checks revision, owner, coordination and scope conflicts
+  1ms scope conflict detection isolates distinct worktrees
+  1ms lifecycle transitions enforce the ready and lease gates
+  0ms contract revision is CAS protected and active leases must reconfirm execution changes
+  0ms state schema validation preserves unknown fields and classifies read failures
+  0ms CAS rejects concurrent revision conflicts and accepts one writer
+  0ms snapshot differences and recovery require explicit root confirmation
+  0ms corrupt current state is never replaced automatically
+  0ms migration dry-run is explicit, idempotent, and keeps unknown fields
+  0ms audit consistency detects gaps, duplicates and write failures
+  1ms merge operation preparation is idempotent and intent conflicts are rejected
+  0ms merge postcondition verifies actual Git ancestry instead of merged:true
+  0ms merge verification blocks dirty worktrees and target base races
+  0ms merge postcondition supports fast-forward, squash and explicit conflicts
+  0ms merge crash recovery recognizes applied Git state and advances task idempotently
+  0ms merge recovery does not repeat an unapplied merge and flags uncertain targets
+## phase9-tests/v12-evidence-scheduler.test.mjs tests=9 ms=15
+  3ms evidence registry reuses exact matches and invalidates stale records
+  1ms acceptance matrix refuses completion without mapped evidence
+  0ms review package refuses shared evidence without an explicit reuse receipt
+  1ms ready queue is derived and rejects unmet dependencies and conflicts
+  0ms stall classification separates waiting from actionable blocks
+  0ms cost guard alerts only when spend grows without new evidence
+  2ms verification recipes bind checks to task revision and exact evidence
+  1ms fan-out advice requires independent deliverables and exposes unknown history honestly
+  7ms scheduler advice is shadow-only by default and stabilizes concurrency changes
+## phase9-tests/v12-room-wake-compaction-context.test.mjs tests=9 ms=15
+  2ms D: transcript cursor is incremental, gap-safe and idempotent
+  1ms D: decisions, unresolved items and round summaries stay separate
+  0ms D: cross-group decisions become effective only after every affected lead confirms
+  2ms E: pending wake batches merge without losing message rows
+  1ms E: silent delivery does not wake, failures retry and stop episodes notify once
+  0ms F: done atomically creates one job and next milestone is a new record
+  1ms F: handoff gate, failure retry, explicit none and pressure bypass are durable
+  8ms J: context sources are filtered, deduped and auditable
+  1ms J: optional sources clip to summaries and required over-budget blocks
+## phase9-tests/v12-runtime-authorization-context.test.mjs tests=6 ms=30
+  6ms v12 runtime injects loader and registers a valid tool output envelope
+  13ms team_v12 defaults to runtime facts and populates capability and disk control status
+  1ms runtime facts default output stays compact while full reports remain available
+  3ms loader and disk observations resolve to real entry hashes
+  0ms v12 runtime authorization fails closed for task, Room, inbox and compaction mutations
+  8ms Room context cursors advance only messages included in the rendered pack
+## phase9-tests/v12-runtime-observability-replay.test.mjs tests=7 ms=13
+  7ms runtime facts hash the canonical entry and redact secret config
+  1ms capability matrix separates declared capability from callability and blocks drift
+  1ms causal timeline propagates IDs and does not promote delivered to handled
+  3ms replay is deterministic, isolated, and redacts fixture secrets
+  1ms fix evidence requires before-fail and after-pass on the same fixture
+  0ms live-only fixtures are marked uncovered and never executed locally
+  0ms clock, secret filter, and fake adapters are local deterministic primitives
+## usage-tests/observation-pack-lineage.test.mjs tests=8 ms=108
+  5ms current handle carries original lines 2/173/399 without an overlay
+  2ms evidence retains whitespace, CRLF source line numbers and order
+  5ms stale verified cached handles rebuild by version without deleting archives
+  4ms actual frozen current tool messages and legacy toolResult preserve identity and source
+  2ms current tool delayed sends keep the original contract and session isolation
+  5ms canonical mixed/unknown content and error messages fail open without losing blocks or counting savings
+  36ms bridge projects frozen current options and leaves native stream mutation hooks absent
+  49ms real Cordis bridge sends current tool handle to adapter on third request and usage ledger sees identical projection
+## usage-tests/ptc-sdk-retention-real.test.mjs tests=2 ms=28
+  26ms golden fixture uses five exact frame SDKs and preserves recorded protocol identity
+  2ms strict golden validator rejects wrong tool args, wrong recorded facts, extra keys or markdown
+## usage-tests/ptc-sdk-retention.test.mjs tests=11 ms=168
+  2ms audited real fixture has exact renderer boundaries and hash
+  9ms apply candidate strips only identical historical SDK, preserving policy characters and latest SDK exactly
+  8ms shadow keeps original request and clearly separates actual from candidate savings
+  19ms real changed SDK versions keep all five full historical sections
+  18ms explicit latest candidate removes four real historical SDK versions with version hash markers
+  24ms changed latest requires explicit certificate, and unknown/deleted/required/order/latest changes fail open
+  12ms multi-system and full tool/reasoning chain retain all unaffected message and block identities
+  30ms absent, non-PTC, one-shot, auxiliary and unclear boundaries fail open
+  16ms shadow plugin keeps exact underlying iterable/chunks, next once, HMR never cancels inflight, apply requested is reported unavailable
+  9ms shadow audit persistence failures never affect next or stream error propagation
+  23ms explicit apply uses the request bridge, shadow leaves messages intact, HMR unregisters without touching streams
+## usage-tests/request-message-projection.test.mjs tests=13 ms=29
+  9ms adapter validators are synchronous request-local vetoes, not dispatch observers
+  1ms separately prepared plans sharing a signal validate only their own transform result
+  4ms real prepared frozen request reaches adapter with ordered messages, original brand and exact other property identities
+  1ms prepared adapter generation remains A after registration replacement and only one dispatch occurs
+  1ms entry wrapper preserves internal prepared object and Cordis caller shadow receiver
+  1ms unrecognized and asynchronous transforms fail open without mutating mutable caller messages
+  1ms malformed returned messages fail open transactionally between valid transforms
+  2ms original middleware errors preserve identity and adapter failure normalization stays official
+  2ms unload preserves existing iterator; reload restores transforms without layering methods
+  3ms real Cordis dependent plugins re-register after provider HMR restart
+  1ms dispose restores the original own descriptor and never overwrites a later wrapper
+  2ms separately loaded official runtime uses its own brand weak set; auxiliary routing attributes remain exact
+  1ms unsupported runtime is rejected before service provision and duplicate bridge is explicit
+## usage-tests/request-usage-ledger.test.mjs tests=20 ms=28
+  1ms canonical usage preserves unknowns and checks disjoint total without adding reasoning twice
+  2ms payload category estimates have lengths and hashes, retain no body or schema
+  0ms only explicit Team sources classify user/developer Team injection; non-Team and unknown stay separate
+  2ms stream uses final snapshot, keeps exact objects, does not mutate frozen options, emits once
+  1ms concurrent streams keep independent UUIDs and usage state
+  0ms synchronous/stream errors propagate unchanged with safe code and existing request ID only
+  1ms abort/failure chunks and early iterator return have one terminal without altering underlying return
+  0ms iterator return that yields from finally is preserved until real terminal
+  2ms native sampling preemption is distinct from hard abort for every iterator exit
+  0ms interrupted adapter snapshots remain reported data, not complete final usage or zero cost
+  0ms consumer throw is delegated and recovered underlying result stays transparent
+  1ms writer/record failure is fail-open, nonblocking and warnings are bounded
+  0ms identity handles manifest schema, live relationship and unknown nulls
+  0ms verified global root wins over tier2 immediate membership
+  0ms new descendants trace live parent chains or a verified manifest ancestor
+  0ms lineage tracing detects cycles, limits depth and never promotes an unresolved parent
+  0ms route reads array/object live Settings and strips URL secrets, defaults stay unknown
+  12ms HMR detach keeps inflight final usage and one real terminal, never accessing disposed services
+  1ms projection metadata records only safe runtime receipts, not transform body or credentials
+  4ms agent events cache header attribution even if the registry is unavailable later
+## usage-tests/team-milestone-surface-dedup.test.mjs tests=5 ms=3280
+  1ms trusted identical snapshot remains recognized beyond the 256-node tail
+  0ms replacement or compaction removing the old node permits reinjection
+  1ms changed marker, body, completion status, and untrusted source do not deduplicate
+  0ms pending trusted snapshots and legacy session API retain exact matching
+  3278ms real root seq 69510 prevents the duplicate at seq 70686 (513 bytes)
+## usage-tests/usage-history-backfill.test.mjs tests=12 ms=7
+  1ms migration duplicates merge both journals and retain version-exclusive requests
+  1ms usage conflict is explicit; higher version wins and preserves lower known fields
+  1ms missing token counters are null and reasoning is not added to total
+  0ms header association follows route changes without claiming wire evidence
+  0ms root chain resolves, missing ancestors and cycles stay unknown
+  1ms strict scanning handles multiple frames, embedded magic and truncated tail
+  0ms attempt and compaction usage are separate counted requests with direct historical route
+  0ms official timed attempt chunks use the final usage snapshot once without exposing content
+  0ms same-millisecond independent attempts preserve same-journal multiplicity across migration
+  0ms only a proven same-file same-sequence copy is a local duplicate
+  0ms auxiliary search preserves its persisted model and does not borrow parent provider
+  1ms seeded inherited prefix is retained but excluded from own usage aggregates
+## usage-tests/usage-lab.test.mjs tests=10 ms=4
+  1ms fixture exact line recall passes and an incomplete compact answer fails
+  0ms paraphrase, wrong line and false success are rejected
+  0ms named quote objects retain the same exact evidence gates as arrays
+  0ms raw provider totals stay disjoint and absent fields are null
+  0ms counterbalanced trial plan has 20 calls including both reducer passes
+  0ms budget guard blocks attempts before another call can be made
+  0ms disabled continuation uses matched new Team baseline and 22 total calls
+  1ms execution gate refuses unnotified provider execution without reading credentials
+  1ms reducer totals include both HTTP rows without re-adding reasoning
+  0ms report excludes schema contents and marks money/cache limitations

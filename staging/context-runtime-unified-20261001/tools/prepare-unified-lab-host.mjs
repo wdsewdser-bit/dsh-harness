@@ -1,10 +1,22 @@
 import { createRequire, registerHooks, isBuiltin } from 'node:module'
-import { readFileSync, writeFileSync, mkdirSync, existsSync, symlinkSync, realpathSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, existsSync, symlinkSync, realpathSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { resolve, join, sep } from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 const stage = resolve(fileURLToPath(new URL('..', import.meta.url)))
+// The operator shell exports the production DSH_HOME and plugins fall back to it for process-local files (for example
+// .team-control-runtime-<pid>). A test or lab process that is handed it gets a throwaway home in the system temp directory.
+{
+  const production = new Set([resolve(stage, '../../home'), 'D:\\dsh-test\\home'].map(path => path.toLowerCase()))
+  const inherited = process.env.DSH_HOME
+  if (inherited && production.has(resolve(inherited).toLowerCase())) {
+    const throwaway = mkdtempSync(join(tmpdir(), 'dsh-regression-home-'))
+    process.env.DSH_HOME = throwaway
+    process.once('exit', () => { try { rmSync(throwaway, { recursive: true, force: true }) } catch {} })
+  }
+}
 const nativeAliases = new Set(['cordis', 'cordis-plugin-loader', 'dsh-system-prompt', 'dsh-scope', 'dsh-tool-goal', 'dsh-agent', 'dsh-subagent'])
 export function canonicalNativeTarget(specifier) {
   const name = specifier.startsWith('@deepseek-ai/') ? specifier.slice(13) : ''
