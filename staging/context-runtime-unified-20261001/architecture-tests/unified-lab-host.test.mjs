@@ -10,7 +10,7 @@ import { spawnSync } from 'node:child_process'
 
 test('isolated host maps every native participant to its exact physical staged alias', () => {
   assert.equal(typeof lab.canonicalNativeTarget, 'function')
-  for (const name of ['cordis', 'cordis-plugin-loader', 'dsh-system-prompt', 'dsh-scope', 'dsh-tool-goal']) {
+  for (const name of ['cordis', 'cordis-plugin-loader', 'dsh-system-prompt', 'dsh-scope', 'dsh-tool-goal', 'dsh-sandbox-local']) {
     const target = new URL('../app/node_modules/@deepseek-ai/' + name + '-v15/lib/index.js', import.meta.url).href
     assert.equal(lab.canonicalNativeTarget('@deepseek-ai/' + name), target)
     lab.assertNativeTarget('@deepseek-ai/' + name, target)

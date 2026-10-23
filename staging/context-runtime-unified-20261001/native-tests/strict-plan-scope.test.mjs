@@ -168,3 +168,24 @@ test('R5 with the switch off a root with teammates behaves as before', async t =
   assert.equal(f.strictMarkers().length, 0)
   assert.equal((await f.c.goals.complete(f.c.agent, f.ref)).phase, 'complete')
 })
+
+test('R6 a strict root receives the complete plan-registration recovery in its real assembled prompt', async t => {
+  const f = await fixture(t, { teammates: true })
+  const prompt = await f.c.ctx.systemPrompt.assemble({ agent: f.c.agent, scope: f.c.agent })
+  const recovery = prompt.sections.find(section => section.name === 'team:plan-registration')?.text ?? ''
+  assert.ok(recovery.includes('plan_register'), recovery)
+  assert.ok(recovery.includes('dsh-plan-contract'), recovery)
+  assert.ok(recovery.includes('expectedPlanRevision'), recovery)
+  assert.ok(recovery.includes('ALL mandatory'), recovery)
+  assert.ok(recovery.includes('not the complete requirement plan'), recovery)
+  assert.equal(f.check().code, 'DELIVERY_PLAN_REQUIRED', 'guidance must not create a fake plan or accepted receipt')
+  assert.equal(f.check().deliverable, false)
+})
+
+test('R6 ordinary and explicitly non-strict roots receive no registration recovery', async t => {
+  for (const options of [{ teammates: false }, { teammates: true, requirePlan: false }]) {
+    const f = await fixture(t, options)
+    const prompt = await f.c.ctx.systemPrompt.assemble({ agent: f.c.agent, scope: f.c.agent })
+    assert.equal(prompt.sections.find(section => section.name === 'team:plan-registration')?.text ?? '', '')
+  }
+})

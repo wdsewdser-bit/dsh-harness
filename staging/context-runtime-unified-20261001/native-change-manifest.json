@@ -15,7 +15,7 @@
     "package": "dsh-agent-loop",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\index.js",
     "before": "C75A311300DB0DC1889F3DE8E893BAF1865D3EE281E09175BE181955CAB51B6D",
-    "after": "B55034743BE0F046DB5DE6456C21A72B85D35AE6721492FC39681825C841E056"
+    "after": "02ECAD527152ACD7C7822AF9833FB6CD694955CD48561B352B17E39C3A8C4E2C"
   },
   {
     "package": "dsh-tools",
@@ -33,7 +33,7 @@
     "package": "dsh-compaction-basic",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-basic\\lib\\index.js",
     "before": "B7AC52F20A36430CF01A66B3A36F23A48FFDB22708D714DBE1FFF541B5DF4EC5",
-    "after": "24FF3CA1766C940EAF39212254A0B6BC7D6A530D9611C166E3CC081187B59AD2"
+    "after": "F9C58F2550FA4AC157A22D6BF1BDD5162192E7A04D34BCBBE0261A3250D47E9A"
   },
   {
     "package": "dsh-goal",
@@ -45,7 +45,7 @@
     "package": "dsh-session-persistence-jsonl",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session-persistence-jsonl\\lib\\index.js",
     "before": "8D2C705D0254232C1FCF8E60704E3A6502D51B7F888CA1EC0DF77D68E5C7C474",
-    "after": "18070A88A63600EE7FBC922400A1AB0FDADEC07FA27542E678045FB970FCA9F6"
+    "after": "EDB08BA7A22BD649D752826094823C614D5BA7385B42A67970DA1F7130EB3ACA"
   },
   {
     "package": "dsh-tool-goal",
@@ -58,7 +58,7 @@
     "package": "dsh-session-persistence-jsonl",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-session-persistence-jsonl\\lib\\window-barrier.js",
     "before": null,
-    "after": "91EFC8A9953E36C664E509D08A0852F43F08B16D97581F5E6102F23DBBEAF76F"
+    "after": "03E6370E7E47EAF0E6F34B154002B208992426CC554F41AF392D55C72E23A2BB"
   },
   {
     "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\cordis\\lib\\index.js",
@@ -210,7 +210,7 @@
     "package": "dsh-agent-loop",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\types\\agent.d.ts",
     "before": "66131A86C5F024FABB77E99103F3F07CDCA5818CBCE7D6AAECB058197C66589E",
-    "after": "EDD90E5B758B78C9A64C6610CCE7308A6BF54D75AFCF7BCD699A5C51D1BE2A2D"
+    "after": "8100277E532989BD549379F0AD42D6C3C26894ACF36BEB0C76BA3A329E3095CF"
   },
   {
     "package": "dsh-goal",
@@ -319,5 +319,68 @@
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-tools/lib/types/ptc.d.ts",
     "before": "C75557AAEFDFB2CFDE16FA0C002208758BC3AD924F5F683A2506779820520C61",
     "after": "9EA935B44E1A6ABBB6B55AE7C7572BB04E7044392AE1477D615ED676122A0EA5"
+  },
+  {
+    "package": "dsh-compaction-basic",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-basic\\lib\\types\\index.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-basic\\lib\\types\\index.d.ts",
+    "before": "8F3A2E81523980868B5B40E74FC6495238771177446F0757DAD6B53E7DCB5ADC",
+    "after": "D91BE74651C2E937B223FB71E87867512ABC3770ED6B5F7BF6C2F2EBADA17639"
+  },
+  {
+    "package": "dsh-compaction-tool-result-pruner",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner-v15\\package.json",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner\\package.json",
+    "before": "E2B461E0C3096625BC6C43A73798B754EEB0B7CA1061AFB0B4E16629766B9DFC",
+    "after": "E2B461E0C3096625BC6C43A73798B754EEB0B7CA1061AFB0B4E16629766B9DFC"
+  },
+  {
+    "package": "dsh-compaction-tool-result-pruner",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner-v15\\lib\\index.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner\\lib\\index.js",
+    "before": "E86442E9A2403C392482B9035916E5610C251D62F3581892866404D69C064254",
+    "after": "56D349B25CAEB44B25028035C3A0FA2433349D2A1C72B3E939DFC5D753255FA3"
+  },
+  {
+    "package": "dsh-compaction-tool-result-pruner",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner-v15\\lib\\types\\index.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner\\lib\\types\\index.d.ts",
+    "before": "70D44B0798EAEED63B198A754CE622F2601B35E5B6E6EEBA1D27E7B624E1D520",
+    "after": "846C8EDB6A020B8A0BF95E5C69956346FA38A0B0AA47BDBD0BAA54DDE2C8CE40"
+  },
+  {
+    "package": "dsh-compaction-tool-result-pruner",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner-v15\\lib\\types\\types.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner\\lib\\types\\types.d.ts",
+    "before": "3F9FF52F16922F4312E0E48F6E26DF17E7A16A17B3474ACB4CAE7AE080104C8B",
+    "after": "3F9FF52F16922F4312E0E48F6E26DF17E7A16A17B3474ACB4CAE7AE080104C8B"
+  },
+  {
+    "package": "dsh-compaction-tool-result-pruner",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner-v15\\lib\\types\\config.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-compaction-tool-result-pruner\\lib\\types\\config.d.ts",
+    "before": "51D417BDBB644048BD01A077C3B887A90D471C2956D499A1DDE5662E30CB0181",
+    "after": "51D417BDBB644048BD01A077C3B887A90D471C2956D499A1DDE5662E30CB0181"
+  },
+  {
+    "package": "dsh-agent-loop",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\types\\index.d.ts",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-agent-loop\\lib\\types\\index.d.ts",
+    "before": "906F202B859B11F7B0A399D8C4921C47384DD6177C990D59B8A93026A9875E8E",
+    "after": "935CE48E065015898F50E34886E621EFB1D7CBA2B8992A20381CCE84B8995A4A"
+  },
+  {
+    "package": "dsh-sandbox-local",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-sandbox-local-v15\\lib\\index.js",
+    "deploymentPath": "D:\\dsh-test\\app\\node_modules\\@deepseek-ai\\dsh-sandbox-local\\lib\\index.js",
+    "before": "9DE3047D44DCFD99EC7E917FB89667A371FF92A8EBDCDF91043A105062D299C8",
+    "after": "D9FD46E0A931A3DA442F7DCF2BAAD6DC7C387D8A1BE80AF2C2E20C51844CD7D5"
+  },
+  {
+    "package": "dsh-goal-round-driver",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\app\\node_modules\\@deepseek-ai\\dsh-goal-round-driver-v15\\lib\\index.js",
+    "deploymentPath": "D:/dsh-test/app/node_modules/@deepseek-ai/dsh-goal-round-driver/lib/index.js",
+    "before": "3BCA01A2E87DE1683FA8B55AD54688EEFC4E366C971C20E9AFD654DB3B5AB450",
+    "after": "76E9F6D067458EC0115B8CF9B4209E0015FDFB7CD6C9F833FF62442D410A9E50"
   }
 ]

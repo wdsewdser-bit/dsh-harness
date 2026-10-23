@@ -5,6 +5,7 @@ import { pathToFileURL } from 'node:url'
 import { createHash } from 'node:crypto'
 import { readFileSync } from 'node:fs'
 import { captureLoadedPtcBinding } from '../tools/capture-lab-ptc-binding.mjs'
+import { createProtocolTrialEvidence } from '../tools/window-protocol-trial.mjs'
 import { apply as applyContext } from '../home/profiles/web/plugins/context-workspace.mjs'
 import { initializeNativeHost } from '../native-tests/native-host-fixture.mjs'
 const require = createRequire(new URL('../app/package.json', import.meta.url))
@@ -76,4 +77,32 @@ test('native owned children bind their real runtime route without taking over ge
   f.agent.options.model = route.model;registry.isOwnedBy = () => false
   assert.throws(f.capture,/ROUTE_REQUIRED/)
   delete f.agent.session.header.parentSession;assert.throws(f.capture,/ROUTE_REQUIRED/)
+})
+
+function extendCatalog(f, count) {
+  for (let index = f.tools.sdkSchemas(f.agent).length; index < count; index++) f.tools.register({
+    name: 'protocol_probe_' + index, description: 'Inert schema fixture; never dispatched', parameters: {},
+    output: { schema: {}, render: () => [] }, execute() { throw new Error('SCHEMA_FIXTURE_MUST_NOT_EXECUTE') },
+  })
+}
+
+test('protocol trial binds actual loaded catalogs instead of an obsolete fixed tool count', async t => {
+  const f = await fixture(); t.after(f.stop)
+  for (const count of [75, 76]) {
+    extendCatalog(f, count)
+    const binding = f.capture(), proof = createProtocolTrialEvidence(binding, f.agent.id)
+    assert.equal(proof.schemaCount, count)
+    assert.equal(proof.sdkSha256, binding.sdkSha256)
+    assert.equal(proof.productionAuthorized, false)
+  }
+})
+
+test('protocol trial rejects forged SDK text, cardinality and foreign live-session binding', async t => {
+  const f = await fixture(); t.after(f.stop); extendCatalog(f, 75)
+  const binding = f.capture()
+  for (const changes of [{ sdkSha256: '0'.repeat(64) }, { schemaCount: 76 },
+    { labSessionId: 'foreign' }, { pid: process.pid + 1 }, { schemaHashes: {} },
+    { toolsSchemaBindings: { context_manage: '0'.repeat(64) } }]) {
+    assert.throws(() => createProtocolTrialEvidence({ ...binding, ...changes }, f.agent.id), /LAB_PROTOCOL_BINDING/)
+  }
 })

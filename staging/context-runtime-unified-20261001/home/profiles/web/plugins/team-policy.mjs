@@ -167,6 +167,157 @@ export function stripStamp(description) {
   return description.replace(STAMP_RE, '')
 }
 
+const nativeSpawnReceipts = new WeakMap()
+const parkedSpawnReceipts = new WeakMap()
+function recordedSpawns(session) {
+  const events = session.log ?? session.snapshotEvents?.()
+  if (!Array.isArray(events)) return []
+  const inherited = Number.isSafeInteger(session.inheritedEventCount) ? session.inheritedEventCount : 0
+  let cache = nativeSpawnReceipts.get(session)
+  if (!cache || cache.index > events.length || cache.inherited !== inherited) {
+    cache = { index: inherited, inherited, starts: new Map(), members: [] }
+    nativeSpawnReceipts.set(session, cache)
+  }
+  for (; cache.index < events.length; cache.index++) {
+    const event = events[cache.index], data = event?.data
+    if (data?.name !== 'spawn_teammate' || typeof data.subCallId !== 'string') continue
+    if (event.type === 'tool/ptc-dispatch-start') {
+      cache.starts.set(data.subCallId, { rootCallId: data.rootCallId, parentCallId: data.parentCallId, name: data.arguments?.name })
+      continue
+    }
+    if (event.type !== 'tool/ptc-dispatch' || data.isError !== false) continue
+    const start = cache.starts.get(data.subCallId)
+    if (!start || typeof start.name !== 'string' || start.name !== data.arguments?.name
+      || start.rootCallId !== data.rootCallId || start.parentCallId !== data.parentCallId) continue
+    if (!Array.isArray(data.content) || data.content.length !== 1 || data.content[0]?.type !== 'text'
+      || typeof data.content[0].text !== 'string' || data.content[0].text.length > 32768) continue
+    try {
+      const member = JSON.parse(data.content[0].text)?.member
+      if (member?.role === 'teammate' && member.name === start.name && typeof member.id === 'string'
+        && [LEAD_TIER, MEMBER_TIER].includes(member.tier)
+        && typeof member.group === 'string' && /^[^\s\]]+$/.test(member.group)
+        && typeof member.parent === 'string' && member.parent.length > 0) {
+        cache.members.push({ id: member.id, name: member.name, tier: member.tier, group: member.group, parent: member.parent })
+      }
+    } catch { /* A malformed result cannot confer policy authority. */ }
+  }
+  return cache.members
+}
+
+/** Recover legacy metadata only from this Team's matched server-side spawn receipts. */
+export function recoverRosterProvenance(ctx, agent, rows) {
+  if (!Array.isArray(rows)) return rows
+  const identity = row => {
+    if (row === null || typeof row !== 'object') return undefined
+    const stamp = parseStamp(row.description)
+    const tier = row.level ?? stamp?.tier, group = row.groupId ?? stamp?.group, parent = row.parentName ?? stamp?.parent
+    return [LEAD_TIER, MEMBER_TIER].includes(tier) && typeof group === 'string' && typeof parent === 'string'
+      ? { id: row.id, name: row.name, tier, group, parent } : undefined
+  }
+  const unresolved = rows.filter(row => row?.role !== 'lead' && row?.status !== 'failed' && !identity(row))
+  if (!unresolved.length) return rows
+  const membership = ctx.agentTeams.tryMembership(agent), root = membership?.root
+  const rootRow = rows.find(row => row?.role === 'lead' && row.id === root?.id)
+  if (!rootRow || root.session?.id !== root.id || String(membership.id) !== root.id) return rows
+  const roster = new Map(rows.filter(row => row && typeof row === 'object').map(row => [row.id, row]))
+  const known = new Map([[root.id, { id: root.id, name: rootRow.name, tier: ROOT_TIER, group: 'root' }]])
+  for (const row of rows) {
+    const value = identity(row)
+    if (value) known.set(row.id, value)
+  }
+  const sources = new Map([[root.id, root.session]])
+  const parked = parkedSpawnReceipts.get(root.session)?.sources
+  if (parked) for (const [id, source] of parked) {
+    if (roster.has(id) && source.parentSession === root.id) sources.set(id, source)
+  }
+  for (const row of rows) {
+    if (!row || row.id === root.id || row.status === 'failed') continue
+    try {
+      const session = ctx.agents.get(row.id)?.session ?? ctx.sessions?.get(row.id)
+      if (session?.id === row.id && session.header?.parentSession === root.id) sources.set(row.id, session)
+    } catch { /* Unloaded sessions remain unresolved until their authorized wake. */ }
+  }
+  // The policy has exactly two subordinate tiers. Resolve leads before members,
+  // and never use model text, caller arguments, or a foreign/inherited journal.
+  const recovered = new Map()
+  for (let depth = LEAD_TIER; depth <= MEMBER_TIER; depth++) {
+    const candidates = new Map(), conflicts = new Set()
+    for (const [id, session] of sources) {
+      const owner = known.get(id)
+      if (!owner || owner.tier !== depth - 1 || owner.group === VERIFIER_GROUP) continue
+      for (const member of session.receipts ?? recordedSpawns(session)) {
+        const target = roster.get(member.id)
+        if (!target || target.role !== 'teammate' || target.status === 'failed' || target.name !== member.name
+          || identity(target) || member.tier !== depth || member.parent !== owner.name
+          || (depth === MEMBER_TIER && member.group !== owner.group)) continue
+        const previous = candidates.get(member.id)
+        if (previous && JSON.stringify(previous) !== JSON.stringify(member)) conflicts.add(member.id)
+        candidates.set(member.id, member)
+      }
+    }
+    for (const [id, member] of candidates) if (!conflicts.has(id)) {
+      known.set(id, member); recovered.set(id, member)
+    }
+  }
+  return rows.map(row => {
+    const member = recovered.get(row?.id)
+    return member ? { ...row, level: member.tier, groupId: member.group, parentName: member.parent } : row
+  })
+}
+
+/** Read only the known legacy group leads; native idle eviction is not loss of provenance. */
+export async function prepareRosterProvenance(ctx, agent) {
+  const membership = ctx.agentTeams.tryMembership(agent), root = membership?.root
+  if (!root || root.session?.id !== root.id) return
+  const rows = ctx.agentTeams.listMembers(agent)
+  const recovered = recoverRosterProvenance(ctx, agent, rows)
+  if (!rows.some(row => row?.role === 'teammate' && row.status !== 'failed'
+    && row.level === undefined && !parseStamp(row.description))) return
+  const persistence = ctx.get('sessionPersistence')
+  if (typeof persistence?.open !== 'function' || typeof persistence.stat !== 'function') return
+  let cache = parkedSpawnReceipts.get(root.session)
+  if (!cache) {
+    cache = { sources: new Map(), pending: undefined }
+    parkedSpawnReceipts.set(root.session, cache)
+  }
+  if (cache.pending) return cache.pending
+  const rootName = rows.find(row => row?.id === root.id)?.name
+  const leads = recovered.filter(row => row?.level === LEAD_TIER && row.parentName === rootName
+    && row.groupId !== VERIFIER_GROUP && row.status !== 'failed')
+  const ids = new Set(leads.map(row => row.id))
+  for (const id of cache.sources.keys()) if (!ids.has(id)) cache.sources.delete(id)
+  const load = async () => {
+    for (const lead of leads) {
+      const signal = AbortSignal.timeout(5000)
+      let handle
+      try {
+        const stat = await persistence.stat(lead.id, { signal })
+        if (stat === undefined) { cache.sources.delete(lead.id); continue }
+        const previous = cache.sources.get(lead.id)
+        if (previous && previous.revision === stat.revision) continue
+        handle = await persistence.open(lead.id, 'read', { signal })
+        const { events } = await handle.read(0, undefined, { signal })
+        const header = handle.header, inherited = handle.inheritedEventCount
+        if (header?.id !== lead.id || header.parentSession !== root.id || !Array.isArray(events)
+          || !Number.isSafeInteger(inherited) || inherited < 0 || inherited > events.length
+          || (!header.isSeeded && inherited !== 0)) {
+          cache.sources.delete(lead.id); continue
+        }
+        const receipts = recordedSpawns({ log: events, inheritedEventCount: inherited })
+        cache.sources.set(lead.id, { parentSession: root.id, revision: stat.revision, receipts })
+      } catch {
+        // Unavailable or invalid storage never supplies new authority.
+        cache.sources.delete(lead.id)
+      } finally {
+        try { await handle?.close() } catch { cache.sources.delete(lead.id) }
+      }
+    }
+  }
+  const pending = load()
+  cache.pending = pending
+  try { await pending } finally { if (cache.pending === pending) cache.pending = undefined }
+}
+
 /**
  * Adopt Domain members this registry has never seen.
  *
@@ -896,5 +1047,12 @@ export function teamKeyOf(ctx, agent) {
  */
 export function apply(ctx, config = {}) {
   LIMITS = config === null || config === undefined ? {} : config
+  if (typeof ctx.on === 'function') {
+    ctx.on('agent/created', ({ agent }) => prepareRosterProvenance(ctx, agent), { global: true })
+    ctx.on('agent/pre-step', async ({ agent }, next) => {
+      await prepareRosterProvenance(ctx, agent)
+      return next()
+    }, { global: true })
+  }
   return policyFor('')
 }

@@ -6,6 +6,7 @@ import {fileURLToPath} from 'node:url'
 import {join} from 'node:path'
 import {randomUUID} from 'node:crypto'
 import {SubagentInbox} from '../app/node_modules/@deepseek-ai/dsh-subagent-v15/lib/types/inbox.js'
+import {familyLimits} from '../tools/team-family-natural-lab.mjs'
 
 const stage = fileURLToPath(new URL('..',import.meta.url))
 function runFixture(mode) {
@@ -13,7 +14,7 @@ function runFixture(mode) {
   const result = spawnSync(process.execPath,['--preserve-symlinks','--preserve-symlinks-main','--import',
     './tools/prepare-unified-lab-host.mjs','./tools/team-family-natural-lab.mjs',
     mode,'--output',output],{cwd:stage,env:{...process.env,DSH_LAB_CANONICAL_MODULES:'1'},
-    windowsHide:true,encoding:'utf8',timeout:45000,maxBuffer:1024*1024})
+    windowsHide:true,encoding:'utf8',timeout:familyLimits.maxProcessMs+5000,maxBuffer:1024*1024})
   const saved = existsSync(join(output,'result.json')) ? JSON.parse(readFileSync(join(output,'result.json'))) : null
   assert.equal(result.status,0,JSON.stringify({output,error:result.error?.code,saved,stderr:result.stderr?.slice(-1800)}))
   assert.equal(saved.externalRequests,0)
@@ -23,7 +24,7 @@ function runFixture(mode) {
   return {saved,output}
 }
 
-test('actual Team follow-up waits for durable acceptance and cold resumes every child for its next identity turn',{timeout:50000},() => {
+test('actual Team follow-up waits for durable acceptance and cold resumes every child for its next identity turn',{timeout:familyLimits.maxProcessMs+10000},() => {
   const {saved,output} = runFixture('--offline-rounds')
   assert.equal(saved.accepted,true)
   assert.equal(saved.admission.admitted.length,8)
@@ -38,7 +39,7 @@ test('actual Team follow-up waits for durable acceptance and cold resumes every 
   }
 })
 
-test('actual Team child transport failure retains terminal evidence and closes without a late writer flush',{timeout:50000},() => {
+test('actual Team child transport failure retains terminal evidence and closes without a late writer flush',{timeout:familyLimits.maxProcessMs+10000},() => {
   const {saved,output} = runFixture('--offline-error')
   assert.equal(saved.accepted,false)
   assert.equal(saved.fixtureTransportFailure,true)

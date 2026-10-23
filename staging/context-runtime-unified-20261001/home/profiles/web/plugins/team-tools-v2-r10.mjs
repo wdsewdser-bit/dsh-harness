@@ -24,12 +24,14 @@
 console.log('[team-tools-v2-r10] HMR r26-static-policy-membership+perf68-clearance-severity+sync-diagnostics loaded 2026-09-28')
 
 import { defineTool } from '@deepseek-ai/dsh-tools'
+import { getHostLifecycleGate } from '@deepseek-ai/cordis'
+import { randomUUID } from 'node:crypto'
 import { TeamTaskId } from '@deepseek-ai/dsh-experimental-agent-team'
 import { installModelSelection } from '@deepseek-ai/dsh-agent'
 import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs'
 import { dirname, join, relative, resolve } from 'node:path'
 import { createUserMessage } from '@deepseek-ai/dsh-llm'
-import { activePolicy, policyFor, reconcileRegistry, stripStamp, teamKeyOf } from './team-policy.mjs'
+import { activePolicy, parseStamp, policyFor, reconcileRegistry, recoverRosterProvenance, stampDescription, stripStamp, teamKeyOf } from './team-policy.mjs'
 import { canAdvanceTaskPhase, dependencyCycle, hashControlValue, latestClosedRound, normalizeCommitSha, parseTaskDependencyReference, PLAN_REPLACEMENT_RECOVERY, roomActivity, roomDependencyVerdict, shouldMoveTaskPhase, TASK_PHASES, taskPhaseRecoveryActions } from './team-control-plane.mjs'
 import { detectScopeConflicts, normalizeContractScope, normalizeTaskContract } from './team-v12-contract.mjs'
 import { createTaskQuerySnapshot, projectTaskQueryView, taskQueryFilter } from './team-query-efficiency.mjs'
@@ -46,6 +48,26 @@ import { measureSessionTokens } from './team-token-meter-cache.mjs'
 export const name = 'tool-agent-team-v2'
 /** Services required by the v2 Team tool plugin. */
 export const inject = ['agents', 'agentTeams', 'tools', 'systemPrompt', 'subagents']
+
+/** Serialize timer-originated registrations with native Agent creation and disposal. */
+export function createToolInstallSweep(ctx, install) {
+  const gate = getHostLifecycleGate(ctx)
+  let disposed = false, pending
+  return {
+    run() {
+      if (disposed) return Promise.resolve(false)
+      if (pending) return pending
+      const task = gate.runAsync(() => {
+        if (disposed) return false
+        install()
+        return true
+      })
+      pending = task.then(value => { pending = undefined; return value }, error => { pending = undefined; throw error })
+      return pending
+    },
+    dispose() { disposed = true },
+  }
+}
 
 const POLICY = 'Agent Team v2 is active. Tiers: tier 0 is the session Lead, tier 1 are group leads plus one independent verifier, tier 2 are group members. Constraints are enforced by the runtime, not by this text: a refused call is refused in code.'
   + ' Tier 0 coordinates global and cross-group work; tier-1 group leads schedule their own groups. Neither role implements member-owned product work. Break approved work into scoped tasks with a named owner, supervise, check results, and interrupt only when a member has demonstrably drifted.'
@@ -90,28 +112,20 @@ export function infoDeliveryReceiptStatus(delivered) {
 }
 
 /**
- * Cache small Team-owned JSON documents by file identity. The files are edited by
- * this plugin and by step-compaction, so every read still stats the path and the
- * cache is invalidated whenever dev/ino/size/mtime/ctime changes.
+ * Reuse parsed small Team documents only when their actual bytes are unchanged.
+ * File identity and timestamps can collide on rapid same-size Windows writes.
  */
 export function readTeamJsonCached(path) {
-  const stats = statSync(path, { bigint: true })
-  const signature = [
-    String(stats.dev),
-    String(stats.ino),
-    String(stats.size),
-    String(stats.mtimeNs),
-    String(stats.ctimeNs),
-  ].join(':')
+  const raw = readFileSync(path, 'utf8')
   const cached = teamDocCache.get(path)
-  if (cached?.signature === signature) {
+  if (cached?.raw === raw) {
     teamDocCache.delete(path)
     teamDocCache.set(path, cached)
     return cached.value
   }
-  const value = JSON.parse(readFileSync(path, 'utf8'))
+  const value = JSON.parse(raw)
   teamDocCache.delete(path)
-  teamDocCache.set(path, { signature, value })
+  teamDocCache.set(path, { raw, value })
   while (teamDocCache.size > TEAM_DOC_CACHE_LIMIT) {
     teamDocCache.delete(teamDocCache.keys().next().value)
   }
@@ -382,12 +396,19 @@ export function pendingDispatchText(row, fallback = '') {
   const pending = Array.isArray(row?.pendingMessages) ? row.pendingMessages : []
   const text = pending
     .filter((message) => message !== null && typeof message === 'object')
-    .filter((message) => !['handled', 'rejected'].includes(String(message.status ?? '')))
+    .filter((message) => !['handled', 'rejected', 'acked'].includes(String(message.status ?? '')))
     .map((message) => String(message.text ?? '').trim())
     .filter((value) => value.length > 0)
     .join('\n\n')
   return text.length > 0 ? text : String(fallback ?? '')
 }
+
+const WAKE_ADMISSION_LIMIT = 4096
+const settledWakeMessage = (dispatch, message) => dispatch?.status === 'completed'
+  || ['handled', 'rejected', 'acked'].includes(String(message?.status))
+  || message?.transport?.status === 'cancelled-before-send'
+const wakeAdmissionKey = (baseEpisodeId, sender, targetId, messageHash) =>
+  hashControlValue({ baseEpisodeId, sender, targetId, messageHash })
 
 const MEMBER_VIEW_SCHEMA = {
   type: 'object',
@@ -2499,7 +2520,7 @@ function install(agent, ctx, config) {
       // has none — it threw on every single call, and the empty catch below swallowed it.
       // The registry was therefore NEVER rebuilt from the Domain, which is why freeze and
       // every other lookup reported unknown-member for members the roster plainly lists.
-      reconcileRegistry(active.registry, ctx.agentTeams.listMembers(agent))
+      reconcileRegistry(active.registry, recoverRosterProvenance(ctx, agent, ctx.agentTeams.listMembers(agent)))
       const roster = active.all()
       const counters = active.control.counters()
       const activeSlots = roster.filter((member) => member.tier > 0 && member.frozen !== true && !['failed'].includes(member.status)).length
@@ -2827,7 +2848,8 @@ function install(agent, ctx, config) {
       if (dispatch === undefined) return undefined
       const rows = Array.isArray(dispatch.pendingMessages) ? dispatch.pendingMessages : []
       const row = rows.find((candidate) => candidate?.messageHash === hash || candidate?.messageId === id)
-      if (row !== undefined) {
+      if (row !== undefined && !['handled', 'rejected', 'acked'].includes(String(row.status))
+        && !(status === 'delivered' && ['completed', 'delivery-failed', 'run-failed', 'timed-out', 'cancelled', 'expired'].includes(dispatch.status))) {
         row.status = String(status)
         row.updatedAt = updatedAt
       }
@@ -2848,28 +2870,70 @@ function install(agent, ctx, config) {
     messageHash,
     text,
     messageOperationKey,
+    escalationId,
   }) => {
+    if (control().view({ history: false }).wakeAdmissions?.version !== 1) {
+      // One bounded upgrade from the previous staged fence representation.
+      // New entries thereafter are indexed on admission, without history scans.
+      await control().mutateHot('wake/admission-index-upgrade', {}, actor, state => {
+        if (state.wakeAdmissions?.version === 1) return
+        const entries = {}
+        let inspected = 0, indexed = 0
+        for (const dispatchId in state.dispatches ?? {}) {
+          if (++inspected > WAKE_ADMISSION_LIMIT) refuse('wake-admission-index-limit', 'bounded admission migration requires operator inspection')
+          const dispatch = state.dispatches[dispatchId]
+          for (const pending of dispatch.pendingMessages ?? []) {
+            if (!pending.transport || settledWakeMessage(dispatch, pending)) continue
+            if (!dispatch.targetId) refuse('wake-stale-target', 'legacy native admission has no confirmed receiver binding')
+            const base = dispatch.baseEpisodeId ?? dispatchId.replace(/^wake:/, '').replace(/:r\d+$/, '')
+            const key = wakeAdmissionKey(base, pending.sender ?? dispatch.sender, dispatch.targetId, pending.messageHash)
+            if (entries[key] && entries[key].dispatchId !== dispatchId) refuse('wake-native-admission-unconfirmed', 'multiple legacy native admissions require receipt inspection')
+            if (!entries[key] && ++indexed > WAKE_ADMISSION_LIMIT) refuse('wake-admission-index-limit', 'bounded admission migration requires operator inspection')
+            entries[key] = { dispatchId, messageId: pending.messageId, targetId: dispatch.targetId }
+          }
+        }
+        state.wakeAdmissions = { version: 1, entries }
+      })
+    }
     const before = control().view({ history: false })
     const selected = nextWakeEpisode(before, baseEpisodeId)
     const priorDispatch = selected.episode?.dispatchId === undefined
       ? undefined
       : before.dispatches?.[selected.episode.dispatchId]
+    const targetId = ctx.agentTeams.listMembers(actor).find(member => member.name === target)?.id ?? null
+    const previousDispatch = selected.previous?.dispatchId === undefined
+      ? undefined
+      : before.dispatches?.[selected.previous.dispatchId]
+    if (previousDispatch !== undefined && (!previousDispatch.targetId || previousDispatch.targetId !== targetId)) {
+      refuse('wake-stale-target', 'previous receiver binding is unconfirmed or changed; a new authorized native binding is required')
+    }
+    const indexed = before.wakeAdmissions?.entries?.[wakeAdmissionKey(baseEpisodeId, sender, targetId, messageHash)]
+    if (indexed) {
+      const original = before.dispatches?.[indexed.dispatchId]
+      const message = original?.pendingMessages?.find(row => row.messageId === indexed.messageId)
+      if (!settledWakeMessage(original, message)) {
+        // An active identical message remains coalesced in its own episode.
+        if (priorDispatch?.dispatchId !== indexed.dispatchId) {
+          refuse('wake-native-admission-unconfirmed', 'the original native message may still deliver; inspect its receipt before creating another episode')
+        }
+      }
+    }
     const priorHashes = Array.isArray(priorDispatch?.messageHashes) ? priorDispatch.messageHashes.map(String) : []
     const claimed = await control().wakeClaim({
       episodeId: selected.episodeId,
+      baseEpisodeId,
       kind,
       taskId,
       roomId,
       sender,
       target,
+      targetId,
       messageHash,
-      pendingMessage: { messageId, messageHash, text, status: 'queued' },
+      ...(escalationId === undefined ? {} : { escalationId }),
+      pendingMessage: { messageId, messageHash, sender, text, status: 'queued' },
       ...(messageOperationKey === undefined ? {} : { messageOperationKey }),
     }, actor)
     const duplicate = claimed.claimed === false && priorHashes.includes(String(messageHash))
-    const previousDispatch = selected.previous?.dispatchId === undefined
-      ? undefined
-      : before.dispatches?.[selected.previous.dispatchId]
     if (claimed.claimed === true
       && selected.previous !== undefined
       && previousDispatch !== undefined
@@ -2921,7 +2985,9 @@ function install(agent, ctx, config) {
 
   const recordWakeDeadLetter = async ({ actor, dispatchId, kind }) => {
     const row = control().dispatchGet(dispatchId)
-    if (row === undefined || row.wakeup !== true || !WAKE_DEAD_LETTER_STATES.has(String(row.status))) return undefined
+    if (row === undefined || row.wakeup !== true
+      || !(WAKE_DEAD_LETTER_STATES.has(String(row.status))
+        || (row.status === 'delivery-failed' && kind === 'native-admission-unconfirmed'))) return undefined
     const metadata = {
       status: 'open',
       kind: String(kind ?? 'dispatch-timeout'),
@@ -2942,7 +3008,18 @@ function install(agent, ctx, config) {
         ...metadata,
       }
       const episode = Object.values(state.wakeEpisodes ?? {}).find((candidate) => candidate?.dispatchId === dispatchId)
-      if (episode !== undefined) episode.deadLetter = dispatch.deadLetter
+      if (episode !== undefined) {
+        episode.deadLetter = dispatch.deadLetter
+        episode.status = dispatch.status
+        episode.resolvedAt = dispatch.resolvedAt ?? Date.now()
+      }
+      for (const pending of dispatch.pendingMessages ?? []) {
+        if (pending.status === 'queued') {
+          pending.status = 'delivery-failed'
+          pending.lastError = dispatch.lastError
+          pending.updatedAt = Date.now()
+        }
+      }
       return dispatch.deadLetter
     })
     const text = '[team wake dead-letter] ' + metadata.sender + ' -> ' + metadata.target
@@ -2993,7 +3070,6 @@ function install(agent, ctx, config) {
     dispatchId,
     messageId,
     messageHash,
-    allowDirect = false,
   }) => {
     const targetAgent = liveTeamAgent(target)
     let targetStatus
@@ -3033,49 +3109,58 @@ function install(agent, ctx, config) {
         error: targetVerdict.reason,
       }
     }
-    if (allowDirect) {
-      const source = { kind: TEAM_WAKE_KIND, plugin: name, form: 'action', summary: text.slice(0, 120) }
-      const directWaitMs = Math.max(100, Math.min(1000, Number(config.wakeAckWaitMs) || 500))
-      const boundedDirect = async (operation) => {
-        let timer
-        try {
-          return await Promise.race([
-            Promise.resolve(operation).then(
-              (value) => ({ ok: true, value }),
-              (error) => ({ ok: false, error }),
-            ),
-            new Promise((resolve) => {
-              timer = setTimeout(() => resolve({ ok: false, timeout: true }), directWaitMs)
-              timer.unref?.()
-            }),
-          ])
-        } finally {
-          if (timer !== undefined) clearTimeout(timer)
-        }
+    // Native admission provides one durable message identity. A steer timeout
+    // cannot safely fall back to a second mailbox injection.
+    const admission = await control().mutateHot('wake/transport-admission', { dispatchId, messageId }, actor, state => {
+      const dispatch = state.dispatches?.[dispatchId]
+      const pending = dispatch?.pendingMessages?.find(row => row.messageId === messageId || row.messageHash === messageHash)
+      const member = ctx.agentTeams.listMembers(actor).find(row => row.name === target)
+      if (!dispatch || ['completed', 'delivery-failed', 'run-failed', 'timed-out', 'cancelled', 'expired'].includes(dispatch.status)
+        || !pending || ['handled', 'rejected', 'acked'].includes(pending.status)) return false
+      if (!dispatch.targetId || member?.id !== dispatch.targetId || pending.transport) return false
+      const index = state.wakeAdmissions
+      if (index?.version !== 1) return false
+      const key = wakeAdmissionKey(dispatch.baseEpisodeId, pending.sender ?? dispatch.sender, dispatch.targetId, pending.messageHash)
+      const previous = index.entries[key]
+      if (previous) {
+        const original = state.dispatches?.[previous.dispatchId]
+        const message = original?.pendingMessages?.find(row => row.messageId === previous.messageId)
+        if (!settledWakeMessage(original, message)) return false
+      } else if (Object.keys(index.entries).length >= WAKE_ADMISSION_LIMIT) {
+        refuse('wake-admission-index-limit', 'native admission capacity reached; settle original receipts before sending more')
       }
-      if (targetAgent !== undefined && typeof targetAgent.steer === 'function') {
-        try {
-          const direct = await boundedDirect(targetAgent.steer(createUserMessage({
-            content: [{ type: 'text', text }],
-            source,
-          })))
-          if (direct.ok === true) {
-            try {
-              await control().wakeAcknowledge({ episodeId, status: 'delivered' }, actor)
-              await markWakePendingMessage({ actor, dispatchId, episodeId, messageId, messageHash, status: 'delivered' })
-            } catch { /* the target already has the wake */ }
-            return { status: 'delivered' }
-          }
-        } catch {
-          // Fall back to the durable Team mailbox for cold, unauthorized, or
-          // version-mismatched targets.
-        }
-      }
-      // Do not synchronously cold-resume a large target Session inside a PTC
-      // tool call. `subagents.steerPrompt` can spend minutes restoring history
-      // and previously made a sequence of send_message calls hit the 115s
-      // execution deadline. The durable mailbox below still queues the wake;
-      // its short race returns `queued` while recovery continues in background.
+      const token = randomUUID()
+      pending.transport = { status: 'admitting', token, targetId: dispatch.targetId, startedAt: Date.now() }
+      index.entries[key] = { dispatchId, messageId: pending.messageId, targetId: dispatch.targetId, token }
+      return { token, targetId: dispatch.targetId, key }
+    })
+    if (!admission) {
+      await safeDispatchTransition({ dispatchId, status: 'delivery-failed', error: 'native admission or target binding unconfirmed; inspect before explicit recovery' }, actor)
+      await recordWakeDeadLetter({ actor, dispatchId, kind: 'native-admission-unconfirmed' })
+      return { status: 'delivery-failed', code: 'native-admission-unconfirmed' }
+    }
+    // Flush the admission fence before allowing any transport side effect.
+    await control().flush()
+    const currentState = control().view({ history: false })
+    const current = currentState.dispatches?.[dispatchId]
+    const currentIndex = currentState.wakeAdmissions?.entries?.[admission.key]
+    const currentMessage = current?.pendingMessages?.find(row => row.messageId === messageId && row.messageHash === messageHash)
+    const currentTarget = ctx.agentTeams.listMembers(actor).find(row => row.name === target)
+    if (!current || ['completed', 'delivery-failed', 'run-failed', 'timed-out', 'cancelled', 'expired'].includes(current.status)
+      || !currentMessage || settledWakeMessage(current, currentMessage)
+      || currentMessage.transport?.token !== admission.token || currentMessage.transport?.status !== 'admitting'
+      || currentIndex?.token !== admission.token || currentIndex?.dispatchId !== dispatchId || currentIndex?.messageId !== messageId
+      || current.target !== target
+      || current.targetId !== admission.targetId || currentTarget?.id !== admission.targetId
+      || currentTarget?.frozen === true || ['failed', 'frozen'].includes(currentTarget?.status)) {
+      await control().mutateHot('wake/transport-cancelled-before-send', { dispatchId, messageId }, actor, state => {
+        const pending = state.dispatches?.[dispatchId]?.pendingMessages?.find(row => row.messageId === messageId)
+        if (pending?.transport?.token === admission.token) pending.transport.status = 'cancelled-before-send'
+        if (state.wakeAdmissions?.entries?.[admission.key]?.token === admission.token) delete state.wakeAdmissions.entries[admission.key]
+      })
+      await safeDispatchTransition({ dispatchId, status: 'delivery-failed', error: 'native admission cancelled before send: dispatch, message, fence or receiver changed during flush' }, actor)
+      await recordWakeDeadLetter({ actor, dispatchId, kind: 'native-admission-unconfirmed' })
+      return { status: 'delivery-failed', code: 'native-admission-cancelled-before-send' }
     }
     const background = new AbortController()
     // The caller's PTC deadline must not cancel cold-resume work. The mailbox
@@ -3086,6 +3171,10 @@ function install(agent, ctx, config) {
       content: [{ type: 'text', text }],
       signal: background.signal,
     }).then(async (receipt) => {
+      await control().mutateHot('wake/transport-receipt', { dispatchId, messageId }, actor, state => {
+        const pending = state.dispatches?.[dispatchId]?.pendingMessages?.find(row => row.messageId === messageId || row.messageHash === messageHash)
+        if (pending?.transport) Object.assign(pending.transport, { status: receipt?.status ?? 'unconfirmed', messageId: receipt?.messageId ?? null })
+      })
       if (receipt?.status !== undefined && receipt.status !== 'accepted') {
         return { status: 'queued', messageId: receipt?.messageId }
       }
@@ -3139,42 +3228,27 @@ function install(agent, ctx, config) {
 
     const row = control().dispatchGet(dispatchId)
     if (row === undefined || row.status !== 'queued') return false
+    if (row.wakeup === true) {
+      // Native admission owns its stable message ID and recovery. Creating a
+      // fresh message here duplicates cold-resume delivery, including after a
+      // crash between native admission and our receipt checkpoint. Legacy rows
+      // without a fence are equally ambiguous and require operator inspection.
+      const target = ctx.agentTeams.listMembers(agent).find(member => member.name === row.target)
+      const error = !row.targetId || target?.id !== row.targetId
+        ? 'stale target binding; explicit authorized recovery required'
+        : 'native admission unconfirmed at deadline; inspect durable native receipt before recovery'
+      await safeDispatchTransition({ dispatchId, status: 'delivery-failed', error }, agent)
+      await recordWakeDeadLetter({ actor: agent, dispatchId, kind: 'native-admission-unconfirmed' })
+      return false
+    }
     try {
-      if (row.wakeup === true) {
-        const retryText = pendingDispatchText(row,
-          '[team retry] A durable dispatch timed out and was requeued. Resolve it or report why it cannot proceed.')
-        const receipt = await ctx.agentTeams.sendMessage(agent, {
-          target: row.target,
-          content: [{ type: 'text', text: retryText }],
-          signal: new AbortController().signal,
-        })
-        if (receipt?.status !== 'accepted') return false
-        await control().dispatchTransition({ dispatchId, status: 'delivered' }, agent)
-        const episode = Object.values(control().view({ history: false }).wakeEpisodes ?? {})
-          .find((candidate) => candidate.dispatchId === dispatchId)
-        for (const message of Array.isArray(row.pendingMessages) ? row.pendingMessages : []) {
-          if (['handled', 'rejected'].includes(String(message?.status ?? ''))) continue
-          await markWakePendingMessage({
-            actor: agent,
-            dispatchId,
-            episodeId: episode?.episodeId,
-            messageId: message.messageId,
-            messageHash: message.messageHash,
-            status: 'delivered',
-          })
-        }
-        if (episode !== undefined) {
-          await control().wakeAcknowledge({ episodeId: episode.episodeId, status: 'delivered' }, agent)
-        }
-      } else {
-        const target = liveTeamAgent(row.target)
-        const delivered = deliverPluginMessage(ctx, target,
-          '[team retry] A durable quiet message is waiting for your next step.',
-          { form: 'notice', summary: 'retry ' + dispatchId })
-        if (!delivered) return false
-        await control().dispatchTransition({ dispatchId, status: 'delivered' }, agent)
-        await control().dispatchTransition({ dispatchId, status: 'completed' }, agent)
-      }
+      const target = liveTeamAgent(row.target)
+      const delivered = deliverPluginMessage(ctx, target,
+        '[team retry] A durable quiet message is waiting for your next step.',
+        { form: 'notice', summary: 'retry ' + dispatchId })
+      if (!delivered) return false
+      await control().dispatchTransition({ dispatchId, status: 'delivered' }, agent)
+      await control().dispatchTransition({ dispatchId, status: 'completed' }, agent)
       return true
     } catch (error) {
       if (ctx.logger !== undefined) {
@@ -3184,7 +3258,10 @@ function install(agent, ctx, config) {
     }
   }
   if (ctx.agentTeams.membership(agent).role === 'lead' && typeof setInterval === 'function') {
+    let reconciling = false
     const timer = setInterval(() => {
+      if (reconciling) return
+      reconciling = true
       void (async () => {
         try {
           const reconciled = await control().reconcileDispatches({
@@ -3202,6 +3279,8 @@ function install(agent, ctx, config) {
           if (ctx.logger !== undefined) {
             ctx.logger.warn?.('team control reconciliation failed: ' + ((error && error.message) || String(error)))
           }
+        } finally {
+          reconciling = false
         }
       })()
     }, Math.max(5000, Number(config.reconcileIntervalMs || 30000)))
@@ -3781,6 +3860,17 @@ function install(agent, ctx, config) {
         if (lead === undefined) refuse('no-lead', 'no live session Lead is available to authorize the spawn')
 
         const owner = callerName()
+        const provenance = { tier: verdict.tier, group: verdict.group, parent: owner }
+        const stamp = stampDescription('', provenance)
+        const decoded = parseStamp(stamp)
+        if (decoded?.tier !== provenance.tier || decoded?.group !== provenance.group
+          || decoded?.parent !== provenance.parent || stamp.length >= 200) {
+          refuse('member-provenance', 'tier, group and parent must fit a durable member identity')
+        }
+        if (description.trim().length === 0) refuse('member-description', 'description must not be empty')
+        // The current native Team API is flat and drops fork-only fields. Keep
+        // the server-authorized tree in its immutable, journaled description.
+        const durableDescription = stampDescription(stripStamp(description).slice(0, 200 - stamp.length), provenance)
         // Authorization stays with the Lead — the domain only lets the Lead create members,
         // and passing the caller here broke group leads entirely ('only the Team Lead can
         // create teammates'). The ACTUAL spawner travels in parentName below, and the domain
@@ -3790,11 +3880,11 @@ function install(agent, ctx, config) {
         try {
           result = await ctx.agentTeams.spawnTeammate(lead, {
           name: args.name,
-          description,
+          description: durableDescription,
           prompt: [{ type: 'text', text: promptText }],
           context,
-          // Forked domain fields: the tier tree rides on the member snapshot, so it
-          // survives a restart and is visible to any process reading this Team.
+          // Fork-aware hosts may also expose structural fields. Flat hosts
+          // recover the same server-authored values from durableDescription.
           level: requestedTier,
           groupId: group,
           // The real spawner. The domain resolves this name to a live agent and makes it the
@@ -4736,37 +4826,43 @@ function install(agent, ctx, config) {
           references,
           urgency,
         }, caller)
-        const episodeId = 'escalation:' + target
-        const claimed = await control().wakeClaim({
-          episodeId,
+        const text = '[team escalation] ' + args.summary + '\nDecision needed: ' + args.decision_needed
+        const messageHash = hashControlValue({ summary: args.summary, decisionNeeded: args.decision_needed, references, options })
+        const messageId = escalation.escalationId
+        const claimed = await claimWakeMessage({
+          actor: caller,
+          baseEpisodeId: 'escalation:' + target,
+          kind: 'escalation',
           roomId: args.room_id,
           sender: callerName(),
           target,
-          messageHash: hashControlValue(args.summary),
+          messageId,
+          messageHash,
+          text,
           escalationId: escalation.escalationId,
-        }, caller)
+        })
+        const episodeId = claimed.episodeId
         const dispatch = claimed.dispatch
         await control().escalationBind({
           escalationId: escalation.escalationId,
           dispatchId: dispatch.dispatchId,
           wakeEpisodeId: episodeId,
         }, caller)
-        if (claimed.claimed !== false) {
-      await deliverWake({
-        actor: caller,
-        target,
-        text: '[team escalation] ' + args.summary + '\nDecision needed: ' + args.decision_needed + '\n[team message id=' + dispatch.dispatchId + ']',
-        signal: exec.signal,
-        episodeId,
-        dispatchId: dispatch.dispatchId,
-        allowDirect: true,
-      })
-        }
+        const delivered = claimed.distinct === true ? await deliverWake({
+          actor: caller,
+          target,
+          text: text + '\n[team message id=' + dispatch.dispatchId + ']',
+          signal: exec.signal,
+          episodeId,
+          dispatchId: dispatch.dispatchId,
+          messageId,
+          messageHash,
+        }) : { status: 'coalesced' }
         return {
           escalationId: escalation.escalationId,
           dispatchId: dispatch.dispatchId,
           target,
-          status: claimed.claimed === false ? 'coalesced' : 'delivered',
+          status: delivered.status,
         }
       },
     })))
@@ -8314,15 +8410,17 @@ export function apply(ctx, config = {}) {
     installed.clear()
   }, 'tool-team-v2.scopedTools()')
   ctx.effect(() => {
+    const sweep = createToolInstallSweep(ctx, () => {
+      for (const activeAgent of ctx.agents.list()) maybeInstall(activeAgent)
+    })
     const installSweep = setInterval(() => {
-      try {
-        for (const activeAgent of ctx.agents.list()) maybeInstall(activeAgent)
-      } catch (error) {
-        if (!inactiveContext(error)) throw error
-      }
+      void sweep.run().catch(error => {
+        if (inactiveContext(error) || error?.code === 'HOST_CLOSED') return
+        ctx.logger?.warn?.('[team-tools-v2-r10] scoped install sweep failed: ' + String(error?.message ?? error))
+      })
     }, 30000)
     installSweep.unref?.()
-    return () => clearInterval(installSweep)
+    return () => { clearInterval(installSweep); sweep.dispose() }
   }, 'tool-team-v2.installSweep()')
 
   // A running Team's scheduler deliberately goes quiet after dispatch. The

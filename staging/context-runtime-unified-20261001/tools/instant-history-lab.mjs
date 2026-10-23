@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict'
 import {randomUUID} from 'node:crypto'
-import {mkdir,writeFile} from 'node:fs/promises'
+import {mkdir,mkdtemp,writeFile} from 'node:fs/promises'
+import {tmpdir} from 'node:os'
+import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 import {existsSync,watch} from 'node:fs'
 import {getHostLifecycleGate} from '@deepseek-ai/cordis'
@@ -11,9 +13,14 @@ import {runProfile} from '../app/node_modules/@deepseek-ai/dsh/lib/profile-boot.
 import {controlPlaneForMember} from '../home/profiles/web/plugins/team-control-plane.mjs'
 import {TYPERT} from '../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/typert.host.js'
 import remote from '../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/typert.remote-client.js'
+import {assertInstantHistoryHome} from './instant-history-fixture-home.mjs'
 const root=new URL('../',import.meta.url).pathname.replace(/^\/([A-Za-z]:)/,'$1')
 assert.equal(process.env.DSH_LAB_CANONICAL_MODULES,'1')
-assert.equal(process.env.DSH_HOME.replaceAll('\\','/'),root.replace(/\/$/,'')+'/lab-host-home')
+const homeReceipt=process.argv.includes('--isolated-home')?assertInstantHistoryHome(process.env.DSH_HOME):null
+if(!homeReceipt)assert.equal(process.env.DSH_HOME.replaceAll('\\','/'),root.replace(/\/$/,'')+'/lab-host-home')
+// This fixture tests session streaming, not change capture of the controller's
+// dirty source repository. Keep the real observer on a separate empty workspace.
+const workspace=await mkdtemp(join(tmpdir(),'dsh-instant-history-work-'))
 const started=Promise.withResolvers(),successor=Promise.withResolvers(),finish=Promise.withResolvers()
 const ui=process.argv.includes('--ui')
 const runDirectory=fileURLToPath(new URL('../lab-runs/instant-ui-'+randomUUID()+'/',import.meta.url))
@@ -30,6 +37,8 @@ const waitBrowserClose=async()=>{
 const followCodec=registry=>(registry.invocations??registry.descriptors).find(row=>row.namespace==='session'&&row.method==='follow').result.create()
 const hostCodec=followCodec(TYPERT),remoteCodec=followCodec(remote)
 let ctx,agent,requests=0,externalRequests=0
+const lifecycle=[],pendingFlushes=new Map()
+const note=(kind,details={})=>{lifecycle.push({kind,at:Date.now(),...details});if(lifecycle.length>64)lifecycle.shift()}
 const bounded=async(label,promise,timeout=6000)=>{
   console.error('INSTANT_PHASE='+label)
   let timer
@@ -50,6 +59,22 @@ try {
   }
   const host=await runProfile({environment:createLaunchEnvironmentSnapshot([{source:'process',values:process.env}]),profile:'web',patchFiles,args:['--no-open','--port','40124']})
   ctx=host.ctx
+  const spawnProcess=ctx.subprocess.spawn.bind(ctx.subprocess)
+  ctx.subprocess.spawn=options=>{
+    const at=Date.now(),handle=spawnProcess(options)
+    const command={argv:options.argv,cwd:options.cwd}
+    note('process-start',{at,...command})
+    void handle.done.then(result=>note('process-end',{...command,ms:Date.now()-at,exitCode:result.exitCode}),
+      error=>note('process-error',{...command,ms:Date.now()-at,message:error.message}))
+    return handle
+  }
+  if(homeReceipt)assert.equal(ctx.sessionPersistence.root.replaceAll('\\','/'),homeReceipt.home.replaceAll('\\','/')+'/sessions')
+  const flush=ctx.sessions.flush.bind(ctx.sessions)
+  let flushId=0
+  ctx.sessions.flush=async session=>{
+    const id=++flushId;pendingFlushes.set(id,{sessionId:session.id,at:Date.now()});note('flush-start',{id,sessionId:session.id})
+    try{return await flush(session)}finally{pendingFlushes.delete(id);note('flush-end',{id})}
+  }
   if(ui){assert.equal(ctx.sessionPersistence.root,runDirectory+'sessions');console.log('INSTANT_UI_STORAGE='+runDirectory)}
   await getHostLifecycleGate(ctx).observeSettlement(()=>getHostLifecycleGate(ctx).runAsync(async()=>{
     ctx.on('llm/stream',(options,next)=>{
@@ -71,7 +96,7 @@ try {
     }())
     const composition=await ctx.sessionController.agents.composeAgent('ptc')
     agent=(await ctx.agents.create({sessionId:randomUUID(),agentOptions:{provider:'instant-fixture',model:'fixture',maxTokens:64},
-      meta:{cwd:root,agentPreset:composition.agentPreset},setup:composition.setup})).agent
+      meta:{cwd:workspace,agentPreset:composition.agentPreset},setup:composition.setup})).agent
   }))
   await ctx.sessionController.selectModel({sessionId:agent.session.id,provider:'instant-fixture',model:'fixture'})
   const control=controlPlaneForMember(ctx,agent,{directory:process.env.DSH_HOME+'/team-control-plane'})
@@ -103,7 +128,7 @@ try {
   finish.resolve();await bounded('idle',agent.whenIdle());await barrier.persist()
   const completed=await snapshot(),journal=agent.session.snapshotEvents()
   console.log('INSTANT_HISTORY_EVIDENCE='+JSON.stringify({scope:ui?'actual-isolated-Team-host-browser-fake-adapter-not-provider':'actual-isolated-Team-host-fake-adapter-not-provider-or-UI',sessionId:agent.session.id,
-    initial:initial.assistantStream,updated:updated.assistantStream,
+    initial:initial.assistantStream,updated:updated.assistantStream,home:process.env.DSH_HOME,workspace,homeReceipt,lifecycle,
     completed:completed.assistantStream,requests,externalRequests,
     interrupted:journal.filter(row=>row.type==='native/sampling-interrupted').map(row=>row.data),
     attempts:journal.filter(row=>row.type==='assistant/attempt').map(row=>({seq:row.seq,data:row.data})),
@@ -113,7 +138,7 @@ try {
   if(ui){console.log('INSTANT_UI_COMPLETED='+agent.session.id);await waitBrowserClose()}
 }catch(error){
   console.error('INSTANT_ERROR='+JSON.stringify({code:error.code,message:error.message,stack:error.stack?.split('\n').slice(0,6)}))
-  console.error('INSTANT_DIAGNOSTIC='+JSON.stringify({requests,externalRequests,events:agent?.session.snapshotEvents().slice(-8).map(row=>({type:row.type,seq:row.seq,data:row.type==='agent/error'?row.data:undefined}))}))
+  console.error('INSTANT_DIAGNOSTIC='+JSON.stringify({requests,externalRequests,home:process.env.DSH_HOME,phase:agent?.phase?.kind,pendingFlushes:[...pendingFlushes.values()],lifecycle,events:agent?.session.snapshotEvents().slice(-8).map(row=>({type:row.type,seq:row.seq,data:row.type==='agent/error'?row.data:undefined}))}))
   throw error
 }finally{
   finish.resolve()

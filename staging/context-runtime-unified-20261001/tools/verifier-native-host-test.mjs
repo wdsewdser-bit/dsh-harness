@@ -1,0 +1,90 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import assert from 'node:assert/strict';
+import { randomUUID } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
+import childProcess from 'node:child_process';
+import { syncBuiltinESMExports } from 'node:module';
+import { fileURLToPath } from 'node:url';
+import { Context,getHostLifecycleGate } from 'file:///D:/dsh-test/app/node_modules/@deepseek-ai/cordis/lib/index.js';
+import ToolRuntime from 'file:///D:/dsh-test/app/node_modules/@deepseek-ai/dsh-tools/lib/index.js';
+import SandboxedFileSystem from 'file:///D:/dsh-test/app/node_modules/@deepseek-ai/dsh-fs-sandbox/lib/index.js';
+import { apply as applyTools } from 'file:///D:/dsh-test/app/node_modules/@deepseek-ai/dsh-tool-fs/lib/index.js';
+import { apply as applyObservation } from 'file:///D:/dsh-test/app/node_modules/@deepseek-ai/dsh-fs-observation-policy/lib/index.js';
+import { apply as applyGuard } from '../home/profiles/web/plugins/write-scope-guard.mjs';
+import * as hostPlugin from '../home/profiles/web/plugins/verifier-native-capability.mjs';
+if(!process.env.DSH_HOME)throw new Error('EXPLICIT_FIXTURE_DSH_HOME_REQUIRED');
+const here=path.resolve(process.env.DSH_HOME),workspace=path.join(here,'host-fixture-'+randomUUID());fs.mkdirSync(workspace);
+assert.equal(spawnSync('git',['-C',workspace,'init','-b','main'],{windowsHide:true}).status,0);
+fs.writeFileSync(path.join(workspace,'.git/info/exclude'),'.dsh-verifier-scratch/\n');
+const root=path.join(workspace,'.dsh-verifier-scratch','native-a');
+const ctx=new Context();ctx.provide('systemPrompt',{tools(){},section(){},getSectionOrder(){return 1;}});
+let mode='workspace-write';
+ctx.provide('sandboxPolicy',{defaultMode:'workspace-write',resolve:()=>({mode,workspaceRoot:workspace})});
+const native=new SandboxedFileSystem(ctx,{cwd:workspace,diffBasisMaxBytes:1048576});
+const agent={id:'native-a',name:'v1',session:{id:'native-a',header:{cwd:workspace}},ctx};
+const membership={id:'team-a',name:'v1',role:'teammate'};
+ctx.provide('agentTeams',{tryMembership:actor=>actor===agent?membership:undefined,listMembers:()=>[{id:agent.id,name:'v1',groupId:'verifier'}]});
+ctx.provide('agents',{list:()=>[agent]});
+const tools=new ToolRuntime(ctx,{mode:'native'});
+const lateGuard=process.env.DSH_FIXTURE_LATE_GUARD==='1';
+const guardConfig={scopesFile:path.join(workspace,'scopes.json'),enforce:true,verifierScratchMode:'session-workspace'};
+applyObservation(ctx);if(!lateGuard)applyGuard(ctx,guardConfig);
+fs.writeFileSync(path.join(workspace,'scopes.json'),JSON.stringify({rootDir:workspace,defaultDeny:true,byName:{}}));
+const projectObservation=process.env.DSH_FIXTURE_PROJECT_OBSERVATION_ACTOR==='1';
+const toolsContext=projectObservation?ctx.extend({emit(event,...args){if(event==='fs/observed'){const actor=args[2];args[2]={...actor,agent:{...actor.agent,session:{...actor.agent.session}}};}return ctx.emit(event,...args);}}):ctx;
+await getHostLifecycleGate(ctx).runAsync(()=>applyTools(toolsContext,{readLimit:2000,readMaxLineLength:2000,readMaxBytes:51200,readStreamMinSize:10485760}));
+await getHostLifecycleGate(ctx).observeSettlement(async()=>{});
+const originalResolve=native.resolve,checks={},calls=[];
+hostPlugin.apply(ctx,{});checks.defaultOffNoMutation=native.resolve===originalResolve;
+const installed=ctx.plugin(hostPlugin,{enabled:true,isolatedHost:true});await installed.await();
+if(lateGuard)applyGuard(ctx,guardConfig);
+let id=0;
+async function invoke(name,args,actor=agent){const result=await tools.execute({name,arguments:args,agent:actor,callId:'host-'+(++id),signal:new AbortController().signal});calls.push({name,args,result});return result;}
+const ok=result=>assert.equal(result.isError,false,JSON.stringify(result));const bad=result=>assert.equal(result.isError,true,JSON.stringify(result));
+const file=path.join(root,'artifact.txt');
+try {
+  bad(await invoke('write',{file_path:file,content:'clone'},{...agent}));checks.unknownActorDoesNotCreateRoot=!fs.existsSync(path.dirname(root));
+  mode='read-only';bad(await invoke('read',{file_path:file}));checks.readonlyFirstReadDoesNotCreateRoot=!fs.existsSync(path.dirname(root));
+  bad(await invoke('write',{file_path:file,content:'forbidden'}));checks.readonlyFirstWriteDoesNotCreateRoot=!fs.existsSync(path.dirname(root));mode='workspace-write';
+  ok(await invoke('write',{file_path:file,content:'native agent tools'}));ok(await invoke('read',{file_path:file}));ok(await invoke('edit',{file_path:file,old_string:'agent',new_string:'session'}));
+  checks.bootstrapWithoutManualMkdir=fs.existsSync(root);
+  const originalMembership=ctx.agentTeams.tryMembership;ctx.agentTeams.tryMembership=()=>undefined;
+  bad(await invoke('read',{file_path:file}));checks.revokedIdentityRefused=true;ctx.agentTeams.tryMembership=originalMembership;
+  bad(await invoke('read',{file_path:path.join(path.dirname(root),'peer','secret.txt')}));checks.peerRootRefused=true;
+  checks.installedToolsAutomaticActorRouting=fs.readFileSync(file,'utf8')==='native session tools';
+  mode='read-only';const denied=await invoke('write',{file_path:file,content:'bad'});bad(denied);
+  checks.sandboxReadonlyPreserved=JSON.stringify(denied).includes('FS_SANDBOX_DENIED')&&fs.readFileSync(file,'utf8')==='native session tools';mode='workspace-write';
+  const policyOriginal=ctx.sandboxPolicy.resolve;ctx.sandboxPolicy.resolve=()=>({mode:'workspace-write',workspaceRoot:path.join(workspace,'elsewhere')});fs.mkdirSync(path.join(workspace,'elsewhere'));
+  const wrongRoot=await invoke('write',{file_path:file,content:'bad'});bad(wrongRoot);checks.sandboxWorkspaceRootPreserved=JSON.stringify(wrongRoot).includes('FS_SANDBOX_DENIED');ctx.sandboxPolicy.resolve=policyOriginal;
+  let code;try{await native.resolve(file);}catch(error){code=error.code;}
+  checks.reservedWithoutActorDenied=code==='FS_PERMISSION_DENIED';
+  const ordinary=path.join(workspace,'ordinary.txt');const target=await native.resolve(ordinary);await native.writeText(target,'ordinary native bytes',{kind:'createIfAbsent'},undefined,{mode:'workspace-write',workspaceRoot:workspace});
+  checks.ordinaryNativeDelegation=fs.readFileSync(ordinary,'utf8')==='ordinary native bytes';
+  bad(await invoke('write',{file_path:ordinary,content:'bad'}));checks.ordinaryGuardStillVetoes=fs.readFileSync(ordinary,'utf8')==='ordinary native bytes';
+  const clone={...agent};bad(await invoke('read',{file_path:file},clone));checks.unknownActorDenied=true;
+  ok(await invoke('read',{file_path:file}));const nul=await invoke('edit',{file_path:file,old_string:'session',new_string:'bad\0'});bad(nul);checks.hostNulRefusedBeforeCommit=fs.readFileSync(file,'utf8')==='native session tools';
+  const unseen=path.join(root,'unseen.txt');fs.writeFileSync(unseen,'unobserved');
+  const unseenEdit=await invoke('edit',{file_path:unseen,old_string:'unobserved',new_string:'bad'});bad(unseenEdit);checks.unobservedEditStillRefused=JSON.stringify(unseenEdit).includes('FS_NOT_OBSERVED')&&fs.readFileSync(unseen,'utf8')==='unobserved';
+  const unseenWrite=await invoke('write',{file_path:unseen,content:'bad'});bad(unseenWrite);checks.unobservedOverwriteStillRefused=JSON.stringify(unseenWrite).includes('FS_NOT_OBSERVED')&&fs.readFileSync(unseen,'utf8')==='unobserved';
+  ok(await invoke('read',{file_path:unseen}));fs.writeFileSync(unseen,'external change');
+  const stale=await invoke('edit',{file_path:unseen,old_string:'unobserved',new_string:'bad'});bad(stale);checks.staleObservationStillRefused=JSON.stringify(stale).includes('FS_STALE_VERSION')&&fs.readFileSync(unseen,'utf8')==='external change';
+  if(lateGuard){const scopeFile=path.join(workspace,'scopes.json'),prior=fs.readFileSync(scopeFile);fs.writeFileSync(scopeFile,'{invalid');try{const invalid=await invoke('write',{file_path:file,content:'bad'});bad(invalid);assert.match(JSON.stringify(invalid),/write scope configuration is invalid/);checks.backendFallbackNeverOverridesGuardVeto=fs.readFileSync(file,'utf8')==='native session tools';}finally{fs.writeFileSync(scopeFile,prior);}}
+}finally{await installed.dispose();await getHostLifecycleGate(ctx).observeSettlement(async()=>{});}
+checks.disposeRestoresNative=native.resolve===originalResolve;
+const reopenedPlugin=ctx.plugin(hostPlugin,{enabled:true,isolatedHost:true});await reopenedPlugin.await();
+try{ok(await invoke('read',{file_path:file}));checks.sameSessionPluginReinstallReadsExistingRoot=true;}finally{await reopenedPlugin.dispose();}
+const pendingPlugin=ctx.plugin(hostPlugin,{enabled:true,isolatedHost:true});await pendingPlugin.await();
+const spawnOriginal=childProcess.spawn;let closing,helper,helperClosed;
+childProcess.spawn=function(...args){const process=spawnOriginal(...args);if(args[1]?.some(value=>String(value).endsWith('host-bridge.ps1'))){helper=process;helperClosed=new Promise(resolve=>process.once('close',resolve));queueMicrotask(()=>{closing=pendingPlugin.dispose();});}return process;};
+syncBuiltinESMExports();
+try {
+  const interrupted=await invoke('write',{file_path:path.join(root,'dispose-pending.txt'),content:'must not publish'});bad(interrupted);
+  await closing;await helperClosed;
+  checks.disposeDuringInitializationRefusesWrite=!!helper&&!fs.existsSync(path.join(root,'dispose-pending.txt'));
+  checks.disposeDuringInitializationReapsHelper=helper.exitCode!==null||helper.signalCode!==null;
+  checks.disposeDuringInitializationRestoresNative=native.resolve===originalResolve;
+}finally{childProcess.spawn=spawnOriginal;syncBuiltinESMExports();await pendingPlugin.dispose();}
+assert.ok(Object.values(checks).every(Boolean),JSON.stringify(checks));
+const prefix=lateGuard?'late-guard':projectObservation?'projected-actor':'host-plugin';
+fs.writeFileSync(path.join(here,prefix+'-calls.json'),JSON.stringify(calls,null,2));fs.writeFileSync(path.join(here,prefix+'-result.json'),JSON.stringify({scope:'isolated-Cordis-installed-plugin-real-native-delegation-real-tools-real-guard-simulated-native-identity-service',projectObservation,fixture:workspace,checks,passed:true},null,2));console.log(JSON.stringify(checks));

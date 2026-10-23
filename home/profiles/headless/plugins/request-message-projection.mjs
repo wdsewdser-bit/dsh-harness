@@ -63,6 +63,18 @@ function snapshotMessages(messages) {
   return freezeJson(structuredClone(messages))
 }
 
+// A native compaction request is the conversation history plus one final user instruction without an id, and that
+// missing id is the only reason the whole request is unrecognized. The history must still pass the strict snapshot;
+// any other shape stays unrecognized.
+function compactionPrefixOf(options) {
+  try {
+    if (options?.purpose !== 'compaction' || !Array.isArray(options.messages) || options.messages.length < 2) return null
+    const tail = options.messages[options.messages.length - 1]
+    if (!tail || typeof tail !== 'object' || tail.role !== 'user' || typeof tail.id === 'string' || !Array.isArray(tail.content)) return null
+    return { prefix: snapshotMessages(options.messages.slice(0, -1)), tail }
+  } catch { return null }
+}
+
 function metadataSummary(result) {
   try {
     const metadata = Object.fromEntries(Object.entries(result).filter(([key, value]) => key !== 'messages' && typeof value !== 'function'))
@@ -126,9 +138,10 @@ export function installRequestMessageProjection(llm, officialLlm, config = {}) {
     if (recent.length > limit) recent.shift()
     return receipt
   }
-  const envelope = (options, messages, readonly = false) => {
+  const envelope = (options, messages, readonly = false, purpose) => {
     const properties = Object.getOwnPropertyDescriptors(options)
     properties.messages = { value: messages, writable: true, configurable: true, enumerable: properties.messages?.enumerable ?? true }
+    if (purpose !== undefined) properties.purpose = { value: purpose, writable: true, configurable: true, enumerable: properties.purpose?.enumerable ?? true }
     if (readonly) {
       for (const key of ['tools', 'toolHistory']) {
         if (properties[key] && 'value' in properties[key] && properties[key].value !== undefined) {
@@ -144,15 +157,26 @@ export function installRequestMessageProjection(llm, officialLlm, config = {}) {
     let projected = options
     const rows = []
     const results = []
+    // A compaction request is projected like the conversation request it continues, so that its provider cache prefix
+    // matches that request. Only the pure previews run and only the history is passed: nothing is dispatched, observed
+    // or validated, and no transform sees the instruction. The envelope reports the conversation purpose, while the
+    // final request keeps its own purpose. The result is not frozen, because the llm/stream hook amends the
+    // instruction by assigning options.messages.
+    let compaction = null
     if (!disposed && registrations.size && options && typeof options === 'object') {
       let messages
-      try { messages = snapshotMessages(options.messages) } catch { rows.push({ status: 'skipped-unrecognized-request' }) }
+      try { messages = snapshotMessages(options.messages) } catch {
+        compaction = compactionPrefixOf(options)
+        if (compaction) messages = compaction.prefix
+        else rows.push({ status: 'skipped-unrecognized-request' })
+      }
       if (messages) {
+        if (compaction) rows.push({ status: 'compaction-prefix', tailMessages: 1 })
         for (const registration of [...registrations.values()].sort((a, b) => a.order - b.order || a.serial - b.serial)) {
           const row = { id: registration.id, order: registration.order, beforeMessages: messages.length }
           try {
-            const input = envelope(options, messages, true)
-            const transform = preview ? registration.preview : registration.transform
+            const input = envelope(options, messages, true, compaction ? 'conversation' : undefined)
+            const transform = preview || compaction ? registration.preview : registration.transform
             if (!transform) {
               row.status = 'skipped-no-pure-preview'
               row.afterMessages = messages.length
@@ -170,17 +194,19 @@ export function installRequestMessageProjection(llm, officialLlm, config = {}) {
               if (result.messages === messages) row.status = 'unchanged'
               else {
                 const nextMessages = snapshotMessages(result.messages)
-                const nextOptions = envelope(options, nextMessages)
+                // The compaction prefix is assembled with its instruction once, after all transforms have run.
+                const nextOptions = compaction ? null : envelope(options, nextMessages)
                 messages = nextMessages
-                projected = nextOptions
+                if (nextOptions) projected = nextOptions
                 row.status = 'applied'
               }
-              results.push({ registration, result, inputOptions: input })
+              if (!compaction) results.push({ registration, result, inputOptions: input })
             }
           } catch { row.status = 'failed-open' }
           row.afterMessages = messages.length
           rows.push(row)
         }
+        if (compaction && messages !== compaction.prefix) projected = envelope(options, [...messages, compaction.tail])
       }
     }
     const receipt = {
@@ -198,7 +224,7 @@ export function installRequestMessageProjection(llm, officialLlm, config = {}) {
       preparedSnapshot: false,
       measurementSource: 'request-message-JSON; not wire bytes or provider tokens',
     }
-    return { input: options, options: projected, receipt, results, adopted: false }
+    return { input: options, options: projected, receipt, results, adopted: false, compactionPrefix: compaction !== null }
   }
   function wrapped(options, prepared) {
     let plan = plans.get(options)
@@ -294,7 +320,12 @@ export function installRequestMessageProjection(llm, officialLlm, config = {}) {
     prepare(options) {
       if (disposed) throw failure('REQUEST_MESSAGE_PROJECTION_DISPOSED')
       const plan = build(options)
-      try {
+      if (plan.compactionPrefix) {
+        // The read-only snapshot below would reject the instruction without an id and drop the projection, so the built
+        // plan is kept as it is: the history is already projected, the instruction is the caller's own object.
+        plan.receipt.stage = 'prepared-compaction-prefix'
+        plans.set(plan.options, plan)
+      } else try {
         plan.options = envelope(plan.options, snapshotMessages(plan.options.messages), true)
         plan.receipt.preparedSnapshot = true
         plans.set(plan.options, plan)

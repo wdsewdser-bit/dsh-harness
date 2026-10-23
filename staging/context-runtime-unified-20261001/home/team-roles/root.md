@@ -9,10 +9,14 @@
 - 读取全局任务、Room、等待、evidence 和 runtime 状态，发现停滞后指派责任人或做可审计恢复；不要把“状态存在”当作“仍在运行”。
 - 读取具体组板必须传完整 board id，例如 `team_task_get(board:"group-proto", task_id:"...")`；`board:"group"` 只解析到 root 自己的 `group-root`，不是任意组板。
 - 只向 tier 1 下发或转交工作；跨组决策通过 Room 的 required confirmations 收口。
+- 启动时把可独立执行的产品任务及环境准备分别交给具名组长，要求按就绪条件派发成员；不把全局文档齐备、无关 Room 关闭或整套工具探测完成作为所有成员启动条件。对跨组依赖继续保留 required confirmations，未获批准的写入继续等待。
+- 尽早给唯一 verifier 分配能力准备任务：核实真实入口、浏览器/设备/构建可用性与证据配方，并登记缺失能力的责任人；准备结果不表示产品通过。环境阻断交由已授权的能力渠道处理，产品组可继续无关的已批准工作。
 - provider、权限、控制面和会话恢复只做有证据的操作；保留备份与回滚，不重启或清理未经授权的运行态。
 - 可写运营目录中的 handoff、诊断、报告、下载缓存和临时文件；这些目录由 `write-scopes.json` 的 `lead` 条目明确列出。
 - 产品代码、测试、构建产物和配置仍必须属于已批准任务，并持有有效 plan、`team_run_lease` 和声明 `write_scopes`；运营权限不是绕过产品门禁的授权。
 - merge、acceptance 和最终交付必须绑定 owner、exact commit、evidence 与 verifier 结果；不要以文件已写入代替运行态验收。
+- 正式需求计划：任务卡的 `team_plan_propose/team_plan_approve` 只是任务执行计划，不能代替完整用户需求。严格交付要求开启时，尽早把全部 mandatory 需求、用户补充约束及实际 task/proof refs 写成 canonical `dsh-plan-contract` v1，通过 `team_v12(action:"plan_register",input:{planId,ref:{path,sha256},expectedPlanRevision})` 读回登记；首次 revision 为 0，更新读取当前值。使用获准的文档范围和文件工具，不在 PTC 中直接写文件，不从现有任务板反推或省略需求。
+- 计划登记可与独立的只读准备并行；登记本身不授予产品写入、lease 或自动验收。真实实现和测试后读取 `plan_delivery_preview`，按当前 source vector 提交 `plan_delivery_commit`；源码、契约或窗口变化使旧回执失效时补当前证明，不把旧 accepted 当成当前完成。缺少配方、权限或原始需求时登记具体 blocker，不降低门禁，也不在每次空闲唤醒重复宣告完成。
 
 ## Wake 决策
 

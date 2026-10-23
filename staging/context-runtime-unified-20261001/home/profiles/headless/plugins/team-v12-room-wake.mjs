@@ -1817,6 +1817,7 @@ export function inboxAckInputForCaller(wake, caller, input = {}) {
   }
   return {
     ...input,
+    ok: true,
     messageIds: uniqueStrings(arrayOf(input.messageIds ?? wake?.messageIds).map(String), WAKE_META_LIMIT),
     allowUndelivered: true,
   }

@@ -1,8 +1,9 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import {
   apply,
   parseReceipt,
@@ -165,4 +166,45 @@ test('the operator settings document round-trips the reducer route', () => {
   } finally {
     rmSync(root, { recursive: true, force: true })
   }
+})
+
+async function isolatedSettingsMirror(t, sectionHasFile) {
+  const root = mkdtempSync(join(tmpdir(), 'evr-mirror-'))
+  t.after(() => rmSync(root, { recursive: true, force: true }))
+  const fallback = join(root, 'production-sentinel.json'), target = join(root, 'isolated-settings.json')
+  writeFileSync(fallback, JSON.stringify({ sentinel: 'unchanged', revision: 10 }))
+  const before = readFileSync(fallback, 'utf8')
+  const sourceUrl = new URL('../home/profiles/web/plugins/evidence-reducer.mjs', import.meta.url)
+  const source = readFileSync(sourceUrl, 'utf8')
+    .replace(/^export const DEFAULT_SETTINGS_FILE = .*$/m, 'export const DEFAULT_SETTINGS_FILE = ' + JSON.stringify(fallback))
+    .replace(/from '(\.[^']+)'/g, (_all, relative) => 'from ' + JSON.stringify(new URL(relative, sourceUrl).href))
+  const fixture = join(root, 'reducer-under-test.mjs')
+  writeFileSync(fixture, source)
+  const { apply: applyActual } = await import(pathToFileURL(fixture).href)
+  let section = { enabled: false, useSettingsFile: false, thresholdBytes: 32768,
+    ...(sectionHasFile ? { settingsFile: target } : {}) }
+  const listeners = new Map()
+  const ctx = {
+    get(name) { return name === 'settings' ? { describe: () => [{ ns: 'evidence-reducer', value: section }] } : undefined },
+    on(name, listener) { listeners.set(name, listener) },
+    logger: { warn() {}, info() {} },
+  }
+  applyActual(ctx, { enabled: false, useSettingsFile: false, settingsFile: target })
+  assert.equal(readFileSync(fallback, 'utf8'), before, 'startup must not write the default production document')
+  assert.equal(JSON.parse(readFileSync(target, 'utf8')).thresholdBytes, 32768)
+  section = { ...section, thresholdBytes: 49152 }
+  listeners.get('settings/document-updated')('unrelated')
+  assert.equal(JSON.parse(readFileSync(target, 'utf8')).thresholdBytes, 32768)
+  listeners.get('settings/document-updated')('evidence-reducer')
+  assert.equal(readFileSync(fallback, 'utf8'), before, 'settings updates must not write the default production document')
+  assert.equal(JSON.parse(readFileSync(target, 'utf8')).thresholdBytes, 49152)
+  assert.equal(JSON.parse(readFileSync(target, 'utf8')).revision, 2)
+}
+
+test('live reducer settings mirror uses the explicit section file at startup and update', async t => {
+  await isolatedSettingsMirror(t, true)
+})
+
+test('live reducer settings mirror falls back to the configured isolated file, not the production default', async t => {
+  await isolatedSettingsMirror(t, false)
 })

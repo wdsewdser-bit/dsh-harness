@@ -46,14 +46,16 @@
 
 import { readFileSync, statSync, realpathSync } from 'node:fs'
 import { tmpdir } from 'node:os'
+import { spawnSync } from 'node:child_process'
 import { basename, dirname, isAbsolute, join, resolve, normalize, sep } from 'node:path'
 import { FsError } from '@deepseek-ai/dsh-fs'
+import { defineTool } from '@deepseek-ai/dsh-tools'
 import { controlPlaneForMember } from './team-control-plane.mjs'
 
 /** Cordis plugin name used by loader diagnostics. */
 export const name = 'write-scope-guard'
 /** Reads no services: it only inspects the opaque fs event actor. */
-export const inject = ['agentTeams']
+export const inject = ['agentTeams', 'agents']
 
 const EMPTY = { valid: false, error: 'scope file is not configured', bySession: {}, byName: {}, rootDir: undefined, defaultDeny: false, version: 0 }
 let cachedPath = null
@@ -257,6 +259,121 @@ function memberName(ctx, agent) {
   }
   if (agent.name !== undefined && agent.name !== null && String(agent.name).length > 0) return String(agent.name)
   return agent.id === undefined || agent.id === null ? undefined : String(agent.id)
+}
+
+function verifierScratchPathForActor(ctx, value, agent, configuredRoot) {
+  const root = verifierScratchRoot(process.env, configuredRoot)
+  if (root === undefined || !isUnder(value, root)) return false
+  const membership = membershipOf(ctx, agent)
+  if (membership === undefined) return false
+  if (membership.group !== undefined) return isVerifierScratchPath(value, membership, process.env, configuredRoot)
+  // Native membership omits structural fields; only the caller's exact roster
+  // row may supply the durable group, never a name-only or cross-Team lookup.
+  let rows
+  try { rows = ctx?.agentTeams?.listMembers?.(agent) } catch {}
+  if (!Array.isArray(rows)) {
+    try { rows = agent?.ctx?.agentTeams?.listMembers?.(agent) } catch {}
+  }
+  if (!Array.isArray(rows)) return false
+  const member = rows.find(row => row?.id === agent?.id && row?.name === membership.name)
+  return isVerifierScratchPath(value, { group: member?.groupId }, process.env, configuredRoot)
+}
+
+const SESSION_SCRATCH_DIRECTORY = '.dsh-verifier-scratch'
+const GIT_ROUTING_ENV = new Set(('GIT_DIR GIT_WORK_TREE GIT_COMMON_DIR GIT_INDEX_FILE GIT_OBJECT_DIRECTORY '
+  + 'GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_CEILING_DIRECTORIES GIT_DISCOVERY_ACROSS_FILESYSTEM '
+  + 'GIT_PREFIX GIT_NAMESPACE GIT_SHALLOW_FILE GIT_GRAFT_FILE GIT_REPLACE_REF_BASE GIT_QUARANTINE_PATH').split(' '))
+
+// Resolve missing leaves through their nearest existing ancestor, like native fs
+// target identities. Lexical resolution alone misses junctions above a new file.
+function scratchTargetIdentity(value) {
+  if (typeof value !== 'string' || !isAbsolute(value)) return undefined
+  let ancestor = resolve(value)
+  const missing = []
+  for (;;) {
+    try { return join(realpathSync.native(ancestor), ...missing) } catch (error) {
+      if (error?.code !== 'ENOENT') return undefined
+      const parent = dirname(ancestor)
+      if (parent === ancestor) return undefined
+      missing.unshift(basename(ancestor))
+      ancestor = parent
+    }
+  }
+}
+
+function sessionScratchCandidateForActor(ctx, agent) {
+  const membership = membershipOf(ctx, agent)
+  if (membership === undefined) return undefined
+  let rows
+  try { rows = ctx?.agentTeams?.listMembers?.(agent) } catch {}
+  if (!Array.isArray(rows)) {
+    try { rows = agent?.ctx?.agentTeams?.listMembers?.(agent) } catch {}
+  }
+  const row = Array.isArray(rows) ? rows.find(row => row?.id === agent?.id && row?.name === membership.name) : undefined
+  if (String(row?.groupId ?? '').toLowerCase() !== 'verifier') return undefined
+  const sessionId = agent?.session?.id
+  const cwd = agent?.session?.header?.cwd
+  if (typeof sessionId !== 'string' || !/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,127}$/.test(sessionId)
+    || typeof cwd !== 'string' || !isAbsolute(cwd)) return undefined
+  try {
+    const workspace = realpathSync.native(cwd)
+    if (!statSync(workspace).isDirectory()) return undefined
+    const root = join(workspace, SESSION_SCRATCH_DIRECTORY, sessionId)
+    // Keep the namespace's physical spelling stable even when Git ignore rules
+    // are case-sensitive on a case-insensitive Windows filesystem.
+    if (scratchTargetIdentity(root) !== root) return undefined
+    return root
+  } catch { return undefined }
+}
+
+function readOnlyGit(workspace, args) {
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !GIT_ROUTING_ENV.has(key.toUpperCase()) && !/^GIT_TRACE/i.test(key)))
+  env.GIT_OPTIONAL_LOCKS = '0'
+  env.GIT_NO_LAZY_FETCH = '1'
+  env.GIT_TERMINAL_PROMPT = '0'
+  env.GIT_ASKPASS = ''
+  return spawnSync('git', ['--no-optional-locks', '-c', 'core.fsmonitor=false', '-C', workspace, ...args],
+    { encoding: 'utf8', windowsHide: true, timeout: 3000, maxBuffer: 65536, env })
+}
+
+function scratchRepositoryIsolated(workspace) {
+  let repository
+  for (let cursor = workspace; ; cursor = dirname(cursor)) {
+    try {
+      statSync(join(cursor, '.git'))
+      repository = cursor
+      break
+    } catch (error) {
+      if (error?.code !== 'ENOENT') return false
+      if (dirname(cursor) === cursor) return true
+    }
+  }
+  const git = args => readOnlyGit(workspace, args)
+  const top = git(['rev-parse', '--show-toplevel'])
+  if (top.error || top.status !== 0 || scratchTargetIdentity(top.stdout.trim())?.toLowerCase() !== repository.toLowerCase()) return false
+  const head = git(['rev-parse', '--verify', '--quiet', 'HEAD'])
+  if (head.error || ![0, 1].includes(head.status)) return false
+  const tracked = git(['ls-files', '-z', '--cached', ...(head.status === 0 ? ['--with-tree=HEAD'] : []), '--', SESSION_SCRATCH_DIRECTORY + '/'])
+  if (tracked.error || tracked.status !== 0 || tracked.stdout.length !== 0) return false
+  const ignored = git(['check-ignore', '--quiet', '--no-index', '--', SESSION_SCRATCH_DIRECTORY + '/'])
+  return !ignored.error && ignored.status === 0
+}
+
+function sessionScratchPathForActor(ctx, value, agent) {
+  const root = sessionScratchCandidateForActor(ctx, agent)
+  const identity = scratchTargetIdentity(value)
+  if (!root || !identity) return false
+  const r = root.toLowerCase(), path = identity.toLowerCase()
+  if (!(path === r || path.startsWith(r + sep) || path.startsWith(r + '/'))) return false
+  try {
+    const stat = statSync(value)
+    if (stat.isFile() && stat.nlink > 1) return false
+  } catch (error) { if (error?.code !== 'ENOENT') return false }
+  return scratchRepositoryIsolated(dirname(dirname(root)))
+}
+
+function isReservedSessionScratchPath(value) {
+  return typeof value === 'string' && /(?:^|[\\/])\.dsh-verifier-scratch(?:[\\/]|$)/i.test(value)
 }
 
 /** A one-turn privilege grant for this member, if one is active. */
@@ -513,9 +630,9 @@ export function worktreeBindingMissingVerdict({ activePlan, targetPath, tier } =
  * member worktree can expose the same relative scope while resolving to
  * different Git HEADs.
  */
-export function worktreeCarrierVerdict({ activePlan, tier, carrierPath } = {}) {
+export function worktreeCarrierVerdict({ activePlan, tier, carrierPath, requireBinding = false } = {}) {
   const normalizedTier = Number(tier)
-  if ((normalizedTier !== 1 && normalizedTier !== 2) || activePlan === undefined) {
+  if (!requireBinding && ((normalizedTier !== 1 && normalizedTier !== 2) || activePlan === undefined)) {
     return { ok: true, enforced: false, code: null, detail: null }
   }
   const worktreePath = typeof activePlan?.worktreePath === 'string'
@@ -717,6 +834,7 @@ function tokenizeShellCommand(command) {
 
 function commandletName(value) {
   const name = String(value || '').split(/[\\/]/).pop()?.toLowerCase() ?? ''
+  if (name === 'ni') return 'new-item'
   return [
     'set-content', 'add-content', 'out-file', 'new-item', 'remove-item',
     'move-item', 'copy-item', 'rename-item', 'set-item', 'tee-object',
@@ -1060,12 +1178,38 @@ function processOutputTargets(tokens, cwd, add) {
 }
 
 export function gitWriteCommand(command) {
-  const segments = String(command || '').split(/[;&|\r\n]+/)
-  for (const segment of segments) {
-    const normalized = segment.trim().replace(/^(?:&\s*)+/, '')
-    if (/^git(?:\.exe)?(?:\s+-C\s+(?:"[^"]+"|'[^']+'|\S+))?\s+(?:add|commit)\b/i.test(normalized)) return true
+  return gitWriteCarriers(command, process.cwd()).length > 0
+}
+
+// Keep each invocation's carrier; checking only the first -C misses later
+// commands and resolving a scratch prefix misses the repository's real HEAD.
+function gitWriteCarriers(command, cwd) {
+  const tokens = tokenizeShellCommand(command)
+  const carriers = []
+  for (let index = 0; index < tokens.length; index += 1) {
+    const token = tokens[index]
+    if (token.separator || token.redirect !== undefined) continue
+    if (index > 0 && tokens[index - 1]?.separator !== true) continue
+    if (!/^git(?:\.exe)?$/i.test(basename(String(token.value)))) continue
+    let carrier = resolve(cwd || process.cwd()), known = true
+    for (let cursor = index + 1; cursor < tokens.length && !tokens[cursor].separator; cursor += 1) {
+      const value = String(tokens[cursor].value)
+      if (value === '-C' || value === '-c') {
+        const next = tokens[++cursor]
+        if (!next || next.separator || next.redirect !== undefined) { known = false; break }
+        if (value === '-C') {
+          if (looksLikeDynamicPathExpression(next.value, new Map())) known = false
+          else carrier = resolve(carrier, String(next.value))
+        } else known = false // Command-local config can change repository routing.
+        continue
+      }
+      if (['--no-optional-locks', '--no-pager', '--literal-pathspecs'].includes(value)) continue
+      if (value.startsWith('-')) { known = false; continue }
+      if (/^(add|commit)$/i.test(value)) carriers.push(known ? carrier : null)
+      break
+    }
   }
-  return false
+  return carriers
 }
 
 /** Resolve the effective checkout for a supported git write command. */
@@ -1244,7 +1388,7 @@ function scriptFileWriteTargets(tokens, cwd, options = {}) {
   const depth = Number(options.depth ?? 0)
   const visited = options.visited instanceof Set ? options.visited : new Set()
   const inheritedVariables = options.variables instanceof Map ? options.variables : new Map()
-  const result = { targets: [], opaque: false, gitWrite: false }
+  const result = { targets: [], opaque: false, gitWrite: false, gitCarriers: [], blockedMutation: false, directoryChange: false }
   if (depth >= MAX_SCRIPT_FILE_DEPTH) return { ...result, opaque: true }
   const references = scriptFileReferences(tokens, inheritedVariables)
   result.opaque = references.opaque
@@ -1291,10 +1435,14 @@ function scriptFileWriteTargets(tokens, cwd, options = {}) {
       scriptDepth: depth + 1,
       visitedScripts: new Set([...visited, realPath]),
       pathVariables: variables,
+      strictScratch: options.strictScratch,
     })
     result.targets.push(...parsed.targets)
     result.opaque = result.opaque || parsed.opaque
     result.gitWrite = result.gitWrite || parsed.gitWrite
+    result.gitCarriers.push(...parsed.gitCarriers)
+    result.blockedMutation = result.blockedMutation || parsed.blockedMutation
+    result.directoryChange = result.directoryChange || parsed.directoryChange
   }
   return result
 }
@@ -1334,14 +1482,19 @@ export function shellWriteTargets(command, cwd, options = {}) {
   if (inlineShellCode(text)) opaque = true
 
   const tokens = tokenizeShellCommand(text)
+  const directoryChange = tokens.some((token, index) =>
+    (!token.quoted || index === 0 || tokens[index - 1]?.separator === true)
+    && /^(cd|chdir|sl|set-location|pushd|popd|push-location|pop-location)$/i.test(basename(String(token.value ?? ''))))
   const scriptWrites = scriptFileWriteTargets(tokens, cwd, {
     depth: Number(options.scriptDepth ?? 0),
     visited: options.visitedScripts,
     variables,
+    strictScratch: options.strictScratch,
   })
   for (const target of scriptWrites.targets) found.add(target)
   opaque = opaque || scriptWrites.opaque
   gitWrite = gitWrite || scriptWrites.gitWrite
+  let blockedMutation = scriptWrites.blockedMutation
   for (let index = 0; index < tokens.length; index += 1) {
     const token = tokens[index]
     if (token.separator !== true || token.value !== '&') continue
@@ -1419,13 +1572,27 @@ export function shellWriteTargets(command, cwd, options = {}) {
     const destination = values.get('-destination')
     const newName = values.get('-newname')
     const nameValue = values.get('-name')
+    if (options.strictScratch && name === 'new-item') {
+      const type = values.get('-itemtype') ?? values.get('-type')
+      const unknown = [...values.keys()].some(flag => !VALUE_SWITCHES.has(flag) && !BOOLEAN_SWITCHES.has(flag))
+      if (unknown || (type !== undefined && !/^(file|directory)$/i.test(String(type)))) blockedMutation = true
+    }
     if (name === 'new-item' && path !== undefined && nameValue !== undefined && nameValue !== true) {
       add(join(resolve(cwd || process.cwd(), String(path)), String(nameValue)))
-    } else if (name === 'rename-item' && path !== undefined && newName !== undefined && newName !== true) {
-      const source = resolve(cwd || process.cwd(), String(path))
-      add(join(dirname(source), String(newName)))
+    } else if (name === 'rename-item') {
+      const original = path ?? positional[0]
+      const renamed = newName ?? positional[1]
+      if (original !== undefined) {
+        const source = resolve(cwd || process.cwd(), String(original))
+        add(String(original))
+        if (renamed !== undefined && renamed !== true) add(resolve(dirname(source), String(renamed)))
+      }
     } else {
       if (name === 'copy-item' || name === 'move-item') {
+        if (name === 'move-item') {
+          const source = path ?? positional[0]
+          if (source !== undefined) add(String(source))
+        }
         const target = destination ?? positional[1] ?? positional[0]
         if (target !== undefined) add(String(target))
       } else {
@@ -1437,7 +1604,9 @@ export function shellWriteTargets(command, cwd, options = {}) {
     index = end - 1
   }
   gitWrite = gitWrite || gitWriteCommand(text)
-  return { targets: [...found], opaque, gitWrite }
+  return { targets: [...found], opaque, gitWrite,
+    gitCarriers: [...scriptWrites.gitCarriers, ...gitWriteCarriers(text, cwd)], blockedMutation,
+    directoryChange: directoryChange || scriptWrites.directoryChange }
 }
 
 /**
@@ -1471,6 +1640,34 @@ export function apply(ctx, config = {}) {
   const enforce = config.enforce !== false
   const configuredRoot = typeof config.rootDir === 'string' ? config.rootDir : undefined
   const controlPlane = config.controlPlane
+  const scratchMode = config.verifierScratchMode ?? 'legacy'
+  if (!['legacy', 'session-workspace'].includes(scratchMode)) throw new Error('INVALID_VERIFIER_SCRATCH_MODE')
+  const actorScratch = (value, agent) => scratchMode === 'session-workspace'
+    ? sessionScratchPathForActor(ctx, value, agent)
+    : verifierScratchPathForActor(ctx, value, agent, config.verifierScratchRoot)
+
+  if (scratchMode === 'session-workspace') {
+    const installed = new Map()
+    const install = agent => {
+      if (installed.has(agent) || typeof agent?.ctx?.tools?.register !== 'function') return
+      installed.set(agent, agent.ctx.tools.register(defineTool({
+        name: 'verifier_scratch',
+        description: 'Return the authenticated verifier session scratch directory inside its current workspace. A Git workspace must already ignore .dsh-verifier-scratch/ with no scratch files in its index or HEAD. Read-only; does not create files, edit Git configuration, grant scopes, or change sandbox mode. Use controlled read/write/edit tools for artifacts, not product files.',
+        parameters: {},
+        output: { schema: { type: 'object', additionalProperties: true }, render: (_args, value) => [{ type: 'text', text: JSON.stringify(value) }] },
+        execute: (_args, exec) => {
+          const root = exec?.agent === agent ? sessionScratchCandidateForActor(ctx, agent) : undefined
+          if (root === undefined) return { ok: false, code: 'verifier-scratch-unavailable' }
+          if (!scratchRepositoryIsolated(dirname(dirname(root)))) return { ok: false, code: 'verifier-scratch-repository-isolation-required' }
+          return { ok: true, root, ownerSessionId: agent.session.id }
+        },
+      })))
+    }
+    for (const agent of ctx.agents?.list?.() ?? []) install(agent)
+    ctx.on('agent/created', ({ agent }) => install(agent))
+    ctx.on('agent/disposed', ({ agent }) => { installed.get(agent)?.(); installed.delete(agent) })
+    ctx.effect?.(() => () => { for (const stop of installed.values()) stop?.(); installed.clear() })
+  }
 
   const note = (message) => {
     try {
@@ -1514,6 +1711,11 @@ export function apply(ctx, config = {}) {
     // task lease. This keeps tier-0 root usable while members still inherit
     // their approved-plan scopes.
     if (staticAllow === '*') return undefined
+    if (scratchMode === 'session-workspace'
+      && (isReservedSessionScratchPath(display) || isReservedSessionScratchPath(target.targetKey))) {
+      if (actorScratch(display, actor?.agent) && actorScratch(target.targetKey || display, actor?.agent)) return undefined
+      return deny(verb + ' denied: verifier-session-scratch-owner-or-path-mismatch; target="' + display + '"')
+    }
     const activePlan = activePlanScope(ctx, config, actor)
     const planAllow = activePlan?.scopes
     const allow = staticAllow === undefined ? planAllow : staticAllow
@@ -1525,7 +1727,7 @@ export function apply(ctx, config = {}) {
     const membership = membershipOf(ctx, actor?.agent)
     if (isTemporaryPath(key) && !roots.some((root) => isUnder(key, root))) return undefined
     if (isEvidenceCheckoutPath(key, membership) && !roots.some((root) => isUnder(key, root))) return undefined
-    if (isVerifierScratchPath(key, membership, process.env, config.verifierScratchRoot)) return undefined
+    if (actorScratch(key, actor?.agent)) return undefined
 
     const missingBinding = worktreeBindingMissingVerdict({
       activePlan,
@@ -1616,16 +1818,23 @@ export function apply(ctx, config = {}) {
     const cwd = exec?.arguments?.workdir
       ?? exec?.arguments?.cwd
       ?? exec?.agent?.session?.header?.cwd
-    const parsed = shellWriteTargets(command, cwd)
     const scopes = readScopes(scopesFile)
     const staticAllow = scopeOf(ctx, scopes, { agent: exec.agent })
+    const privilege = activePrivilege(ctx, config, { agent: exec.agent })
+    const operator = staticAllow === '*' || (privilege !== undefined && privilege !== null)
+    const strictScratch = scratchMode === 'session-workspace' && !operator
+    const parsed = shellWriteTargets(command, cwd, { strictScratch })
+    if (parsed.blockedMutation) deny(name + ' denied: link creation or unverified New-Item type is not allowed in session-workspace mode')
     const activePlan = activePlanScope(ctx, config, { agent: exec.agent })
     const roots = scopeRoots(scopes, configuredRoot, { agent: exec.agent }, cwd, activePlan)
     const scopedScript = parsed.opaque
       ? scopedPowerShellFileVerdict({ command, cwd, activePlan, roots })
       : { ok: false }
-    const targets = scopedScript.ok === true ? [] : parsed.targets
+    const targets = scopedScript.ok === true && !strictScratch ? [] : parsed.targets
     const requiresLease = gitWriteCommand(command) || parsed.gitWrite === true
+    if (strictScratch && requiresLease && parsed.directoryChange) {
+      deny(name + ' write denied: worktree-carrier-unknown: directory-changing Git composition cannot be verified; use a single explicit git -C invocation')
+    }
     if (requiresLease && staticAllow !== '*' && activePlan === undefined && activePrivilege(ctx, config, { agent: exec.agent }) === undefined) {
       deny('git write denied: git add/commit requires an active approved plan lease for the current member; acquire the task lease first')
     }
@@ -1637,16 +1846,27 @@ export function apply(ctx, config = {}) {
       deny(commandVerificationMessage(name, exec.agent, scopedScript))
     }
     if ((requiresLease || targets.length > 0 || scopedScript.ok === true) && activePlan !== undefined) {
+      if (requiresLease && strictScratch) {
+        for (const candidate of parsed.gitCarriers) {
+          const top = candidate ? readOnlyGit(candidate, ['rev-parse', '--show-toplevel']) : null
+          const carrierPath = top && !top.error && top.status === 0 ? scratchTargetIdentity(top.stdout.trim()) : undefined
+          const verdict = worktreeCarrierVerdict({ activePlan, carrierPath, requireBinding: true })
+          const binding = scratchTargetIdentity(activePlan.worktreePath)
+          if (!verdict.ok || !binding || !carrierPath || binding.toLowerCase() !== carrierPath.toLowerCase()) {
+            deny(name + ' write denied: ' + (verdict.code ?? 'worktree-carrier-mismatch') + ': Git repository must equal the active task bound worktree')
+          }
+        }
+      }
       const carrierPath = gitCommandWorkdir(command, cwd) ?? cwd
       const membership = membershipOf(ctx, exec.agent)
       const workspaceRoot = scopes.rootDir || configuredRoot
       const scratchCarrier = typeof carrierPath === 'string'
-        && (isVerifierScratchPath(carrierPath, membership, process.env, config.verifierScratchRoot)
+        && (actorScratch(carrierPath, exec.agent)
           || (isTemporaryPath(carrierPath)
             && !(typeof workspaceRoot === 'string'
               && workspaceRoot.length > 0
               && isUnder(carrierPath, workspaceRoot))))
-      if (!scratchCarrier) {
+      if (!scratchCarrier || requiresLease) {
         const carrierVerdict = worktreeCarrierVerdict({
           activePlan,
           tier: membership?.tier,
