@@ -1,11 +1,11 @@
 import { isAbsolute, relative, resolve } from 'node:path'
 import { realpathSync } from 'node:fs'
-import { controlPlaneFor, readControlPlaneSnapshot } from './team-control-plane.mjs'
+import { controlPlaneFor, readControlPlaneSnapshot, normalizeStoredTask } from './team-control-plane.mjs'
 import { createPlanRegistry } from './team-v15-plan-registry.mjs'
 import { evaluatePlanDelivery, planDeliveryHash } from './team-v15-plan-delivery.mjs'
 import { validateCompactionAnchors } from './team-v13-compaction-anchors.mjs'
 import { collectDeliveryContext } from './team-v15-delivery-source.mjs'
-import { createDeliveryService, deliveryServiceFor, registerDeliveryService } from './team-v15-delivery-service.mjs'
+import { createDeliveryService, deliveryServiceFor, registerDeliveryService, deliveryPlanRequired } from './team-v15-delivery-service.mjs'
 import { createImplementationProofProducer } from './team-v15-implementation-proof.mjs'
 import { createExecutionProofProducer } from './team-v15-execution-proof.mjs'
 import { bindGoalDeliveryPlan, createGoalDeliveryGate } from './team-v15-goal-delivery.mjs'
@@ -165,7 +165,8 @@ export async function installSessionDelivery(ctx, agent, config) {
     } })
     return result
   }
-  const service = createDeliveryService({ control, readDurable, registry, collectContext })
+  const requiresPlan = () => config.requirePlan === true || deliveryPlanRequired(agent)
+  const service = createDeliveryService({ control, readDurable, registry, collectContext, requiresPlan, agent })
   const implementation = createImplementationProofProducer({ control, readDurable, collectContext,
     verifyPlan: registry.verify, authorize })
   const execution = createExecutionProofProducer({ control, readDurable, collectContext, verifyPlan: registry.verify, authorize,
@@ -173,7 +174,7 @@ export async function installSessionDelivery(ctx, agent, config) {
     captureCancellation: exec => ctx.tools.captureProofCancellation(exec) })
   const flush = () => ctx.sessions.flush(session)
   const gate = createGoalDeliveryGate({ agent, authority: service.authority, readDurable,
-    getGoal: () => ctx.goals.get(agent), flush })
+    getGoal: () => ctx.goals.get(agent), flush, requiresPlan })
   const disposers = []
   try {
     disposers.push(ctx.goals.registerCompletionGate(agent, gate))
@@ -198,9 +199,9 @@ export async function installSessionDelivery(ctx, agent, config) {
         const previous = tasks[taskId]
         if (previous && (previous.ownerName !== owner || previous.localPlanId !== planId)) fail('SESSION_DELIVERY_TASK_CONFLICT')
         const changed = previous && !same(previous.contract.writeScopes, plan.scope)
-        const task = tasks[taskId] = { id: taskId, ownerName: owner, localPlanId: planId,
+        const task = tasks[taskId] = normalizeStoredTask({ id: taskId, ownerName: owner, localPlanId: planId,
           revision: previous ? previous.revision + Number(changed) : 1,
-          contract: { contractRevision: previous ? previous.contract.contractRevision + Number(changed) : 1, writeScopes: [...plan.scope] } }
+          contract: { contractRevision: previous ? previous.contract.contractRevision + Number(changed) : 1, writeScopes: [...plan.scope] } })
         const id = 'session-lease-' + planDeliveryHash({ sessionId, taskId })
         state.leases[id] = { id, member: owner, taskId, contractRevision: task.contract.contractRevision, status: 'active', expiresAt }
       }

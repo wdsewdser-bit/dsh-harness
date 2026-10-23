@@ -10,7 +10,8 @@ export function deliveryPresentation(agent, service, turn) {
     remainingScope: plan.remainingScope ?? [], code: plan.code ?? null }))
   const accepted = coverage.deliverable === true && plans.length > 0 && plans.every(plan => plan.complete && plan.receiptId)
   return { version: 1, sessionId: agent.session.id, ...(Number.isSafeInteger(turn) ? { turn } : {}),
-    status: accepted ? 'accepted' : 'partial', plans }
+    status: accepted ? 'accepted' : 'partial', plans,
+    ...(!plans.length && ['DELIVERY_PLAN_REQUIRED', 'DELIVERY_BACKGROUND_PENDING'].includes(coverage.code) ? { code: coverage.code } : {}) }
 }
 
 export function installDeliveryPresentation(ctx, agent, service, flush) {

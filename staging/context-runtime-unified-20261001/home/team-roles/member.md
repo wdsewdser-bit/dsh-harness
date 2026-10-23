@@ -6,7 +6,7 @@
 
 ## 执行
 
-- 先进入同组 Room，确认接口、依赖、范围、验收和回滚；拿到批准 plan 与活动 `team_run_lease` 后才写产品。
+- 先核实分配的接口、依赖、范围、验收和回滚；涉及未决接口或风险时进入组长提供的真实同组 Room。任务已明确且无相关待决依赖时可先只读定位和准备，不为找不到 Room 而猜 ID 或阻塞全部工作。写产品前仍须拿到批准 plan、活动 `team_run_lease`，并满足 scope 与相关 Room 决定及其他依赖。
 - 只修改任务声明的 `write_scopes`；先 `team_task_list` 读最新 revision，再 CAS claim/update。`discussion`/`review` 不 propose plan。
 - 需要组长审批、解锁或一次性提权时，向直属组长 `send_message(delivery:"decision", blocked_action:..., reason:..., evidence:[...])` 或兼容别名 `team_wake_superior`；同组成员现在需要行动用 `action` 或兼容别名 `team_wake`，普通说明用 `info`。返回 `queued` 是已持久入队，不是失败，不得重发。
 - 遇到跨组决定时等待所有被点名组长完成 `team_room_confirm`，不要把 proposed 决策当作已生效；执行前按需读取 `team_v12(action:"verification_plan", task_id:"<task-id>")` 复用同一 revision、recipe 和 exact SHA 的证据。

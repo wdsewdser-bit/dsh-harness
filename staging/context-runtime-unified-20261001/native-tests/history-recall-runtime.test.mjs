@@ -372,6 +372,22 @@ test('late truncated output, foreign reader, unbranded and aborted requests cann
   assert.ok(f.registration.service.collectDebt(f.readDurable(), f.agent).length)
 })
 
+test('real adapter history receipts bind the current native context epoch and never combine old-window page dispatches', async t => {
+  const f = await fixture(t), d = (await f.run({ action: 'locate', seq: f.original.seq })).value.descriptor
+  const pages = await returnedPages(f, d)
+  await dispatch(f, wire(f, pages))
+  assert.deepEqual(f.registration.service.collectDebt(f.readDurable(), f.agent), [])
+  f.session.append('user/message', createUserMessage({ content: [{ type: 'text', text: 'new history window' }],
+    source: { kind: 'user', windowCommit: { transitionId: 'history-next-window' } } }), { surfaceOp: 'append' })
+  assert.ok(f.registration.service.collectDebt(f.readDurable(), f.agent).length)
+  await dispatch(f, wire(f, pages.slice(0, 1)))
+  assert.ok(f.registration.service.collectDebt(f.readDurable(), f.agent).length)
+  await dispatch(f, wire(f, pages.slice(1)))
+  const progress = f.readDurable().v15HistoryRecall.reads[d.locator]
+  assert.equal(progress.modelDeliveryReceipt.contextEpoch, 'window:history-next-window')
+  assert.deepEqual(f.registration.service.collectDebt(f.readDurable(), f.agent), [])
+})
+
 test('raw source changed after return and current cross-session ACL revoked refuse adapter confirmation', async t => {
   const f = await fixture(t)
   await f.control.mutateHot('fixture/allow-history-scope', {}, null, state => { state.allowedRecallSessions = [f.foreign.id] }, { deferMs: 0 })

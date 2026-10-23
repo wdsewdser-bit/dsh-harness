@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import { planDeliveryHash } from './team-v15-plan-delivery.mjs'
+import { committedContextEpoch } from './team-v14-context-delivery.mjs'
 
 const clone = value => structuredClone(value)
 const hash = bytes => createHash('sha256').update(bytes).digest('hex')
@@ -44,6 +45,7 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
     if (sessionId !== agent.session.id && (!authorizeSession || sync(authorizeSession, clone(state), agent, sessionId) !== true)) fail('HISTORY_SCOPE_DENIED')
   }
   const readerId = agent => agent.session.id
+  const contextEpoch = agent => committedContextEpoch(agent.session)?.compactionId ?? 'initial'
   async function mutate(type, agent, fn) {
     let durable
     await control.mutateHot(type, {}, agent, state => {
@@ -207,11 +209,11 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
           status: 'full-fetched', bytes: descriptor.bytes, pageCount: descriptor.pages, encoding: descriptor.encoding,
           pairingComplete: true, modelConsumption: 'unknown', verificationScope: 'all-exact-raw-pages-server-readback' }
         store.debts['history-debt-' + descriptor.locator] = { ...store.debts['history-debt-' + descriptor.locator],
-          status: delivered(progress) ? 'resolved' : 'returned-awaiting-dispatch' }
+          status: delivered(progress, agent) ? 'resolved' : 'returned-awaiting-dispatch' }
         for (const row of Object.values(store.debts)) {
           if (row.readerSessionId === readerId(agent) && row.sourceRef.locator === descriptor.locator
             && row.sourceRef.sourceHash === descriptor.sourceRef.sourceHash && row.sourceRef.artifactHash === descriptor.sourceRef.artifactHash)
-            row.status = delivered(progress) ? 'resolved' : 'returned-awaiting-dispatch'
+            row.status = delivered(progress, agent) ? 'resolved' : 'returned-awaiting-dispatch'
         }
       }
       store.reads[descriptor.locator] = progress
@@ -242,9 +244,9 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
       && Array.isArray(message.content) && message.content.length === 1 && message.content[0].type === 'text'
       && hash(Buffer.from(message.content[0].text ?? '')) === candidate.exactOutputHash
   }
-  function delivered(progress) {
-    return progress.modelDeliveryReceipt?.status === 'full-dispatched'
-      || progress.artifactDeliveryReceipt?.status === 'full-artifact-dispatched'
+  function delivered(progress, agent) {
+    return [progress?.modelDeliveryReceipt, progress?.artifactDeliveryReceipt].some(receipt =>
+      ['full-dispatched', 'full-artifact-dispatched'].includes(receipt?.status) && receipt.contextEpoch === contextEpoch(agent))
   }
   function resolveMatchingDebts(store,descriptor) {
     for (const row of Object.values(store.debts)) {
@@ -268,9 +270,14 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
     if (text(ownSessionId) && options.sessionId !== ownSessionId) return undefined
     if (nothingWaiting(options.sessionId)) return undefined
     const store = sync(readDurable).v15HistoryRecall
+    const agent = sync(agentForSession, options.sessionId), epoch = contextEpoch(agent)
+    const latestPrune = (agent.session.log ?? []).findLast(event => event.type === 'compaction/prune')?.seq ?? -1
     const result = { messages: options.messages, candidates: candidates(options).map(row => clone(row)),
+      contextEpoch: epoch,
       artifacts:Object.values(store?.returnedArtifacts ?? {}).filter(candidate=>candidate.readerSessionId===options.sessionId
-        && candidate.status==='returned-awaiting-dispatch'
+        && (candidate.status === 'returned-awaiting-dispatch'
+          || store.reads?.[candidate.locator]?.artifactDeliveryReceipt?.contextEpoch !== epoch
+          || store.reads?.[candidate.locator]?.artifactDeliveryReceipt?.observedSessionSeq <= latestPrune)
         && options.messages.some(message=>exactArtifactMessage(message,candidate))).map(clone) }
     projected.add(result)
     return result
@@ -281,6 +288,8 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
       || receipt?.handedToAdapter !== true || receipt.stage !== 'handed-to-adapter' || !text(receipt.requestId)) return { confirmed: [] }
     const agent = sync(agentForSession, options.sessionId)
     if (agent?.session?.id !== options.sessionId) fail('HISTORY_SCOPE_DENIED')
+    const epoch = contextEpoch(agent), observedSessionSeq = agent.session.seq
+    if (result.contextEpoch !== epoch) return { confirmed: [] }
     const confirmed = []
     for (const candidate of result.candidates) {
       if (candidate.readerSessionId !== options.sessionId || !(options.messages ?? []).some(message => exactMessage(message, candidate))) continue
@@ -301,16 +310,18 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
         authorize(latest, agent, descriptor.sourceRef.sessionId)
         if (!same(store.returnedPages?.[candidate.id], candidate) || !same(store.descriptors[candidate.locator], descriptor)) fail('HISTORY_LOCATOR_CONFLICT')
         options.signal?.throwIfAborted(); inputOptions.signal?.throwIfAborted()
+        if (contextEpoch(agent) !== epoch) fail('HISTORY_CONTEXT_CHANGED')
         const progress = store.reads[candidate.locator]
         progress.handedPages ??= {}
-        progress.handedPages[candidate.offset] ??= { pageHash: candidate.pageHash, candidateId: candidate.id, requestId: receipt.requestId }
+        progress.handedPages[candidate.offset] = { pageHash: candidate.pageHash, candidateId: candidate.id, requestId: receipt.requestId, contextEpoch: epoch }
         store.returnedPages[candidate.id] = { ...candidate, status: 'handed-to-adapter', requestId: receipt.requestId }
         const complete = descriptor.pairingComplete && Array.from({ length: descriptor.pages }, (_, index) => {
           const offset = index * pageBytes
-          return progress.handedPages[offset]?.pageHash === hash(source.bytes.subarray(offset, Math.min(offset + pageBytes, descriptor.bytes)))
+          return progress.handedPages[offset]?.contextEpoch === epoch
+            && progress.handedPages[offset]?.pageHash === hash(source.bytes.subarray(offset, Math.min(offset + pageBytes, descriptor.bytes)))
         }).every(Boolean)
         if (complete) {
-          progress.modelDeliveryReceipt ??= { id: 'history-dispatch-' + descriptor.locator, readerSessionId: readerId(agent),
+          progress.modelDeliveryReceipt = { id: 'history-dispatch-' + descriptor.locator, readerSessionId: readerId(agent), contextEpoch: epoch, observedSessionSeq,
             sourceRef: clone(descriptor.sourceRef), status: 'full-dispatched', pageCount: descriptor.pages,
             modelUnderstanding: 'unknown', verificationScope: 'all-exact-canonical-page-results-handed-to-adapter' }
           resolveMatchingDebts(store,descriptor)
@@ -337,12 +348,13 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
         authorize(latest,agent,descriptor.sourceRef.sessionId)
         if (!same(store.returnedArtifacts?.[candidate.id],candidate) || !same(store.descriptors[candidate.locator],descriptor)) fail('HISTORY_LOCATOR_CONFLICT')
         options.signal?.throwIfAborted(); inputOptions.signal?.throwIfAborted()
+        if (contextEpoch(agent) !== epoch) fail('HISTORY_CONTEXT_CHANGED')
         const progress = store.reads[candidate.locator]
         if (progress?.receipt?.status !== 'full-fetched' || !descriptor.pairingComplete) fail('HISTORY_ASSEMBLY_PAGES_INCOMPLETE')
         const complete = Array.from({length:descriptor.pages},(_,i)=>progress.pageHashes[i*pageBytes]
           === hash(source.bytes.subarray(i*pageBytes,Math.min((i+1)*pageBytes,descriptor.bytes)))).every(Boolean)
         if (!complete) fail('HISTORY_ASSEMBLY_PAGES_INCOMPLETE')
-        progress.artifactDeliveryReceipt ??= {id:'history-artifact-dispatch-'+candidate.id,readerSessionId:readerId(agent),
+        progress.artifactDeliveryReceipt = {id:'history-artifact-dispatch-'+candidate.id,readerSessionId:readerId(agent),contextEpoch:epoch,observedSessionSeq,
           sourceRef:clone(descriptor.sourceRef),status:'full-artifact-dispatched',pageCount:descriptor.pages,bytes:descriptor.bytes,
           callId:candidate.rootCallId ?? candidate.callId,assemblyCallId:candidate.callId,requestId:receipt.requestId,
           modelUnderstanding:'unknown',verificationScope:'complete-exact-server-assembled-artifact-handed-to-adapter'}
@@ -365,6 +377,10 @@ export function createHistoryRecall({ sessionQuery, control, readDurable, author
     const debts = Object.values(store.debts ?? {}).filter(row => row.readerSessionId === reader && ['required', 'returned-awaiting-dispatch'].includes(row.status)).map(clone)
     for (const descriptor of Object.values(store.descriptors ?? {})) {
       if (descriptor.readerSessionId !== reader) continue
+      if (!delivered(store.reads?.[descriptor.locator], agent) && !debts.some(row => row.id === 'history-debt-' + descriptor.locator)) {
+        debts.push({ id: 'history-debt-' + descriptor.locator, readerSessionId: reader,
+          sourceRef: clone(descriptor.sourceRef), status: 'required', reason: 'HISTORY_CURRENT_EPOCH_DISPATCH_REQUIRED' })
+      }
       try { authorize(state, agent, descriptor.sourceRef.sessionId) }
       catch { debts.push({ id: 'history-acl-' + descriptor.locator, readerSessionId: reader,
         sourceRef: clone(descriptor.sourceRef), status: 'required', reason: 'HISTORY_SCOPE_DENIED' }) }

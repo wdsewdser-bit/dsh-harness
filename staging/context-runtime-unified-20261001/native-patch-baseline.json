@@ -1,10 +1,10 @@
 {
-  "acceptedAt": "2026-10-12T05:39:28.586Z",
-  "reason": "first baseline 2026-10-12: 15 of 19 modified packages are staging copies with no pnpm patch",
+  "acceptedAt": "2026-10-23T14:46:59.804Z",
+  "reason": "Native-driver-disarms-host-policy-failures-without-forging-convergence-proof",
   "summary": {
-    "manifestPackages": 19,
+    "manifestPackages": 22,
     "carriedByPnpmPatch": 4,
-    "carriedByStagingCopyOnly": 15,
+    "carriedByStagingCopyOnly": 18,
     "registeredButNotInManifest": 6,
     "unregisteredPatchFiles": 10,
     "upstreamVersions": [
@@ -47,7 +47,7 @@
     {
       "package": "@deepseek-ai/dsh-agent-loop",
       "upstreamVersion": "0.1.7-rc.2",
-      "files": 2,
+      "files": 3,
       "newFiles": 0,
       "stagedDirectories": [
         "dsh-agent-loop"
@@ -95,10 +95,20 @@
     {
       "package": "@deepseek-ai/dsh-compaction-basic",
       "upstreamVersion": "0.1.7-rc.2",
-      "files": 1,
+      "files": 2,
       "newFiles": 0,
       "stagedDirectories": [
         "dsh-compaction-basic"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 5,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-compaction-tool-result-pruner-v15"
       ],
       "channel": "staging-copy"
     },
@@ -109,6 +119,26 @@
       "newFiles": 2,
       "stagedDirectories": [
         "dsh-goal"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-goal-round-driver",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-goal-round-driver-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-sandbox-local",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-sandbox-local-v15"
       ],
       "channel": "staging-copy"
     },

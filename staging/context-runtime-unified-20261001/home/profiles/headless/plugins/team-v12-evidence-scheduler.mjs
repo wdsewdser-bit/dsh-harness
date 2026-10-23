@@ -179,8 +179,10 @@ function currentBinding(task, criterion = {}) {
 
 /** Keys on which `row` fails to carry the exact `expected` binding. */
 function bindingMismatchKeys(expected, row) {
-  // No current source identity means there is no object against which to verify.
-  if (!expected.commitSha && !expected.treeHash && !expected.manifestHash) return ['sourceIdentity']
+  // A Git commit alone cannot identify the dirty tree being accepted.
+  if (expected.commitSha || expected.treeHash) {
+    if (!expected.commitSha || !expected.treeHash) return ['sourceIdentity']
+  } else if (!expected.manifestHash) return ['sourceIdentity']
   const actual = evidenceBinding(row)
   return Object.entries(expected)
     .filter(([key, value]) => actual[key] === undefined || text(actual[key]) !== text(value))
@@ -188,7 +190,9 @@ function bindingMismatchKeys(expected, row) {
 }
 
 function bindingMatches(expected, row) {
-  return bindingMismatchKeys(expected, row).length === 0
+  return ['contractRevision', 'planRevision', 'recipeFingerprint', 'environmentFingerprint']
+    .every(key => expected[key] !== undefined && text(expected[key]))
+    && bindingMismatchKeys(expected, row).length === 0
 }
 
 function passedEvidence(row) {

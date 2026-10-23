@@ -81,6 +81,23 @@ test('actual control-plane persistence precedes sync consumer; queued outbox is 
   assert.equal(calls, 1)
 })
 
+test('the shared delivery service refuses otherwise complete plans while native pruned originals lack exact current dispatch', async t => {
+  const f = await fixture(t)
+  const raw = { seq: 0, type: 'tool/result', data: { message: { toolCallId: 'original', content: [{ type: 'text', text: 'unread original middle' }] } } }
+  const session = { id: 'pruned-reader', seq: 3, log: [raw,
+    { seq: 1, type: 'compaction/prune', data: { shadowedSeqs: [0] } },
+    { seq: 2, type: 'compaction/summary', data: { summary: 'all tasks and history are complete' } }] }
+  const service = createDeliveryService({ control: f.control, readDurable: f.readDurable,
+    registry: { verify: () => structuredClone(f.readback) }, collectContext: () => structuredClone(f.serverContext),
+    agent: { session }, now: () => 10 })
+  const preview = service.preview('p1')
+  assert.equal(preview.complete, false)
+  assert.equal(preview.globalBlockers.includes('unresolved-debt-or-blockers'), true)
+  assert.equal(service.checkAll().deliverable, false)
+  await assert.rejects(service.commit(request(preview)), { code: 'DELIVERY_INCOMPLETE' })
+  assert.deepEqual(Object.values(f.readDurable().v15PlanDelivery.receipts), [])
+})
+
 test('actual persistence serialization failure cannot call the consumer or publish a durable receipt', async (t) => {
   const f = await fixture(t)
   const poisonedControl = { mutateHot(type, data, agent, fn, options) {

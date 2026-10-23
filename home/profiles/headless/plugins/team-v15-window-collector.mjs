@@ -16,7 +16,9 @@ export const inject = ['agents', 'agentTeams', 'sessions', 'sessionQuery', 'team
 export const provide = ['windowCheckpointRuntime']
 const fail = code => { throw Object.assign(new Error(code), { code }) }
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
-const rawMessage = event => event.type === 'user/message' ? event.data : event.data?.message
+// The conversation message an event carries, if any. Other events have a data.message too (team/message/queued is
+// the record of a Team mail entering a queue: an id, a sender and a target, no role); those are not conversation.
+const rawMessage = event => { const message = event.type === 'user/message' ? event.data : event.data?.message; return typeof message?.role === 'string' ? message : undefined }
 const terminalTasks = new Set(['completed', 'resolved', 'cancelled', 'failed'])
 const moduleHash = createHash('sha256').update(readFileSync(new URL(import.meta.url))).digest('hex')
 export const windowBoundaryTypes = Object.freeze(['turn/start', 'turn/end', 'step/start', 'step/end', 'tool/call', 'tool/result',
@@ -115,15 +117,17 @@ export function createServerWindowCollector(ctx, config) {
       || hash(artifact.events.map(event => ({ seq: event.seq, sha256: hash(event) }))) !== hash(receipt.eventRefs)) fail('WINDOW_RECOVERY_ARTIFACT_INVALID')
     return plain(artifact.events)
   }
-  function completedTurns(events) {
+  // Every turn that has ended, with whether it ended normally. A turn that ended in an error or was interrupted is
+  // never a whole-turn candidate, but the steps it did finish are as finished as any other.
+  function endedTurns(events) {
     const turns = [], used = new Set()
     let start
     for (const event of events) {
       if (event.type === 'turn/start') { start = event; continue }
       if (event.type !== 'turn/end') continue
-      if (start && start.data?.turn === event.data?.turn && event.data?.reason?.kind === 'completed'
+      if (start && start.data?.turn === event.data?.turn && typeof event.data?.reason?.kind === 'string'
         && !used.has(event.data.turn)) {
-        turns.push(events.filter(row => row.seq >= start.seq && row.seq <= event.seq))
+        turns.push({ completed: event.data.reason.kind === 'completed', events: events.filter(row => row.seq >= start.seq && row.seq <= event.seq) })
         used.add(event.data.turn)
       }
       start = undefined
@@ -145,7 +149,9 @@ export function createServerWindowCollector(ctx, config) {
     return { protectedIds, pendingIds }
   }
   // The stretches of the conversation a window may replace. A completed turn whose every message is still in the
-  // conversation and unprotected is one candidate, as it always was. Otherwise the turn is searched for completed
+  // conversation and unprotected is one candidate, as it always was. Otherwise the turn, and any turn that ended
+  // without completing (an error, an interrupt; the last turn of the conversation stays protected as open until it
+  // completes), is searched for completed
   // steps: an assistant message with tool calls together with every one of its tool results. The longest unbroken
   // run of such steps (by bytes) is the candidate; the user's own input, the final answer, anything pending or in
   // the recent tail, and any step whose results are incomplete stay where they are.
@@ -164,11 +170,11 @@ export function createServerWindowCollector(ctx, config) {
       && (['team-v12-runtime', 'team-activity-digest', 'team-idle-watch', 'step-compaction'].includes(message.source?.plugin)
         || (message.source?.plugin === 'tool-agent-team-v2' && (message.source.form === 'snapshot' || message.source.kind === 'team-plugin-message')))
     const candidates = []
-    for (const eventsInTurn of completedTurns(events)) {
+    for (const { completed, events: eventsInTurn } of endedTurns(events)) {
       const group = eventsInTurn.filter(event => rawMessage(event)?.id && !['system', 'developer'].includes(rawMessage(event).role))
       if (!group.length) continue
       const turn = eventsInTurn[0].data.turn
-      if (spanMode === 'single' && rawMessage(group[0]).role === 'user' && rawMessage(group.at(-1)).role === 'assistant' && group.every(intact) && consecutive(group)) {
+      if (completed && spanMode === 'single' && rawMessage(group[0]).role === 'user' && rawMessage(group.at(-1)).role === 'assistant' && group.every(intact) && consecutive(group)) {
         candidates.push({ scope: 'turn', turn, group, all: eventsInTurn }); continue
       }
       const runs = []
@@ -238,7 +244,15 @@ export function createServerWindowCollector(ctx, config) {
       readRecovery(current, receipt)
       receipts.push(receipt)
     }
-    return freezeWindow({ sessionId, receipts, scope: 'exact-completed-turn-events-only', modelUnderstanding: 'unknown' })
+    const workspace = ctx.get?.('contextWorkspace')
+    const prepared = sourceFor(actor(sessionId), plain(a.agent.session.deriveMessages()))
+    const locators = prepared.recovery.memoryDebt.filter(row => row.kind === 'context-retention-required').map(row => row.locator)
+    const memoReceipts = locators.length && workspace ? [workspace.retainRecovery(a.agent, {
+      ownerId: memoOwner(a, locators), locators,
+    })] : workspace ? (prepared.recovery.memoRetentionReceipts ?? []).map(receipt => workspace.renewRecovery(a.agent, receipt)) : []
+    const retiredMemoReceiptIds = retireMemoRetention(sessionId, memoReceipts)
+    return freezeWindow({ sessionId, receipts, memoReceipts, retiredMemoReceiptIds,
+      scope: 'exact-completed-turn-events-and-required-memos', modelUnderstanding: 'unknown' })
   }
   // The plan a session's window cites. A session bound to a registered delivery contract uses that contract; a
   // Team that never registered one can cite the published projection of its approved task plans instead, which
@@ -261,6 +275,35 @@ export function createServerWindowCollector(ctx, config) {
     const projection = ctx.requestMessageProjection
     if ((projection.isAgentLoopRequestInAnyCopy?.(options) ?? projection.isAgentLoopRequest(options)) !== true) fail('WINDOW_COLLECTOR_REQUEST_BRAND_REQUIRED')
     return sourceFor(actor(options.sessionId),plain(options.messages))
+  }
+  const memoOwner = (a, locators) => 'window:' + hash({ acl: a.acl, locators: [...locators].sort() })
+  function retireMemoRetention(sessionId, currentReceipts) {
+    const a = actor(sessionId), workspace = ctx.get?.('contextWorkspace')
+    if (!workspace) return []
+    const keep = new Set(currentReceipts.map(receipt => receipt.id))
+    const keepCheckpoint = checkpoint => {
+      for (const receipt of checkpoint?.recovery?.memoRetentionReceipts ?? []) keep.add(receipt.id)
+    }
+    keepCheckpoint(snapshots.get(sessionId)?.checkpoint)
+    const events = a.agent.session.snapshotEvents()
+    const committed = events.filter(event => event.type === 'user/message' && event.data?.source?.windowCommit)
+    const latestCommitted = committed.at(-1)?.data.source.windowCommit.transitionId
+    for (const event of events.filter(event => event.type === 'native/window-intent')) {
+      const id = event.data.transitionId
+      const resolved = events.some(row => row.type === 'native/window-aborted' && row.data.transitionId === id
+        || row.type === 'user/message' && row.data?.source?.windowCommit?.transitionId === id)
+      if (!resolved || id === latestCommitted) keepCheckpoint(event.data.proposal?.checkpoint)
+    }
+    for (const message of a.agent.session.deriveMessages()) keepCheckpoint(message.source?.nativeWindowCheckpoint)
+    const retired = []
+    // Current projections, the latest committed window and unresolved intents
+    // own their pins. Older unreferenced preparations are safe to retire.
+    for (const receipt of workspace.listRecovery(a.agent)) {
+      if (!receipt.ownerId.startsWith('window:') || keep.has(receipt.id)) continue
+      workspace.releaseRecovery(a.agent, receipt)
+      retired.push(receipt.id)
+    }
+    return retired
   }
   function sourceFor(a,messages,writerSurface) {
     const state = a.control.windowSnapshot()
@@ -307,13 +350,13 @@ export function createServerWindowCollector(ctx, config) {
       if (['required', 'returned-awaiting-dispatch'].includes(row.status)) debt.push({ kind: 'history-recall', row: plain(row) })
     }
     for (const row of Object.values(state.v15PlanReadReceipts ?? {})) if (row.requiredFetch === true) rereads.push(plain(row))
-    const retained = index(a), spans = []
+    const retained = index(a), spans = [], retentionPending = []
     const { protectedIds, pendingIds } = protection(a.agent, events, messages)
     for (const { scope, turn, group, all } of foldCandidates(events, messages, { protectedIds, pendingIds })) {
       const ids = group.map(event => rawMessage(event).id)
       const allRefs = all.map(event => ({ seq: event.seq, sha256: hash(event) }))
       const receipt = retained.receipts[hash({ acl: a.acl, eventRefs: allRefs })]
-      if (!receipt) { debt.push({ kind: 'completed-turn-retention-required', turn }); continue }
+      if (!receipt) { retentionPending.push({ kind: 'completed-turn-retention-required', turn }); continue }
       readRecovery(a, receipt)
       if (debt.length || rereads.length) continue
       spans.push({ status: 'completed', ...(scope === 'steps' ? { scope: 'steps' } : {}), messageIds: ids,
@@ -446,17 +489,48 @@ export function createServerWindowCollector(ctx, config) {
       const best = runs.reduce((kept, run) => size(run) > size(kept) ? run : kept)
       spans.splice(0, spans.length, ...best)
     }
+    // A newly eligible but unretained candidate stays raw. It is not a recovery
+    // dependency of another, fully retained selected span.
+    const deferredRetention = spans.length ? retentionPending : []
+    if (!spans.length) debt.push(...retentionPending)
+    // Only the final retained authority and chosen fold form the dependency closure.
+    // Event retention preserves locator text, not the separately expiring memo body.
+    const memoRefs = new Set(), memoRetentionReceipts = []
+    const recoveryText = JSON.stringify({ authority, messages: spans.flatMap(span => messages.filter(message => span.messageIds.includes(message.id))) })
+    for (const match of recoveryText.matchAll(/context:\/\/[a-f0-9]{24}\/[A-Za-z0-9][A-Za-z0-9_.:-]{0,95}@[1-9][0-9]*\/[a-f0-9]{64}/g)) {
+      memoRefs.add(match[0])
+      if (memoRefs.size > 32) break
+    }
+    const locators = [...memoRefs].sort()
+    if (locators.length) {
+      try {
+        if (locators.length > 32) fail('RECOVERY_REFS_LIMIT')
+        const workspace = ctx.get?.('contextWorkspace')
+        if (!workspace) fail('CONTEXT_RECOVERY_SERVICE_UNAVAILABLE')
+        const receipt = workspace.findRecovery(a.agent, { ownerId: memoOwner(a, locators), locators })
+        workspace.readRecovery(a.agent, receipt)
+        memoRetentionReceipts.push(receipt)
+      } catch (error) {
+        for (const locator of locators) {
+          const row = { kind: 'context-retention-required', locator, reason: error.code ?? 'CONTEXT_RECOVERY_UNAVAILABLE' }
+          debt.push(row); rereads.push(plain(row))
+        }
+      }
+    }
     const windowId = events.filter(event => event.type === 'user/message' && event.data?.source?.windowCommit).at(-1)?.data.source.windowCommit.toWindowId ?? 0
     if (debt.length || rereads.length) spans.length = 0
     const host = nativeHostBinding(ctx)
     return { sessionId: session.id, actorId: a.agent.id, rootTeamId: state.rootId, windowId, surfaceRevision,
       criticalRevisionVector: { controlRevision: state.revision, authorityHash: hash(authority), identityHashes, planHash: plan.planHash,
         surfaceHash: hash(surfaceNodes), pendingHash: hash(authority.pendingAcceptanceRefs), host,
-        nativeBoundaryHash: hash(events.filter(event => boundaryTypes.has(event.type)).map(event => ({ seq: event.seq, type: event.type, sha256: hash(event) }))) },
+        nativeBoundaryHash: hash(events.filter(event => boundaryTypes.has(event.type)).map(event => ({ seq: event.seq, type: event.type, sha256: hash(event) }))),
+        ...(memoRetentionReceipts.length ? { contextRecoveryModuleHash: ctx.get('contextWorkspace').runtimeFacts().moduleHash } : {}) },
       identityVersion: identity.identityVersion, identityHashes, configFingerprint: hash({ configFingerprint, host }),
       protocolCertificateHash: settings.protocolCertificateHash ?? null,
       planRef: plain(plan.ref), planRevision: plan.planRevision, planHash: plan.planHash, authority,
       working: { kind: 'no-model-observations-collected' }, recovery: { memoryDebt: debt, requiredRereads: rereads,
+        memoRetentionReceipts,
+        ...(deferredRetention.length ? { deferredCompletedTurnRetention: deferredRetention } : {}),
         ...(peerDebt.length ? { peerCompactionDebt: peerDebt } : {}),
         activeJobs: Object.values(jobs).filter(row => object(row) && row.status !== 'completed'),
         retentionPolicy: 'root-own-session-durable-event-artifacts; ACL rechecked on every read' },
@@ -503,7 +577,9 @@ export function createServerWindowCollector(ctx, config) {
       const milestone=ctx.get?.('stepCompactionRuntime')
       if(!milestone) fail('WINDOW_RECOVERY_UNAVAILABLE')
       // A projected plan is part of the control-plane file, which the fence itself already holds.
-      const bases=[...(plan.projection===true?[]:[plan.ref.path]),milestone.runtimeFacts().configuredPath,indexPath(a)]
+      const workspace=ctx.get?.('contextWorkspace')
+      const bases=[...(plan.projection===true?[]:[plan.ref.path]),milestone.runtimeFacts().configuredPath,indexPath(a),
+        ...(workspace?.retentionFiles(a.agent) ?? [])]
       // This callback executes inside the actual CP fence. Lock the index
       // before reading its artifact reference closure, never a pre-lock list.
       if(protection)protection.add(bases)

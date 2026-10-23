@@ -17,7 +17,7 @@
     {
       "name": "run-regression.mjs",
       "before": null,
-      "after": "A9EECBC57CBE62EBC408379B87993C13BF5CBA5687FFE7B7C7CC4A089192A0DB"
+      "after": "2F92F383803688C05BB8E2413405E25B651B1A48FB8B496A05EBFFDB9D0F6A1D"
     },
     {
       "name": "v14-control-migration.mjs",
@@ -37,7 +37,7 @@
     {
       "name": "prepare-unified-lab-host.mjs",
       "before": null,
-      "after": "01DC42A3A737A08F3A5297F9DA5C133DAEA36D513060590ED448C4A201561B60"
+      "after": "3FE8DCE69B03249D27DC3CF82CF50CB6DB027A6C7F876B8A6FA8B3EF0AB0E706"
     },
     {
       "name": "unified-natural-lab.mjs",
@@ -47,7 +47,7 @@
     {
       "name": "window-protocol-trial.mjs",
       "before": null,
-      "after": "F63938258BF80AF67655D1FB8D50DDED7BF34F1FE7FF55A8FD0142B8E364FC37"
+      "after": "DE5472042F3E3B90F2B650F712F8988CCA2DF00777CC8BEE151BAB0B0AE354BE"
     },
     {
       "name": "window-history-quality.mjs",
@@ -57,7 +57,12 @@
     {
       "name": "instant-history-lab.mjs",
       "before": null,
-      "after": "5F59AE6F00D0C6CDD5247F99532B8365819E9F01498B85BB5E31DE97921C6DEA"
+      "after": "81A7813D73199D35F8A5952F7481E7FD2C89D6C6E6620332D6240D66B49B3584"
+    },
+    {
+      "name": "instant-history-fixture-home.mjs",
+      "before": null,
+      "after": "E7E15C6BBA9C74A3DF2A0DE4B984DA2F5A2B680427673505536A1FD47FA93FEB"
     },
     {
       "name": "instant-ui-replay.mjs",
@@ -163,6 +168,71 @@
       "name": "ptc-background-team-lab.mjs",
       "before": null,
       "after": "160392606A3B87848E77773CC5E5206787E543E104ADC6C68C97DCD8B6C2FE6F"
+    },
+    {
+      "name": "verifier-native-bootstrap-test.mjs",
+      "before": null,
+      "after": "1B138376A1FCA0E8C6DAF33A5B3D1D5096D81388E22D482FCC268BDDE7CAA104"
+    },
+    {
+      "name": "verifier-native-capability-test.ps1",
+      "before": null,
+      "after": "59C954915AF8662D4355E9A3D5F45C40C1BFD247AA1A169FA6318DA55315B05B"
+    },
+    {
+      "name": "verifier-native-fault-protocol.ps1",
+      "before": null,
+      "after": "1528A49DA9D9570E16837DDE0B54D363E9A7A7F350E18344228573D00AA2A347"
+    },
+    {
+      "name": "verifier-native-fault-ready.ps1",
+      "before": null,
+      "after": "1ACCE6D20C2E41130741558BE93A06B7068B5E68B94DA7A623CEC1B4FB8F8734"
+    },
+    {
+      "name": "verifier-native-host-test.mjs",
+      "before": null,
+      "after": "B4E07CDBD7D36EB45CEBE669B594EB712FC7AFA7169878774A32361A06607895"
+    },
+    {
+      "name": "verifier-native-input-fault-fixture.ps1",
+      "before": null,
+      "after": "68208E7BF86F067B7529E4323AB6E792CEA131DDC5F4849DAE3D0550701ECBAD"
+    },
+    {
+      "name": "verifier-native-InputFaultFixture.cs",
+      "before": null,
+      "after": "2223869257202929B6C4DCE2BB78EA52793DC92B271AB8CED75A993CBB6CE300"
+    },
+    {
+      "name": "verifier-native-lease-test.ps1",
+      "before": null,
+      "after": "73A545B73C7A7EEDC98EB4E11898646E524A02A4810885BB47B202293B234D1C"
+    },
+    {
+      "name": "verifier-native-metadata-test.ps1",
+      "before": null,
+      "after": "E57CE3084D1541F634241BD57C9224219F5AFAF479A0E362AD4970D45B91DBC8"
+    },
+    {
+      "name": "verifier-native-MetadataFixture.cs",
+      "before": null,
+      "after": "B256A7002D1CC05040B7084D8AAAACFDAF31FABC6E52B2526BAA4FDA3CAF3FC0"
+    },
+    {
+      "name": "verifier-native-profile-patch.mjs",
+      "before": null,
+      "after": "BE082FA09C774444475FA6766A6F113F1039CA3EED9733051149A31D7FFB9790"
+    },
+    {
+      "name": "verifier-native-transport-test.mjs",
+      "before": null,
+      "after": "35BDBC4A3F416BD5486D71F64438A9995D5BF067BC84A8514A9121B47376B45B"
+    },
+    {
+      "name": "verifier-native-authorization-test.mjs",
+      "before": null,
+      "after": "2C541D8CE5A8345F8E3E18E6D76BCA5B46B5EE7DDAF1B25BFE147FA1ECB30DB2"
     }
   ]
 }

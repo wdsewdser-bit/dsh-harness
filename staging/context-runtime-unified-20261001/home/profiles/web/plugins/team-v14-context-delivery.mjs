@@ -400,14 +400,27 @@ export function buildContextDelivery({
   const fullRow = (source) => '[' + source.id + '@' + source.revision + ']\n' + source.content
   const compactRow = (source) => '[' + source.id + '@' + source.revision + ' compact]\n' + source.compactContent
   const rowFor = (source) => (compacted.has(source) ? compactRow(source) : fullRow(source))
+  const manifestEntry = (source, isCompact = false) => ({
+    id: source.id, hash: source.hash, revision: source.revision, ...source.metadata,
+    ...(isCompact ? { form: 'compact' } : {}),
+  })
   const preparedStats = new WeakMap()
+  const preparedEntries = new WeakMap()
   for (const source of changed) {
+    const fullEntry = JSON.stringify(manifestEntry(source))
+    const compactEntry = typeof source.compactContent === 'string'
+      ? JSON.stringify(manifestEntry(source, true))
+      : undefined
     preparedStats.set(source, {
       line: tokenStats(fullRow(source)),
       ...(typeof source.compactContent === 'string' ? { compactLine: tokenStats(compactRow(source)) } : {}),
       debt: tokenStats('[context-debt] required source "' + source.id
         + '" was omitted by the context budget; read-before-act.'
         + (source.fetch ? ' fetch=' + JSON.stringify(source.fetch) : '')),
+    })
+    preparedEntries.set(source, {
+      full: { json: fullEntry, stats: tokenStats(fullEntry) },
+      ...(compactEntry !== undefined ? { compact: { json: compactEntry, stats: tokenStats(compactEntry) } } : {}),
     })
   }
   const sourceLineStats = (source) => (compacted.has(source)
@@ -427,8 +440,7 @@ export function buildContextDelivery({
     }).slice(0, 24),
     ...(baselineId ? { baselineId } : {}),
     ...(baselineId ? { bindingHash: sourceBinding, required: requiredSources } : {}),
-    items: selected.map((source) => ({ id: source.id, hash: source.hash, revision: source.revision, ...source.metadata,
-      ...(compacted.has(source) ? { form: 'compact' } : {}) })),
+    items: selected.map((source) => manifestEntry(source, compacted.has(source))),
     ...(debt.length ? { debt: debt.map((source) => ({
       id: source.id,
       hash: source.hash,
@@ -446,17 +458,37 @@ export function buildContextDelivery({
     }
     return { manifest, body: CONTEXT_MARKER + JSON.stringify(manifest) + '\n' + lines.join('\n\n') }
   }
-  const renderStats = (selected, debt = []) => addTokenStats(
-    tokenStats(CONTEXT_MARKER),
-    tokenStats(JSON.stringify(manifestFor(selected, debt))),
-    tokenStats('\n'),
-    joinTokenStats([
-      ...selected.map(sourceLineStats),
-      ...debt.map(sourceDebtStats),
-    ]),
-  )
+  // Receipt IDs are always 24 ASCII hex characters. Budget with an equal-size
+  // placeholder and serialize/hash the real receipt only for the final output.
+  const budgetManifest = JSON.stringify({ ...manifestFor([], []), receiptId: '0'.repeat(24) })
+  const itemsArrayMarker = '"items":['
+  const itemsArrayStart = budgetManifest.indexOf(itemsArrayMarker) + itemsArrayMarker.length - 1
+  const manifestPrefixStats = tokenStats(budgetManifest.slice(0, itemsArrayStart + 1))
+  const manifestSuffixStats = tokenStats(budgetManifest.slice(itemsArrayStart + 1))
+  const manifestFixedStats = addTokenStats(manifestPrefixStats, manifestSuffixStats)
+  const bodyFixedStats = addTokenStats(tokenStats(CONTEXT_MARKER), manifestFixedStats, tokenStats('\n'))
+  const commaStats = tokenStats(',')
+  const bodySeparatorStats = tokenStats('\n\n')
+  const selectedEntryStats = { ascii: 0, nonAscii: 0 }
+  const selectedLineStats = { ascii: 0, nonAscii: 0 }
+  const addStats = (target, row) => {
+    target.ascii += row.ascii
+    target.nonAscii += row.nonAscii
+  }
   const add = (source) => {
-    const proposed = renderStats([...items, source])
+    const entry = preparedEntries.get(source)
+    const selectedEntry = compacted.has(source) ? entry.compact : entry.full
+    const lineStats = sourceLineStats(source)
+    const separators = items.length > 0 ? commaStats : { ascii: 0, nonAscii: 0 }
+    const proposed = addTokenStats(
+      bodyFixedStats,
+      selectedEntryStats,
+      selectedEntry.stats,
+      separators,
+      selectedLineStats,
+      lineStats,
+      items.length > 0 ? bodySeparatorStats : { ascii: 0, nonAscii: 0 },
+    )
     if (tokenCount(proposed) <= maxTokens) items.push(source)
     else omitted.push({
       id: source.id,
@@ -467,12 +499,24 @@ export function buildContextDelivery({
       fetch: source.fetch ?? source.metadata?.fetch ?? null,
       safetyCritical: source.safetyCritical === true,
     })
+    if (items[items.length - 1] === source) {
+      addStats(selectedEntryStats, selectedEntry.stats)
+      addStats(selectedLineStats, lineStats)
+      if (items.length > 1) {
+        addStats(selectedEntryStats, commaStats)
+        addStats(selectedLineStats, bodySeparatorStats)
+      }
+    }
   }
   const required = changed.filter((source) => source.required === true && source.refill !== true)
   const optional = changed.filter((source) => source.required !== true || source.refill === true)
   const admitRequired = () => {
     items.length = 0
     omitted.length = 0
+    selectedEntryStats.ascii = 0
+    selectedEntryStats.nonAscii = 0
+    selectedLineStats.ascii = 0
+    selectedLineStats.nonAscii = 0
     for (const source of required) add(source)
   }
   admitRequired()

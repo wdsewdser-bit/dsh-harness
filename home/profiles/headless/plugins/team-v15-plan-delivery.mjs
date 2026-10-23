@@ -228,6 +228,12 @@ export function commitPlanDelivery(doc, input, options = {}) {
     || !equal(input.sourceIdentity, evaluation.sourceIdentity)
     || input.coverageMatrixHash !== evaluation.coverageMatrixHash
     || !equal(input.sourceRevisionVector, evaluation.sourceRevisionVector)) {
+    const missing = ['expectedPlanRevision', 'expectedPlanHash', 'sourceIdentity', 'coverageMatrixHash', 'sourceRevisionVector']
+      .filter(key => input[key] === undefined || input[key] === null)
+    if (missing.length) return fail('DELIVERY_CAS_CONFLICT', 'Missing current commit bindings: ' + missing.join(', ')
+      + '. Copy expectedPlanRevision from preview.planRevision, expectedPlanHash from preview.planHash, '
+      + 'and sourceIdentity, coverageMatrixHash, sourceRevisionVector directly from a fresh plan_delivery_preview. '
+      + 'Use sourceRevisionVector (not expectedSourceRevisionVector); previewToken alone does not bind a normal plan_delivery_commit.')
     return fail('DELIVERY_CAS_CONFLICT', 'plan, source or coverage changed since preview')
   }
   if (!evaluation.complete) return { ...fail('DELIVERY_INCOMPLETE', 'mandatory requirements or authority facts remain uncovered'), evaluation }

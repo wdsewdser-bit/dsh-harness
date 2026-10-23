@@ -20,6 +20,7 @@ import {
 } from 'node:fs'
 import { dirname } from 'node:path'
 import { randomUUID } from 'node:crypto'
+import { isDeepStrictEqual } from 'node:util'
 
 const DEFAULT_LOCK_TIMEOUT_MS = 10_000
 const STALE_LOCK_MS = 30_000
@@ -149,11 +150,12 @@ export function readDurableJson(file, { fallback } = {}) {
   return readExisting(file, fallback)
 }
 
-export function updateDurableJsonSync(file, updater, { fallback, lockTimeoutMs } = {}) {
+export function updateDurableJsonSync(file, updater, { fallback, lockTimeoutMs, skipUnchanged = false } = {}) {
   if (typeof updater !== 'function') throw new TypeError('durable updater must be a function')
   const { lock, token } = acquireLock(file, lockTimeoutMs)
   try {
     const document = readExisting(file, fallback)
+    const before = skipUnchanged === true ? clone(document) : undefined
     const previousRevision = document !== null && typeof document === 'object' && !Array.isArray(document)
       ? (Number.isFinite(Number(document.revision)) ? Number(document.revision) : 0)
       : 0
@@ -161,6 +163,10 @@ export function updateDurableJsonSync(file, updater, { fallback, lockTimeoutMs }
     const updated = document !== null && typeof document === 'object' && !Array.isArray(document)
       ? document
       : (result !== null && typeof result === 'object' && !Array.isArray(result) ? result : { value: result })
+    if (skipUnchanged === true && isDeepStrictEqual(before, updated)) {
+      assertLockOwner(lock, token)
+      return result === undefined ? updated : result
+    }
     updated.revision = previousRevision + 1
     assertLockOwner(lock, token)
     atomicWrite(file, updated)

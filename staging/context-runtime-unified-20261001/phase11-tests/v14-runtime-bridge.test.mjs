@@ -9,6 +9,14 @@ import { apply, authorizeRequirementRecord, authorizeWaitingAction, inject } fro
 test('Team runtime declares services required by native Agent publication and completion', () => {
   for (const service of ['sessionQuery', 'sessions', 'goals', 'contextWorkspace']) assert.ok(inject.includes(service), service)
 })
+
+test('registered SDK describes the exact ordinary delivery commit binding fields', () => {
+  const tool = harness({ name: 'root', tier: 0 }).teamTool()
+  for (const field of ['sourceIdentity:preview.sourceIdentity', 'coverageMatrixHash:preview.coverageMatrixHash',
+    'sourceRevisionVector:preview.sourceRevisionVector', 'not expectedSourceRevisionVector', 'previewToken alone']) {
+    assert.ok(tool.description.includes(field), field)
+  }
+})
 import { controlPlaneFor, controlPlaneForMember, readControlPlaneSnapshot, resetControlPlaneCache } from '../home/profiles/web/plugins/team-control-plane.mjs'
 import { createWakeState, enqueueInboxMessage, requestWake } from '../home/profiles/web/plugins/team-v12-room-wake.mjs'
 import { createRequirementLedger } from '../home/profiles/web/plugins/team-v14-requirements.mjs'
@@ -441,6 +449,42 @@ async function seedWake(h, { inbox = [], roomAccess = {} } = {}) {
     return doc
   })
 }
+
+async function seedAckWake(h, target) {
+  return h.seed('test/wake-ack-contract', state => {
+    const doc = createWakeState()
+    const requested = requestWake(doc, { target, sender: 'root', messageId: 'ack-contract-message',
+      originalText: 'wake acknowledgement contract', reason: 'regression', dedupeKey: 'ack-contract', wakeup: true })
+    assert.equal(requested.ok, true)
+    state.v12RoomWake = doc
+    state.dispatches['ack-contract-dispatch'] = { dispatchId: 'ack-contract-dispatch',
+      target, sender: 'root', status: 'completed', pendingMessages: [{
+        messageId: 'ack-contract-message', status: 'delivered', originalText: 'wake acknowledgement contract' }] }
+    return requested.wake.wakeId
+  })
+}
+
+test('registered inbox_ack accepts an exact own wake ID and preserves durable idempotence', async () => {
+  const h = harness()
+  const wakeId = await seedAckWake(h, 'alice')
+  const tool = h.teamTool(), exec = execFor(h, 'team_v12')
+  const ack = await tool.execute({ action: 'inbox_ack', wake_id: wakeId }, exec)
+  assert.equal(ack.ok, true)
+  assert.equal(h.cp.snapshot().v12RoomWake.wakes[wakeId].status, 'handled')
+  assert.equal(h.cp.snapshot().v12RoomWake.inbox['ack-contract-message'].status, 'handled')
+  assert.equal(h.cp.snapshot().dispatches['ack-contract-dispatch'].pendingMessages[0].status, 'handled')
+  assert.equal((await tool.execute({ action: 'inbox_list' }, exec)).inbox.length, 0)
+  assert.equal((await tool.execute({ action: 'inbox_ack', wake_id: wakeId }, exec)).ok, true)
+})
+
+test('registered inbox_ack rejects a foreign wake even when caller input asks for cross-target access', async () => {
+  const h = harness()
+  const wakeId = await seedAckWake(h, 'bob')
+  await assert.rejects(h.teamTool().execute({ action: 'inbox_ack', wake_id: wakeId,
+    input: { allowOtherTarget: true } }, execFor(h, 'team_v12')), /scope|target|other member/i)
+  assert.notEqual(h.cp.snapshot().v12RoomWake.wakes[wakeId].status, 'handled')
+  assert.notEqual(h.cp.snapshot().v12RoomWake.inbox['ack-contract-message'].status, 'handled')
+})
 
 test('post hook mirrors result.value even when next blocks and persists a compact receipt', async () => {
   const h = harness()

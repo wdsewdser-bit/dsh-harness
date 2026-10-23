@@ -329,6 +329,56 @@ test('actual retry hook receives sampling abort and cannot dispatch old generati
   assert.equal(requests,2);
   assert.equal(f.session.deriveMessages().filter(m=>m.source?.rpcId==='new').length,1);
 });
+test('actual driver releases sampling watchers after repeated preemption and settled turns', {timeout:5000}, async()=>{
+  const f=await setup();let active=0,subscriptions=0,requests=0,started;
+  const subscribe=f.bridge.subscribe.bind(f.bridge);
+  f.bridge.subscribe=listener=>{
+    active++;subscriptions++;const unsubscribe=subscribe(listener);let disposed=false;
+    return()=>{if(!disposed){disposed=true;active--;}unsubscribe();};
+  };
+  adapter(f,request=>(async function*(){
+    requests++;
+    if(requests%2===1){
+      yield {type:'text-delta',index:0,text:'obsolete'};started.resolve();
+      await new Promise((_,reject)=>{
+        const fail=()=>reject(request.signal.reason);
+        request.signal.addEventListener('abort',fail,{once:true});
+        if(request.signal.aborted)fail();
+      });
+    }else{
+      yield {type:'text-delta',index:0,text:'fresh'};
+      yield {type:'finish',reason:{kind:'stop'}};
+    }
+  })());
+  for(let i=0;i<3;i++){
+    started=deferred();await f.agent.followup(message('start-'+i));await started.promise;
+    assert.equal(active,1);
+    await f.agent.steer(message('steer-'+i));await f.agent.whenIdle();
+    assert.equal(active,0,'settled sampling retained a watcher');
+    assert.equal(f.agent.inbox.hasPending,false);
+  }
+  assert.equal(requests,6);assert.equal(subscriptions,6);
+  const users=f.session.deriveMessages().filter(m=>m.role==='user').map(m=>m.source.rpcId);
+  assert.deepEqual(users,['start-0','steer-0','start-1','steer-1','start-2','steer-2']);
+});
+for(const edge of ['before-finish','terminal-frame'])test('actual conversation completion racing steer at '+edge+' delivers input once', {timeout:5000},async()=>{
+  const f=await setup();let requests=0,accepted;
+  const steer=()=>{accepted??=f.agent.steer(message('completion-race'));};
+  if(edge==='terminal-frame')f.ctx.on('agent/assistant-stream',({frame})=>{if(frame.type==='end'&&requests===1)steer();});
+  adapter(f,()=>(async function*(){
+    requests++;yield {type:'text-delta',index:0,text:requests===1?'first':'successor'};
+    if(requests===1&&edge==='before-finish')steer();
+    yield {type:'finish',reason:{kind:'stop'}};
+  })());
+  await f.agent.followup(message('start'));await f.agent.whenIdle();
+  assert.ok(accepted,'race edge was not exercised');await accepted;await f.agent.whenIdle();
+  assert.equal(requests,2);assert.equal(f.agent.inbox.hasPending,false);
+  const history=f.session.deriveMessages();
+  assert.deepEqual(history.filter(m=>m.role==='user').map(m=>m.source.rpcId),['start','completion-race']);
+  assert.equal(history.filter(m=>m.role==='assistant'&&m.content.some(b=>b.text==='successor')).length,1);
+  const restored=Session.create(f.session.id,f.session.snapshotEvents());
+  assert.equal(new ReactLoopInbox(f.projections,restored,{emit(){}}).hasPending,false);
+});
 test('actual API prompt waits for durable acceptance, including duplicate retry',async()=>{
   const barrier=deferred();const f=await setup({flush:async()=>{await barrier.promise;return true;}});
   f.ctx.provide('attachments',{admitPromptContent:async content=>content});

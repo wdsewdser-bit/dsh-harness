@@ -62,6 +62,42 @@ const documentFile = () => join(memoDir, createHash('sha256').update('fixture-te
 const controlBefore = readFileSync(controlPlaneFile('fixture-team-a', { directory: controlDir }), 'utf8')
 after(() => { resetControlPlaneCache(); resetPolicyServices(); if (oldHome === undefined) delete process.env.DSH_HOME; else process.env.DSH_HOME = oldHome; rmSync(directory, { recursive: true, force: true }) })
 
+test('empty preview reports a missing proposal without a generic service failure', () => {
+  const agent = member('fixture-empty-preview', 'alice', 2, 'red')
+  seed('fixture-empty-preview')
+  assert.equal(manage('state', {}, agent).ok, true)
+  assert.equal(manage('preview', {}, agent).code, 'PROPOSAL_UNAVAILABLE')
+  assert.equal(manage('preview', { proposalId: 'missing' }, agent).code, 'PROPOSAL_UNAVAILABLE')
+  assert.equal(manage('preview', { operations: [] }, agent).ok, true)
+})
+
+test('proposal lifetime uses one clock sample even when time advances between calls', () => {
+  const agent = member('fixture-proposal-clock', 'alice', 2, 'red')
+  seed('fixture-proposal-clock')
+  let tick = 1700000000000
+  const stepped = createContextWorkspaceService(ctx, { ...config, now: () => tick++ })
+  const proposal = stepped.manage(agent, { action: 'propose', input: { expectedRevision: 0, operations: [] } })
+  assert.equal(proposal.ok, true, JSON.stringify(proposal))
+  const committed = stepped.manage(agent, { action: 'commit', input: { expectedRevision: 0, proposalId: proposal.proposalId } })
+  assert.equal(committed.ok, true, JSON.stringify(committed))
+  assert.equal(committed.viewRevision, 1)
+})
+
+test('maximum memo TTL remains readable with an advancing clock and still expires', () => {
+  const agent = member('fixture-memo-clock', 'alice', 2, 'red')
+  seed('fixture-memo-clock')
+  let tick = 1700000000000
+  const stepped = createContextWorkspaceService(ctx, { ...config, now: () => tick++ })
+  const ttlMs = 30 * 86400000
+  const row = stepped.manage(agent, { action: 'memo_put', input: { expectedRevision: 0, sourceId: 'max-ttl', text: 'bounded memo', ttlMs } })
+  assert.equal(row.ok, true, JSON.stringify(row))
+  const fetched = stepped.manage(agent, { action: 'memo_get', input: { sourceId: row.sourceId } })
+  assert.equal(fetched.ok, true, JSON.stringify(fetched))
+  assert.equal(fetched.text, 'bounded memo')
+  tick += ttlMs + 10
+  assert.equal(stepped.manage(agent, { action: 'memo_get', input: { sourceId: row.sourceId } }).code, 'SOURCE_EXPIRED')
+})
+
 test('identity comes from live agent and strict input; members and teams remain private', () => {
   const row = put('private', 'private investigation')
   assert.equal(manage('memo_get', { locator: row.locator }).text, 'private investigation')
@@ -117,6 +153,49 @@ test('CAS exact history, parent chain, hash locators, TTL and soft delete preser
   const persisted = JSON.parse(readFileSync(documentFile(), 'utf8'))
   assert.equal(persisted.objects.versions.history[0].text, 'original')
   assert.equal(createContextWorkspaceService(ctx, config).manage(a, { action: 'memo_get', input: { sourceId: 'versions', revision: 1, includeDeleted: true } }).text, 'original')
+})
+
+test('revision capacity never prevents owner security revocation and originals survive cold reopen', () => {
+  let row = put('revoke-at-cap', 'original security-sensitive memo')
+  const original = row
+  for (let n = 1; n < 64; n++) row = put(row.sourceId, 'revision ' + n, { expectedRevision: n })
+  assert.equal(manage('memo_put', { sourceId: row.sourceId, expectedRevision: 64, text: 'overflow' }).code, 'HISTORY_OR_OBJECT_LIMIT')
+  const revoked = manage('memo_put', { sourceId: row.sourceId, expectedRevision: 64, deleted: true })
+  assert.equal(revoked.ok, true, JSON.stringify(revoked))
+  const cold = createContextWorkspaceService(ctx, config)
+  assert.equal(cold.manage(a, { action: 'memo_get', input: { locator: original.locator } }).code, 'SOURCE_DELETED')
+  const history = JSON.parse(readFileSync(documentFile(), 'utf8')).objects[row.sourceId].history
+  assert.equal(history.length, 65)
+  assert.equal(history[0].text, 'original security-sensitive memo')
+  assert.equal(history.at(-1).deleted, true)
+  assert.equal(manage('memo_put', { sourceId: row.sourceId, expectedRevision: 65, text: 'resurrection' }).ok, false)
+})
+
+test('security revocation invalidates a warm projected memo immediately', () => {
+  const agent = member('cache-team', 'alice', 2, 'red')
+  seed('cache-team')
+  const live = createContextWorkspaceService(ctx, { ...config, now: Date.now })
+  const local = (action, input = {}) => live.manage(agent, { action, input })
+  const row = local('memo_put', { sourceId: 'warm-revoke', text: 'must disappear immediately', expectedRevision: 0 })
+  const candidate = local('propose', { operations: [operation('select', row)], expectedRevision: 0 })
+  assert.equal(local('commit', { proposalId: candidate.proposalId, expectedRevision: 0 }).ok, true)
+  const application = createContextWorkspaceService(ctx, { ...config, now: Date.now, mode: 'apply', appliedSessionIds: [agent.session.id] })
+  const options = branded({ ...request, sessionId: agent.session.id })
+  assert.equal(application.project(options).contextWorkspace.status, 'applied-allowlisted')
+  assert.equal(local('memo_put', { sourceId: row.sourceId, expectedRevision: 1, deleted: true }).ok, true)
+  const revoked = application.project(options)
+  assert.equal(revoked.contextWorkspace.status, 'failed-open')
+  assert.equal(revoked.contextWorkspace.code, 'SOURCE_DELETED')
+})
+
+test('expired cited evidence cannot prevent owner memo revocation', () => {
+  const dependency = put('revoke-expiring-dependency', 'short lived', { ttlMs: 1 })
+  const row = put('revoke-dependent', 'owned content', { evidenceRefs: [ref(dependency)] })
+  clock += 2
+  assert.equal(manage('memo_put', { sourceId: row.sourceId, expectedRevision: 1, text: 'retry normal update' }).code, 'SOURCE_EXPIRED')
+  const revoked = manage('memo_put', { sourceId: row.sourceId, expectedRevision: 1, deleted: true })
+  assert.equal(revoked.ok, true, JSON.stringify(revoked))
+  assert.equal(manage('memo_get', { locator: row.locator }).code, 'SOURCE_DELETED')
 })
 
 test('cross-process writers reload under v14 lock; exactly one wins the object CAS', async () => {

@@ -263,7 +263,7 @@ test('idle watch does not duplicate a durable reminder after plugin reload', asy
   }
 })
 
-test('idle watch retries the same stalled progress after the bounded retry window', async () => {
+test('idle watch does not retry delivered unchanged progress merely because time passed', async () => {
   const dir = mkdtempSync(join(tmpdir(), 'v14-idle-retry-'))
   const rootId = 'retry-idle-root'
   const f = fixture(rootId)
@@ -302,6 +302,11 @@ test('idle watch retries the same stalled progress after the bounded retry windo
     try {
       f.hooks.get('agent/status')({ agent: f.root, status: 'running' })
       await waitFor(() => f.delivered.length === 1)
+      await sleep(100)
+      assert.equal(f.delivered.length, 1)
+      await cp.mutate('fixture/new-work', {}, f.root, (state) => {
+        state.boards.main.tasks.open.phase = 'execution'
+      })
       await waitFor(() => f.delivered.length === 2)
     } finally {
       if (typeof dispose === 'function') dispose()

@@ -497,12 +497,12 @@ export function apply(ctx, rawConfig = {}) {
   // and the settings page cannot diverge.
   try {
     const section = readSettings()
-    if (section !== undefined) writeReducerSettings(section)
+    if (section !== undefined) writeReducerSettings(section, section.settingsFile || rawConfig.settingsFile || DEFAULT_SETTINGS_FILE)
     ctx.on('settings/document-updated', (namespace) => {
       if (namespace !== 'evidence-reducer') return
       try {
         const current = readSettings()
-        if (current !== undefined) writeReducerSettings(current)
+        if (current !== undefined) writeReducerSettings(current, current.settingsFile || rawConfig.settingsFile || DEFAULT_SETTINGS_FILE)
       } catch (error) {
         // Live Settings remains authoritative; surface a mirror failure instead of
         // making the JSON compatibility file look like the accepted write.

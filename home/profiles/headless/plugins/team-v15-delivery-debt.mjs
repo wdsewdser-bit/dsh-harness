@@ -1,12 +1,62 @@
 import { readFileSync, realpathSync, statSync } from 'node:fs'
+import { createHash } from 'node:crypto'
 import { isAbsolute, relative } from 'node:path'
 import { planDeliveryHash } from './team-v15-plan-delivery.mjs'
-import { completeContextBaseline, durableContextVersions } from './team-v14-context-delivery.mjs'
+import { completeContextBaseline, durableContextVersions, committedContextEpoch } from './team-v14-context-delivery.mjs'
 import { waitingTicketActive } from './team-v14-waiting.mjs'
 
 const text = value => String(value ?? '').trim()
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value)
 const fail = code => { throw Object.assign(new Error(code), { code }) }
+
+/** Derive required recovery from the native journal, not caller/summary claims. */
+export function collectPrunedHistoryDebt(state, agent) {
+  const session = agent?.session
+  if (!session) return []
+  const log = session.log ?? session.snapshotEvents?.()
+  if (!Array.isArray(log)) fail('DELIVERY_PRUNED_HISTORY_UNAVAILABLE')
+  const epoch = committedContextEpoch(session)?.compactionId ?? 'initial'
+  const debts = new Map(), events = new Map(log.map(event => [event.seq, event])), store = state?.v15HistoryRecall ?? {}
+  for (const prune of log) {
+    if (prune.type !== 'compaction/prune') continue
+    if (!Array.isArray(prune.data?.shadowedSeqs) || !prune.data.shadowedSeqs.length) {
+      const id = `pruned-history:${session.id}:unknown:${prune.seq}`
+      debts.set(id, { id, status: 'required', reason: 'PRUNED_HISTORY_SOURCE_UNAVAILABLE', contextEpoch: epoch, pruneSeq: prune.seq })
+      continue
+    }
+    for (const seq of prune.data?.shadowedSeqs ?? []) {
+      let source = events.get(seq), seen = new Set()
+      while (source?.type === 'tool/result' && !seen.has(source.seq)) {
+        seen.add(source.seq)
+        const parents = (source.sourceEventSeqs ?? []).map(id => events.get(id))
+          .filter(event => event?.type === 'tool/result' && event.data?.message?.toolCallId === source.data?.message?.toolCallId)
+        if (!parents.length) break
+        if (parents.length !== 1) { source = null; break }
+        source = parents[0]
+        if (seen.has(source.seq)) { source = null; break }
+      }
+      const sourceHash = source?.type === 'tool/result' ? createHash('sha256').update(JSON.stringify(source)).digest('hex') : null
+      const id = `pruned-history:${session.id}:${source?.seq ?? seq}`
+      const sourceRef = { sessionId: session.id, seq: source?.seq ?? seq, sourceRevision: source?.seq ?? seq, sourceHash }
+      const dispatched = sourceHash && Object.values(store.descriptors ?? {}).some(descriptor => {
+        if (descriptor.readerSessionId !== session.id || descriptor.pairingComplete !== true
+          || descriptor.sourceRef?.sessionId !== session.id || descriptor.sourceRef?.seq !== source.seq
+          || descriptor.sourceRef?.sourceHash !== sourceHash) return false
+        const progress = store.reads?.[descriptor.locator]
+        return [progress?.modelDeliveryReceipt, progress?.artifactDeliveryReceipt].some(receipt =>
+          ['full-dispatched', 'full-artifact-dispatched'].includes(receipt?.status)
+          && receipt.readerSessionId === session.id && receipt.contextEpoch === epoch
+          && receipt.observedSessionSeq > prune.seq && receipt.sourceRef?.sourceHash === sourceHash
+          && receipt.sourceRef?.sessionId === session.id && receipt.sourceRef?.seq === source.seq
+          && receipt.sourceRef?.artifactHash === descriptor.sourceRef.artifactHash)
+      })
+      if (!dispatched) debts.set(id, { id, status: 'required', reason: sourceHash ? 'PRUNED_HISTORY_EXACT_DISPATCH_REQUIRED' : 'PRUNED_HISTORY_SOURCE_UNAVAILABLE',
+        sourceRef, contextEpoch: epoch, pruneSeq: prune.seq })
+      else debts.delete(id)
+    }
+  }
+  return [...debts.values()]
+}
 function map(value, required = false) {
   if (value === undefined && !required) return {}
   if (!object(value)) fail('DELIVERY_DEBT_STATE_INVALID')
@@ -158,15 +208,34 @@ export function collectRuntimeDeliveryDebt(state, plan, { milestones, inputs, me
     const epoch = wake.contextEpochs?.[input.sessionId]
     const validDispatch = row => row.dispatch?.handedToAdapter === true && row.dispatch.stage === 'handed-to-adapter' && text(row.dispatch.requestId)
     const currentReceipts = epoch?.compactionId ? receipts.filter(row => row.baselineId === epoch.compactionId) : receipts
-    if (epoch?.compactionId && !currentReceipts.some(row => row.baselineComplete === true && completeContextBaseline(row) && validDispatch(row))
-      && !cursors.some(row => row.baselineId === epoch.compactionId && completeContextBaseline(row.baselineProof))) {
+    const currentBaseline = epoch?.compactionId && (currentReceipts.some(row => row.baselineComplete === true && completeContextBaseline(row) && validDispatch(row))
+      || cursors.some(row => row.baselineId === epoch.compactionId && completeContextBaseline(row.baselineProof)))
+    if (epoch?.compactionId && !currentBaseline) {
       unresolvedDebt.add('context-baseline:' + input.member + ':' + epoch.compactionId)
     }
     // v3 cursors inherit older hashes; they cannot certify a new window's body.
     const known = durableContextVersions([...currentReceipts, ...(epoch?.compactionId ? [] : cursors)], { member: input.member, sessionId: input.sessionId })
-    const debt = [...receipts.flatMap(row => row.debt ?? []), ...cursors.flatMap(row => Object.entries(map(row.noticeVersions)).map(([id, hash]) => ({ id, hash })))]
-    for (const row of debt) if (known.get(row.id) !== row.hash) unresolvedDebt.add('context-fetch:' + input.member + ':' + row.id + ':' + row.hash)
-    contextFacts[input.sessionId] = { epoch: epoch ?? null, debt, known: [...known.entries()].sort() }
+    // A complete dispatched baseline inventories the new window's live sources.
+    // Before that barrier, older-window notices remain conservative debt.
+    const debtReceipts = currentBaseline ? currentReceipts : receipts
+    const debtCursors = currentBaseline ? cursors.filter(row => text(row.epochId ?? row.baselineId) === epoch.compactionId) : cursors
+    const revisions = new Map(), exactRevisions = new Map()
+    for (const receipt of debtReceipts) for (const row of [...(receipt.debt ?? []), ...(validDispatch(receipt) ? receipt.items ?? [] : [])]) {
+      if (Number.isSafeInteger(row.revision) && row.revision >= 0) {
+        revisions.set(row.id, Math.max(revisions.get(row.id) ?? -1, row.revision))
+        exactRevisions.set(JSON.stringify([row.id, row.hash]), row.revision)
+      }
+    }
+    const debt = [...debtReceipts.flatMap(row => row.debt ?? []), ...debtCursors.flatMap(row => Object.entries(map(row.noticeVersions))
+      .map(([id, hash]) => ({ id, hash, revision: exactRevisions.get(JSON.stringify([id, hash])) })))]
+    const superseded = currentBaseline ? receipts.filter(row => row.baselineId !== epoch.compactionId)
+      .flatMap(row => (row.debt ?? []).map(item => ({ ...item, byEpoch: epoch.compactionId }))) : []
+    for (const row of debt) {
+      if (Number.isSafeInteger(row.revision) && row.revision < revisions.get(row.id)) {
+        superseded.push({ ...row, byRevision: revisions.get(row.id) })
+      } else if (known.get(row.id) !== row.hash) unresolvedDebt.add('context-fetch:' + input.member + ':' + row.id + ':' + row.hash)
+    }
+    contextFacts[input.sessionId] = { epoch: epoch ?? null, debt, superseded, known: [...known.entries()].sort() }
   }
   const ledgerFacts = { requirements: rows(requirements.requirements).filter(relevant), decisions: rows(requirements.decisions).filter(relevant) }
   const reads = rows(state.v15PlanReadReceipts).filter(row => row.planId === plan.planId && row.planRevision === plan.planRevision)

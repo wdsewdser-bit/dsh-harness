@@ -96,7 +96,7 @@ S5 的通用 Instruction Registry 和阈值 0.78/0.86 不机械落地；按 S1 �
 
 ## 3. 需求追踪与依赖
 
-以下 ID 作为施工/验收索引。状态 `planned` 表示本文已定义、尚未实施；conditional 表示需满足触发条件后实现并保持 opt-in。不得在合并计划时丢掉来源中的强制项。
+以下 ID 作为施工/验收索引。状态列保留历次实现与部署记录；本轮最新的 retained staging 验收、明确停止的扩围与启用边界统一以 §16 的 Plan-Revision: 3 为准，不能把旧 partial 当作当前仍缺实现。conditional 表示需满足触发条件并保持 opt-in。不得在合并计划时丢掉来源中的强制项。
 
 | ID | 需求与来源 | 当前状态 | 前置依赖 | 必需验收 |
 | --- | --- | --- | --- | --- |
@@ -467,19 +467,24 @@ W1 比较原完整request与窗口projection，核实原journal未变；W2比较
 
 ## 16. 施工登记与最终交付
 
-根代理逐检查点更新本表，或在既有平台ledger引用本表ID；路径以实际登记为准。不能把空白表作为已完成证据。
+Plan-Revision: 3
+Delivery-Spec-Revision: retained-staging-20261017-r1
+
+本节是原25个主ID的最新限域交付说明，不是新平台计划。保留原需求ID及原文，汇总当前staging源码、既有历史限域证据与本轮真实消费面；生产部署、strict-plan B、W1常规启用、W2扩围、经济auto均不属于本次收口。W2保留现有allowlist/manual能力，不将未做扩围标为已实现。全部“完成”限定为下表合同，不等于整个DSH平台或生产启用完成。
+
+最终依据为 `output/overall-staging-closeout-20261017/final-result.json`、其25项原规范canonical plan receipt及独立读回。只有实际回执覆盖25项、当前source/vector一致且 `retainedStagingAccepted=true` 才算本规范收口；汇总文件存在、自然10项fixture或单条v12Evidence记录都不能替代它。规范Plan-Revision3、独立注册机器合同的planRevision和自然fixture planRevision分别绑定，不能混称同一版本。
 
 | 检查点 | 实现状态 | 改动路径与before/after hash | 最小验证命令/结果/evidence locator | disk/loaded/consumed状态 | 回滚入口/剩余 |
 | --- | --- | --- | --- | --- | --- |
-| E0 | 基线与备份已核验 | e0/native backup manifests，详见execution-ledger | baseline 688/686/1 fail/1 skip | 原采样已登记；部署前需刷新 | 尚未部署 |
-| E1 | staging partial | staging/plugin-change-manifest.json；详见execution-ledger最新检查点 | 最新全量804/801/2fail/1skip为修复前记录，其中本轮runtime回归已聚焦修复，SCHEMA_DRIFT仍保留；债务35/35、实现证明与实际runtime/权限32/32 | disk/tested，19模块四profile一致；production loaded/consumed未证 | P1-06登记、全文读取、durable goal/outbox、债务及实现载体证明已接staging；真实test/acceptance/runtime-load生产者、非Team/UI及自然验收仍待 |
-| E2 | staging partial | staging/native-change-manifest.json及home/team-roles | 原生边界15项、留尾5项；身份四角色真实reader与五hash校验 | disk/tested；next-turn及模型质量未证 | N-01真实摘要质量/恢复读取、C-03运行收敛尚待 |
-| E3 | 隔离 accepted，生产 off | 见 execution-ledger W-00/W-01 各检查点与 §3 状态列 | 同上；最新全量 215 文件 1268/1267/0 fail/1 skip（2026-10-06 07:17 UTC，`output/regressions/2026-10-06T07-17-17-738Z-57f50c0e`） | disk/tested；loaded/consumed 未证 | 未部署，未启用 |
-| E4 | 隔离 accepted，生产 off | 见 execution-ledger W-02 各检查点（10-03 22:24 三轮自然恢复） | 同 E3 全量 | disk/tested；loaded/consumed 未证 | 启用前须处理 read lease 窗口内断线与生产 gateway 无 handler 回调 |
-| E5 | staging partial | 见 execution-ledger W-03 与 T-01 检查点 | pure/runtime 测试绿，natural/live 未验 | disk/tested；shadow/auto false | 经济策略未启用 |
-| E6 | scoped staging accepted；完整矩阵仍partial | execution-ledger；ptc-background-20261011.md | 最新230files/1485tests/1484pass/0fail/1skip；共享70/70；真实UI queue→steer→后台回执，原生Team消息及多时点crash通过 | 隔离host disk/loaded/consumed已证，fixture adapters/0external；生产off | 实际provider质量、交互approval和生产审查尚待；不把局部验收等同完整E6 |
-| E7 | 用户明确需求；scoped staging accepted，生产off | ptc-background-20261011.md；output/ptc-background-20261011/acceptance.json；隔离default持久evidence record | runtime16/16、共享70/70、当前全量零失败；真实Web UI+原生Team/1child；receipt/crash/unknown/large artifact/notification幂等 | 同一original runtime一次启动；隔离loaded/consumed、cold replay已证；没有真实provider或生产enable结论 | 独立security review、live交互approval、真实provider质量及production opt-in未完成；整个E0-E8仍partial |
-| E8 | pending/shadow | 待填 | 待填 | unknown | auto单独登记 |
+| E0/B-01 | 当前源码、基线、备份与物理映射已核对 | `output/e1-session-cold-final-20261017/stage-source-inventory.json`；源码6457ba5e、162载体、native58、before lineage保留 | 当前242文件全量1646通过/0失败/1既有跳过；`output/regressions/2026-10-17T09-15-06-293Z-f8682037` | 4逻辑profile对应2物理目录、58插件hash一致；新隔离宿主已消费 | 生产未新增部署；未演练生产回滚 |
+| E1/P1-01至06 | 当前6主项/43子合同与真实消费面限域通过 | 重复plan-read确认修复及15负控；非Team本地任务沿用现有normalizer修复冷读receipt任务hash漂移，跨进程红例后23/23绿且真实task变更仍拒绝；备份 `backups/session-cold-task-20261017` | `output/e1-session-cold-final-20261017/final-result.json`；当前真实UI partial→accepted→source变化partial、69事件冷恢复；当前全量1646通过 | 磁盘/隔离加载/消费已证；独立canonical evidence读回；25项收口另需真正cache-cold accepted | 原规范25项回执单独绑定；不等同生产启用 |
+| E2/C/N/H | 7主项/13子合同限域通过 | `output/e2-context-closeout-20261017/final-result.json`；历史source差异15项明示，以当前全量与真实自然链补充 | 实际Team root执行包c7b01e6f：state/memo CAS/decision revision/checkpoint、3次actual manual summary、exact history与当前plan全文dispatch、10项proof及native accepted；与当前包仅非Team任务normalizer一文件差异，其余161载体同hash | 原始失败13请求保留，修后11请求；总24未加预算；新进程JSONL及17负控通过；精确差异和当前local route另验，不冒称新自然重跑 | 模型额外解释文本、accepted=false业务维度及offline verifier修正明示；不宣称全Team经济收益 |
+| E3/W-00/T-01 | W0与telemetry限域shadow通过 | 原始checkpoint/usage合同及当前回归、自然链证据 | authority优先、unknown保持未知；checkpoint真实retention debt保留 | shadow；未伪作W2成功切窗 | 不自动启用 |
+| E4/W-01/A-01 | 历史有界质量配对接受，常规W1保持off | `output/original-scope-reconciliation-20261017/result.json`核对原journal/请求hash | 两臂质量证据保留；不声称当前全工作流matched收益 | 仅历史隔离scope，不冒充当前生产收益 | 不重开已决定停止的常规W1 |
+| E5/W-02 | 保留既有allowlist/manual实现，扩围明确不做 | 当前window-transition等载体与既有故障/恢复证据；决策见 `docs/handoff-continuation-20261013.md` | 当前全量涵盖既有允许范围；未新作扩大名单实验 | 新自然链只做W0与manual summary，不冒充W2 transition | 不增生产调用方、不扩大名单 |
+| E6/I-01/02/03 | 16个有界Instant/API/UI/生命周期合同通过 | `output/original-scope-reconciliation-20261017/result.json`逐项映射实际测试 | lost wakeup、retry/admission、真实world-state回执、Web superseded显示、窗口/压缩竞态；当前全量1646通过 | 隔离API/Web/native证据；当前PTC补充另列 | 非所有provider/sandbox通用安全批准 |
+| E7/J-01 | 需求触发后的有界detached PTC通过，生产off | `output/ptc-approval-20261017/final-result.json`与独立canonical读回 | 28项owner-drain、安全复核、2次实际审批UI、4次真实provider请求及3次冷读 | 原original实例后台执行不重跑；fresh/stale审批边界真实验证 | 不泛化为全部shell/文件系统安全 |
+| E8/W-03/D-01 | 8项经济shadow合同、profile/启用矩阵与正式计划回执 | `output/overall-staging-closeout-20261017`；本规范SHA/差异、25项覆盖和canonical plan单独绑定 | 只有实际25项receipt+native/冷读+v12Evidence独立登记读回全齐才收口 | 价格/cache-write/reasoning/费用仍unknown，auto off；active HMR未做 | 无新增生产部署、commit/push或自动启用 |
 
 | 生产部署 2026-10-06 | 已部署并核验（Claude） | 文件 126 + 同包副本 11 + `team-v12-runtime.mjs` 再部署 2；配置：`step-compaction` 的 `minMilestoneFoldTokens: 200000`、`cacheWriteReadRatio: 50`，`team-v12-runtime` 的 `hypothesis.enabled: true`、`activeIdentity: { enabled, hostBootstrap, allowedRoots }`；before/after hash 在各备份目录的 `deploy-backup.json` / `config-backup.json` | 部署后 `deploy-production.mjs --plan` toWrite 0；生产主机启动日志 0 error；test 工作区冷恢复会话与全新会话各 1 回合 `completed` | disk/loaded/consumed 均已证（仅上述两类会话，未覆盖多成员 Team） | 备份：`backups/context-runtime-production-{deploy-20261006,deploy-20261006-copies,hypothesis-20261006,identity-20261006}`；回滚命令见 execution-ledger 约 22:05 检查点，未演练。W1/W2/W3/async PTC 在生产仍未启用 |
 | W2 乐观提交 2026-10-06 | staging accepted，未部署 | `team-v15-window-{participation,transition,surface}.mjs`（web/headless 一致，清单与 pin 已刷新）；备份 `backups/context-runtime-w2-optimistic-20261006` | 全量 215 文件 1302/1301/0 fail/1 skip；切窗相关 5 文件 87/87 | disk/tested；生产无调用方 | 生产接线（调用方、路由证书续签、恢复重试、会话范围策略）未做；遗留项见 execution-ledger 约 22:20 检查点 |

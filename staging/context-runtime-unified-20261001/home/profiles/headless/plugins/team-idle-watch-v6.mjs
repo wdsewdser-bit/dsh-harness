@@ -9,11 +9,11 @@
  * The rule is deterministic rather than advisory: once the Lead AND every live subordinate
  * have been non-running for settleMs, the Lead is WOKEN with one reminder. A quiet inject
  * would be useless here — the Lead is idle with nothing in its inbox, so nothing would ever
- * read it. The reminder fires at most once per stop episode: any member going back to
- * running (including the Lead) starts a new episode.
+ * read it. A delivered reminder is not repeated until genuine input, a task fact,
+ * or an explicit responsibility deadline changes.
  *
- * There is no lifetime or no-progress cap by default. A new stop episode always gets its
- * one reminder; an operator may still set maxReminders explicitly as an absolute backstop.
+ * There is no lifetime cap by default. New input or task facts rearm the reminder;
+ * time passing and the observer's own wake are not new work.
  */
 import { createUserMessage } from '@deepseek-ai/dsh-llm'
 import { controlPlaneFor, hashControlValue, teamRootIdCandidates } from './team-control-plane.mjs'
@@ -97,6 +97,53 @@ export function idleProgressHash(state) {
   } catch {
     return 'unknown'
   }
+}
+
+const inputCursors = new WeakMap()
+const OBSERVER_INPUTS = new Set(['team-idle-watch', 'team-activity-digest'])
+
+/** Keep the latest genuine input stable across observer-only turns and reloads. */
+function latestIdleInput(session) {
+  if (typeof session?.eventAt !== 'function' || !Number.isInteger(session.seq)) return null
+  let cursor = inputCursors.get(session)
+  if (cursor === undefined || cursor.seq > session.seq) cursor = { seq: 0, input: null }
+  for (let seq = cursor.seq; seq < session.seq; seq++) {
+    const event = session.eventAt(seq)
+    if (event?.type !== 'user/message') { cursor.quietBatch = undefined; continue }
+    const source = event.data?.source
+    if (source?.kind === 'runtime-context'
+      || (source?.kind === 'team-message' && source?.plugin === 'team-v12-runtime' && source?.form === 'snapshot')) continue
+    if (OBSERVER_INPUTS.has(source?.plugin)) {
+      // A queued quiet batch drained in this same reminder turn is already observed.
+      if (source?.plugin === 'team-idle-watch' && cursor.quietBatch !== undefined) cursor.input = cursor.quietBatch
+      cursor.quietBatch = undefined
+      continue
+    }
+    const quiet = source?.kind === 'team-message' && source?.plugin === 'tool-agent-team-v2' && source?.summary === 'team quiet batch'
+    cursor.quietBatch = quiet ? (cursor.quietBatch === undefined ? cursor.input : cursor.quietBatch) : undefined
+    cursor.input = seq
+  }
+  cursor.seq = session.seq
+  inputCursors.set(session, cursor)
+  return cursor.input
+}
+
+/** Exclude timestamps/revision churn and observer receipts from wake identity. */
+export function idleWakeHash(state, root, rows) {
+  const tasks = Object.entries(state?.boards ?? {}).flatMap(([boardId, board]) =>
+    Object.values(board?.tasks ?? {}).map(task => [boardId, task.id, task.status, task.phase,
+      task.lifecycle, task.ownerName, task.blockedBy ?? [], task.contract ?? null, task.writeScopes ?? []]))
+    .sort((a, b) => JSON.stringify(a).localeCompare(JSON.stringify(b)))
+  const roster = (Array.isArray(rows) ? rows : []).map(row =>
+    [row.id ?? row.name, row.name, row.role, row.frozen === true, row.status === 'failed'])
+    .sort((a, b) => String(a[0]).localeCompare(String(b[0])))
+  const waiting = Object.entries(state?.v14Waiting?.tickets ?? {}).map(([id, row]) => {
+    const deadline = row?.nextCheckAt ?? row?.expiresAt
+    const at = typeof deadline === 'string' ? Date.parse(deadline) : Number(deadline)
+    return [id, row?.status, row?.taskId, row?.responsible, row?.unblockCondition,
+      deadline ?? null, Number.isFinite(at) && at > 0 && Date.now() >= at]
+  }).sort((a, b) => String(a[0]).localeCompare(String(b[0])))
+  return hashControlValue({ progress: idleProgressHash(state), tasks, roster, waiting, input: latestIdleInput(root?.session) })
 }
 
 /** The one reminder the Lead gets when its Team went quiet. */
@@ -286,9 +333,15 @@ export function apply(ctx, config) {
   console.log('[team-idle-watch] HMR perf46-operator-stop-wake+ten-minute-retry loaded 2026-09-27')
   const overrides = config === null || config === undefined ? {} : config
   const cfg = Object.assign({}, DEFAULTS, overrides)
+  let disposed = false
+  let generation = 0
+  const pending = new Set()
+  const track = operation => {
+    pending.add(operation)
+    operation.then(() => pending.delete(operation), () => pending.delete(operation))
+  }
   const armed = armedRoots()
   const cadence = idleWatchCadence(cfg)
-  const settleMs = cadence.settleMs
   const scanIntervalMs = cadence.scanIntervalMs
   const roomSpeakerTimeoutMs = Number.isFinite(cfg.roomSpeakerTimeoutMs) && cfg.roomSpeakerTimeoutMs > 0
     ? cfg.roomSpeakerTimeoutMs
@@ -352,14 +405,17 @@ export function apply(ctx, config) {
 
   const check = (teams, root, key) => {
     try {
+      if (disposed) return
       if (root === undefined || root === null) return
       if (!isArmed(armed, key)) return
       if (root.status === 'running') return
-      const state = stoppedState(teams.listMembers(root), root.status)
+      const rows = teams.listMembers(root)
+      const state = stoppedState(rows, root.status)
       if (state.stopped !== true) return
       const cp = durableControl(key)
       const snapshot = cp === undefined ? undefined : cp.view({ history: false })
-      const progress = snapshot === undefined ? undefined : idleProgressHash(snapshot)
+      const progress = idleWakeHash(snapshot, root, rows)
+      let attempt = 1
       if (cp !== undefined) {
         const absoluteBudget = Number.isFinite(cfg.maxReminders) && cfg.maxReminders > 0
           ? cfg.maxReminders
@@ -368,17 +424,17 @@ export function apply(ctx, config) {
           .filter((row) => row.sender === 'team-idle-watch')
           .sort((left, right) => Number(left.createdAt || 0) - Number(right.createdAt || 0))
         const progressSuffix = ':' + String(progress ?? 'unknown')
+        attempt = watchRows.filter(row => String(row.episodeId ?? '').endsWith(progressSuffix)).length + 1
         const now = Date.now()
         const claimedRows = watchRows.filter((row) => String(row.episodeId ?? '').endsWith(progressSuffix)
-          && !['delivery-failed', 'failed', 'cancelled', 'rejected'].includes(String(row.status ?? '').toLowerCase())
-          && now - Number(row.createdAt || 0) < retryAfterMs)
+          && !['delivery-failed', 'run-failed', 'timed-out', 'expired', 'failed', 'cancelled', 'rejected'].includes(String(row.status ?? '').toLowerCase())
+          && (String(row.status) !== 'queued' || now - Number(row.createdAt || 0) < retryAfterMs))
         const latestClaim = claimedRows[claimedRows.length - 1]
         if (latestClaim !== undefined) {
-          holdForRetry(key, retryAfterMs - (now - Number(latestClaim.createdAt || 0)))
+          holdForRetry(key)
           return
         }
-        // Only an explicit maxReminders override can suppress a stop episode. The semantic
-        // progress hash remains in the episode id for diagnostics, but never counts as a cap.
+        // Semantic de-dup is independent of this optional lifetime backstop.
         if (watchRows.length >= absoluteBudget) {
           episodes.set(key, { timer: undefined, reminded: true })
           if (ctx.logger !== undefined) {
@@ -398,27 +454,45 @@ export function apply(ctx, config) {
         source: { kind: 'team-message', plugin: name, form: 'notice', summary: 'team idle watch' },
       })
       if (cp !== undefined) {
+        const episodeId = 'idle:' + key + ':' + String(attempt) + ':' + String(progress)
+        const claimGeneration = generation
+        holdForRetry(key)
         const claim = cp.wakeClaim({
-          episodeId: 'idle:' + key + ':' + String(Math.floor(Date.now() / Math.max(1, settleMs))) + ':' + String(progress ?? 'unknown'),
+          episodeId,
           sender: 'team-idle-watch',
           target: membershipName(root, teams),
           messageHash: hashControlValue(idleReminderText()),
         })
         if (claim && typeof claim.then === 'function') {
-          claim.then((result) => {
+          const operation = claim.then(async (result) => {
             if (result?.claimed === false) return
-            deliverIdle(root, message, key)
-          }).catch(() => {})
+            const currentRows = teams.listMembers(root)
+            if (disposed || claimGeneration !== generation || !isArmed(armed, key)
+              || !stoppedState(currentRows, root.status).stopped || suppressForControlPlane(cp)
+              || progress !== idleWakeHash(cp.view({ history: false }), root, currentRows)) {
+              await cp.wakeAcknowledge({ episodeId, status: 'cancelled' })
+              return
+            }
+            try {
+              await deliverIdle(root, message, key)
+              await cp.wakeAcknowledge({ episodeId, status: 'delivered' })
+            } catch (error) {
+              await cp.wakeAcknowledge({ episodeId, status: 'delivery-failed' })
+              ctx.logger?.warn?.('team-idle-watch delivery failed: ' + String(error?.message ?? error))
+            }
+          }).catch(error => ctx.logger?.warn?.('team-idle-watch claim failed: ' + String(error?.message ?? error)))
+          track(operation)
           return
         }
       }
-      deliverIdle(root, message, key)
+      track(deliverIdle(root, message, key).catch(error => ctx.logger?.warn?.('team-idle-watch delivery failed: ' + String(error?.message ?? error))))
     } catch (error) {
       if (ctx.logger !== undefined) ctx.logger.warn?.('team-idle-watch: ' + ((error && error.message) || String(error)))
     }
   }
 
   const checkRoomTimeouts = async (teams, root, key) => {
+    if (disposed) return
     const cp = durableControl(key)
     if (!isArmed(armed, key) || cp === undefined || root === undefined || root === null || suppressForControlPlane(cp)) return
     const snapshot = cp.view({ history: false })
@@ -639,19 +713,22 @@ export function apply(ctx, config) {
   const membershipName = (root, teams) => {
     try { return teams.tryMembership(root)?.name ?? 'lead' } catch { return 'lead' }
   }
-  const deliverIdle = (root, message, key) => {
+  const deliverIdle = async (root, message, key) => {
+      if (disposed) throw new Error('idle watch disposed before delivery')
       // Waking on purpose: an idle Lead with an empty inbox never reads a quiet inject, and
       // the whole point of this net is the case where nothing else would ever wake it.
       markBackgroundWake(key)
-      if (typeof root.followup === 'function') root.followup(message)
-      else if (typeof root.inject === 'function') root.inject(message)
-      else return
+      if (typeof root.followup === 'function') await root.followup(message)
+      else if (typeof root.inject === 'function') await root.inject(message)
+      else throw new Error('idle target has no delivery path')
       holdForRetry(key, retryAfterMs)
       if (ctx.logger !== undefined) ctx.logger.info?.('team-idle-watch: reminded the Lead of Team ' + key)
   }
 
   const install = (host, teams) => {
     if (teams === undefined || teams === null) return undefined
+    disposed = false
+    const installedGeneration = ++generation
     const bootstrapTeams = (agents, scopedTeams) => {
       if (agents === undefined || agents === null || typeof agents.list !== 'function') return
       const seen = new Set()
@@ -724,8 +801,8 @@ export function apply(ctx, config) {
       void checkRoomTimeouts(teams, membership.root, key)
       void checkRoomClosures(teams, membership.root, key)
       if (status === 'running') {
-        // Work resumed — including the Lead answering a member — so this episode is over and
-        // the next stop deserves its own reminder.
+        // Cancel the pending timer while work runs. Durable semantic de-dup
+        // still distinguishes useful new work from answering this observer.
         cancel(key)
         return
       }
@@ -779,6 +856,10 @@ export function apply(ctx, config) {
     disposers.push(() => clearInterval(scanTimer))
 
     const dispose = () => {
+      if (installedGeneration === generation) {
+        disposed = true
+        generation++
+      }
       for (const close of disposers.splice(0)) {
         try { close() } catch { /* already closed */ }
       }
@@ -786,6 +867,7 @@ export function apply(ctx, config) {
         if (entry.timer !== undefined) clearInterval(entry.timer)
       }
       episodes.clear()
+      return Promise.allSettled([...pending])
     }
     if (typeof host.effect === 'function') host.effect(() => dispose, 'team-idle-watch.scan()')
     return dispose

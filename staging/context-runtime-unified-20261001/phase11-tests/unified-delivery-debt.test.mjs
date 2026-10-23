@@ -5,6 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { collectRuntimeDeliveryDebt, deliveryPendingInput, readDeliveryMilestones } from '../home/profiles/web/plugins/team-v15-delivery-debt.mjs'
 import { collectDeliveryContext } from '../home/profiles/web/plugins/team-v15-delivery-source.mjs'
+import { committedContextCursor } from '../home/profiles/web/plugins/team-v14-context-delivery.mjs'
 import { createHash } from 'node:crypto'
 
 function fixture(t) {
@@ -101,6 +102,63 @@ test('only exact current-session dispatched body clears context fetch debt, not 
   f.state.v14DeliveryReceipts.push({ member: 'alice', sessionId: 'a', items: [{ id: 'contract', hash: 'exact-hash' }],
     dispatch: { handedToAdapter: true, stage: 'handed-to-adapter', requestId: 'current' } })
   assert.ok(!f.collect().unresolvedDebt.includes(debt))
+})
+
+test('a newer witnessed numeric source revision supersedes historical fetch debt without clearing the current revision', t => {
+  const f = fixture(t)
+  const receipt = value => ({ member: 'alice', sessionId: 'a', ...value })
+  const dispatch = { handedToAdapter: true, stage: 'handed-to-adapter', requestId: 'current' }
+  f.state.v14DeliveryReceipts = [
+    receipt({ debt: [{ id: 'contract', hash: 'old', revision: 1 }] }),
+    receipt({ debt: [{ id: 'contract', hash: 'current', revision: 2 }] }),
+  ]
+  assert.deepEqual(f.collect().unresolvedDebt, ['context-fetch:alice:contract:current'])
+  f.state.v14DeliveryReceipts.push(receipt({ items: [{ id: 'contract', hash: 'current', revision: 2 }], dispatch }))
+  assert.deepEqual(f.collect().unresolvedDebt, [])
+  f.state.v14DeliveryReceipts.push(receipt({ debt: [{ id: 'contract', hash: 'next', revision: 3 }] }))
+  assert.deepEqual(f.collect().unresolvedDebt, ['context-fetch:alice:contract:next'])
+  // Redispatching an old body cannot satisfy the new revision or retire its debt.
+  f.state.v14DeliveryReceipts.push(receipt({ items: [{ id: 'contract', hash: 'old', revision: 1 }], dispatch }))
+  assert.deepEqual(f.collect().unresolvedDebt, ['context-fetch:alice:contract:next'])
+})
+
+test('history-only items and opaque revision labels do not authorize supersession', t => {
+  const f = fixture(t)
+  f.state.v14DeliveryReceipts = [
+    { member: 'alice', sessionId: 'a', debt: [{ id: 'contract', hash: 'required', revision: 1 }] },
+    { member: 'alice', sessionId: 'a', items: [{ id: 'contract', hash: 'unhanded', revision: 2 }] },
+    { member: 'alice', sessionId: 'a', debt: [{ id: 'identity', hash: 'opaque-required', revision: 'release-a' }] },
+    { member: 'alice', sessionId: 'a', items: [{ id: 'identity', hash: 'other', revision: 'release-b' }],
+      dispatch: { handedToAdapter: true, stage: 'handed-to-adapter', requestId: 'unrelated' } },
+  ]
+  assert.deepEqual(f.collect().unresolvedDebt, ['context-fetch:alice:contract:required', 'context-fetch:alice:identity:opaque-required'])
+})
+
+test('supersession also reconciles a real v3 cursor retaining the old notice hash', t => {
+  const f = fixture(t), member = 'alice', sessionId = 'a'
+  const old = { debt: [{ id: 'contract', hash: 'old', revision: 1 }] }
+  const current = { items: [{ id: 'contract', hash: 'current', revision: 2 }] }
+  const dispatch = { handedToAdapter: true, stage: 'handed-to-adapter', requestId: 'current' }
+  const previous = committedContextCursor(undefined, [], old, { member, sessionId, dispatch })
+  const receipts = [{ member, sessionId, ...old, dispatch }, { member, sessionId, ...current, dispatch }]
+  const cursor = committedContextCursor(previous, receipts, current, { member, sessionId, dispatch })
+  assert.equal(cursor.noticeVersions.contract, 'old')
+  f.state.v14DeliveryReceipts = receipts
+  f.state.v12RoomWake.contextCursors = { a: cursor }
+  assert.deepEqual(f.collect().unresolvedDebt, [])
+})
+
+test('a complete current-epoch baseline retires old-window source debt; an unhanded baseline cannot', t => {
+  const f = fixture(t), w = f.state.v12RoomWake
+  w.contextEpochs = { a: { compactionId: 'epoch-2', endedAt: 200 } }
+  const old = { member: 'alice', sessionId: 'a', baselineId: 'epoch-1', debt: [{ id: 'revoked-source', hash: 'old' }] }
+  const current = { member: 'alice', sessionId: 'a', baselineId: 'epoch-2', bindingHash: 'source-binding',
+    required: [{ id: 'current-source', hash: 'current' }], items: [{ id: 'current-source', hash: 'current' }],
+    baselineComplete: true }
+  f.state.v14DeliveryReceipts = [old, current]
+  assert.ok(f.collect().unresolvedDebt.includes('context-fetch:alice:revoked-source:old'))
+  current.dispatch = { handedToAdapter: true, stage: 'handed-to-adapter', requestId: 'current-baseline' }
+  assert.deepEqual(f.collect().unresolvedDebt, [])
 })
 
 test('accepted native input with missing or mismatched canonical admission remains pending', () => {

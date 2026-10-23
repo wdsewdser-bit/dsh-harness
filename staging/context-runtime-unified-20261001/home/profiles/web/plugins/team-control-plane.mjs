@@ -60,6 +60,8 @@ import { readDurableJson } from './team-v14-durable-store.mjs'
 import { acquireWindowFileProtection, windowFileProtectionFacts } from './team-v15-window-file-protection.mjs'
 import { contractDigest } from './team-v12-contract.mjs'
 import { auditConsistencyResult } from './team-v12-persistence.mjs'
+import { ensureInboxIndex, captureInbox, updateInboxIndex, queryInbox, operationGet, operationFind,
+  operationRemember, archiveOperations } from './team-control-lifecycle.mjs'
 
 console.warn('[team-control-plane] HMR atomic-wake-claim+perf44-prune-fastpath+perf45-reconcile-fastpath+perf56-bounded-inbox-view+perf58-cold-evidence-compaction+perf60-global-completion-reconcile+member-route-persistence+bind-fix+plan-scope-lock loaded 2026-09-27')
 
@@ -1064,19 +1066,20 @@ export function reconcileState(state, options = {}, at = now()) {
     }
 
     const explicitDeadline = row.deadlineAt === null || row.deadlineAt === undefined ? undefined : Number(row.deadlineAt)
-    const ageBase = Number(row.createdAt || at)
+    const ageBase = Number(row.lastAttemptAt || row.createdAt || at)
     const ageDeadline = ['queued', 'delivered'].includes(row.status) ? ageBase + deliveryTimeoutMs : ageBase + runTimeoutMs
     const deadline = explicitDeadline === undefined ? ageDeadline : Math.min(explicitDeadline, ageDeadline)
     if (deadline > at) continue
 
     if (['queued', 'delivered'].includes(row.status) && row.attempt < maxAttempts) {
       row.attempt += 1
+      row.lastAttemptAt = at
       row.status = 'queued'
       row.deadlineAt = at + deliveryTimeoutMs
       row.lastError = 'delivery deadline expired; retry queued'
       row.resolvedAt = null
       for (const message of Array.isArray(row.pendingMessages) ? row.pendingMessages : []) {
-        if (['handled', 'rejected'].includes(String(message?.status ?? ''))) continue
+        if (['handled', 'rejected', 'acked'].includes(String(message?.status ?? ''))) continue
         message.status = 'queued'
         message.updatedAt = at
       }
@@ -1088,7 +1091,7 @@ export function reconcileState(state, options = {}, at = now()) {
     row.lastError = 'dispatch deadline expired'
     row.resolvedAt = at
     for (const message of Array.isArray(row.pendingMessages) ? row.pendingMessages : []) {
-      if (['handled', 'rejected'].includes(String(message?.status ?? ''))) continue
+      if (['handled', 'rejected', 'acked'].includes(String(message?.status ?? ''))) continue
       message.status = row.status === 'timed-out' ? 'delivery-failed' : row.status
       message.updatedAt = at
     }
@@ -1129,7 +1132,7 @@ export function reconcileHasWork(state, options = {}, at = now()) {
     }
 
     const explicitDeadline = row.deadlineAt === null || row.deadlineAt === undefined ? undefined : Number(row.deadlineAt)
-    const ageBase = Number(row.createdAt || at)
+    const ageBase = Number(row.lastAttemptAt || row.createdAt || at)
     const ageDeadline = ['queued', 'delivered'].includes(row.status) ? ageBase + deliveryTimeoutMs : ageBase + runTimeoutMs
     const deadline = explicitDeadline === undefined ? ageDeadline : Math.min(explicitDeadline, ageDeadline)
     if (!(deadline > at)) return true
@@ -1911,6 +1914,18 @@ function pruneControlPlaneArchive(file, state) {
   }
 
   const protectedDispatches = new Set()
+  // Unconfirmed native admissions must survive terminal-row compaction. The
+  // bounded index holds only digests/references, never private message bodies.
+  for (const [key, entry] of Object.entries(state.wakeAdmissions?.entries ?? {})) {
+    const dispatch = state.dispatches?.[entry.dispatchId]
+    const pending = dispatch?.pendingMessages?.find(row => row.messageId === entry.messageId)
+    if (dispatch?.status === 'completed' || ['handled', 'rejected', 'acked'].includes(String(pending?.status))
+      || pending?.transport?.status === 'cancelled-before-send') {
+      delete state.wakeAdmissions.entries[key]
+    } else {
+      protectedDispatches.add(entry.dispatchId)
+    }
+  }
   for (const episode of Object.values(state.wakeEpisodes ?? {})) {
     if (episode?.dispatchId && !TERMINAL_WAKE_STATES.has(String(episode.status))) {
       protectedDispatches.add(String(episode.dispatchId))
@@ -2239,7 +2254,7 @@ function protectWindowReferences(file, protection, sourceFiles) {
     if(typeof value==='string' && /^[a-f0-9]{64}$/.test(value))digests.add(value)
     else if(value && typeof value==='object')for(const child of Object.values(value))visit(child)
   }
-  for(const refs of [hot.coldHistory,hot.v12RequirementsRef,hot.v12ColdRefs])visit(refs)
+  for(const refs of [hot.coldHistory,hot.v12RequirementsRef,hot.v12ColdRefs,hot.messageOperationArchive])visit(refs)
   const files=[...digests].map(digest=>coldFileFor(file,digest))
   if(files.length)protection.add(files)
   const extra=typeof sourceFiles==='function' ? sourceFiles(protection) : sourceFiles
@@ -2297,6 +2312,7 @@ function load(rootId, config, { history = true, clone = true } = {}) {
       }
       const hydrated = history ? hydrateHistory(parsed, file) : parsed
       const state = normalizeState(rootId, hydrateRequirements(hydrateColdRefs(hydrated, file), file))
+      ensureInboxIndex(state, digest => readCold(file, digest))
       if (!history) rememberRootIndex(file, after, state)
       const cache = readPanelCache(file)
       if (!history) {
@@ -3048,15 +3064,23 @@ function service(rootId, config = {}) {
           v12Events: historyRows(latest, 'v12Events'),
           'v12RoomWake.events': historyRows(latest, 'v12RoomWake.events'),
         }
+        let inboxBefore = captureInbox(latest, digest => readCold(file, digest))
         let outcome = fn(latest)
         if (!historyHydrated && historyMode === 'auto' && historyFingerprint(latest) !== beforeHistory) {
           historyHydrated = true
           latest = load(key, config, { history: true })
+          inboxBefore = captureInbox(latest, digest => readCold(file, digest))
           outcome = fn(latest)
         }
         const unchanged = outcome !== null && typeof outcome === 'object' && outcome[NO_CHANGE] === true
         const result = unchanged ? outcome.value : outcome
-        if (unchanged) return result
+        let lifecycleChanged
+        try { lifecycleChanged = archiveOperations(latest, digest => readCold(file, digest), value => writeCold(file, value), config) }
+        catch (error) { discardUnpublishedMemory(file); throw error }
+        if (unchanged && !lifecycleChanged) return result
+        try {
+          updateInboxIndex(latest, inboxBefore)
+        } catch (error) { discardUnpublishedMemory(file); throw error }
         latest.revision = Number(latest.revision || 0) + 1
         latest.updatedAt = now()
         if (options.roomAppend?.roomId !== undefined && result !== undefined && result !== null) {
@@ -3115,7 +3139,9 @@ function service(rootId, config = {}) {
     try {
       const historyMode = options.history ?? 'auto'
       let historyHydrated = historyMode === true
-      let latest = load(key, config, { history: historyHydrated, clone: false })
+      // A rejected mutation must not alter either the readable authority or
+      // a previously accepted checkpoint still waiting on its timer.
+      let latest = load(key, config, { history: historyHydrated, clone: true })
       if (!historyHydrated && (latest.coldHistory?.version !== 1
         || latest.coldHistory.rooms === null || typeof latest.coldHistory.rooms !== 'object')) {
         historyHydrated = true
@@ -3126,19 +3152,23 @@ function service(rootId, config = {}) {
         v12Events: historyRows(latest, 'v12Events'),
         'v12RoomWake.events': historyRows(latest, 'v12RoomWake.events'),
       }
+      let inboxBefore = captureInbox(latest, digest => readCold(file, digest))
       let outcome = fn(latest)
       if (!historyHydrated && historyMode === 'auto' && historyFingerprint(latest) !== beforeHistory) {
         historyHydrated = true
         latest = load(key, config, { history: true })
+        inboxBefore = captureInbox(latest, digest => readCold(file, digest))
         outcome = fn(latest)
       }
       const unchanged = outcome !== null && typeof outcome === 'object' && outcome[NO_CHANGE] === true
       const result = unchanged ? outcome.value : outcome
-      if (unchanged) {
+      const lifecycleChanged = archiveOperations(latest, digest => readCold(file, digest), value => writeCold(file, value), config)
+      if (unchanged && !lifecycleChanged) {
         await releaseUnusedLock()
         return result
       }
       latest.revision = Number(latest.revision || 0) + 1
+      updateInboxIndex(latest, inboxBefore)
       latest.updatedAt = now()
       if (options.roomAppend?.roomId !== undefined && result !== undefined && result !== null) {
         const roomId = String(options.roomAppend.roomId)
@@ -3168,6 +3198,8 @@ function service(rootId, config = {}) {
       emit(agent, type, data ?? result, latest.revision)
       return result
     } catch (error) {
+      discardUnpublishedMemory(file)
+      if (pendingPersist.latest !== null) rememberInMemoryHotState(file, pendingPersist.latest)
       await releaseUnusedLock()
       throw error
     }
@@ -3271,9 +3303,16 @@ function service(rootId, config = {}) {
       s.activityDigest = { factsHash: input.factsHash, sequence: Number(s.activityDigest?.sequence ?? 0) + 1, deliveredAt: now() }
       return { ...s.activityDigest }
     }, { history: false }),
-    messageOperationGet: (operationKey) => cloneValue(load(key, config, { history: false, clone: false }).messageOperations?.[String(operationKey)]),
+    inboxPending: ({ target, member = target, nativeIds = [] } = {}) => {
+      if (!target || target !== member) throw new Error('inbox-query-scope: target must match the current member')
+      const state = load(key, config, { history: false, clone: false })
+      ensureInboxIndex(state, digest => readCold(file, digest))
+      return queryInbox(state, target, nativeIds)
+    },
+    messageOperationsArchive: () => commit('message/operations-archive', {}, undefined, () => ({}), { history: false }),
+    messageOperationGet: (operationKey) => cloneValue(operationGet(load(key, config, { history: false, clone: false }), String(operationKey), digest => readCold(file, digest))),
     messageOperationRecover: (input, agent) => commit('message/operation-recovered', { key: input.key, recovery: input.recovery }, agent, (s) => {
-      const row = s.messageOperations?.[input.key]
+      const row = operationGet(s, input.key, digest => readCold(file, digest))
       if (!row || row.sender !== input.sender || row.operationId !== input.operationId || row.payloadHash !== input.payloadHash) throw new Error('message-operation-conflict: recovery must name the exact sender operation and payload')
       const expected = input.recovery?.expected_revision
       const reason = String(input.recovery?.reason ?? '').trim()
@@ -3300,7 +3339,7 @@ function service(rootId, config = {}) {
     }, { history: false }),
     messageOperationBegin: (input, agent) => commit('message/operation-reserved', input, agent, (s) => {
       s.messageOperations ??= {}
-      const prior = Object.values(s.messageOperations).find((row) => row.sender === input.sender && row.operationId === input.operationId)
+      const prior = operationFind(s, input, digest => readCold(file, digest))
       if (prior !== undefined) {
         if (prior.key !== input.key || prior.payloadHash !== input.payloadHash) {
           const error = new Error('message-operation-conflict: operation_id already binds a different payload or delivery scope; existing receipt=' + JSON.stringify(prior.receipt))
@@ -3322,11 +3361,16 @@ function service(rootId, config = {}) {
       }
       const operation = { ...input, status: 'reserved', ownerPid: process.pid, revision: 1, createdAt: now(), updatedAt: now(), receipt: input.receipt }
       s.messageOperations[input.key] = operation
+      operationRemember(s, operation)
       return { claimed: true, operation: cloneValue(operation) }
     }, { history: false }),
     messageOperationUpdate: (input, agent) => commit('message/operation-checkpoint', input, agent, (s) => {
-      const row = s.messageOperations?.[input.key]
+      const row = operationGet(s, input.key, digest => readCold(file, digest))
       if (!row || row.payloadHash !== input.payloadHash) throw new Error('message-operation-conflict: missing or changed reservation')
+      if (!Object.hasOwn(s.messageOperations ?? {}, input.key)) {
+        if (input.status === 'completed' && Object.entries(input.receipt ?? {}).every(([key, value]) => JSON.stringify(row.receipt?.[key]) === JSON.stringify(value))) return noChange(cloneValue(row))
+        throw new Error('message-operation-conflict: archived completed receipt is immutable')
+      }
       row.receipt = { ...row.receipt, ...input.receipt }
       row.status = input.status ?? 'partial'
       row.revision = Number(row.revision ?? 0) + 1
@@ -4238,6 +4282,7 @@ function service(rootId, config = {}) {
         taskId: input.taskId ?? null,
         sender: String(input.sender || ''),
         target: String(input.target || ''),
+        targetId: input.targetId == null ? null : String(input.targetId),
         messageHash: String(input.messageHash || hash(input.message || '')),
         createdAt: now(),
         deadlineAt: input.deadlineAt ?? null,
@@ -4305,6 +4350,7 @@ function service(rootId, config = {}) {
       if (row.attempt >= maxAttempts) throw new Error('dispatch "' + row.dispatchId + '" exhausted ' + row.attempt + ' attempts')
       row.status = 'queued'
       row.attempt += 1
+      row.lastAttemptAt = now()
       row.deadlineAt = now() + Math.max(1, Number(input.deliveryTimeoutMs || DEFAULT_DELIVERY_TIMEOUT_MS))
       row.lastError = input.error === undefined ? null : String(input.error)
       row.resolvedAt = null
@@ -4891,6 +4937,7 @@ function service(rootId, config = {}) {
           rows.push({
             messageId: id,
             messageHash: hash,
+            sender: String(pendingMessage.sender ?? input.sender ?? dispatch.sender ?? ''),
             text: String(pendingMessage.text ?? '').slice(0, 8000),
             status: String(pendingMessage.status ?? 'queued'),
             createdAt,
@@ -4922,11 +4969,13 @@ function service(rootId, config = {}) {
       }
       const dispatch = {
         dispatchId: 'wake:' + episodeId,
+        baseEpisodeId: String(input.baseEpisodeId ?? episodeId),
         rootId: key,
         roomId: input.roomId ?? null,
         taskId: input.taskId ?? null,
         sender: String(input.sender || ''),
         target: String(input.target || ''),
+        targetId: input.targetId == null ? null : String(input.targetId),
         messageHash: String(input.messageHash || ''),
         createdAt: now(),
         deadlineAt: null,

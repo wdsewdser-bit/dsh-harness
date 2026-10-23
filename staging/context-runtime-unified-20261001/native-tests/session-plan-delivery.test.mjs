@@ -6,6 +6,7 @@ import { mkdtempSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, basename } from 'node:path'
 import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
 import { BasicCompactionEngine } from '../app/node_modules/@deepseek-ai/dsh-compaction-basic/lib/index.js'
 import { createAssistantMessage } from '../app/node_modules/@deepseek-ai/dsh-llm/lib/index.js'
 import { Session, SessionStore, installNativeSessionBridge } from '../app/node_modules/@deepseek-ai/dsh-session/lib/index.js'
@@ -16,7 +17,7 @@ import JsonlSessionPersistence from '../app/node_modules/@deepseek-ai/dsh-sessio
 import { TYPERT as goalTypert } from '../app/node_modules/@deepseek-ai/dsh-goal/lib/typert.host.js'
 import remoteGoal from '../app/node_modules/@deepseek-ai/dsh-goal/lib/typert.remote-client.js'
 import { installSessionDelivery } from '../home/profiles/web/plugins/session-plan-delivery.mjs'
-import { readControlPlaneSnapshot } from '../home/profiles/web/plugins/team-control-plane.mjs'
+import { readControlPlaneSnapshot, resetControlPlaneCache } from '../home/profiles/web/plugins/team-control-plane.mjs'
 import { initializeNativeHost } from './native-host-fixture.mjs'
 const require = createRequire(new URL('../app/package.json', import.meta.url))
 const load = name => import(pathToFileURL(require.resolve('@deepseek-ai/' + name)))
@@ -99,8 +100,9 @@ process.stdout.write(JSON.stringify({schema:'dsh-execution-quality-v1',recipeId:
   await current.flush()
   const f = { root, config, contract, planRef, get c() { return current }, ref: g && { id: g.id, revision: g.revision },
     team: value => { member = value }, failMembership: () => { lookupFailure = true },
-    async reload(enable = true) {
+    async reload(enable = true, cacheCold = false) {
       current.service?.dispose(); await current.flush(); await current.handle.close(); await current.ctx.fiber.dispose()
+      if (cacheCold) resetControlPlaneCache()
       const h = await current.storage.open(id, 'read'), data = await h.read(), header = h.header
       await h.close()
       current = await open(data.events, header, enable)
@@ -169,6 +171,30 @@ test('strict policy retains the existing receipt-backed accepted and stale-sourc
   writeFileSync(join(f.root, 'source.txt'), 'changed after receipt\n')
   assert.equal((await f.c.run('status')).value.deliverable, false)
   assert.equal(f.c.session.log.findLast(event => event.type === 'native/delivery-status').data.status, 'partial')
+})
+
+test('ordinary receipt task identity survives fresh-process normalization and cache-cold reloads', async t => {
+  const f = await fixture(t, { goal: false })
+  await f.register(); await f.proof('impl'); await f.proof('test')
+  const { commit } = await previewCommit(f, 'p', 'cold-task-identity')
+  assert.equal(commit.isError, false, JSON.stringify(commit.error))
+  const before = readControlPlaneSnapshot(f.c.service.control.file)
+  const moduleUrl = new URL('../home/profiles/web/plugins/team-control-plane.mjs', import.meta.url).href
+  const source = `const { readControlPlaneSnapshot } = await import(${JSON.stringify(moduleUrl)});`
+    + `const state = readControlPlaneSnapshot(${JSON.stringify(f.c.service.control.file)});`
+    + 'console.log(JSON.stringify(state.boards.session.tasks));'
+  const env = { ...process.env }; delete env.NODE_TEST_CONTEXT
+  const output = execFileSync(process.execPath, ['--input-type=module', '-e', source], { encoding: 'utf8', env, windowsHide: true, maxBuffer: 65536 })
+  const normalized = JSON.parse(output.trim().split(/\r?\n/).at(-1))
+  assert.deepEqual(normalized, before.boards.session.tasks, 'a cold reader must not silently change the receipt task identity')
+  for (let index = 0; index < 2; index++) {
+    await f.reload(true, true)
+    const verdict = f.c.service.service.checkAll()
+    assert.equal(verdict.deliverable, true, JSON.stringify(verdict.plans.map(row => row.code)))
+    assert.equal(verdict.plans[0].durableReceiptId, commit.value.receipt.id)
+  }
+  await f.c.service.control.mutateHot('test/task-revision', {}, f.c.agent, state => { state.boards.session.tasks.t.revision++ }, { deferMs: 0 })
+  assert.equal(f.c.service.service.checkAll().deliverable, false, 'real task changes must still invalidate the old receipt')
 })
 
 test('JSONL keeps accepted status nonempty and strict marker types validated', async t => {

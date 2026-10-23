@@ -80,7 +80,7 @@ export async function bindGoalDeliveryPlan({ control, readDurable, getGoal, agen
 
 /** The permit exists only inside the authority's synchronous durable hook. A
  * tool, model, or mere receipt id cannot call GoalService's completion commit. */
-export function createGoalDeliveryGate({ agent, authority, readDurable, getGoal, flush, required = () => true }) {
+export function createGoalDeliveryGate({ agent, authority, readDurable, getGoal, flush, required = () => true, requiresPlan = () => false }) {
   const permits = new WeakMap()
   function binding(ref) {
     const doc = sync(readDurable)
@@ -147,6 +147,6 @@ export function createGoalDeliveryGate({ agent, authority, readDurable, getGoal,
   async function requireDurable() {
     if (await flush() !== true) fail('NATIVE_DURABILITY_UNAVAILABLE')
   }
-  return Object.freeze({ isBound: caller => caller === agent && sync(required) === true,
+  return Object.freeze({ isBound: caller => caller === agent && sync(required) === true, requiresPlan,
     authorize, verifyReceipt, requireDurable, afterGoalDurable, recover })
 }

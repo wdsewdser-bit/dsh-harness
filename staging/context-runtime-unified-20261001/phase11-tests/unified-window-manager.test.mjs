@@ -2,7 +2,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { createRequire } from 'node:module'
 import { pathToFileURL } from 'node:url'
-import { mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readdir, readFile, rm, utimes, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { apply } from '../home/profiles/web/plugins/team-v15-window-manager.mjs'
@@ -224,7 +224,11 @@ test('records carry no message body', async t => {
 
 test('a ticked, not yet folded milestone is read from the milestone file; verdicts survive an agent being recreated', async t => {
   const directory = await tempDir(t, 'wm-milestone-'), milestonePath = join(directory, 'milestones.json')
-  const write = member => writeFile(milestonePath, JSON.stringify({ version: 3, teams: { 'team-1': { members: { root: member }, bands: {}, compactions: {} } } }))
+  const fixedTime = new Date('2026-01-01T00:00:00.000Z')
+  const write = async member => {
+    await writeFile(milestonePath, JSON.stringify({ version: 3, teams: { 'team-1': { members: { root: member }, bands: {}, compactions: {} } } }))
+    await utimes(milestonePath, fixedTime, fixedTime)
+  }
   await write({ owner: 'root', stage: 'big phase', doneWhen: 'x', setAt: 1, done: false })
   const f = fixture(t, { mode: 'shadow', directory, milestonePath })
   f.ctx.agentTeams = { tryMembership: agent => agent === f.agent ? { id: 'team-1', name: 'root' } : undefined }

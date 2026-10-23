@@ -14,7 +14,7 @@
  * permission matrix (which governs model-called tools), while still obeying
  * structural limits such as the tier-1 lead cap and the per-group member cap.
  */
-import { policyFor, reconcileRegistry, teamKeyOf } from './team-policy.mjs'
+import { policyFor, reconcileRegistry, recoverRosterProvenance, teamKeyOf } from './team-policy.mjs'
 import { controlPlaneFor, latestClosedRound, roomActivity } from './team-control-plane.mjs'
 import { collectTeamUsage, summarizeTeamUsage } from './team-usage.mjs'
 import { milestoneScope } from './team-milestone-v2.mjs'
@@ -167,7 +167,7 @@ function syncRegistry(ctx, agent) {
   const active = policyFor(teamKey)
   if (active === undefined) return active
   try {
-    reconcileRegistry(active.registry, ctx.agentTeams.listMembers(agent))
+    reconcileRegistry(active.registry, recoverRosterProvenance(ctx, agent, ctx.agentTeams.listMembers(agent)))
   } catch (error) {
     try { active.control.healthSet({ status: 'degraded', reasons: ['policy-reconcile:' + String(error?.message ?? error)] }) } catch {}
   }

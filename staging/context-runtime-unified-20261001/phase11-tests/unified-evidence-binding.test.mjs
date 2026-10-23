@@ -11,7 +11,7 @@ import { apply as applyRuntime } from '../home/profiles/web/plugins/team-v12-run
 import { controlPlaneForMember, resetControlPlaneCache } from '../home/profiles/web/plugins/team-control-plane.mjs'
 
 const binding = {
-  commitSha: 'current-commit', treeHash: 'current-tree', contractRevision: 3,
+  commitSha: 'a'.repeat(40), treeHash: 'current-tree', contractRevision: 3,
   planRevision: 2, recipeId: 'test-recipe', recipeFingerprint: 'recipe-v1',
   environmentFingerprint: 'env-v1',
 }
@@ -39,6 +39,19 @@ test('every explicitly current version, source, recipe and environment must matc
   }
   assert.equal(covered(task(), evidence({ status: 'stale' })), false)
   assert.equal(covered(task(), evidence({ staleReasons: ['tree-changed'] })), false)
+})
+
+test('matching omissions cannot certify an incomplete current coverage key', () => {
+  for (const key of ['treeHash', 'commitSha', 'contractRevision', 'planRevision', 'recipeFingerprint', 'environmentFingerprint']) {
+    const missing = { [key]: undefined }
+    assert.equal(covered(task(missing), evidence(missing)), false, 'both missing ' + key)
+  }
+  const manifest = { commitSha: undefined, treeHash: undefined, manifestHash: 'current-manifest' }
+  assert.equal(covered(task(manifest), evidence(manifest)), true)
+  for (const key of ['contractRevision', 'planRevision', 'recipeFingerprint', 'environmentFingerprint']) {
+    assert.equal(covered(task({ ...manifest, [key]: undefined }), evidence({ ...manifest, [key]: undefined })), false,
+      'manifest route missing ' + key)
+  }
 })
 
 test('criterion metadata is retained and contract revision is independent of lifecycle revision', () => {

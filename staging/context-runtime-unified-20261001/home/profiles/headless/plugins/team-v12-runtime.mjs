@@ -23,7 +23,7 @@ const { teamKeyOf } = teamPolicy
 const controlPlaneForMember = controlPlane.controlPlaneForMember ?? ((ctx, agent, config) =>
   controlPlane.controlPlaneFor(teamKeyOf(ctx, agent), config))
 import { activeTask, buildContextDelivery, committedContextCursor, committedContextEpoch, completeContextBaseline, compactReceipt, durableContextVersions, identitySource, installContextDispatchObserver, messageText, nativeMessageIds, parseContextManifest, taskContext } from './team-v14-context-delivery.mjs'
-import { confirmPlanReadDispatch, currentTaskPlanRefs, installPlanReadDispatchObserver, planReadBodyHash, readTaskPlanRef, recordPlanRead } from './team-v15-plan-refs.mjs'
+import { confirmPlanReadDispatch, createPlanReadDispatchCandidate, currentTaskPlanRefs, installPlanReadDispatchObserver, readTaskPlanRef, recordPlanRead } from './team-v15-plan-refs.mjs'
 import { createPlanRegistry } from './team-v15-plan-registry.mjs'
 import { createDeliveryService, registerDeliveryService, deliveryPlanRequired } from './team-v15-delivery-service.mjs'
 import { collectDeliveryContext } from './team-v15-delivery-source.mjs'
@@ -174,6 +174,7 @@ const V12_POLICY = 'Agent Team v14 is active through team_v12. Dynamic requireme
 
 const V12_DOC_PATH = 'D:/dsh-test/docs/agent-team-v12-architecture-improvement-plan.md'
 const V12_LEDGER_PATH = 'D:/dsh-test/docs/agent-team-v12-implementation-ledger.md'
+const PLAN_DELIVERY_COMMIT_INPUT = 'plan_delivery_commit input is {planId,idempotencyKey,expectedPlanRevision:preview.planRevision,expectedPlanHash:preview.planHash,sourceIdentity:preview.sourceIdentity,coverageMatrixHash:preview.coverageMatrixHash,sourceRevisionVector:preview.sourceRevisionVector}. Use sourceRevisionVector, not expectedSourceRevisionVector; previewToken alone is not a normal commit binding.'
 const V12_ACTION_CAPABILITIES = Object.freeze({
   runtime_facts: 'runtime.facts',
   capability_matrix: 'capability.matrix',
@@ -2123,6 +2124,22 @@ function install(agent, ctx, config, identityFor) {
     order: scoped.systemPrompt.getSectionOrder('TEAM_POLICY') + 1,
     text: () => V12_POLICY,
   }))
+  register(scoped.systemPrompt.section({
+    name: 'team:plan-registration',
+    order: scoped.systemPrompt.getSectionOrder('TEAM_POLICY') + 2,
+    text: () => {
+      if (Number(member()?.tier) !== 0 || !requiresPlan()) return ''
+      if (Object.keys(cp().view({ history: false }).v15PlanDelivery?.plans ?? {}).length) return ''
+      return 'DELIVERY_PLAN_REQUIRED: this root has no registered complete requirement plan. Per-task team_plan_propose/team_plan_approve plans are not the complete requirement plan. '
+        + 'Create the full canonical source through authorized file tools in an approved documentation scope, using JSON.stringify(contract,null,2), not a guessed subset of the current board. '
+        + 'The source is {"kind":"dsh-plan-contract","version":1,"planId":"<id>","scope":["<workspace-relative-path>"],"items":[{"requirementId":"<id>","taskRefs":[{"boardId":"<exact-board>","taskId":"<actual-id>"}],"requiredDimensions":["implemented","tested"],"implementationRefs":["<proof-id>"],"testEvidenceRefs":["<proof-id>"]}]}. '
+        + 'Replace placeholders with ALL mandatory requested requirements and actual task/proof refs; retain any requested enablement/acceptance dimensions and user constraints. '
+        + 'Read/hash the entire file, then call team_v12(action:"plan_register",input:{planId,ref:{path,sha256},expectedPlanRevision:0}); updates use the exact current plan revision. '
+        + 'Independent authorized preparation may continue; registration does not grant product write scopes or leases. After real implementation and quality evidence, use plan_delivery_preview and plan_delivery_commit with their exact current vector. '
+        + PLAN_DELIVERY_COMMIT_INPUT + ' '
+        + 'A cleared board, assistant completion text, task plans or context receipts cannot replace this plan or its durable delivery receipt.'
+    },
+  }))
 
   const acknowledgeCommittedMessage = async (session, message, stateOverride, dispatch) => {
     if (text(session?.id) !== text(agent.session?.id)) return
@@ -2313,7 +2330,7 @@ function install(agent, ctx, config, identityFor) {
 
   register(scoped.tools.register(defineTool({
     name: 'team_v12',
-    description: 'Agent Team v12 aggregate control/read tool. Use it for runtime facts, capability gates, task contracts, ready queues, run leases, Room recovery, inbox acknowledgement, compaction state, evidence reuse, merge recovery, context packs, timelines and replay fixtures. Omit action to return compact runtime facts. plan_register is root-only: input {planId,ref:{path,sha256},expectedPlanRevision} reads the complete canonical dsh-plan-contract v1 from an authorized file; items/scope/proofs in tool input are rejected. plan_refs returns registered current-task refs; plan_ref_get requires its exact version and referenceIndex. leases shows the caller\'s own run leases; tier 0 may inspect any member and a group lead may inspect its own group through input {member}. waiting_list returns active tickets by default; input {includeClosed:true} also returns closurePolicy, closedReason, closedAt and closedBy; use input {ticketId,taskId,offset,limit} for exact or paged reads. hypothesis_bind persists own-task intent for one registered tool; ordinary tool arguments remain unchanged. hypothesis_status reads own bindings and final observations; hypothesis_clear requires toolName, expectedGeneration and reason and never resets history. failure_memory_status inspects one call signature; failure_memory_clear requires action_fingerprint plus reason and evidence. For inbox_ack, call inbox_list first and pass either the exact top-level wake_id or inbox_id; bulk/all acknowledgement is not supported. reuse_receipt_put (lead or tier 0) stores an explicit reuse receipt so review_package and verification_plan may count older passed evidence for a different task/requirement; input {id?,source:{evidenceId,fingerprint,taskId,boardId,requirementId},target:{taskId,boardId,requirementId,...exact current binding},reason,affectedFiles,expiresAt} is validated against the current evidence and task before it is stored and is refused with a stable code otherwise. reuse_receipt_status lists receipts and how many times each one was reused.',
+    description: 'Agent Team v12 aggregate control/read tool. Use it for runtime facts, capability gates, task contracts, ready queues, run leases, Room recovery, inbox acknowledgement, compaction state, evidence reuse, merge recovery, context packs, timelines and replay fixtures. Omit action to return compact runtime facts. plan_register is root-only: input {planId,ref:{path,sha256},expectedPlanRevision} reads the complete canonical dsh-plan-contract v1 from an authorized file; items/scope/proofs in tool input are rejected. plan_refs returns registered current-task refs; plan_ref_get requires its exact version and referenceIndex. leases shows the caller\'s own run leases; tier 0 may inspect any member and a group lead may inspect its own group through input {member}. waiting_list returns active tickets by default; input {includeClosed:true} also returns closurePolicy, closedReason, closedAt and closedBy; use input {ticketId,taskId,offset,limit} for exact or paged reads. hypothesis_bind persists own-task intent for one registered tool; ordinary tool arguments remain unchanged. hypothesis_status reads own bindings and final observations; hypothesis_clear requires toolName, expectedGeneration and reason and never resets history. failure_memory_status inspects one call signature; failure_memory_clear requires action_fingerprint plus reason and evidence. For inbox_ack, call inbox_list first and pass either the exact top-level wake_id or inbox_id; bulk/all acknowledgement is not supported. reuse_receipt_put (lead or tier 0) stores an explicit reuse receipt so review_package and verification_plan may count older passed evidence for a different task/requirement; input {id?,source:{evidenceId,fingerprint,taskId,boardId,requirementId},target:{taskId,boardId,requirementId,...exact current binding},reason,affectedFiles,expiresAt} is validated against the current evidence and task before it is stored and is refused with a stable code otherwise. reuse_receipt_status lists receipts and how many times each one was reused. ' + PLAN_DELIVERY_COMMIT_INPUT,
     parameters: {
       action: { type: 'string', enum: [
         'runtime_facts', 'capability_matrix', 'upgrade_gate',
@@ -2471,7 +2488,7 @@ function install(agent, ctx, config, identityFor) {
           return recordPlanRead(latest, result.readReceipt)
         }, { deferMs: 0 })
         if (exec?.callId) {
-          pendingPlanReads.set(exec.callId, { receiptId: result.readReceipt.id, bodyHash: planReadBodyHash(result) })
+          pendingPlanReads.set(exec.callId, createPlanReadDispatchCandidate(result, exec))
           if (pendingPlanReads.size > 128) pendingPlanReads.delete(pendingPlanReads.keys().next().value)
         }
         return result
@@ -3050,6 +3067,17 @@ function install(agent, ctx, config, identityFor) {
           const doc = v12RoomState(latest)
           const verdict = handleWakeBatch(doc, requestedWakeId, ackInput)
           latest.v12RoomWake = doc
+          if (verdict.ok === true) {
+            for (const messageId of verdict.messageIds ?? []) {
+              const retired = acknowledgeInboxEntry(latest, {
+                target: mine.name,
+                inboxId: messageId,
+                input: args.input ?? {},
+                allowOtherTarget: tier === 0,
+              })
+              if (retired.ok !== true) refuse(retired.reason, messageId)
+            }
+          }
           return verdict
         }, { panelCache: true })
         return result
@@ -3766,7 +3794,10 @@ function install(agent, ctx, config, identityFor) {
             metadata: { roomId, messageId: row.messageId, fetch: roomFetch } })
         }
       }
-      for (const row of Object.values(doc.inbox ?? {})) {
+      const pendingInbox = typeof cp().inboxPending === 'function'
+        ? cp().inboxPending({ target: mine.name, member: mine.name, nativeIds: [...nativeIds] })
+        : Object.values(doc.inbox ?? {})
+      for (const row of pendingInbox) {
         if (row.target !== mine.name || ['handled', 'rejected'].includes(row.status) || nativeIds.has(row.messageId)) continue
         const originalText = String(row.originalText ?? '').trim()
         if (originalText.length === 0) continue
