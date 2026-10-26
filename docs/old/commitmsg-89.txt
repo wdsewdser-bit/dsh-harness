@@ -1,0 +1,6 @@
+task-89: 落「milestone 的 done_when 必须能由本人独立完成」——外部依赖只能是前置
+
+- 实证：某组长 milestone 的 done_when 写作「…并经 verifier 裁决」⇒ 达成依赖另一成员的 turn ⇒ 按构造不可由本人 tick；
+  而其上下文已到 81%，下一次折叠会落在任务中间。
+- 纪律：done_when 只能含本人能在下一次任务边界前独立完成的动作；外部依赖写成 stage 的前置条件。
+- 为什么：tick 是折叠的触发点（§5.6）⇒ 不可 tick 的 milestone 等于没有折叠点。

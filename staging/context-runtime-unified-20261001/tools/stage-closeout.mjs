@@ -1,6 +1,9 @@
 // Stage closeout in one step: sync changed web plugins to headless, refresh the "after" hash of every drifted
 // manifest entry, and rebind the protocol-trial source pins. Text-level edits keep each file's formatting.
-// Usage: node tools/stage-closeout.mjs <backup-directory> [--check]
+// Usage: node tools/stage-closeout.mjs <backup-directory> --reason=<why these changes are accepted>
+//        node tools/stage-closeout.mjs --check
+// A manifest only proves that disk and record agree. Rewriting an "after" hash is the moment a change is
+// accepted, so every writing run must say why, and the run is appended to manifest-rewrite-log.jsonl.
 import fs from 'node:fs'
 import path from 'node:path'
 import { createHash } from 'node:crypto'
@@ -10,11 +13,14 @@ const stage = path.resolve(fileURLToPath(new URL('..', import.meta.url)))
 const check = process.argv.includes('--check')
 const backupArg = process.argv.slice(2).find(arg => !arg.startsWith('--'))
 if (!check && !backupArg) throw new Error('BACKUP_DIRECTORY_REQUIRED')
+const reason = (process.argv.find(arg => arg.startsWith('--reason=')) ?? '').slice(9).trim()
+if (!check && reason.length < 10) throw new Error('REASON_REQUIRED: pass --reason=<why these changes are accepted> (at least 10 characters)')
 const backup = backupArg ? path.resolve(backupArg) : null
 const sha = file => createHash('sha256').update(fs.readFileSync(file)).digest('hex')
 const inStage = file => fs.realpathSync(file).toLowerCase().startsWith(stage.toLowerCase() + path.sep)
 const mustBeStage = file => { if (!inStage(file)) throw new Error('REALPATH_OUTSIDE_STAGE ' + file) }
 const report = { check, backups: [], headless: [], manifests: [], pins: [] }
+const rewrites = []
 function keep(file, name) {
   if (check) return
   fs.mkdirSync(backup, { recursive: true })
@@ -92,6 +98,7 @@ for (const kind of ['native', 'plugin', 'tools']) {
     report.manifests.push(`${kind} ${path.basename(target)} ${recorded.slice(0, 8)} -> ${actual.slice(0, 8)}`)
     if (check) continue
     mustBeStage(target)
+    rewrites.push({ kind, path: path.relative(stage, target).replaceAll(path.sep, '/'), from: recorded, to: actual })
     text = replaceOnce(text, `"after": "${recorded}"`, `"after": "${actual}"`, kind + ' ' + path.basename(target))
     changed = true
   }
@@ -101,5 +108,10 @@ for (const kind of ['native', 'plugin', 'tools']) {
   mustBeStage(file); keep(file, path.basename(file)); fs.writeFileSync(file, text)
 }
 report.pending = report.headless.length + report.manifests.length + report.pins.length
+if (!check && report.pending) {
+  const log = path.join(stage, 'manifest-rewrite-log.jsonl')
+  fs.appendFileSync(log, JSON.stringify({ at: new Date().toISOString(), reason, backup: path.basename(backup), manifests: rewrites, headless: report.headless, pins: report.pins }) + '\n')
+  report.log = path.basename(log)
+}
 console.log(JSON.stringify(report, null, 1))
 if (check && report.pending) process.exitCode = 1

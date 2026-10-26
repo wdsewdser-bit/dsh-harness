@@ -1,0 +1,7 @@
+task-61: 四路 comparer 实测收口排序标签之争 + recipe 必须具名 collation + 尾随 LF 承重（第 4 次证明）
+
+- 实测 Ordinal / OrdinalIgnoreCase / InvariantCulture / InvariantCultureIgnoreCase 各自的值，
+  据此判定 62ce4101 与 d12e7e56 各由哪一个 comparer 产生（两边对 InvariantCultureIgnoreCase 读数不同 => 必须测）。
+- 结论：排序轴确实重要；机制是 collation 强度，不只是大小写；「culture-aware」是有歧义的。
+- recipe 必须具名 collation；规范形态 = Ordinal（码元）升序；尾随 LF 是承重项（第 4 次证明）。
+- 更正 task-59 交付物 1/2 的标签（成因不成立只对「大小写不敏感 ordinal」成立）。

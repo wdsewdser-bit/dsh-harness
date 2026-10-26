@@ -1,5 +1,6 @@
 import { createDeliveryAuthority } from './team-v15-delivery-authority.mjs'
 import { planDeliveryHash } from './team-v15-plan-delivery.mjs'
+import { collectPrunedHistoryDebt } from './team-v15-delivery-debt.mjs'
 
 const services = new WeakMap()
 const same = (a, b) => planDeliveryHash(a) === planDeliveryHash(b)
@@ -33,7 +34,7 @@ export function deliveryCheckCoverage(ctx, agent, durable) {
 export function createDeliveryService({ control, readDurable, registry, collectContext, now = Date.now, requiresPlan = () => false, agent }) {
   const authority = createDeliveryAuthority({ control, readDurable, collectContext: (state, plan) => {
     const context = collectContext(state, plan)
-    return { ...context, unresolvedDebt: [...(context.unresolvedDebt ?? []), ...deliveryBackgroundDebt(agent)] }
+    return { ...context, unresolvedDebt: [...(context.unresolvedDebt ?? []), ...deliveryBackgroundDebt(agent), ...collectPrunedHistoryDebt(state, agent)] }
   },
     verifyPlanReadback: plan => registry.verify(plan), now })
   function checkAll() {

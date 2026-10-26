@@ -1,0 +1,4 @@
+docs: 「声明投影陈旧」是退路不是默认 —— 可修订的卡必须 resync（t55/t51）；并记 t55 交付
+
+B-45 的退路被当成了默认：两张 edit 卡的 ac 仍停留旧文本（一张仍写 8 处与错值行、一张仍含已被裁定的假二分）。
+正确入参形态：acceptanceCriteria 直接挂 input 下（不包 contract 层，该层被静默忽略）；resync 后回读自证 ac === description。

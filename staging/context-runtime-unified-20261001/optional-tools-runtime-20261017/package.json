@@ -1,0 +1,12 @@
+{
+  "name": "dsh-isolated-optional-tools-runtime",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@deepseek-ai/dsh-browser-use": "0.1.7-rc.2",
+    "@deepseek-ai/dsh-experimental-browser-use-stagehand-native": "0.1.7-rc.2",
+    "@deepseek-ai/dsh-computer-use": "0.1.7-rc.2",
+    "@deepseek-ai/dsh-experimental-computer-use-cua-driver-native": "0.1.7-rc.2"
+  }
+}

@@ -1,0 +1,4 @@
+docs: B-103（inbox_ack 不可用：「已投递」与 ack 前置 delivered 自相矛盾；wakeIds 为空的消息缺确认路径）+ B-101 补充（上级通道三态 ⇒ 非阻塞性质的上级通知没有可用通道）
+
+- B-103 逐字：同一批两条消息的 wake_id 与 inbox_id 两种键形式均被拒，回执 {"ok":false,"reason":"message-not-delivered"}；而 inbox_list 明示 status=delivered、wakeIds=[] ⇒ 自相矛盾；本会话早前同类 ack 成功过 ⇒ 新缺口。缺口两点：拒绝串不区分「前置不满足」与「消息不存在」；wakeIds 为空的消息缺确认路径。
+- B-101 补充：info 可能被折进摘要、action 向上被 [delivery-upward-decision] 拒 ⇒ 只有 decision 能到达上级 ⇒ 非阻塞性质的上级通知没有可用通道；受准处置是包成 decision（有效但语义错位）。

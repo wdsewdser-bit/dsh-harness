@@ -51,12 +51,22 @@ export function readTaskPlanRef(doc, input, { allowedRoots = [], maxBytes = 2621
     status: 'read-complete-awaiting-dispatch', authoritative: true, requiredFetch: true } }
 }
 
+const readBindingKeys = ['boardId', 'taskId', 'taskRevision', 'contractRevision', 'planId', 'planRevision', 'planHash',
+  'sessionId', 'member', 'epoch', 'referenceIndex', 'path', 'sha256', 'bytes', 'id', 'authoritative']
+const confirmedRead = row => row?.status === 'content-fetched' && row.requiredFetch === false
+  && row.authoritative === true && row.verificationScope === 'exact-full-result-handed-to-adapter'
+  && row.dispatch?.handedToAdapter === true && row.dispatch.stage === 'handed-to-adapter'
+  && typeof row.dispatch.requestId === 'string' && row.dispatch.requestId.length > 0
+
 export function recordPlanRead(doc, receipt) {
   const current = currentTaskPlanRefs(doc, receipt)
   if (['planId', 'planRevision', 'planHash', 'taskRevision', 'contractRevision'].some(key => current[key] !== receipt[key])) fail('RECOVERY_PLAN_CAS_CONFLICT')
   const ref = current.refs[receipt.referenceIndex]
   if (!ref || ref.path !== receipt.path || ref.sha256.toLowerCase() !== receipt.sha256) fail('RECOVERY_SOURCE_HASH_MISMATCH')
   doc.v15PlanReadReceipts ??= {}
+  const existing = doc.v15PlanReadReceipts[receipt.id]
+  if (existing && readBindingKeys.some(key => existing[key] !== receipt[key])) fail('RECOVERY_CONTEXT_CAS_CONFLICT')
+  if (confirmedRead(existing)) return structuredClone(existing)
   doc.v15PlanReadReceipts[receipt.id] = structuredClone(receipt)
   return structuredClone(receipt)
 }
@@ -65,7 +75,9 @@ export function confirmPlanReadDispatch(doc, receiptId, dispatch) {
   const row = doc.v15PlanReadReceipts?.[receiptId]
   if (!row) fail('RECOVERY_READ_RECEIPT_UNAVAILABLE')
   if (!dispatch?.requestId || dispatch.handedToAdapter !== true || dispatch.stage !== 'handed-to-adapter') fail('RECOVERY_DISPATCH_REQUIRED')
-  recordPlanRead(doc, row)
+  const current = recordPlanRead(doc, row)
+  // Historical tool results may recur in later requests without new authority.
+  if (confirmedRead(current)) return current
   const next = { ...row, status: 'content-fetched', requiredFetch: false,
     modelConsumption: 'unknown', verificationScope: 'exact-full-result-handed-to-adapter',
     dispatch: { requestId: dispatch.requestId, stage: dispatch.stage, handedToAdapter: true } }
@@ -75,20 +87,46 @@ export function confirmPlanReadDispatch(doc, receiptId, dispatch) {
 
 export function installPlanReadDispatchObserver(bridge, { sessionId, pending, onDispatch }) {
   if (typeof bridge?.register !== 'function') return null
+  const projected = new WeakSet()
   // The agent loop sets no purpose; only an auxiliary request names one.
-  const project = options => options?.sessionId === sessionId && (options.purpose === undefined || options.purpose === 'conversation')
-    && bridge.isAgentLoopRequest(options) ? { messages: options.messages } : undefined
+  const conversation = options => options?.sessionId === sessionId
+    && (options.purpose === undefined || options.purpose === 'conversation') && !options.signal?.aborted
+  const project = options => {
+    if (!conversation(options) || !bridge.isAgentLoopRequest(options)) return undefined
+    const result = { messages: options.messages }
+    projected.add(result)
+    return result
+  }
   return bridge.register('plan-read:' + hash(sessionId).slice(0, 32), project, {
     order: 1001, preview: project,
-    onDispatch({ options, receipt }) {
-      if (!receipt.handedToAdapter || receipt.stage !== 'handed-to-adapter') return
-      return Promise.all((options.messages ?? []).flatMap(message => {
-        const expected = pending.get(message.toolCallId)
-        const body = (message.content ?? []).filter(block => block.type === 'text').map(block => block.text).join('\n')
-        if (message.role !== 'tool' || !expected || hash(body) !== expected.bodyHash) return []
-        return [onDispatch(expected.receiptId, receipt)]
-      }))
+    onDispatch({ options, inputOptions, result, receipt }) {
+      if (!projected.has(result) || !conversation(inputOptions) || !bridge.isAgentLoopRequest(inputOptions)
+        || !conversation(options) || !receipt?.requestId || !receipt.handedToAdapter || receipt.stage !== 'handed-to-adapter') return
+      const operations = [], confirmed = new Set()
+      for (const message of options.messages ?? []) {
+        if (message.role !== 'tool' || message.isError === true || message.content?.length !== 1
+          || message.content[0].type !== 'text' || typeof message.content[0].text !== 'string') continue
+        const bodyHash = hash(message.content[0].text)
+        for (const [callId, expected] of pending) {
+          const native = !expected.rootCallId && message.toolCallId === callId && bodyHash === expected.bodyHash
+          const outer = expected.rootCallId && message.toolCallId === expected.rootCallId && expected.rootBodyHashes?.includes(bodyHash)
+          if ((!native && !outer) || confirmed.has(expected.receiptId)) continue
+          confirmed.add(expected.receiptId)
+          operations.push(onDispatch(expected.receiptId, receipt))
+        }
+      }
+      return Promise.all(operations)
     },
   })
 }
 export const planReadBodyHash = result => hash(JSON.stringify(result))
+
+export function createPlanReadDispatchCandidate(result, exec) {
+  const encoded = JSON.stringify(result)
+  const rootCallId = exec.parent !== undefined && typeof exec.rootCallId === 'string'
+    && exec.rootCallId.length > 0 && exec.rootCallId !== exec.callId ? exec.rootCallId : null
+  // Match only the exact native serializers and their fixed outer sandbox suffix.
+  const bodies = rootCallId ? [encoded, JSON.stringify(result, null, 2)] : []
+  return { receiptId: result.readReceipt.id, rootCallId, bodyHash: hash(encoded),
+    rootBodyHashes: bodies.flatMap(body => [hash(body), hash(body + '\nFile sandbox enforcement is partial on this host.')]) }
+}

@@ -1,0 +1,9 @@
+task-49: 修 GOVERNANCE.md 的 :1427（citation_integrity.rs 的 :759，第七次实例，task-47 自己写的）
+        + 预拆写是新引用的唯一受准形态 + 位置键一行判据 + 提交读数须 hash 等式 + 撤回我的假绿
+
+- 第七次自指污染：task-47 在解释 :759 panic 的那句话里逐字写了 citation_integrity.rs:759。
+- 升级（lead-rig）：键 = (文件,行号,token) + 登记权限只在落地那次提交 => 落地之后写新引用唯一合规 = 预拆写/标引文。
+  自指污染不是特例，而是「在扫描域里写任何新引用」的普遍情形。
+- 一行判据：按位置设的例外键，当且仅当载体不可能改变时才是安全的（frozen 3/3 present vs live 5/5 dead）。
+- 提交读数硬规则（verifier 自撤后立）：同一次调用内 hash-object == rev-parse HEAD:<guard> 才算提交读数。
+- 撤回我的假绿：task-47 的「提交态为绿」在提交 blob 上不可复现；干净的提交读数是 unregistered=1 / FAILED。

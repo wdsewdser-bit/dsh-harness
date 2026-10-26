@@ -1,0 +1,5 @@
+docs: 落条款 72 + STAGES 运维事实（杀毒启发式阻断临时计数探针 => 被杀进程的产物不是读数）
+
+- 被阻断内容 = Get-ChildItem -Recurse -Force + 隐藏属性枚举 + .rs/.md 计数，非受跟踪脚本
+- 纪律：计数走 git ls-files（tracked 域），不走文件系统遍历；exit 1 无信号 = 中断
+- 16:51-16:54 窗口内的计数一律重跑

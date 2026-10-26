@@ -1,0 +1,6 @@
+docs: 收编「持有串行只能靠 blocked_by 边，waiting_set 票会自行消失」+ state-blocked 非平台 phase 名
+
+- t89 的 external 票在显式收口前返回 not-found（B-47 第二次更正的第三次现场复现）。
+- 三条持有载体强度递减，只有 blocked_by 边不依赖自觉且经得起 revision 变动。
+- state-blocked 仅是 §5.13 措辞，不得据它改 phase 字段。
+- 门禁 citation_integrity 绿。

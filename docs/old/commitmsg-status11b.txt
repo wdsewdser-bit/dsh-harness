@@ -1,0 +1,5 @@
+docs: STATUS §11 补并入收口（grp/proto 真快进 + grp/rig 两父并）+ N-9 已入 main
+
+- main = 439ccb1；门禁在并入后 RC=0，tokens=228/files=29 全程未变
+- 记录 team_merge 的快进条件与 B-110 普遍断言被受控对证伪
+- 具名 N-9 的独立复验来自组长，verifier 未构建未运行

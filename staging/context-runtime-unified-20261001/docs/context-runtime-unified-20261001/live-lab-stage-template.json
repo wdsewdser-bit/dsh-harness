@@ -24,11 +24,11 @@
   "schemaFiles": [
     {
       "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/context-workspace.mjs",
-      "sha256": "9220230d8096249e5de2fc4e6e05ec4db1fcbd84547eb123291cc7b00185cdb7"
+      "sha256": "d7a6807cab0a2af4d02b6327a4988c597355a646389e760feed60f1ea625a300"
     },
     {
       "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-tools-v2-r10.mjs",
-      "sha256": "8ecb75cabb1a294dd0c50f864ceece6f3189035ee4cce80e89f541d951505047"
+      "sha256": "7511b936c829ba54da6342837dd540cf6c0486f4cb07f0e0fc4eb9b2f0086e68"
     },
     {
       "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-query-efficiency.mjs",

@@ -16,8 +16,16 @@
 - 跨组决策必须在 `team_room_decide` 中列出所有受影响组长的 `required_confirmations`；被点名的组长逐个调用 `team_room_confirm`，全部确认前不得把它当作有效决策。
 - 需要判断并行收益或验证覆盖时，先用 `team_v12(action:"scheduler_advice")` 和 `team_v12(action:"verification_plan", task_id:"<task-id>")` 读取建议；建议默认是 shadow，不替代 owner、plan、scope 或权限门禁。
 - 成员完成顺序：写入 → evidence → 持 lease `team_task_update complete` → `team_run_lease release`。回报路径、命令、结果、证据、commit 和风险。
+- 正式需求计划与任务执行 plan 不同：由 tier 0 按完整用户需求登记 `team_v12(action:"plan_register")`；组长/成员回报真实 task、实现及测试证明，不自行缩减必选项。任务板清空、context receipt 或 `team_plan_approve` 不等于整体交付；最终以当前完整计划的 durable delivery receipt 为准。
 - 失败不回滚已经成功的调用；根据真实 ID/revision/query 判断效果，只重试未确认且幂等的步骤。
 - 等待用 `team_v12(action:"waiting_set", task_id:"<task-id>", input:{reason:"...", unblockCondition:{type:"...", ...}, responsible:"...", nextCheckAt:"<optional-ISO-time>"})` 登记，用 `waiting_list` 查看；只有真实条件满足后才 `waiting_resolve`，`manual`/`external`/`background` 不因时间或普通 revision 自动解除。
 - PTC 回执可用 `team_v12(action:"ptc_receipts", input:{rootCallId:"<optional>", callId:"<optional>", limit:50})` 查询；分开看 `isError`、`projectionBlocked` 和 `mirrorStatus`，镜像失败不代表原变更回滚。
 - CLM：context state 变化时用 `memo_put` 携 `expectedRevision` 更新；首次为 `0`，否则先 `memo_get` 当前 revision。只记关键决定、约束或下一步变化，不逐步重读；memo 是 working state，不是 authority，并检查回执 `ok`/`code`。
 - 收敛：仅有新假设或证据才重试，同一原因换包装不算新假设；局部修改做匹配的局部验证，不重复整套；复用证据须 exact 对象、source、environment、recipe 且授权有效，不默认跨任务复用。
+
+## 就绪与环境诊断
+
+- 派发准备与产品执行分开：目标、owner、范围、接口和验收已明确的独立任务可先派发做只读定位、依赖核实和验证准备。产品写入仍须批准 plan、活动 lease、有效 scope 和已满足的依赖；有未确认 Room 决策的依赖任务等待该决定，不阻塞无关任务。
+- Room ID 与 board ID 不通用。先 `team_room_list` 获取可见的真实 `room_id`；组 Room 的规范形式是 `group:<group>:tier-2`，不是组板 `group-<group>`。列表为空或 `room-not-found` 时不猜别名、不重复读或 join；向有权限的组长报告缺失 Room，由其创建和安排轮次。tier 2 不能 open Room。
+- `team_worktree_setup` 前先只读核实仓库 HEAD 和所选 base 可解析为 commit，例如 `git rev-parse --verify HEAD` 与 `git rev-parse --verify '<base>^{commit}'`。空仓库或 base 缺失时登记 bootstrap 责任人，等待获授权的初始化提交或正确 base 后继续，不以重复 setup 代替前置条件。tier 0 布置直属组长，组长布置自己成员，verifier 只布置自己的只读 checkout；普通成员不替自己 setup。
+- 环境能力先在实际消费会话核实：记录工具、运行身份、路径、环境和真实返回。浏览器出现 spawn EPERM、mojo Access denied 等权限失败时，区分产品缺陷与环境阻断，向直属上级提交原始证据和所需能力，转交已获授权的宿主浏览器渠道；相同权限状态下改启动参数、换包装或换执行者不算新假设。只有能力或权限发生可核实变化后再试，禁止自行绕过 sandbox 或授权。

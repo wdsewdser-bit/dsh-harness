@@ -1,0 +1,4 @@
+docs(PLATFORM-DEFECTS): 能力事实 —— lease(acquire) 要求 plan-approved 先行；顺序 propose -> approve -> acquire
+
+逐字拒绝：requires a plan-approved record before execution; current plan state: missing。
+与 lease-release-order / lease-revision-mismatch 同族：lease 生命周期被 plan 生命周期门控。

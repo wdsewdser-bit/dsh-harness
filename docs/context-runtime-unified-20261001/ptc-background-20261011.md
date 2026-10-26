@@ -42,6 +42,56 @@ Do not remove native readers, markers or artifacts after enabling sessions that 
 
 ## Remaining Boundaries
 
-Independent security review was not obtained. Live interactive approval handoff and real-provider response quality were not established by these fixtures. Production opt-in remains off; this report does not claim whole E0-E8 completion or token/cost savings.
+At the initial2026-10-11 fixture acceptance, independent security review, live
+interactive approval and real-provider response quality were still missing.
+The2026-10-17 supplement below closes those bounded staging gates. Production
+opt-in remains off; no token/cost savings or whole E0-E8 completion follows from
+this PTC result alone.
 
 Sampling preemption releases only foreground waiting. Explicit job kill or owner teardown aborts the original runtime; already-started child effects drain and receive individual receipts before settlement. A non-cooperative child is not promised to stop instantaneously.
+
+## 2026-10-17 Supplemental Acceptance
+
+Independent review reproduced a real factory-owner teardown defect. The old
+direct `jobs.disposeSession` fixture did not cover it: AgentLoop factory dispose
+closed the JSONL owner while a detached child effect still needed durable
+settlement, causing `WINDOW_JSONL_OWNER_CHANGED` and leaving the cold job row
+at detached/running. `output/ptc-security-review-20261017/review.md` records the
+counterexample. This supersedes the earlier general teardown claim; repair and
+new canonical verification are complete, with no production modification.
+
+The same review exercised actual delayed ApprovalService grants: a grant after
+preemption did not start the old-generation body, and both approval audit events
+survived native cold read. The subsequent fresh and stale real Web approval
+checks also passed. Fresh approval executed the tool body once; approval after
+the successor became idle executed it zero times and persisted the exact
+NATIVE_ADMISSION_CLOSED result with no child effect.
+
+Prepared drivers: `output/ptc-approval-20261017/driver.mjs` uses two fresh isolated
+homes for fresh and preempted approval, native Web UI, a read-only fixed-result
+tool, deterministic adapters, no external requests and no credential copy.
+`natural.mjs` uses the established opencodego/deepseek-v4.1-flash route for one
+bounded ordinary-session handoff. Limits are12 total requests,2048 output tokens
+and512KiB payload per request,8 minutes, no retries or route substitution. It
+must preserve one original PTC instance, handle a new constraint before the
+original result is released, collect an unpredictable result nonce and cold-read
+the matching receipts. Only exact bounded programs and their two fixture tools
+are admitted. Existing credentials are read privately into process memory, not
+printed or copied. Prices and unavailable usage dimensions remain unknown.
+
+The current frozen repair passed28 focused tests and the root's independent
+targeted source review. Both real UI cases and the real provider run completed
+with host disposal, followed by three independent native JSONL cold reads.
+The provider run used4 requests, started the original program once, preserved
+the new constraint and correctly collected the unpredictable result nonce.
+The final combined regression passed1640 tests,0 failed and1 existing skip
+across242 files. Web/Headless and manifest/pin registration are synchronized.
+
+The current bounded acceptance is recorded in
+`output/ptc-approval-20261017/final-result.json`, including exact source hashes,
+review, UI artifacts, post-host readback and the production-file guard. This
+supersedes the three missing-precondition statements above for this staging
+scope. Production opt-in and economic automatic mode remain off. A matched
+full-Team workflow cost comparison and general provider guarantees are not
+established. The earlier failed harness records remain alongside the accepted
+runs, with zero external requests in those failures.

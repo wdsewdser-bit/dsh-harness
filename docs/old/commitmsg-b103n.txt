@@ -1,0 +1,6 @@
+docs: B-103 收窄 —— 报告者用同一动作重测并自证伪（ok:true/handled，当前不可复现）；措辞改为「曾观测到一次、成因未定、不可复现」，并给出判别器
+
+- 重测逐字：inbox_ack(wake_id=wake:verifier:54) ⇒ ok:true / status=handled（messageIds 正是当初报被拒的那条），delivered→handled，lastError=null；另两条 wake 亦 ok:true（deduplicated:true）。
+- 措辞收窄：不得再以「ack 不可用」或「前置与 delivered 自相矛盾」引用，也不得据此设计绕行。判别器：同一 wake_id 连续两次 ack，第二次应幂等成功。
+- 存活部分并入 B-106：被 requeue 的 handoff 既不在 inbox_list 也不在可 ack 集合，dispatch 状态停在 queued。
+- 正面形态：报告者主动重测并自证伪，把条目收窄而非删除（原证据行不可就地改写 ⇒ 以新行收窄）。

@@ -1,0 +1,7 @@
+docs: B-72 更正（真因是全仓冻结快照，非 target 命名）+ 五条纪律 + STAGES §2.6 N-10 边界裁定
+
+- B-72 动机实例被 excluded_target=0 否证；真因 = tests/golden/rig-batch/detached-b3a6760 冻结快照贡献 IN_DOMAIN 的 36%，且是门禁 3 条 path 例外的唯一来源。
+- 新增纪律：自证位必须可判假 / 退出码须声明层次 / 撤回须给出更准出处 / 落盘载体必须是 edit 卡 / 拆写须覆盖每个备选。
+- N-10：实体族字段布局权威已存在（F3 27/27），默认不新建 G-PROTO 卡。
+- 附记：N-9 的触发条件（组件 1 落数）已满足。
+- 门禁 citation_integrity 绿。

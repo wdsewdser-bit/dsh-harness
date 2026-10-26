@@ -1,0 +1,9 @@
+docs: 修正我自己的条款（验收命令致跨组假红）+ 三条新条款 + B-92/93/94 与 B-84…B-91 重评级
+
+★ 修正：条款「作为合并门禁的判据，其域必须只由受跟踪内容决定」的验收形态原写「把确切 commit 的树在仓外展开后跑守卫」，而现行实现把 .git 设为域的前置 ⇒ 展开树（无 .git）实测 1 passed / 3 failed ⇒ 按旧写法字面复验会得到假红。改为「真检出（git clone --no-hardlinks）+ 私有全新 target-dir」。教训：验收命令本身也是判据，实现变了必须同步复测。
+- 新条款：非主树的任何门禁运行必须用真检出 + 私有全新 target-dir（CARGO_MANIFEST_DIR 编译期烘死 ⇒ 共享 target 里的陈旧二进制指向另一棵树 ⇒ 读数归属不可判，假红与假绿都可能）；报告门禁读数须同时给 Compiling 路径。
+- 新条款：一个检查不得与其对照共享可变状态（PowerShell 数组按引用传递 ⇒ 子检查互相污染、结论反转）。
+- 新条款：计匹配数一律直接打印原文 + 退出码；禁用 @(... | Measure-Object).Count（空管道返回 1，本会话第三次误导）。
+- 新条款：done_when 不得为迁就已达成的结果而改写；tick 不得自我认证（tick 是折叠边界，假 tick 会在假完成点折叠且无 undo）。
+- B-92 done_when 可与 done 同刻改写；B-93 team_task_create 不建立 worktree 绑定而拒绝串说「超出写作用域」；B-94 写范围守卫把 cmdlet 名当路径 + cargo 对 target/ 的反向盲区。
+- 重评级：B-84 产品侧已修（域 := 受跟踪内容，333→215，两张 frozen 表清空）；B-85…B-91 平台侧已修；★ 边界：均为 focused fixture 验证，未在 live root Room / live G-WORLD 重放全部原始反例 ⇒ 不得写成全部 live 转绿。

@@ -77,3 +77,6 @@ settings.yaml*
 *.log
 *.7z
 *.superseded-by-*
+
+# optional-tools-runtime 是第三方依赖安装目录
+/staging/*/optional-tools-runtime-*/node_modules/

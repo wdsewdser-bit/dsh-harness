@@ -38,9 +38,9 @@ test('actual runner retains noisy full logs, bounds stdout and propagates failin
   const root = mkdtempSync(join(stage, 'lab-runs/compact-runner-'))
   const fixture = join(root, 'fixture.test.mjs')
   const invoke = () => spawnSync(process.execPath, [fileURLToPath(new URL('../tools/run-regression.mjs', import.meta.url)), '--files', fixture],
-    { cwd: stage, windowsHide: true, encoding: 'utf8', timeout: 12000, maxBuffer: 262144 })
+    { cwd: stage, env: { ...process.env, DSH_HOME: join(root, 'home') }, windowsHide: true, encoding: 'utf8', timeout: 12000, maxBuffer: 262144 })
   for (const fail of [false, true]) {
-    writeFileSync(fixture, `import test from 'node:test';import assert from 'node:assert/strict';\nfor(let i=0;i<1200;i++)test('proof '+i,()=>{if(i===0){assert.equal(process.env.DSH_HOME,${JSON.stringify(process.env.DSH_HOME)});console.log('NOISE_'+ 'x'.repeat(50000));assert.equal(${fail ? 'false' : 'true'},true)}});`)
+    writeFileSync(fixture, `import test from 'node:test';import assert from 'node:assert/strict';\nfor(let i=0;i<1200;i++)test('proof '+i,()=>{if(i===0){assert.equal(process.env.DSH_HOME,${JSON.stringify(join(root, 'home'))});console.log('NOISE_'+ 'x'.repeat(50000));assert.equal(${fail ? 'false' : 'true'},true)}});`)
     const result = invoke()
     assert.equal(result.status, fail ? 1 : 0, result.stdout + result.stderr)
     assert.ok(result.stdout.length < 5000)
@@ -53,5 +53,19 @@ test('actual runner retains noisy full logs, bounds stdout and propagates failin
     assert.equal(summary.counts.tests, 1200)
     assert.equal(summary.counts.failed, fail ? 1 : 0)
     assert.ok(readFileSync(fullPath, 'utf8').includes('NOISE_'))
+  }
+})
+
+test('actual runner never hands the production home to a test process', { timeout: 30000 }, () => {
+  const root = mkdtempSync(join(stage, 'lab-runs/compact-runner-'))
+  const fixture = join(root, 'fixture.test.mjs'), production = join(stage, '../../home')
+  writeFileSync(fixture, `import test from 'node:test';import assert from 'node:assert/strict';import { resolve } from 'node:path';
+test('home',()=>{assert.ok(process.env.DSH_HOME);assert.notEqual(resolve(process.env.DSH_HOME).toLowerCase(),${JSON.stringify(production.toLowerCase())})});`)
+  for (const home of [production, undefined]) {
+    const env = { ...process.env }
+    if (home) env.DSH_HOME = home; else delete env.DSH_HOME
+    const result = spawnSync(process.execPath, [fileURLToPath(new URL('../tools/run-regression.mjs', import.meta.url)), '--files', fixture],
+      { cwd: stage, env, windowsHide: true, encoding: 'utf8', timeout: 12000, maxBuffer: 262144 })
+    assert.equal(result.status, 0, result.stdout + result.stderr)
   }
 })

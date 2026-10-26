@@ -73,7 +73,7 @@ export function apply(ctx, config = {}) {
   let recordsInFile = 0
   const agents = service(ctx, 'agents')
   const milestonePath = text(source.milestonePath)
-  let milestoneCache = { mtimeMs: -1, doc: null }
+  let milestoneCache = { mtimeMs: -1, ctimeMs: -1, size: -1, doc: null }
 
   // "A large phase was ticked and has not been folded yet", read from the milestone file the fold engine itself uses.
   // Unknown (no path, no Team membership, unreadable file) is reported as unknown, never guessed.
@@ -84,8 +84,10 @@ export function apply(ctx, config = {}) {
       const membership = service(ctx, 'agentTeams')?.tryMembership?.(agent)
       const team = text(membership?.id), member = text(membership?.name)
       if (team === null || member === null) return { milestoneKnown: false }
-      const mtimeMs = statSync(milestonePath).mtimeMs
-      if (mtimeMs !== milestoneCache.mtimeMs) milestoneCache = { mtimeMs, doc: JSON.parse(readFileSync(milestonePath, 'utf8')) }
+      const { mtimeMs, ctimeMs, size } = statSync(milestonePath)
+      if (mtimeMs !== milestoneCache.mtimeMs || ctimeMs !== milestoneCache.ctimeMs || size !== milestoneCache.size) {
+        milestoneCache = { mtimeMs, ctimeMs, size, doc: JSON.parse(readFileSync(milestonePath, 'utf8')) }
+      }
       const scope = milestoneCache.doc?.teams?.[team]
       if (!object(scope)) return { milestoneKnown: false }
       const record = scope.members?.[member]

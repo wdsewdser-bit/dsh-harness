@@ -1,0 +1,6 @@
+docs: 成员→组合并顺序是硬门控（并纠正 tier 0 一条不可执行的指令）+ 行计数 vs 出现次数两个单位
+
+- t29 合并两次被拒，第二次是 [task-phase] before packet phase integration-ready。
+- tier 0 认错：写「请照常推进合并」而未先核合并门控（同族第 4 个主体实例）。
+- 按行计数系统性低估：docs/groups/rig 行数 1 vs 出现次数 6（同一行）。
+- 门禁 citation_integrity 绿。

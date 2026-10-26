@@ -26,6 +26,13 @@ const MAX_TIMELINE_CACHE_ENTRIES = 32
 const MAX_SESSION_DIR_ENTRIES = 128
 const MAX_SESSION_ROOT_ENTRIES = 8
 const MAX_LAST_EVALUATION_ENTRIES = 128
+const DEBT_STATE_FIELDS = Object.freeze([
+  'lastCompactionSeq',
+  'lastCompactionContextTokens',
+  'carriedDebtTokens',
+  'requestsSinceCompaction',
+  'lastProcessedRequestSeq',
+])
 const cache = new Map()
 const sessionDirs = new Map()
 const sessionDirIndexes = new Map()
@@ -85,10 +92,13 @@ function debtForSession(sessionId, timeline, cfg, contextTokens) {
     }
     doc.version = 1
     doc.sessions ??= {}
-    const next = calculate(doc.sessions[String(sessionId)] ?? {})
-    doc.sessions[String(sessionId)] = next
+    const key = String(sessionId)
+    const prior = doc.sessions[key] ?? {}
+    const next = calculate(prior)
+    if (DEBT_STATE_FIELDS.every((field) => prior[field] === next[field])) next.updatedAt = prior.updatedAt
+    doc.sessions[key] = next
     return next
-  }, { fallback: { version: 1, sessions: {} } })
+  }, { fallback: { version: 1, sessions: {} }, skipUnchanged: true })
 }
 
 function buildSessionDirIndex(root, depth, index) {

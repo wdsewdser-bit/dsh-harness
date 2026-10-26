@@ -35,7 +35,8 @@ function fixture(t, bridge) {
   const proposal = service.manage(agent, { action: 'propose', input: { expectedRevision: 0,
     operations: [{ op: 'select', sourceId: row.sourceId, revision: row.revision, sha256: row.sha256 }] } })
   assert.equal(proposal.ok, true)
-  assert.equal(service.manage(agent, { action: 'commit', input: { expectedRevision: 0, proposalId: proposal.proposalId } }).ok, true)
+  const committed = service.manage(agent, { action: 'commit', input: { expectedRevision: 0, proposalId: proposal.proposalId } })
+  assert.equal(committed.ok, true, JSON.stringify(committed))
   const options = { sessionId: agent.session.id, purpose: 'conversation', messages: [{ id: 'current', role: 'user', source: { kind: 'user' }, content: [{ type: 'text', text: 'current task' }] }] }
   brands.add(options)
   const projected = registrations[0].project(options)

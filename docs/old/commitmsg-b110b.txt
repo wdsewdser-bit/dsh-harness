@@ -1,0 +1,5 @@
+docs: B-110 补二（live 证伪「不快进」+ 第十四轮字段已修）+ B-116 补一 第二实例 + 第十四轮修复收编
+
+- 受控对：grp/proto 并入 fastForwarded=true/createdCommit=false；grp/rig 并入 false/true
+- 四新字段 previousMeaning/destinationBefore/sourceHead/mergeBase 均被填充（lead-proto 的可判假预测已确认）
+- 并入正确性：diff c4deb608 -> 7eb6cf60 = 141 路径，proto 的 12 路径未丢

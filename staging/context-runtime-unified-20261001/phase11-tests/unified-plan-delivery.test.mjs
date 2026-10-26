@@ -125,6 +125,33 @@ test('plan/tree/contract/task/evidence/runtime/lease/debt changes after preview 
   }
 })
 
+test('missing commit bindings name exact required fields without weakening current-vector CAS', () => {
+  for (const field of ['sourceIdentity', 'sourceRevisionVector', 'coverageMatrixHash']) {
+    const { doc } = fixture(), preview = evaluate(doc), input = request(preview)
+    delete input[field]
+    input.expectedSourceRevisionVector = preview.sourceRevisionVector
+    input.previewToken = 'server-preview-token-is-not-a-normal-commit-binding'
+    const before = structuredClone(doc), result = commitPlanDelivery(doc, input, now)
+    assert.equal(result.ok, false)
+    assert.equal(result.code, 'DELIVERY_CAS_CONFLICT')
+    assert.match(result.detail, new RegExp('Missing current commit bindings:.*' + field))
+    assert.match(result.detail, /sourceRevisionVector.*not expectedSourceRevisionVector/)
+    assert.deepEqual(doc, before)
+    const accepted = commitPlanDelivery(doc, request(evaluate(doc)), now)
+    assert.equal(accepted.ok, true)
+    assert.equal(accepted.receipt.status, 'validated')
+  }
+})
+
+test('well-formed stale commit retains state-change conflict and never suggests missing fields', () => {
+  const { doc } = fixture(), preview = evaluate(doc), input = request(preview)
+  input.sourceRevisionVector.contextHash = 'stale-context'
+  const before = structuredClone(doc), result = commitPlanDelivery(doc, input, now)
+  assert.equal(result.code, 'DELIVERY_CAS_CONFLICT')
+  assert.equal(result.detail, 'plan, source or coverage changed since preview')
+  assert.deepEqual(doc, before)
+})
+
 test('old, wrong-scope or mismatched evidence cannot provide any current-plan coverage', () => {
   for (const field of ['planId', 'planRevision', 'planHash', 'requirementId', 'boardId', 'taskId', 'taskRevision', 'contractRevision',
     'scope', 'sourceIdentity', 'environmentFingerprint', 'recipeFingerprint']) {

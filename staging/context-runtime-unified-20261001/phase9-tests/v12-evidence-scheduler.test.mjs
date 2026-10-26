@@ -29,6 +29,8 @@ const task = (id, overrides = {}) => ({
   acceptanceCriteria: [{ id: 'ac-1', text: 'build passes' }],
   ...overrides,
 })
+const coverageBinding = { commitSha: 'abc', treeHash: 'tree', contractRevision: 1, planRevision: 1,
+  recipeFingerprint: 'recipe', environmentFingerprint: 'environment' }
 
 test('evidence registry reuses exact matches and invalidates stale records', () => {
   const registry = createEvidenceRegistry()
@@ -56,6 +58,7 @@ test('acceptance matrix refuses completion without mapped evidence', () => {
   assert.equal(matrix.covered, false)
   assert.deepEqual(matrix.uncovered, ['ac-1'])
   registerEvidence(registry, {
+    ...coverageBinding,
     taskId: 't1',
     requirementId: 'ac-1',
     commitSha: 'abc',
@@ -63,11 +66,13 @@ test('acceptance matrix refuses completion without mapped evidence', () => {
     profile: 'web',
     status: 'passed',
   })
-  assert.equal(buildAcceptanceMatrix(task('t1', { commitSha: 'abc' }), registry).covered, true)
+  assert.equal(buildAcceptanceMatrix(task('t1', { commitSha: 'abc' }), registry).covered, false)
+  assert.equal(buildAcceptanceMatrix(task('t1', coverageBinding), registry).covered, true)
 })
 
 test('review package refuses shared evidence without an explicit reuse receipt', () => {
   const registry = createEvidenceRegistry([{
+    ...coverageBinding,
     id: 'ev-shared',
     taskId: 't1',
     requirementId: 'ac-1',
@@ -77,9 +82,10 @@ test('review package refuses shared evidence without an explicit reuse receipt',
     status: 'passed',
   }])
   const second = task('t2', {
+    ...coverageBinding,
     acceptanceCriteria: [{ id: 'ac-1', text: 'build passes' }],
   })
-  const pack = buildReviewPackage([task('t1', { commitSha: 'abc' }), second], registry)
+  const pack = buildReviewPackage([task('t1', coverageBinding), second], registry)
   assert.equal(pack.evidence.length, 1)
   assert.deepEqual(pack.evidence[0].tasks.sort(), ['t1'])
   assert.equal(pack.complete, false)
@@ -115,6 +121,7 @@ test('cost guard alerts only when spend grows without new evidence', () => {
 
 test('verification recipes bind checks to task revision and exact evidence', () => {
   const apiTask = task('api-task', {
+    ...coverageBinding,
     subject: 'API lifecycle transition',
     revision: 4,
     acceptanceCriteria: [{ id: 'ac-1', text: 'invalid transition is refused' }],
@@ -128,6 +135,7 @@ test('verification recipes bind checks to task revision and exact evidence', () 
   const registry = createEvidenceRegistry()
   for (const check of plan.checks) {
     registerEvidence(registry, {
+      ...coverageBinding,
       taskId: apiTask.id,
       requirementId: check.evidenceRequirement,
       recipeId: plan.recipeId,

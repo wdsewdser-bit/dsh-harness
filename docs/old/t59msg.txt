@@ -1,0 +1,9 @@
+task-59: 更正 task-56 交付物5 的成因（culture 排序被否证）+ 实测给出 d12e7e56 的出处（第 217 种组合）
+        + 冻死 recipe 三参数 + 逐文件清单为默认、聚合为派生
+
+- verifier 216 组合暴力比对：对 hash 开头的行，culture 与 ordinal 同序 => 我的成因不成立。
+- 我实测枚举：d12e7e56 = path|size|hash + InvariantCultureIgnoreCase + 有尾随 LF => 第 217 种组合（它的 216 未覆盖）。
+- 规范值是 r3 的 e685ab9a（hash+两空格+路径、ordinal、无尾随 LF）；lead-rig 的 62ce4101 是另一种约定（格式+尾随 LF 之差）。
+- recipe 必须冻结三参数：路径分隔符 / 尾随换行 / 行模板。
+- 逐文件清单为默认、聚合为派生（单次聚合不足以证明集合静止：eca272cb 无约定命中、事后不可复现）。
+- 第 28 处错：同一条条款上第三次用未测量的成因解释读数。

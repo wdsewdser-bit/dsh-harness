@@ -5,7 +5,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 const stage = resolve(fileURLToPath(new URL('..', import.meta.url)))
-const nativeAliases = new Set(['cordis', 'cordis-plugin-loader', 'dsh-system-prompt', 'dsh-scope', 'dsh-tool-goal', 'dsh-agent', 'dsh-subagent'])
+const nativeAliases = new Set(['cordis', 'cordis-plugin-loader', 'dsh-system-prompt', 'dsh-scope', 'dsh-tool-goal', 'dsh-agent', 'dsh-subagent', 'dsh-compaction-tool-result-pruner', 'dsh-sandbox-local', 'dsh-goal-round-driver'])
 export function canonicalNativeTarget(specifier) {
   const name = specifier.startsWith('@deepseek-ai/') ? specifier.slice(13) : ''
   return nativeAliases.has(name) ? new URL('../app/node_modules/@deepseek-ai/' + name + '-v15/lib/index.js', import.meta.url).href : undefined

@@ -1,0 +1,8 @@
+task-32: 更正 B-48 的「无收口路径」假缺陷（verifier 自证伪）+ 更正 §5.14-28 补 4=>3 + 三选一实测
+
+- B-48：原句「ack 后 wakes 仍长 1 => 该 wake 无法从任何可读视图收口」已被证伪 ——
+  ack #1 回 partially-handled（6 条 messageId），ack #2（同 id、中间无其它动作）回 handled=true 并关闭。
+  收窄为：未文档化的「重复同一 ack 直到 handled」契约 + id 字段名不匹配。不是「无收口路径」。
+- §5.14-28 补：以 chunk.rs 结尾的文件实测 3 个（原写 4 个），成因 = lead-rig 的模式 chunk\.rs$ 缺 / 目录边界。
+- 三选一（唯一匹配 / 相对目录 / 歧义即红）对这条引用【都红】=> 无论选哪个，
+  tools/rig-batch/CONTRACT.md:75 都必须进「落地即绿」例外清单；故 (iii) 可按通则定。

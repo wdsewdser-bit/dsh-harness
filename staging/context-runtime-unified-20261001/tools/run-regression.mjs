@@ -42,7 +42,12 @@ export async function runRegression(args) {
   console.log(`RUN ${files.length} files; concurrency=1; full output -> ${full}`)
   const fd = openSync(processLog, 'wx')
   let code, signal, spawnError
-  const env = { ...process.env, DSH_LAB_CANONICAL_MODULES: '1', FORCE_COLOR: '0' }
+  // The operator shell exports the production DSH_HOME, and plugins fall back to it for process-local files. A home the
+  // caller chose on purpose is passed through.
+  const production = resolve(stage, '../../home').toLowerCase()
+  const home = !process.env.DSH_HOME || resolve(process.env.DSH_HOME).toLowerCase() === production ? resolve(directory, 'home') : process.env.DSH_HOME
+  mkdirSync(home, { recursive: true })
+  const env = { ...process.env, DSH_HOME: home, DSH_LAB_CANONICAL_MODULES: '1', FORCE_COLOR: '0' }
   // A new CLI run is not a nested node:test worker, even in runner self-tests.
   delete env.NODE_TEST_CONTEXT
   try {

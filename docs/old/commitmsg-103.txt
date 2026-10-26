@@ -1,0 +1,6 @@
+docs: B-71 待验转实测（release status=cancelled 可用，七步配方全绿）+ B-60 补充二 + 计数谓词须排除测量者自身
+
+- t25 已 completed（commit 974e35a3，恰 1 文件），门禁首次即满足 ⇒ 原拒绝是卡面无受跟踪交付物，非证据不足。
+- 据此把「放宽 commit_sha:null 判据」下调为可选项。
+- lead-rig 更正了我此前「驱动 4 个」的读数：计数谓词含测量者自身，结论不受影响但判据式不可信。
+- 门禁 citation_integrity 绿。

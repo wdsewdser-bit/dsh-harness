@@ -1,0 +1,6 @@
+docs: 更正我上一条自己的条款（「两方都没动手」是错的）+ 入册「reopen 可恢复 deleted 卡 ⇒ delete 是软删除」
+
+★ 更正：我上一条写「两条裁定被撤回是因为两方都没有抢先动手」—— 实测两方都动手了（B 组已 claim 并指派成员；A 组已 delete 并 interrupt 成员）。真正让损失为零的是三条：delete 是软删除且 reopen 可恢复并保留计划与绑定；撤回时被指派成员恰好 inactive 且该路径 porcelain 为空；另一组被 interrupt 的成员未产生提交。
+- 纪律（更正后）：「裁定未落定前不动手」只对未被点名执行的一方成立；被点名的一方立即执行是对的。责任在发出方 —— 破坏性/归属类指令必须写明执行时机，默认形态 = 先回执确认再执行。
+- 配套（发出方自用）：撤回前必须先查状态，不得假定对方未执行。
+- 正面形态入册：reopen 能恢复 status=deleted 的卡且保留 phase/plan/writeScopes/worktree 绑定 ⇒ delete 是软删除；文档只写 reopen 覆盖 rejected/cancelled/expired，未写 deleted，建议补上。

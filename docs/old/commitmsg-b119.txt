@@ -1,0 +1,5 @@
+docs: 落 B-119/B-120 + 条款 62/63（lease 前同步 main / 漂移输入只是时点读数）+ t39 残留面已闭合
+
+- B-119 worktree-sync-failed 第三次命中，处置 = 先 git merge main
+- B-120 oracle 未受跟踪且漂移 8 字节 ⇒ 摘要不可锚判据
+- t39 以 crate 内 .gitignore 闭合残留面，未删字节

@@ -1,0 +1,6 @@
+docs: B-102（verifier_report 的 severity 档位不够用：适用条件被写成 major ⇒ 门禁把条件当阻塞项 ⇒ CLEARED 的报告打不开它自己清关的那次合并）
+
+- 逐字：team policy refusal [verifier-found-a-major]: main refuses "grp/world": verifier-found-a-major (commit 9fd13651907e)；而同一份报告 verdict = BRANCH CLEARANCE … CLEARED，且表中唯一那条 major 被逐字标注为「【并入操作条件·非返工项】不得以 head 树重置或覆盖 main」。
+- 性质：severity 只有 blocker/major/minor/nit，没有「适用条件」档 ⇒ 条件塞进 major ⇒ 被门禁当阻塞项 ⇒ CLEARED 与可合并不一致；调用方无法从拒绝串判断那条 major 是缺陷还是条件。
+- 修法建议：增设 condition 档（不阻塞）；或门禁只按 blocker 阻塞、major 交人判；至少让拒绝串具名是表里哪一条 major。
+- 受准处置：请 verifier 重发一份，只把适用条件移进 summary、issues 只留 nit，不改内容不改 head 不重测。

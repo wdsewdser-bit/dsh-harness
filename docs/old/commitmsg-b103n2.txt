@@ -1,0 +1,6 @@
+docs: B-103 第二半被 8/8 反例否证（wakeIds 全为空的消息用 inbox_id ack 全部成功）⇒ 存活部分再收窄；存活的那一格早已搬进 B-106
+
+- 8/8 逐条读数：inbox_ack(inbox_id=<exact-msg-id>) 对 8 条 wakeIds 全为空的消息全部返回 {ok:true, status:handled, handled:true}，0 失败 ⇒ 确认路径不依赖 wakeIds。
+- 因此本条存活部分 = 「拒绝曾一次性观测到、成因未定、当前不可复现」；其余视为已否证；仍然存活的是 B-106。
+- 操作结论：ack 的正确键是 inbox_id（或顶层 wake_id）；wakeIds 为空的消息用 inbox_id 即可收口。
+- 方法学价值：同一份条目被三个独立方各自否证一部分，而存活的那一格被另立为 B-106 —— 「收窄而非删除」与「一格一条」的合成形态。

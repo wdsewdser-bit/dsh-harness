@@ -1,0 +1,5 @@
+docs: 收编五条纪律（commit --only 选项顺序 / 转述须自读逐字行 / 冻结保字节不保可重算性 / 全 gitignored scope 须给受跟踪载体 / 自称代码块须做结构断言）
+
+- 均由三组组长本轮实测或自纠提出，tier 0 收编。
+- 第四条由 B-71（group-rig-t25）得出，属建卡口径缺陷。
+- 门禁 citation_integrity 绿（CARGO_RC=0）。

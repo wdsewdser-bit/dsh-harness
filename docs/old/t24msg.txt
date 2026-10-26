@@ -1,0 +1,9 @@
+task-24: 收口 verifier nit①（oracle:73）+ 收编 B-61 第一手实测 + §5.14-23
+
+- tools/oracle/README.md:73 的现在时断言「target-dir 是绝对路径」已为假 => 改为「原为绝对路径」+ 指向 :74 历史记录。
+  （verifier 判「具名目标未落地」，我认：卡面具名 :73 而交付改了 :74。不拿「实质可接受」搪塞。）
+- B-61 补充：lead-rig 第一手实测 —— waiting 票锚在 status=completed 的卡上，8.094 秒被自动 resolved，
+  resolution="auto:condition-cleared" 是一句假陈述；同时是 B-9 实例（该票在 waiting_list 里完全不可见）。
+  受控对照在飞：只换锚点卡 status（pending 的 group-rig-t25），单变量。
+- §5.14-23：「某串出现 N 次」类判据的 N 会随后续追加漂移 => 用形态判据。
+  判据一旦落地，就会改变它自己所测的那个计数。

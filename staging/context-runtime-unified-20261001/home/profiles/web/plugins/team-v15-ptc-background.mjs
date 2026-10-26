@@ -22,12 +22,15 @@ export class PtcBackground extends Service {
   constructor(ctx, config) {
     super(ctx, 'ptcBackground')
     this.hostCtx = ctx
+    this.jobs = ctx.jobs
     if (!Array.isArray(config.sessionIds) || !config.sessionIds.length || !isAbsolute(config.resultDirectory ?? '')) fail('PTC_BACKGROUND_EXACT_OPT_IN_REQUIRED')
     this.config = config
     this.allowed = new Set(config.sessionIds)
     mkdirSync(config.resultDirectory, { recursive: true })
     this.directory = realpathSync(config.resultDirectory)
     this.live = new Map()
+    this.closingOwners = new WeakSet()
+    this.ownerCapabilities = new WeakMap()
     this.installed = new WeakSet()
     this.installing = new WeakMap()
     this.pendingCollections = new WeakMap()
@@ -76,6 +79,10 @@ export class PtcBackground extends Service {
       })
     }
     await bridge.requireDurable()
+    if (typeof agent.registerBackgroundDrain !== 'function') fail('PTC_BACKGROUND_OWNER_DRAIN_REQUIRED')
+    const capability = Object.freeze({ agent, bridge })
+    this.ownerCapabilities.set(agent, capability)
+    agent.registerBackgroundDrain(() => this.drainOwner(agent, capability))
     this.installed.add(agent)
     const disposePolicy = bridge.registerInputPreemption((target, message) => {
       if (target !== agent || this.config.teamInstant !== true) return false
@@ -92,9 +99,11 @@ export class PtcBackground extends Service {
       execute: (args, exec) => this.collect(args.job_id, exec) })
     await this.recover(agent)
   }
-  async mark(agent, data) {
-    const bridge = this.actor(agent)
+  async mark(agent, data, state) {
     const key = agent.session.id + ':' + data.rootCallId
+    // A live admitted job retains its exact bridge through terminal persistence and provider unload.
+    const owned = state && this.live.get(key) === state && state.agent === agent
+    const bridge = owned ? state.bridge : this.actor(agent)
     const operation = (this.transitions.get(key) ?? Promise.resolve()).catch(() => {}).then(async () => {
       const current = latestJobs(agent.session).get(data.rootCallId)
       if (['notified', 'consumed'].includes(data.action) && current?.action === 'consumed'
@@ -135,13 +144,13 @@ export class PtcBackground extends Service {
     if (hash(bytes) !== row.resultRef.sha256) fail('PTC_RESULT_READBACK_MISMATCH')
     return JSON.parse(bytes)
   }
-  async notify(agent, row) {
+  async notify(agent, row, state) {
     this.read(agent, row)
     const inputId = 'ptc-result-' + row.receiptId
     await agent.steer(createUserMessage({ source: { kind: 'ptc-background', rpcId: inputId, form: 'receipt' },
       content: [{ type: 'text', text: JSON.stringify({ kind: 'ptc-completion', jobId: row.jobId,
         rootCallId: row.rootCallId, status: row.status, receiptId: row.receiptId, resultRef: row.resultRef }) }] }))
-    await this.mark(agent, { ...row, action: 'notified', notificationInputId: inputId })
+    await this.mark(agent, { ...row, action: 'notified', notificationInputId: inputId }, state)
   }
   async recover(agent) {
     if (this.recoveries.has(agent)) return this.recoveries.get(agent)
@@ -188,32 +197,55 @@ export class PtcBackground extends Service {
     return { jobId, receiptId: row.receiptId, resultRef: row.resultRef, status: row.status, artifactOnly: true, bytes,
       ...(value.error ? { error: { code: value.error.code, message: value.error.message.slice(0, 512) } } : {}) }
   }
+  async drainOwner(agent, capability) {
+    if (this.ownerCapabilities.get(agent) !== capability || capability?.agent !== agent) fail('PTC_BACKGROUND_OWNER_DRAIN_DENIED')
+    this.closingOwners.add(agent)
+    const states = [...this.live.values()].filter(state => state.agent === agent)
+    for (const state of states) if (!state.terminal) {
+      if (state.jobId) this.jobs.kill(state.jobId, agent.session.id, 'PTC owner teardown')
+      else state.cancel('PTC owner teardown')
+    }
+    const outcomes = await Promise.allSettled(states.map(async state => {
+      await state.completion.promise
+      if (state.jobWait) await state.jobWait
+    }))
+    const errors = outcomes.filter(outcome => outcome.status === 'rejected').map(outcome => outcome.reason)
+    if (errors.length) throw Object.assign(new AggregateError(errors, 'PTC_OWNER_DRAIN_FAILED'), { code: 'PTC_OWNER_DRAIN_FAILED' })
+  }
   async run(exec, operation, controller) {
     const agent = exec.agent, bridge = this.actor(agent), key = agent.session.id + ':' + exec.rootCallId
+    if (this.closingOwners.has(agent)) fail('PTC_BACKGROUND_OWNER_CLOSING')
     if (this.live.has(key) || latestJobs(agent.session).has(exec.rootCallId)) fail('PTC_ROOT_CALL_ALREADY_STARTED')
     if (agent.phase.kind !== 'running') fail('PTC_BACKGROUND_OPEN_STEP_REQUIRED')
     const generation = bridge.samplingGeneration, detached = Promise.withResolvers(), finished = Promise.withResolvers()
-    const state = { generation, terminal: false, cancellationRequested: false, detaching: null, contexts: [], row: null }
+    const completion = Promise.withResolvers()
+    completion.promise.catch(() => {})
+    const state = { agent, bridge, completion, generation, terminal: false, cancellationRequested: false, detaching: null, contexts: [], row: null,
+      cancel: reason => {
+        if (state.terminal) return
+        state.cancellationRequested = true
+        controller.abort(reason)
+      } }
     this.live.set(key, state)
     const originalDefer = exec.deferContext
     exec.deferContext = context => state.detaching ? state.contexts.push(context) : originalDefer(context)
     const unsubscribe = bridge.subscribe(() => {
       if (state.terminal || state.detaching || bridge.generation === generation || !state.row) return
       const triggerSeq = bridge.inputCursor
-      state.detaching = this.mark(agent, { ...state.row, action: 'detached', detachedAtGeneration: bridge.generation, triggerSeq })
+      state.detaching = this.mark(agent, { ...state.row, action: 'detached', detachedAtGeneration: bridge.generation, triggerSeq }, state)
         .then(row => { state.row = row; detached.resolve({ logs: [], result: { kind: 'ptc-background',
           status: 'running', jobId: row.jobId, rootCallId: row.rootCallId } }) })
       state.detaching.catch(error => detached.reject(error))
     })
     let jobId
     try {
-      jobId = this.hostCtx.jobs.start({ kind: 'ptc-' + hash(key), label: exec.arguments.description, owner: agent.session.id, run: handle => {
+      jobId = this.jobs.start({ kind: 'ptc-' + hash(key), label: exec.arguments.description, owner: agent.session.id, run: handle => {
         const done = (async () => {
           let value, error
           try {
             state.row = { version: 1, sessionId: agent.session.id, rootCallId: exec.rootCallId,
               jobId: handle.id, generation, turn: agent.phase.turn, step: agent.phase.step, action: 'started', status: 'running' }
-            await this.mark(agent, state.row)
+            await this.mark(agent, state.row, state)
             if (bridge.generation !== generation) fail('NATIVE_ADMISSION_CLOSED')
             value = await operation()
           } catch (caught) { error = caught }
@@ -225,24 +257,25 @@ export class PtcBackground extends Service {
             effects: agent.session.log.filter(event => event.type === 'native/tool-effect' && event.data.rootCallId === exec.rootCallId && event.data.callId !== exec.rootCallId)
               .map(event => ({ seq: event.seq, callId: event.data.callId, effectOutcome: event.data.effectOutcome, sha256: hash(JSON.stringify(event.data)) })) })
           state.row = await this.mark(agent, { ...state.row, action: 'settled', status, resultRef,
-            receiptId: hash(JSON.stringify({ rootCallId: exec.rootCallId, resultRef })) })
+            receiptId: hash(JSON.stringify({ rootCallId: exec.rootCallId, resultRef })) }, state)
           if (state.detaching) {
-            try { await this.notify(agent, state.row) } catch (caught) { this.hostCtx.logger?.warn?.('PTC completion remains queued: ' + caught.message) }
+            if (!this.closingOwners.has(agent) && this.hostCtx.fiber.state === 2) {
+              try { await this.notify(agent, state.row, state) } catch (caught) { this.hostCtx.logger?.warn?.('PTC completion remains queued: ' + caught.message) }
+            }
           } else {
             this.pendingCollections.set(exec, state.row)
           }
+          completion.resolve()
           if (error) finished.reject(error); else finished.resolve(value)
           return { status: error ? 'failed' : 'completed', result: JSON.stringify({ receiptId: state.row.receiptId, resultRef }) }
-        })().catch(error => { finished.reject(error); return { status: 'failed', detail: error.message } })
-        return { done, cancel: reason => {
-          if (state.terminal) return
-          state.cancellationRequested = true
-          controller.abort(reason)
-        } }
+        })().catch(error => { completion.reject(error); finished.reject(error); return { status: 'failed', detail: error.message } })
+        return { done, cancel: state.cancel }
       } })
+      state.jobId = jobId
       // This controller owns completion delivery. A real waiter makes the
       // generic job reporter skip its non-durable duplicate notification.
-      void this.hostCtx.jobs.wait(jobId, 2147483647, agent.session.id).catch(error => this.hostCtx.logger?.warn?.(error.message))
+      state.jobWait = this.jobs.wait(jobId, 2147483647, agent.session.id)
+      state.jobWait.catch(error => this.hostCtx.logger?.warn?.(error.message))
       finished.promise.catch(() => {})
       return await Promise.race([finished.promise, detached.promise])
     } catch (error) {

@@ -1,0 +1,1 @@
+docs: 修 STAGES.md 第三处自指污染（解释 token 时不得把 token 原样写回）

@@ -1,0 +1,8 @@
+task-44: 更正 task-41 交付物3① 的推断（pending 消失不构成失败；那次 FAILED 的唯一已定位成因是 :759 panic）
+
+- lead-proto revision 绑定实测：blob be574d1:citation_integrity.rs = 4e7c9dba（913 行）；
+  在该 blob 上 present_pending=0 与 test result: ok / EXIT=0 同时成立 => pending 消失不构成失败。
+  我原写「已登记的 pending 键仍断言其存在」是推断不是实测；正确表述 = 观察 + 成因未定。
+- 为什么重要：按我原措辞读者会去删正确的 pending 键或把 pending 改成 owned —— 后者才会制造 dead 键，
+  正与 §5.14-35 要消灭的形态同形 => 一个未测量的成因会引出一条错的行动。
+- 正面结论：这次能拿到反例正因为 §5.14-36（读数绑定具名 revision）。

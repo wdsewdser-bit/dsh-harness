@@ -12,7 +12,7 @@ import { captureMemberMemory, buildMemberRecoveryPack } from './team-v14-memory-
 export const name = 'context-workspace'
 export const inject = ['agents', 'agentTeams', 'requestMessageProjection']
 export const provide = ['contextWorkspace']
-export const CONTEXT_WORKSPACE_LIMITS = Object.freeze({ inputBytes: 32768, textBytes: 16384, outputBytes: 65536, documentBytes: 8388608, objects: 256, history: 64, operations: 32, suffixBytes: 16384, ttlMs: 30 * 86400000 })
+export const CONTEXT_WORKSPACE_LIMITS = Object.freeze({ inputBytes: 32768, textBytes: 16384, outputBytes: 65536, documentBytes: 8388608, objects: 256, history: 64, operations: 32, recoveryPins: 64, recoveryRefs: 32, suffixBytes: 16384, ttlMs: 30 * 86400000 })
 const L = CONTEXT_WORKSPACE_LIMITS
 const hash = value => createHash('sha256').update(value).digest('hex')
 const moduleHash = hash(readFileSync(new URL(import.meta.url)))
@@ -140,9 +140,20 @@ function refRow(actor, document, ref, options) {
   const requested = revision(ref.revision)
   const expectedHash = sha(ref.sha256)
   const object = document.objects[sourceId]
-  // Latest tombstone/TTL revokes all previously issued source locators.
-  verifyRow(actor, object?.history?.at(-1), options)
-  const row = verifyRow(actor, object.history.find(row => row.revision === requested), options)
+  let row
+  try {
+    verifyRow(actor, object?.history?.at(-1), options)
+    row = verifyRow(actor, object.history.find(row => row.revision === requested), options)
+  } catch (error) {
+    if (error.code !== 'SOURCE_EXPIRED') throw error
+    // Only a current server-owned recovery pin may extend normal TTL. Explicit
+    // revocation and the current ACL are still checked across its full closure.
+    const pin = Object.values(document.recoveryPins ?? {}).find(({ receipt }) =>
+      receipt.sessionId === actor.sessionId && receipt.member === actor.member
+      && receipt.refs.some(ref => ref.sourceId === sourceId && ref.revision === requested && ref.sha256 === expectedHash))
+    if (!pin) throw error
+    row = readPin(actor, document, pin.receipt).find(candidate => candidate.sourceId === sourceId && candidate.revision === requested)
+  }
   if (row.sourceId !== sourceId) fail('SOURCE_ID_CONFLICT')
   if (row.sha256 !== expectedHash) fail('SOURCE_HASH_CONFLICT')
   return row
@@ -156,6 +167,55 @@ function parseLocator(actor, value) {
 }
 function metadata(actor, row) {
   return { sourceId: row.sourceId, revision: row.revision, parentRevision: row.parentRevision, sha256: row.sha256, integritySha256: row.integritySha256, bytes: row.bytes, scope: row.scope, taskId: row.taskId, owner: row.owner, expiresAt: row.expiresAt, deleted: row.deleted, evidenceRefs: clone(row.evidenceRefs), locator: locator(actor, row) }
+}
+const pinFields = ['kind', 'id', 'teamId', 'member', 'sessionId', 'ownerId', 'locators', 'refs', 'createdAt', 'retention']
+const pinDigest = receipt => hash(JSON.stringify(Object.fromEntries(pinFields.map(key => [key, receipt[key]]))))
+function validatePin(receipt) {
+  keys(receipt, [...pinFields, 'integritySha256'])
+  if (pinFields.some(key => !Object.hasOwn(receipt, key)) || receipt.kind !== 'context-recovery-retention-v1'
+    || receipt.retention !== 'checkpoint-owned-until-release' || !Number.isSafeInteger(receipt.createdAt) || receipt.createdAt < 0
+    || !Array.isArray(receipt.locators) || !receipt.locators.length || receipt.locators.length > L.recoveryRefs
+    || new Set(receipt.locators).size !== receipt.locators.length || !Array.isArray(receipt.refs)
+    || !receipt.refs.length || receipt.refs.length > L.recoveryRefs) fail('RECOVERY_PIN_INVALID')
+  sha(receipt.id); id(receipt.ownerId)
+  for (const field of ['teamId', 'member', 'sessionId']) if (typeof receipt[field] !== 'string' || !receipt[field] || receipt[field].length > 256) fail('RECOVERY_PIN_INVALID')
+  const seen = new Set()
+  for (const ref of receipt.refs) {
+    keys(ref, [...refFields, 'integritySha256'])
+    id(ref.sourceId); if (revision(ref.revision) < 1) fail('RECOVERY_PIN_INVALID')
+    sha(ref.sha256); sha(ref.integritySha256)
+    const key = ref.sourceId + '@' + ref.revision
+    if (seen.has(key)) fail('RECOVERY_PIN_INVALID')
+    seen.add(key)
+  }
+  if (receipt.integritySha256 !== pinDigest(receipt)) fail('RECOVERY_PIN_HASH_MISMATCH')
+  return receipt
+}
+function pinScope(actor, receipt) {
+  validatePin(receipt)
+  if (receipt.teamId !== actor.teamId || receipt.member !== actor.member || receipt.sessionId !== actor.sessionId) fail('RECOVERY_PIN_SCOPE_DENIED')
+}
+function storedPin(actor, document, receipt) {
+  pinScope(actor, receipt)
+  const stored = document.recoveryPins?.[receipt.id]
+  if (!stored || JSON.stringify(stored.receipt) !== JSON.stringify(receipt)) fail('RECOVERY_PIN_UNAVAILABLE')
+  return stored
+}
+function readPin(actor, document, receipt) {
+  storedPin(actor, document, receipt)
+  return receipt.refs.map(ref => {
+    const history = document.objects[ref.sourceId]?.history
+    if (!history?.length) fail('SOURCE_UNAVAILABLE')
+    const latest = validateStoredRow(history.at(-1))
+    canRead(actor, latest)
+    if (latest.deleted) fail('SOURCE_DELETED')
+    const row = history.find(row => row.revision === ref.revision)
+    if (!row) fail('SOURCE_REVISION_UNAVAILABLE')
+    validateStoredRow(row); canRead(actor, row)
+    if (row.deleted) fail('SOURCE_DELETED')
+    if (row.sourceId !== ref.sourceId || row.sha256 !== ref.sha256 || row.integritySha256 !== ref.integritySha256) fail('RECOVERY_PIN_SOURCE_CHANGED')
+    return row
+  })
 }
 const viewKey = actor => hash(`${actor.member}\0${actor.sessionId}`)
 const viewDigest = view => hash(JSON.stringify({ revision: view.revision, parentRevision: view.parentRevision, entries: view.entries, createdAt: view.createdAt, action: view.action }))
@@ -190,6 +250,15 @@ function verifyProposal(candidate, now) {
 function checkDocument(doc, actor) {
   if (doc.schemaVersion !== 1 || !doc.objects || !doc.views || !doc.proposals || (doc.teamId && doc.teamId !== actor.teamId)) fail('WORKSPACE_SCHEMA_INVALID')
   if (bytes(doc) > L.documentBytes) fail('WORKSPACE_LIMIT')
+  if (doc.recoveryPins !== undefined) {
+    if (!doc.recoveryPins || typeof doc.recoveryPins !== 'object' || Array.isArray(doc.recoveryPins)
+      || Object.keys(doc.recoveryPins).length > L.recoveryPins) fail('RECOVERY_PIN_LIMIT')
+    for (const [key, value] of Object.entries(doc.recoveryPins)) {
+      validatePin(value?.receipt)
+      if (key !== value.receipt.id || value.receipt.teamId !== actor.teamId
+        || !Number.isSafeInteger(value.renewedAt) || value.renewedAt < value.receipt.createdAt) fail('RECOVERY_PIN_INVALID')
+    }
+  }
   return doc
 }
 
@@ -230,7 +299,9 @@ function previewView(actor, doc, entries, now) {
     const row = refRow(actor, doc, Object.fromEntries(refFields.map(key => [key, entry[key]])), { now })
     for (const ref of row.evidenceRefs) refRow(actor, doc, ref, { now })
     if (entry.summary !== undefined && (entry.originalSha256 !== row.sha256 || row.scope !== 'task' || !['completed', 'resolved'].includes(String(taskFor(actor, row.taskId).task.status)))) fail('SUMMARY_PROVENANCE_STALE')
-    return createContextSource({ sourceId: row.sourceId, revision: row.revision, content: entry.summary ?? row.text, contentHash: hash(entry.summary ?? row.text), locator: locator(actor, row), teamId: actor.teamId, members: [actor.member], taskId: row.taskId, required: entry.pinned, retentionClass: 'background', createdAt: row.createdAt, expiresAt: row.expiresAt, metadata: { originalSha256: row.sha256, evidenceRefs: row.evidenceRefs, nonAuthoritative: true } })
+    // refRow already proved an active recovery pin if the ordinary TTL elapsed.
+    const expiresAt = row.expiresAt <= now ? null : row.expiresAt
+    return createContextSource({ sourceId: row.sourceId, revision: row.revision, content: entry.summary ?? row.text, contentHash: hash(entry.summary ?? row.text), locator: locator(actor, row), teamId: actor.teamId, members: [actor.member], taskId: row.taskId, required: entry.pinned, retentionClass: 'background', createdAt: row.createdAt, expiresAt, metadata: { originalSha256: row.sha256, evidenceRefs: row.evidenceRefs, nonAuthoritative: true } })
   })
   const pack = sources.length ? buildContextPack({ sources, target: { teamId: actor.teamId, memberId: actor.member }, maxTokens: 3000, now }) : { ok: true, items: [], manifest: { entries: [] }, estimatedTokens: 0 }
   if (!pack.ok || pack.items.length !== sources.length || pack.items.some(item => item.clipped)) fail('VIEW_BUDGET_LOSS')
@@ -256,11 +327,87 @@ export function createContextWorkspaceService(ctx, config = {}, registrationStat
     return result
   }, { fallback: empty() })
   const result = value => { if (bytes(value) > L.outputBytes) fail('OUTPUT_LIMIT'); return value }
+  const recoveryInput = (actor, input) => {
+    keys(input, ['ownerId', 'locators'])
+    const ownerId = id(input.ownerId)
+    if (!Array.isArray(input.locators) || !input.locators.length || input.locators.length > L.recoveryRefs) fail('RECOVERY_REFS_LIMIT')
+    const locators = [...new Set(input.locators)].sort()
+    for (const value of locators) parseLocator(actor, value)
+    return { ownerId, locators }
+  }
+  const findPin = (actor, doc, input) => {
+    const { ownerId, locators } = recoveryInput(actor, input)
+    const row = Object.values(doc.recoveryPins ?? {}).find(({ receipt }) => receipt.member === actor.member
+      && receipt.sessionId === actor.sessionId && receipt.ownerId === ownerId)
+    if (!row) fail('RECOVERY_PIN_UNAVAILABLE')
+    if (JSON.stringify(row.receipt.locators) !== JSON.stringify(locators)) fail('RECOVERY_PIN_OWNER_CONFLICT')
+    readPin(actor, doc, row.receipt)
+    return row.receipt
+  }
+  const retainRecovery = (agent, input) => {
+    const actor = actorFor(ctx, agent, config), { ownerId, locators } = recoveryInput(actor, input)
+    const receipt = update(actor, doc => {
+      const existing = Object.values(doc.recoveryPins ?? {}).find(({ receipt }) => receipt.member === actor.member
+        && receipt.sessionId === actor.sessionId && receipt.ownerId === ownerId)
+      if (existing) {
+        const retained = findPin(actor, doc, { ownerId, locators })
+        existing.renewedAt = Math.max(existing.renewedAt, now())
+        return clone(retained)
+      }
+      if (Object.keys(doc.recoveryPins ?? {}).length >= L.recoveryPins) fail('RECOVERY_PIN_LIMIT')
+      const rows = new Map()
+      const visit = ref => {
+        const key = ref.sourceId + '@' + ref.revision
+        const previous = rows.get(key)
+        if (previous) { if (previous.sha256 !== ref.sha256) fail('SOURCE_HASH_CONFLICT'); return }
+        if (rows.size >= L.recoveryRefs) fail('RECOVERY_REFS_LIMIT')
+        const row = refRow(actor, doc, ref, { now: now() })
+        if (row.deleted) fail('SOURCE_DELETED')
+        rows.set(key, row)
+        for (const dependency of row.evidenceRefs) visit(dependency)
+      }
+      for (const value of locators) visit(parseLocator(actor, value))
+      const receipt = { kind: 'context-recovery-retention-v1', id: hash(randomUUID()), teamId: actor.teamId,
+        member: actor.member, sessionId: actor.sessionId, ownerId, locators,
+        refs: [...rows.values()].sort((a, b) => a.sourceId.localeCompare(b.sourceId) || a.revision - b.revision)
+          .map(row => ({ sourceId: row.sourceId, revision: row.revision, sha256: row.sha256, integritySha256: row.integritySha256 })),
+        createdAt: now(), retention: 'checkpoint-owned-until-release' }
+      receipt.integritySha256 = pinDigest(receipt)
+      doc.recoveryPins ??= {}
+      doc.recoveryPins[receipt.id] = { receipt, renewedAt: receipt.createdAt }
+      return clone(receipt)
+    })
+    readPin(actor, read(actor), receipt)
+    return receipt
+  }
+  const readRecovery = (agent, receipt) => {
+    const actor = actorFor(ctx, agent, config), doc = read(actor)
+    return { receipt: clone(receipt), sources: readPin(actor, doc, receipt).map(row => ({ ...metadata(actor, row), text: row.text, authoritative: false })) }
+  }
+  const renewRecovery = (agent, receipt) => {
+    const actor = actorFor(ctx, agent, config)
+    update(actor, doc => {
+      readPin(actor, doc, receipt)
+      const pin = storedPin(actor, doc, receipt)
+      pin.renewedAt = Math.max(pin.renewedAt, now())
+    })
+    readPin(actor, read(actor), receipt)
+    return clone(receipt)
+  }
+  const releaseRecovery = (agent, receipt) => {
+    const actor = actorFor(ctx, agent, config)
+    return update(actor, doc => {
+      storedPin(actor, doc, receipt)
+      // Retirement must remain possible after source revocation; it grants no read.
+      delete doc.recoveryPins[receipt.id]
+      return { released: true, id: receipt.id }
+    })
+  }
   const projectionPreview = (actor, doc, view) => {
     const entriesHash = hash(JSON.stringify(view.entries))
     const controlRevision = Number.isSafeInteger(actor.snapshot?.revision) ? actor.snapshot.revision : 0
     const mode = config.mode === 'apply' && config.appliedSessionIds?.includes(actor.sessionId) ? 'apply' : 'shadow'
-    const key = [actor.teamId, actor.member, actor.sessionId, mode, view.revision, entriesHash, controlRevision].join('\0')
+    const key = [actor.teamId, actor.member, actor.sessionId, mode, doc.revision, view.revision, entriesHash, controlRevision].join('\0')
     const current = projectionCache.get(key)
     const timestamp = Date.now()
     if (current !== undefined && timestamp < current.expiresAt) return clone(current.value)
@@ -312,14 +459,20 @@ export function createContextWorkspaceService(ctx, config = {}, registrationStat
         const text = boundedText(input.text ?? (input.deleted === true ? previous?.text : undefined))
         const evidenceRefs = input.evidenceRefs ?? previous?.evidenceRefs ?? []
         if (!Array.isArray(evidenceRefs) || evidenceRefs.length > 16) fail('EVIDENCE_REFS_LIMIT')
-        for (const ref of evidenceRefs) {
+        // Revoking owned content must not depend on a cited source still being readable.
+        for (const ref of input.deleted === true ? [] : evidenceRefs) {
           const cited = refRow(actor, latest, ref, { now: now() })
           if (scope === 'task' && (cited.scope !== 'task' || cited.taskId !== taskId)) fail('EVIDENCE_REF_SCOPE_DENIED')
         }
         const ttlMs = input.ttlMs ?? (7 * 86400000)
         if (!Number.isSafeInteger(ttlMs) || ttlMs < 1 || ttlMs > L.ttlMs) fail('TTL_LIMIT')
-        if ((object?.history.length ?? 0) >= L.history || (!object && Object.keys(latest.objects).length >= L.objects)) fail('HISTORY_OR_OBJECT_LIMIT')
-        const row = { sourceId, teamId: actor.teamId, owner: actor.member, scope, taskId, text, revision: expected + 1, parentRevision: expected, sha256: hash(text), bytes: bytes(text), evidenceRefs: clone(evidenceRefs), createdAt: now(), expiresAt: now() + ttlMs, deleted: input.deleted === true }
+        // Keep all 64 content revisions; allow one final control tombstone at capacity.
+        // It cannot introduce new content or reopen the object after revocation.
+        const terminalRevoke = object?.history.length === L.history && input.deleted === true && previous.deleted === false
+          && text === previous.text && JSON.stringify(evidenceRefs) === JSON.stringify(previous.evidenceRefs)
+        if (((object?.history.length ?? 0) >= L.history && !terminalRevoke) || (!object && Object.keys(latest.objects).length >= L.objects)) fail('HISTORY_OR_OBJECT_LIMIT')
+        const createdAt = now()
+        const row = { sourceId, teamId: actor.teamId, owner: actor.member, scope, taskId, text, revision: expected + 1, parentRevision: expected, sha256: hash(text), bytes: bytes(text), evidenceRefs: clone(evidenceRefs), createdAt, expiresAt: createdAt + ttlMs, deleted: input.deleted === true }
         row.integritySha256 = rowDigest(row)
         validateStoredRow(row)
         latest.objects[sourceId] = { history: [...(object?.history ?? []), row] }
@@ -350,13 +503,14 @@ export function createContextWorkspaceService(ctx, config = {}, registrationStat
         const proposalId = 'proposal:' + randomUUID()
         const key = viewKey(actor)
         // One bounded pending candidate per live member/session; committed history stays intact.
-        latest.proposals[key] = { proposalId, expectedRevision: base.revision, operations: clone(input.operations), createdAt: now(), expiresAt: now() + 3600000 }
+        const createdAt = now()
+        latest.proposals[key] = { proposalId, expectedRevision: base.revision, operations: clone(input.operations), createdAt, expiresAt: createdAt + 3600000 }
         latest.proposals[key].integritySha256 = proposalDigest(latest.proposals[key])
         return { ok: true, proposalId, expectedRevision: base.revision, partial: true, nextBoundaryOnly: true }
       }))
       const proposal = doc.proposals[viewKey(actor)]
       if (action === 'preview') {
-        const operations = input.operations ?? (proposal?.proposalId === input.proposalId ? proposal.operations : undefined)
+        const operations = input.operations ?? (proposal && proposal.proposalId === input.proposalId ? proposal.operations : undefined)
         if (input.expectedRevision !== undefined && revision(input.expectedRevision) !== view.revision) fail('VIEW_CAS_CONFLICT')
         if (!operations) fail('PROPOSAL_UNAVAILABLE')
         if (!input.operations) verifyProposal(proposal, now())
@@ -454,7 +608,15 @@ export function createContextWorkspaceService(ctx, config = {}, registrationStat
       loaded, toolRegistered, enabled, consumed, dispatch: consumed ? clone(dispatch) : null,
       verificationScope: 'registered-current-view-exact-body-handed-to-adapter', modelUnderstanding: 'unknown' }
   }
-  return Object.freeze({ manage, project, runtimeFacts, runtimeReceipt, onDispatch, stats: runtimeFacts })
+  return Object.freeze({ manage, project, runtimeFacts, runtimeReceipt, onDispatch, stats: runtimeFacts,
+    retainRecovery, readRecovery, renewRecovery, releaseRecovery,
+    findRecovery(agent, input) { const actor = actorFor(ctx, agent, config); return clone(findPin(actor, read(actor), input)) },
+    listRecovery(agent) {
+      const actor = actorFor(ctx, agent, config)
+      return Object.values(read(actor).recoveryPins ?? {}).filter(({ receipt }) => receipt.member === actor.member
+        && receipt.sessionId === actor.sessionId).map(({ receipt }) => clone(receipt))
+    },
+    retentionFiles(agent) { return [fileFor(actorFor(ctx, agent, config))] } })
 }
 
 export function apply(ctx, config = {}) {

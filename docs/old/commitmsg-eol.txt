@@ -1,0 +1,5 @@
+docs: 更正条款里的「或」—— linked worktree 与 flag-clone 不等价（前者 config-backed 自持，后者不自保）+ 取数腿纪律「测量环境不得包含修复所要替代的临时手段」
+
+- 实测：linked worktree 的 eff=false 来自系统 true + 主仓 .git/config false ⇒ 夹具 i/lf w/lf、w/crlf=0 ⇒ LF 是 config-backed 自持的；一次性 flag clone 的有效 core.autocrlf 仍=true ⇒ LF 不自保，任何再物化可能翻红。⇒ 首选形态 = linked worktree。
+- 三腿对照：① 主检出（local 覆盖）绿 / ③ flag-clone 绿但不自保 / ② 普通 clone 红 ⇒ 唯一有效腿 = ② + 修复本身。
+- 纪律：验证修复时测量环境不得包含该修复所要替代的那个临时手段；修前/修后两腿必须是同一种检出，唯一自变量才是修复本身。

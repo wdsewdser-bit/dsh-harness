@@ -1,0 +1,147 @@
+{
+  "schema": "handoff-readonly-verification-v1",
+  "atUtc": "2026-10-25T22:55:22.981Z",
+  "externalGenerationRequests": 0,
+  "environment": {
+    "cwd": "D:\\dsh-test",
+    "DSH_HOME": "D:\\dsh-test\\home"
+  },
+  "report": {
+    "file": "E:\\Codex-Runs\\window-auto-repair-20261025-r3\\result.json",
+    "sha256": "5c25694de347ef0297b22553dc23187285db93626735a813f885382b55d04872",
+    "canonicalId": "window-real-adapter-repair-20261025-f642db25166a1f00",
+    "status": "failed",
+    "fingerprint": "a48d41f6210910f982527bf5019fea90eb8f241841ef7e4bafb2441e21495717",
+    "accepted": {
+      "nativeOfflineIntegration": true,
+      "initialIndependentReviewPerformed": true,
+      "independentPostFixApproval": false,
+      "rootFindingsClosure": true,
+      "nativeOnlineOracle": true,
+      "nativeColdRestore": true,
+      "onlineEconomicActions": false,
+      "allRequestedWork": false,
+      "productionAndOriginalArtifactsUnchanged": true,
+      "realOnlineCandidateEvaluation": true
+    }
+  },
+  "checks": {
+    "artifacts": {
+      "checked": 198,
+      "mismatches": 0,
+      "examples": []
+    },
+    "sourceAndFrozenGuards": {
+      "checked": 1021,
+      "mismatches": 0,
+      "examples": []
+    },
+    "priorAttemptFacts": {
+      "checked": 6,
+      "mismatches": 0,
+      "examples": []
+    }
+  },
+  "live": {
+    "exitCode": 0,
+    "state": {
+      "atUtc": "2026-10-25T22:55:22.0162869Z",
+      "volumes": [
+        {
+          "Name": "C",
+          "Free": 2466029568,
+          "Used": 236306853888
+        },
+        {
+          "Name": "D",
+          "Free": 40966430720,
+          "Used": 2007438667776
+        },
+        {
+          "Name": "E",
+          "Free": 72426119168,
+          "Used": 951776468992
+        }
+      ],
+      "processes": [
+        {
+          "Id": 4308,
+          "ProcessName": "msedge",
+          "StartTime": "2026-10-24T17:17:22.9813929-07:00"
+        },
+        {
+          "Id": 31868,
+          "ProcessName": "node",
+          "StartTime": "2026-10-24T19:31:45.2114131-07:00"
+        },
+        {
+          "Id": 29364,
+          "ProcessName": "python",
+          "StartTime": "2026-10-24T17:17:22.7827643-07:00"
+        }
+      ],
+      "listeners": [
+        {
+          "LocalAddress": "127.0.0.1",
+          "LocalPort": 9334,
+          "OwningProcess": 4308
+        },
+        {
+          "LocalAddress": "127.0.0.1",
+          "LocalPort": 8788,
+          "OwningProcess": 29364
+        },
+        {
+          "LocalAddress": "127.0.0.1",
+          "LocalPort": 5179,
+          "OwningProcess": 31868
+        }
+      ],
+      "legacyMinuteAutomationExists": false,
+      "legacyMinuteAutomationStatus": [],
+      "fpsAutomationExists": false
+    }
+  },
+  "repositories": {
+    "dsh": {
+      "branch": {
+        "exitCode": 0,
+        "output": "main"
+      },
+      "head": {
+        "exitCode": 0,
+        "output": "bcc588f47d98179572efbf6c559ee7694c14ebc6"
+      },
+      "trackedStatus": {
+        "exitCode": 0,
+        "output": "D docs/DSH-0.1.6-COMPATIBILITY-PLAN.md\n D docs/agent-team-scheduling-memory-ptc-audit-20260925.md\n D docs/agent-team-v12-architecture-improvement-plan.restore.md\n D docs/agent-team-v13-implementation-ledger.md\n D docs/agent-team-v14-execution-plan.md\n D docs/agent-team-v14-implementation-ledger.md\n D docs/agent-team-v7-hardening.md\n D docs/agent-team-v7.1-hardening.md\n D docs/agent-team-v8-handoff.md\n D docs/architecture-review-20261001/combined-focused.txt\n D docs/architecture-review-20261001/full-regression-ui-fix-20261001.txt\n D docs/architecture-review-20261001/op-restart-regression.txt\n D docs/architecture-review-20261001/reducer-offline-final.txt\n D docs/architecture-review-20261001/reducer-ui-fix-20261001.md\n D docs/context-opt-20261001/focused-tests-correct-resolver.txt\n D docs/context-opt-20261001/focused-tests.txt\n M docs/context-runtime-unified-20261001/execution-ledger.md\n M docs/context-runtime-unified-20261001/implementation-plan.md\n M docs/context-runtime-unified-20261001/ptc-background-20261011.md\n D docs/dsh-alpha7-upgrade-plan.md\n D docs/dsh-alpha72-upgrade-handoff.md\n D docs/dsh-alpha72-upgrade-plan.md\n D docs/dsh-rc2-upgrade-plan.md\n D docs/dsh-v0.1.7-rc1-upgrade-plan.md\n D docs/evidence-reducer-offline-replay-20261001.md\n D docs/platform-defects-b174-o10-14-fix-message.txt\n D docs/platform-defects-batch147-b221-root-result-20260930.md\n D docs/platform-defects-batch234-237-root-result-20260930.md\n D docs/platform-defects-batch239-scope-recovery-root-result-20260930.md\n D docs/platform-defects-batch253-271-hmr-note-20260930.md\n D docs/platform-defects-batch26-fix-message.txt\n D docs/platform-defects-batch33-root-note-20260929.md\n D docs/platform-defects-batch63-fix-message.txt\n D docs/platform-defects-batch66-fix-message.txt\n D docs/platform-defects-final-hash-update-2.txt\n D docs/token-usage-decomposition-20261001.md\n D docs/usage-audit-20261001/focused-tests.txt\n D docs/usage-audit-20261001/root-result-notice.txt\n D docs/v14-control-migration-validation.md\n M home/profiles/headless/cordis.patch.yml\n M home/profiles/headless/plugins/context-workspace.mjs\n M home/profiles/headless/plugins/evidence-reducer.mjs\n M home/profiles/headless/plugins/request-message-projection.mjs\n M home/profiles/headless/plugins/session-plan-delivery.mjs\n M home/profiles/headless/plugins/team-control-plane.mjs\n M home/profiles/headless/plugins/team-idle-watch-v6.mjs\n M home/profiles/headless/plugins/team-operator-v5.mjs\n M home/profiles/headless/plugins/team-policy.mjs\n M home/profiles/headless/plugins/team-tools-v2-r10.mjs\n M home/profiles/headless/plugins/team-v12-evidence-scheduler.mjs\n M home/profiles/headless/plugins/team-v12-room-wake.mjs\n M home/profiles/headless/plugins/team-v12-runtime.mjs\n M home/profiles/headless/plugins/team-v13-compaction-shadow.mjs\n M home/profiles/headless/plugins/team-v14-context-delivery.mjs\n M home/profiles/headless/plugins/team-v14-durable-store.mjs\n M home/profiles/headless/plugins/team-v15-delivery-debt.mjs\n M home/profiles/headless/plugins/team-v15-delivery-presentation.mjs\n M home/profiles/headless/plugins/team-v15-delivery-service.mjs\n M home/profiles/headless/plugins/team-v15-goal-delivery.mjs\n M home/profiles/headless/plugins/team-v15-history-recall.mjs\n M home/profiles/headless/plugins/team-v15-plan-delivery.mjs\n M home/profiles/headless/plugins/team-v15-plan-refs.mjs\n M home/profiles/headless/plugins/team-v15-window-collector.mjs\n M home/profiles/headless/plugins/team-v15-window-manager.mjs\n M home/profiles/headless/plugins/team-v15-window-protocol.mjs\n M home/profiles/headless/plugins/write-scope-guard.mjs\n M home/profiles/web/cordis.patch.yml\n M home/profiles/web/plugins/context-workspace.mjs\n M home/profiles/web/plugins/evidence-reducer.mjs\n M home/profiles/web/plugins/request-message-projection.mjs\n M home/profiles/web/plugins/session-plan-delivery.mjs\n M home/profiles/web/plugins/team-control-plane.mjs\n M home/profiles/web/plugins/team-idle-watch-v6.mjs\n M home/profiles/web/plugins/team-operator-v5.mjs\n M home/profiles/web/plugins/team-policy.mjs\n M home/profiles/web/plugins/team-tools-v2-r10.mjs\n M home/profiles/web/plugins/team-v12-evidence-scheduler.mjs\n M home/profiles/web/plugins/team-v12-room-wake.mjs\n M home/profiles/web/plugins/team-v12-runtime.mjs\n M home/profiles/web/plugins/team-v13-compaction-shadow.mjs\n M home/profiles/web/plugins/team-v14-context-delivery.mjs\n M home/profiles/web/plugins/team-v14-durable-store.mjs\n M home/profiles/web/plugins/team-v15-delivery-debt.mjs\n M home/profiles/web/plugins/team-v15-delivery-presentation.mjs\n M home/profiles/web/plugins/team-v15-delivery-service.mjs\n M home/profiles/web/plugins/team-v15-goal-delivery.mjs\n M home/profiles/web/plugins/team-v15-history-recall.mjs\n M home/profiles/web/plugins/team-v15-plan-delivery.mjs\n M home/profiles/web/plugins/team-v15-plan-refs.mjs\n M home/profiles/web/plugins/team-v15-window-collector.mjs\n M home/profiles/web/plugins/team-v15-window-manager.mjs\n M home/profiles/web/plugins/team-v15-window-protocol.mjs\n M home/profiles/web/plugins/write-scope-guard.mjs\n M phase3-tests/_milestones.json\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-agent-loop/lib/types/agent.d.ts\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-compaction-basic/lib/index.js\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-compaction-basic/lib/types/index.d.ts\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js\n M staging/context-runtime-unified-20261001/app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/window-barrier.js\n M staging/context-runtime-unified-20261001/architecture-tests/compact-test-runner.test.mjs\n M staging/context-runtime-unified-20261001/architecture-tests/context-runtime-receipt.test.mjs\n M staging/context-runtime-unified-20261001/architecture-tests/context-workspace.test.mjs\n M staging/context-runtime-unified-20261001/architecture-tests/lab-ptc-binding.test.mjs\n M staging/context-runtime-unified-20261001/architecture-tests/unified-lab-host.test.mjs\n M staging/context-runtime-unified-20261001/docs/context-runtime-unified-20261001/live-lab-stage-template.json\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/context-workspace.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/evidence-reducer.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/request-message-projection.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/session-plan-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-control-plane.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-idle-watch-v6.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-operator-v5.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-policy.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-tools-v2-r10.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v12-evidence-scheduler.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v12-room-wake.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v12-runtime.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v13-compaction-shadow.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v14-context-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v14-durable-store.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-delivery-debt.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-delivery-service.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-history-recall.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-plan-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-plan-refs.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-ptc-background.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-window-collector.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-window-manager.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/team-v15-window-protocol.mjs\n M staging/context-runtime-unified-20261001/home/profiles/headless/plugins/write-scope-guard.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/context-workspace.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/evidence-reducer.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/request-message-projection.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/session-plan-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-control-plane.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-idle-watch-v6.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-operator-v5.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-policy.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-tools-v2-r10.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v12-evidence-scheduler.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v12-room-wake.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v12-runtime.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v13-compaction-shadow.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v14-context-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v14-durable-store.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-delivery-debt.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-delivery-service.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-history-recall.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-plan-delivery.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-plan-refs.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-ptc-background.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-collector.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-manager.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-protocol.mjs\n M staging/context-runtime-unified-20261001/home/profiles/web/plugins/write-scope-guard.mjs\n M staging/context-runtime-unified-20261001/home/team-roles/AGENTS.md\n M staging/context-runtime-unified-20261001/home/team-roles/identity-version.json\n M staging/context-runtime-unified-20261001/home/team-roles/lead.md\n M staging/context-runtime-unified-20261001/home/team-roles/member.md\n M staging/context-runtime-unified-20261001/home/team-roles/root.md\n M staging/context-runtime-unified-20261001/home/team-roles/verifier.md\n M staging/context-runtime-unified-20261001/native-change-manifest.json\n M staging/context-runtime-unified-20261001/native-tests/history-recall-runtime.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/instant-history-runtime.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/native-bridge.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/ptc-background-runtime.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/session-plan-delivery.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/subagent-durable-delivery.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/window-collector-runtime.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/window-install-runtime.test.mjs\n M staging/context-runtime-unified-20261001/native-tests/window-live-barrier.test.mjs\n M staging/context-runtime-unified-20261001/phase10-tests/evidence-reducer.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-delivery-authority.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-delivery-debt.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-evidence-binding.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-plan-delivery.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-plan-refs.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/unified-window-manager.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/v14-runtime-bridge.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/v14-startup-arming.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/v14-tool-doc-cache.test.mjs\n M staging/context-runtime-unified-20261001/phase11-tests/v14-write-scope.test.mjs\n M staging/context-runtime-unified-20261001/phase9-tests/v12-evidence-scheduler.test.mjs\n M staging/context-runtime-unified-20261001/plugin-change-manifest.json\n M staging/context-runtime-unified-20261001/tools-change-manifest.json\n M staging/context-runtime-unified-20261001/tools/instant-history-lab.mjs\n M staging/context-runtime-unified-20261001/tools/prepare-unified-lab-host.mjs\n M staging/context-runtime-unified-20261001/tools/run-regression.mjs\n M staging/context-runtime-unified-20261001/tools/stage-closeout.mjs\n M staging/context-runtime-unified-20261001/tools/window-protocol-trial.mjs"
+      }
+    },
+    "game": {
+      "head": {
+        "exitCode": 0,
+        "output": "9dd7d0cf76f250e42cb658ff7754537a62eff3d4"
+      },
+      "trackedStatus": {
+        "exitCode": 0,
+        "output": "M AGENTS.md\n M PROJECT.md\n M environment-ready.json\n D vite.config.ts"
+      }
+    }
+  },
+  "cleanup": {
+    "result": {
+      "afterFreeBytes": 41528696832,
+      "oldBackupLogicalBytes": 40672581129,
+      "completed": true,
+      "observedFreeDeltaBytes": 41528696832,
+      "productionAndCurrentProjectTouched": false,
+      "targetAbsent": true,
+      "target": "D:\\$RECYCLE.BIN\\S-1-5-21-1002256916-3880362843-1912163742-1001\\$R4UE2FA",
+      "failure": null,
+      "at": "2026-10-25T15:02:16.1847759Z",
+      "beforeFreeBytes": 0,
+      "metadataAbsent": true
+    },
+    "targetStillAbsent": true
+  }
+}

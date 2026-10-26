@@ -1,9 +1,33 @@
 [
   {
+    "name": "team-policy.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-policy.mjs",
+    "before": "4D9F010D061F164F8F124C9A538E34B4B2A18CA0DCCB2DD73D1E4870CC362A84",
+    "after": "5B35102FB2FEBA3449D1D726CFA9F2DB6B323EABCFDEDEE072079A125194BCC4"
+  },
+  {
+    "name": "team-operator-v5.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-operator-v5.mjs",
+    "before": "30A42778E0DCF2B0877F5189F91E5DC0628FD6B8C113FC16D23F8828C218AC83",
+    "after": "B436E9C408408033130EED090794CDAE589C238DF1A16DC85B4C43CEE8AAA23B"
+  },
+  {
+    "name": "team-idle-watch-v6.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-idle-watch-v6.mjs",
+    "before": "8E8B677512981015D0183933139826AAF66AC4504FEACA947FBE2F7AF541CD9C",
+    "after": "DDF099C7B5285E43FA1C26F04EDD29C8BF47FA6EC62C1351184C2E27F42B3F59"
+  },
+  {
+    "name": "evidence-reducer.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\evidence-reducer.mjs",
+    "before": "2D1A498C093C580C2C5E8CAD9D618C9432305E966674854BE7E2C26B2469AD17",
+    "after": "68463D88EAF03D6EFC151D51E373DCEA23AEB69A88A8DB7C0162FC3735835F52"
+  },
+  {
     "name": "context-workspace.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\context-workspace.mjs",
     "before": "2DF427EBEAF05BF5143EF9D0E21F7EBCAE9F1666E51E8948C225B7F6D43336B9",
-    "after": "9220230D8096249E5DE2FC4E6E05EC4DB1FCBD84547EB123291CC7B00185CDB7"
+    "after": "D7A6807CAB0A2AF4D02B6327A4988C597355A646389E760FEED60F1EA625A300"
   },
   {
     "name": "step-compaction-v4.mjs",
@@ -15,13 +39,13 @@
     "name": "team-control-plane.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-control-plane.mjs",
     "before": "C2B3BD6B028CF017FEB2C006683EFCABC5B20B0EC4CC3F99C45EDF88093C466F",
-    "after": "105B00D39F756ABC7691948082BB1DC5A823CBAA1BB8660CF72207622A834F43"
+    "after": "C7507FB327A6020298035949E7B2BF477265430AE02ABD6C912E3E1137301EDA"
   },
   {
     "name": "team-tools-v2-r10.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-tools-v2-r10.mjs",
     "before": "FD7CC74A6D24421659F5EA241078132AC922FB593364800DD058E0591871FCA6",
-    "after": "8ECB75CABB1A294DD0C50F864CEECE6F3189035EE4CCE80E89F541D951505047"
+    "after": "7511B936C829BA54DA6342837DD540CF6C0486F4CB07F0E0FC4EB9B2F0086E68"
   },
   {
     "name": "team-v12-compaction.mjs",
@@ -33,13 +57,13 @@
     "name": "team-v12-evidence-scheduler.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-evidence-scheduler.mjs",
     "before": "DE2AC8658F58FAD1A66CA308061192F5DD925A64E16745A7B4007816EEA1B776",
-    "after": "BB9F94F7EBCF265D0E6F8E31256B18E3D8A9B44E1DD44C8A46DCDECBBCB05B3D"
+    "after": "CCE9D88A9C77521712F702AD155575BF25E35A0C99AECDE1F154B32D0E36708C"
   },
   {
     "name": "team-v12-runtime.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-runtime.mjs",
     "before": "26FD653AF657007AA9F40C7CD4E91E6E750AA108F15DC134E40C260FD53E6DCF",
-    "after": "482A2FC7F3CADCE5EBAFA670212DA81303B206571012550D00E1DEE04828CABF"
+    "after": "D33CEB9C7B768CF7097FFD8D374D2E1CA3257EA399380E76F90EA66063F89310"
   },
   {
     "name": "team-v13-mechanism-telemetry.mjs",
@@ -51,7 +75,7 @@
     "name": "team-v14-context-delivery.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v14-context-delivery.mjs",
     "before": "1B630D12A0C80FC110CB9320C2AD08A8D8391E10D6A7E89FB81C8EFA730F6ED8",
-    "after": "96F901FCE4C9ADE965E1F543F86660E6EB532D2C281F6F2174EA69DEFD43CC0A"
+    "after": "B128614C3B1FECD5DBB910DE471826B5452245D15736D177A56A4244A26C7A4D"
   },
   {
     "name": "team-v14-memory-anchor.mjs",
@@ -69,7 +93,7 @@
     "name": "team-v15-delivery-service.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-service.mjs",
     "before": null,
-    "after": "56D3F7F5FDD899D5F47D4BA89EC7E659EAA160856BC6003EB8546D7812AAB680"
+    "after": "00EC453AC86356783208D88C05F777C94A782963D56637BF64EEFE71C2000AF9"
   },
   {
     "name": "team-v15-delivery-source.mjs",
@@ -87,13 +111,13 @@
     "name": "team-v15-plan-delivery.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-plan-delivery.mjs",
     "before": null,
-    "after": "BDEBF3A2ADFB0C73EC7C349F7F630470B023D475453BA9B8D628D7195919039D"
+    "after": "9E6F44017697BC8B34C58BFB07189A6021D77A7AB1D8A00B88969381A6DA2916"
   },
   {
     "name": "team-v15-plan-refs.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-plan-refs.mjs",
     "before": null,
-    "after": "9B6C5F13AB7EF94CC66AA47087D8F5330CE324D8E025AB786A6A4F4F38670B60"
+    "after": "96EA134C11F43CDDB0A8D94620870E538D0B26426E4359F9DA7CB06DD46681A5"
   },
   {
     "name": "team-v15-plan-registry.mjs",
@@ -105,7 +129,7 @@
     "name": "team-v15-delivery-debt.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-debt.mjs",
     "before": null,
-    "after": "5223938C487B45BE1DD8AB6927CF4A90B29802173E4AA3BCC259876B4C63FAE3"
+    "after": "0CC1289A80932E308E55517F0917A1F21F9C78EDEFFA65C7BCF426745742D503"
   },
   {
     "name": "team-v15-implementation-proof.mjs",
@@ -129,7 +153,7 @@
     "name": "team-v15-history-recall.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-history-recall.mjs",
     "before": null,
-    "after": "9D3FE6985E88B66C29148A448B5850CB34C3CA9B7B4906BAA22048A6A29E9463"
+    "after": "BBA278F9614722B6B318BB08FD65079F8FDC4F0A583FA419B463E4E4E883ACC8"
   },
   {
     "name": "team-v15-window-checkpoint.mjs",
@@ -195,19 +219,19 @@
     "name": "team-v15-window-collector.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-collector.mjs",
     "before": null,
-    "after": "9DADEE3D597627C9BD3E1DBEE8C358B75ECF46BF011324916167AB30EAACFF8D"
+    "after": "4E08BB7FB0EE96B14E637A50DACEBE0E9E7E61CDF6D463EADA9B6783C6030AEB"
   },
   {
     "name": "team-v15-window-protocol.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-protocol.mjs",
     "before": null,
-    "after": "4B05A283CF95368E2ED2A10E31D5CFDC04E4694B99D9E795FA7F1890954FE054"
+    "after": "A1BFAFABEDE1E2DF38E3FD67F0AD688EF1AC3BE2799C951D348AC0B461D57939"
   },
   {
     "name": "request-message-projection.mjs",
     "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
     "before": "A6B8E5BF8FFA77F7BA8CF4A21F35693F8FF5085CE7EF334390E3BD7BBC496C00",
-    "after": "4AF4102B89DD878B6C0F695EAA0FA2AAAB25AFEE605A0D0F93F4F88A2800E4E7"
+    "after": "7ECF041E6AA4248EAE78B8C979AAA679DD01F58F1E3F67AE5812527A4DB8013A"
   },
   {
     "name": "team-v15-window-surface.mjs",
@@ -231,7 +255,7 @@
     "name": "session-plan-delivery.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/session-plan-delivery.mjs",
     "before": null,
-    "after": "7DC4AD9D8579DCD129D0BC4A858FB12EFE231FAFDE4373EF256CAEE59E301B88"
+    "after": "8797DA901CDA5E5713855F45D6E48CB79B50539BC852F050C956F58E40463850"
   },
   {
     "name": "team-v15-delivery-presentation.mjs",
@@ -255,7 +279,7 @@
     "name": "team-v15-window-manager.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-manager.mjs",
     "before": null,
-    "after": "A311F851D0F2EC55DE82D0068B71DCBB099AFCCBF64F66A4175CF2A2FF9F218F"
+    "after": "A7619BABF5B3A84E81BF5B16BE58478B2EF23D9B94DFF57CAE47F639099A8F1E"
   },
   {
     "name": "team-v15-window-install.mjs",
@@ -279,7 +303,7 @@
     "name": "team-v14-durable-store.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v14-durable-store.mjs",
     "before": "7895B19A41EF8E2A9D461C6416F68C7CA0F11B550403642EED95E17D8C4376E5",
-    "after": "E57291611E2942245E01503CA944E6BAB9919E6AD430B55EE88D9B0D3BE80BCC"
+    "after": "270DE5313CDFF7D41FCD081CC1042DEF297BCD9596442908B63AB9D924C6D009"
   },
   {
     "name": "team-v15-window-wiring.mjs",
@@ -297,6 +321,96 @@
     "name": "team-v15-ptc-background.mjs",
     "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-ptc-background.mjs",
     "before": null,
-    "after": "DD823515B30F6987130496AE0E059DC9C861E7290BC27CF3F641EE6FDC43C687"
+    "after": "77B1D87FAE5EEDF752F73412DEC0A26A5DD45BC755230A32DC825FF5A9587A92"
+  },
+  {
+    "name": "constraint-ledger.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/constraint-ledger.mjs",
+    "before": null,
+    "after": "68C63F80A57B98C3E3370362EDA33691741E9FC7A88031BCF9CDE3FD45BBFF8E"
+  },
+  {
+    "name": "write-scope-guard.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/write-scope-guard.mjs",
+    "before": "18C91C2766ED909B1AF29373B9C1D19223CA0E84AE419A9F08160E819B359416",
+    "after": "DAB9AA0098A09DAD1378CC50BA2D1340753A9E5F5BF573CF1866E2A50DB8FC33"
+  },
+  {
+    "name": "team-v12-room-wake.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v12-room-wake.mjs",
+    "before": "815B66C7F07320E61B4EED1EBFB51289CCD15EA2AEFCF448A91045936BE3DAB8",
+    "after": "08DF415297816293560F1E838A929D9A4667E901872BCA12DFC64E2C39D5DB4A"
+  },
+  {
+    "name": "verifier-native-capability.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\verifier-native-capability.mjs",
+    "before": null,
+    "after": "C55A74191AF8893563BBBD467AB0AD283E1C271D26C2E56531E0124BF11A42FB"
+  },
+  {
+    "name": "verifier-native-transport.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\verifier-native-transport.mjs",
+    "before": null,
+    "after": "D2154FC1237D7307EC940BC3BB495A46CF55DA080078B2E92AA516C5F16992EC"
+  },
+  {
+    "name": "verifier-native-host-bridge.ps1",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\verifier-native-host-bridge.ps1",
+    "before": null,
+    "after": "63DC82E3434D32D74D4B1597E14EBA6423E2AD81A94F57B1F29B4E7DE4760808"
+  },
+  {
+    "name": "verifier-native-Capability.cs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\verifier-native-Capability.cs",
+    "before": null,
+    "after": "3BA8C15F85C16740B1C18539914E0F908CCB20C65B317C8FDB7323795E184CD4"
+  },
+  {
+    "name": "verifier-native-BridgeRuntime.cs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\verifier-native-BridgeRuntime.cs",
+    "before": null,
+    "after": "EB6FF6C26CB0AF7CF37E1A2567D2612E84EC68B39DCFA5A0A7FDCD682620C1FE"
+  },
+  {
+    "name": "team-v16-capabilities-runtime.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v16-capabilities-runtime.mjs",
+    "before": null,
+    "after": "1E23947EC058343FA6FBD334D0CF7273CD33208FAF6C92DBD58EA17B6DB48712"
+  },
+  {
+    "name": "team-v16-capability-common.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v16-capability-common.mjs",
+    "before": null,
+    "after": "3068684DF899449CB8911957EC4AC6854A2D9FD6916014A432DD0B28D29244FE"
+  },
+  {
+    "name": "team-v16-context-episodes.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v16-context-episodes.mjs",
+    "before": null,
+    "after": "ECF861F983185CE51317541056C4124D373174F34CDA11543FDE46F79CD23974"
+  },
+  {
+    "name": "team-v16-sdk-catalog.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v16-sdk-catalog.mjs",
+    "before": null,
+    "after": "ED98F2D50D9083FD1694AA3EE06F9D5606C0C0460E72E29B5C73257A0785D4D9"
+  },
+  {
+    "name": "team-v16-tool-references.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v16-tool-references.mjs",
+    "before": null,
+    "after": "2A0B464F57671CEE5073C7E4108043C480EB0BF7307AF6DAD4898A3F73A068DB"
+  },
+  {
+    "name": "team-control-lifecycle.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-control-lifecycle.mjs",
+    "before": null,
+    "after": "732DE8C56B1DE11EA540802C740281F8E7C0369A12A6D4EDBE986577AEEAAFF3"
+  },
+  {
+    "name": "team-v13-compaction-shadow.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v13-compaction-shadow.mjs",
+    "before": "C9D5A4B902FDF4797822FE90E66665EA43FD4458F88A5079A90EAD1E253AF6C3",
+    "after": "39F01EB366DAAE4EEF884B25A11DD3658B0957286E97E52F0E642435B99F4371"
   }
 ]

@@ -1,0 +1,308 @@
+[
+  {
+    "name": "context-workspace.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\context-workspace.mjs",
+    "before": "2DF427EBEAF05BF5143EF9D0E21F7EBCAE9F1666E51E8948C225B7F6D43336B9",
+    "after": "9220230D8096249E5DE2FC4E6E05EC4DB1FCBD84547EB123291CC7B00185CDB7"
+  },
+  {
+    "name": "step-compaction-v4.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\step-compaction-v4.mjs",
+    "before": "1939379DD0C23528E4DC35FF2270EFAA99D5DB67686F54752132146506012335",
+    "after": "2BA6BFA0A8256056BF33FCECBDDDE0D1CCDDD2A4C24F7B45AC31C0F2FB9B3E2F"
+  },
+  {
+    "name": "team-control-plane.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-control-plane.mjs",
+    "before": "C2B3BD6B028CF017FEB2C006683EFCABC5B20B0EC4CC3F99C45EDF88093C466F",
+    "after": "105B00D39F756ABC7691948082BB1DC5A823CBAA1BB8660CF72207622A834F43"
+  },
+  {
+    "name": "team-tools-v2-r10.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-tools-v2-r10.mjs",
+    "before": "FD7CC74A6D24421659F5EA241078132AC922FB593364800DD058E0591871FCA6",
+    "after": "8ECB75CABB1A294DD0C50F864CEECE6F3189035EE4CCE80E89F541D951505047"
+  },
+  {
+    "name": "team-v12-compaction.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-compaction.mjs",
+    "before": "B80B04CD4C1F103DFA2180A23B9E7F5F0217199820829A2509C35D13EB861286",
+    "after": "E29441F975A58081326BA013287ED4935E9E0F6D0B1F60B1734FF05856B9DA89"
+  },
+  {
+    "name": "team-v12-evidence-scheduler.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-evidence-scheduler.mjs",
+    "before": "DE2AC8658F58FAD1A66CA308061192F5DD925A64E16745A7B4007816EEA1B776",
+    "after": "BB9F94F7EBCF265D0E6F8E31256B18E3D8A9B44E1DD44C8A46DCDECBBCB05B3D"
+  },
+  {
+    "name": "team-v12-runtime.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v12-runtime.mjs",
+    "before": "26FD653AF657007AA9F40C7CD4E91E6E750AA108F15DC134E40C260FD53E6DCF",
+    "after": "482A2FC7F3CADCE5EBAFA670212DA81303B206571012550D00E1DEE04828CABF"
+  },
+  {
+    "name": "team-v13-mechanism-telemetry.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v13-mechanism-telemetry.mjs",
+    "before": "EEAA82B978E3F23FBF1E8A8ECDB8816DB978AC0AC565EC312741491483BB1710",
+    "after": "9220E43BC0C1BABFDB8DECA5151C1B8EA9DCA9688DA74EC037CE94806933493A"
+  },
+  {
+    "name": "team-v14-context-delivery.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v14-context-delivery.mjs",
+    "before": "1B630D12A0C80FC110CB9320C2AD08A8D8391E10D6A7E89FB81C8EFA730F6ED8",
+    "after": "96F901FCE4C9ADE965E1F543F86660E6EB532D2C281F6F2174EA69DEFD43CC0A"
+  },
+  {
+    "name": "team-v14-memory-anchor.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v14-memory-anchor.mjs",
+    "before": "C314A3BB5FE22AAA286D24CA3BE3D6322134D4BF6B4EA0906B7FAA87E1893407",
+    "after": "623CFCEB000E32F30E2F9D21EAFACC7CA0BBA245854F95FA5C29A3212337366A"
+  },
+  {
+    "name": "team-v15-delivery-authority.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-authority.mjs",
+    "before": null,
+    "after": "A580D60739FBABE3BC83D38BEE62972AE09FB33C02C49E5FA20F4F8F5A435439"
+  },
+  {
+    "name": "team-v15-delivery-service.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-service.mjs",
+    "before": null,
+    "after": "56D3F7F5FDD899D5F47D4BA89EC7E659EAA160856BC6003EB8546D7812AAB680"
+  },
+  {
+    "name": "team-v15-delivery-source.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-source.mjs",
+    "before": null,
+    "after": "8DD9C31E2B6BF0F02D8BF9D0F808858A5C4861E3DABC818631D994CEDC5652A3"
+  },
+  {
+    "name": "team-v15-goal-delivery.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-goal-delivery.mjs",
+    "before": null,
+    "after": "49DC27D5900E222B5C7DE8C7305F579814FB0781B320E9A95F4EF07D9DB0C7FB"
+  },
+  {
+    "name": "team-v15-plan-delivery.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-plan-delivery.mjs",
+    "before": null,
+    "after": "BDEBF3A2ADFB0C73EC7C349F7F630470B023D475453BA9B8D628D7195919039D"
+  },
+  {
+    "name": "team-v15-plan-refs.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-plan-refs.mjs",
+    "before": null,
+    "after": "9B6C5F13AB7EF94CC66AA47087D8F5330CE324D8E025AB786A6A4F4F38670B60"
+  },
+  {
+    "name": "team-v15-plan-registry.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-plan-registry.mjs",
+    "before": null,
+    "after": "4A11E9F828783B500C86040F5DC033ED13747C31610ED56073E549662C8291C7"
+  },
+  {
+    "name": "team-v15-delivery-debt.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-delivery-debt.mjs",
+    "before": null,
+    "after": "5223938C487B45BE1DD8AB6927CF4A90B29802173E4AA3BCC259876B4C63FAE3"
+  },
+  {
+    "name": "team-v15-implementation-proof.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-implementation-proof.mjs",
+    "before": null,
+    "after": "E34E92888E89C29774C9EC15BF2180EEACBDFB4596015E5C42B44AE56080A152"
+  },
+  {
+    "name": "team-v15-execution-proof.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-execution-proof.mjs",
+    "before": null,
+    "after": "465BCD570E2F9FB3B691B236F659B5A4911266BE7C6338F01BEEC9263D3C929A"
+  },
+  {
+    "name": "team-v15-runtime-proof.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-runtime-proof.mjs",
+    "before": null,
+    "after": "1CC20E2A91F435C0F274E80DE1B1F102E537257710C6081187BD53C89A259315"
+  },
+  {
+    "name": "team-v15-history-recall.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-history-recall.mjs",
+    "before": null,
+    "after": "9D3FE6985E88B66C29148A448B5850CB34C3CA9B7B4906BAA22048A6A29E9463"
+  },
+  {
+    "name": "team-v15-window-checkpoint.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-checkpoint.mjs",
+    "before": null,
+    "after": "8C4E80CB1647D830FC247BBE1C23E9BECEE4A812485E1C14F0C7B450C7838E97"
+  },
+  {
+    "name": "team-v15-window-projection.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-projection.mjs",
+    "before": null,
+    "after": "1FA23C04CC6FBB9AE6C0D36234F571BF34CC4A3A421D087971A364ACA458BB64"
+  },
+  {
+    "name": "team-v15-window-transition.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-transition.mjs",
+    "before": null,
+    "after": "765918EE52854D2FF3A32B2FA1743099600F5B61022E42B19B33EACEC5390135"
+  },
+  {
+    "name": "team-v15-window-participation.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-participation.mjs",
+    "before": null,
+    "after": "3113AC5A8A3A2443AA148A120DCEC57EEF4E264B2A0C801CF9E9E8E79E519F86"
+  },
+  {
+    "name": "team-v15-window-economics.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-economics.mjs",
+    "before": null,
+    "after": "9C0D768647A9BA691AC6645063AC0E37604A6A9D1F4FFA83CFB79E7FAF328A3C"
+  },
+  {
+    "name": "team-v15-window-economics-runtime.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-window-economics-runtime.mjs",
+    "before": null,
+    "after": "18A0CB95F47682EF9F48EEFFCF5A2EB15CC39C2C0F78BFF7C2982E4F8C287C86"
+  },
+  {
+    "after": "B9B133E94A81F464BA0F89C9D6DF658A1245F42D223E011CCC416E8FD287EA13",
+    "name": "team-v15-hypothesis-memory.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-hypothesis-memory.mjs",
+    "before": null
+  },
+  {
+    "after": "0BFD32C39887E84E55882677B967541FCF66EEAD1C7E4E573F8C78201BF53AD1",
+    "name": "team-v15-hypothesis-runtime.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-hypothesis-runtime.mjs",
+    "before": null
+  },
+  {
+    "name": "team-v15-active-identity.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-v15-active-identity.mjs",
+    "before": null,
+    "after": "2BA6A2BC82C8FC7094909EC85D9E200B6FF35E7EF5DD33AD3A3AF03CFF5AD310"
+  },
+  {
+    "name": "team-activity-digest.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\team-activity-digest.mjs",
+    "before": "46A57F42CD49ACA738236A9722987DF9C355FFA08DF4FDCE2AEE3BFC83CCF38F",
+    "after": "9CCCC8F51175D193D0477A28EE9587E4D22EF5559D01D01A857C815E18608214"
+  },
+  {
+    "name": "team-v15-window-collector.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-collector.mjs",
+    "before": null,
+    "after": "F175B9F7A5980F33851CAE4879A041F9501DB3D6EFDDED84B83D89224685A1CC"
+  },
+  {
+    "name": "team-v15-window-protocol.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-protocol.mjs",
+    "before": null,
+    "after": "A1BFAFABEDE1E2DF38E3FD67F0AD688EF1AC3BE2799C951D348AC0B461D57939"
+  },
+  {
+    "name": "request-message-projection.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\request-message-projection.mjs",
+    "before": "A6B8E5BF8FFA77F7BA8CF4A21F35693F8FF5085CE7EF334390E3BD7BBC496C00",
+    "after": "4AF4102B89DD878B6C0F695EAA0FA2AAAB25AFEE605A0D0F93F4F88A2800E4E7"
+  },
+  {
+    "name": "team-v15-window-surface.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-surface.mjs",
+    "before": null,
+    "after": "4A158947032E9B88AEA6CDB6582CFA4F757427EE65B13EA5A119AF641995CDE8"
+  },
+  {
+    "name": "team-v15-window-file-protection.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-file-protection.mjs",
+    "before": null,
+    "after": "4DB63D07BF3720B1898075CC9C0F841FC4C5B37BB2DE5743F74E37DC9984F97A"
+  },
+  {
+    "name": "request-usage-ledger.mjs",
+    "path": "D:\\dsh-test\\staging\\context-runtime-unified-20261001\\home\\profiles\\web\\plugins\\request-usage-ledger.mjs",
+    "before": "5AE0B570476CFDE4430B6C6E5720357FF3E413F89A1371F6FA31E7F49F6CB58A",
+    "after": "F19D86FA4CFC45B6F650480B01DE5819BF9B56674C5033E63A3EF02755B63680"
+  },
+  {
+    "name": "session-plan-delivery.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/session-plan-delivery.mjs",
+    "before": null,
+    "after": "7DC4AD9D8579DCD129D0BC4A858FB12EFE231FAFDE4373EF256CAEE59E301B88"
+  },
+  {
+    "name": "team-v15-delivery-presentation.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-delivery-presentation.mjs",
+    "before": null,
+    "after": "3C8763D7453FC5C399944525987C7FAEA4BFC6D43DF02C34F098038713391CF8"
+  },
+  {
+    "name": "team-milestone-v2.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-milestone-v2.mjs",
+    "before": "882AC6EE37CCBD39D6475830FB380C6E648E337B0042F1BD40383100485CB997",
+    "after": "860A83FF5BA1C5388EFEA14273C11F3088A085C6FA73DBE6E504CB001259D226"
+  },
+  {
+    "name": "team-v15-window-decision.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-decision.mjs",
+    "before": null,
+    "after": "88103EF02307D13FC8E91A4F5E8102978E9932AD39F3E3713BC9001947C9BC7A"
+  },
+  {
+    "name": "team-v15-window-manager.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-manager.mjs",
+    "before": null,
+    "after": "A311F851D0F2EC55DE82D0068B71DCBB099AFCCBF64F66A4175CF2A2FF9F218F"
+  },
+  {
+    "name": "team-v15-window-install.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-install.mjs",
+    "before": null,
+    "after": "3EE2CC77824CC2C3509EB8EC5B88F525A751343523988E2C70983D03A9A8D9D1"
+  },
+  {
+    "name": "team-v15-window-executor.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-executor.mjs",
+    "before": null,
+    "after": "96C738F39A50C8D402924F67300A5B391239AE9CA4DBF3FE5B86D9A2AF77CBB4"
+  },
+  {
+    "name": "team-v15-window-loaded.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-loaded.mjs",
+    "before": null,
+    "after": "C3D32E61D18173F090D847121B385D30BE3D1774BEBA8ABF37D98C5AC0F4FD85"
+  },
+  {
+    "name": "team-v14-durable-store.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v14-durable-store.mjs",
+    "before": "7895B19A41EF8E2A9D461C6416F68C7CA0F11B550403642EED95E17D8C4376E5",
+    "after": "E57291611E2942245E01503CA944E6BAB9919E6AD430B55EE88D9B0D3BE80BCC"
+  },
+  {
+    "name": "team-v15-window-wiring.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-wiring.mjs",
+    "before": null,
+    "after": "2270294788BB6B9C79C85DEB01D74E0BEC1BC040DC9598C6292A14DDEAD4F952"
+  },
+  {
+    "name": "team-v15-window-plan.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-window-plan.mjs",
+    "before": null,
+    "after": "FA803AFA1CE69920E6C4E769CC4B7CB8EC572BDF7E8F0AAF26AA00D24E6ED544"
+  },
+  {
+    "name": "team-v15-ptc-background.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/team-v15-ptc-background.mjs",
+    "before": null,
+    "after": "DD823515B30F6987130496AE0E059DC9C861E7290BC27CF3F641EE6FDC43C687"
+  },
+  {
+    "name": "constraint-ledger.mjs",
+    "path": "D:/dsh-test/staging/context-runtime-unified-20261001/home/profiles/web/plugins/constraint-ledger.mjs",
+    "before": null,
+    "after": "76B8F0A3B9745AFD71F465102DE871D48D257F93BBCC3A9966C5010FB492BD2F"
+  }
+]

@@ -1,0 +1,5 @@
+docs: 收编两条纪律（edit 卡相位序 / 「唯一」是全域断言）
+
+- edit 卡：plan 之前不得把相位推到 plan-approved，否则 plan_propose 与 worktree 均被拒。
+- 「唯一」是全域断言，不能由局部扫描得出；未穷举的域不得承载全域量词。
+- 门禁 citation_integrity 绿。

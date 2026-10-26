@@ -1,0 +1,6 @@
+docs: B-72 风险论证已兑现为实际红（快照自判红）+ main 为绿对照；并修掉我自己引入的 §13.3 L345 引用形态 token
+
+- rig-trace 工作树 2 passed / 2 failed，红行来自冻结快照自身副本（§13.3 第345行）。
+- main 为绿（4 passed / 0 failed / unregistered=0）⇒ 红是工作树局部的；t27 优先级因此抬高。
+- tier 0 自纠两处：记叙时第三次写下短 id；引用 rig-trace 报文时逐字带进 §N Lm 形态 token 把门禁判红（unregistered=1 / RC=101），已拆写修复。
+- 门禁 citation_integrity 绿（unregistered=0 / CARGO_RC=0）。

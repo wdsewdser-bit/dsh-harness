@@ -1,0 +1,12 @@
+task-87: 本轮收编五条 —— 失败≠未登记 / 裸引用依赖树 / 读数须带口径 / 函数名不得单字母 / 提交必须被校验
+
+- §5.14-45：判据的分类必须与它的文案一致；「判定失败」与「未登记」合并计数会掩盖「该改引用」与「该登记例外」。
+  机制（代码锚点）：path_verdict 的 P2 AMBIG 被 :880 got = sc.mismatches / :893 unregistered = got − registered 计入 unregistered。
+  裁定：不禁止裸引用但须声明搜索域；歧义单列 + 报候选集 + 提示改引用或消除同名；不登记那 5 条（原本是 PASS）。
+- §5.14-46：裸 <basename>:<line> 的可解析性依赖树里有哪些同名文件 ⇒ 新增文件不得复用已被裸引用的 basename；
+  live 含未跟踪在飞文件 ⇒ 他人的工作树能改变你的读数（§5.14-36/41 同族）。
+- 读数必须连同口径一起给出：同一 stdout 四种口径四个摘要（CRLF+尾随 765f7aaf / LF 3c75c349 / LF+尾随 05dfc6b3 / CRLF 无尾随 0db05cee）。
+- 自定义函数名不得用单字母（verifier 的 H 与 PowerShell 的 h（Get-History 别名）冲突 ⇒ 四个哈希静默返回空串）——§5.14-5 第二实例。
+- 提交必须被校验（第 32 处错）：git commit 因消息文件不存在而失败，失败在 stderr 而我只看了 stdout；
+  随后把他人提交的 HEAD 写进了 commit_sha ⇒ 已 bind_fix（3c007de → 49bfbd6）。三条纪律：消费 exitCode+stderr；
+  commit_sha 只取自提交成功后的 HEAD 且先证 show --name-only == scope；前置文件与提交同脚本生成或显式校验存在。

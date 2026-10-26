@@ -1,0 +1,8 @@
+task-38: 修 GOVERNANCE 的两个未登记 PATH 类红灯（chunk.rs:8 @ :1262/:1314）
+
+- task-37 只修了 §n Lm 类，漏了 PATH 类；门禁实跑：M11-CITE-PATH-EXC|registered=64|unregistered=2，
+  两条都在 docs/GOVERNANCE.md（:1262:398 与 :1314:162，token = chunk.rs:8）=> t54 的 path.ext:line 文法已在 HEAD 生效。
+  已把两处改为 `chunk.rs` 的 `:8` 并就地标注刻意拆写。
+- 更正：lead-rig 的「G-RIG 一阶清单为空」对它那条成立，但门禁自己的规则报出另外两条（在我的文件里）=>
+  正确陈述 = 门禁在 HEAD 上的未登记项 2 条，全在 docs/GOVERNANCE.md；CONTRACT.md:75 不在其中。
+- 自纠：task-37 的门禁读数因过滤模式坏而不完整（只留 FAILED/EXIT），我把「不确定」当成了「已复测」。

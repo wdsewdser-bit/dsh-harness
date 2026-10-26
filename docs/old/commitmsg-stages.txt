@@ -1,0 +1,5 @@
+docs: STAGES.md 更正 N-9 状态（待下发 → 已下发 group-proto-t69）+ 记录 M4-S3 并入 main
+
+- 表格行与「本轮不下发」结论同步更正，附 root 第 3 轮契约与等待票
+- 附记：grp/world@88b88ad0 并入回执 3c0facee（tree 3d629617，父 [de9c96e, 88b88ad0]，恰 2 路径，blob 逐字相等）
+- 记录「并后 tree ≠ 清关预登记 b9c10a37」的成因 = 参照物前进（B-116 补一），非判定错误

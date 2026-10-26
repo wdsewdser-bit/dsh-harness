@@ -1,0 +1,2302 @@
+# == @deepseek-ai/dsh-base
+- id: tool-plugin-manager
+  name: '@deepseek-ai/dsh-plugin-manager/tools'
+  disabled: true
+- id: plugin-manager
+  name: '@deepseek-ai/dsh-plugin-manager'
+  disabled: !!js '!ctx.get(''profileContext'')'
+- id: timer
+  name: '@deepseek-ai/cordis-plugin-timer'
+- id: hmr
+  name: '@deepseek-ai/dsh-hmr'
+  disabled: !!js '!ctx.get(''profileContext'')'
+  config:
+    root: []
+- id: llm
+  name: '@deepseek-ai/dsh-llm'
+- id: deepseek-llm-api-extensions
+  name: '@deepseek-ai/dsh-deepseek-llm-api-extensions'
+- id: session
+  name: '@deepseek-ai/dsh-session'
+- id: session-log-deepseek
+  name: '@deepseek-ai/dsh-session-log-deepseek'
+- id: typert
+  name: '@deepseek-ai/dsh-typert-registry'
+- id: typert-loader
+  name: '@deepseek-ai/dsh-typert-loader'
+- id: typert-gateway
+  name: '@deepseek-ai/dsh-api-gateway'
+- id: session-title
+  name: '@deepseek-ai/dsh-session-title'
+  config:
+    fallbackMaxWords: 5
+    fallbackMaxBytes: 40
+    maxTitleBytes: 80
+- id: session-title-llm
+  name: '@deepseek-ai/dsh-session-title-first-prompt-llm'
+  config:
+    targetWords: 5
+    targetCjkCharacters: 10
+    maxInputBytes: 4096
+    maxOutputTokens: 64
+    timeoutMs: 60000
+- id: user-questions
+  name: '@deepseek-ai/dsh-user-questions'
+- id: agent
+  name: '@deepseek-ai/dsh-agent'
+- id: plugin-package-inventory-deepseek
+  name: '@deepseek-ai/dsh-plugin-package-inventory-deepseek'
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: agent-default-model
+  name: '@deepseek-ai/dsh-agent-default-model'
+  config:
+    provider: opencodego
+    model: deepseek-v4.1-flash
+    reasoningEffort: max
+# == @deepseek-ai/dsh-base
+- id: jobs
+  name: '@deepseek-ai/dsh-jobs-local'
+- id: llm-retry
+  name: '@deepseek-ai/dsh-llm-retry'
+- id: config-editor
+  name: '@deepseek-ai/dsh-config-editor'
+  disabled: !!js '!ctx.get(''profileContext'')'
+- id: settings
+  name: '@deepseek-ai/dsh-settings'
+  disabled: !!js '!ctx.get(''profileContext'')'
+- id: authorization
+  name: '@deepseek-ai/dsh-authorization'
+- id: deepseek-account
+  name: '@deepseek-ai/dsh-deepseek-account-platform'
+  config:
+    desktopPlatform: !!js >-
+      ctx.get('profileContext')?.name === 'desktop' && ['darwin',
+      'win32'].includes(process.platform) ? process.platform : null
+- id: credentials
+  name: '@deepseek-ai/dsh-credentials-local'
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: llm-pi-ai
+  name: '@deepseek-ai/dsh-llm-pi-ai'
+  config:
+    providers:
+      ds:
+        apiKeyEnv: DS_API_KEY
+        api: openai-completions
+        baseURL: https://api.quya.org
+        models:
+          - id: deepseek-v4-flash-0731
+            name: deepseek-v4-flash-0731
+          - id: deepseek-v4-pro-0813
+            name: deepseek-v4-pro-0813
+          - id: glm-5.3
+            name: glm-5.3
+      gpt:
+        apiKeyEnv: GPT_API_KEY
+        api: openai-responses
+        baseURL: https://api.quya.org
+        models:
+          - id: gpt-5.6-sol
+            name: gpt-5.6-sol
+            contextWindow: 262144
+            maxTokens: 32768
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              'off': null
+              low: low
+              medium: medium
+              high: high
+              max: max
+          - id: gpt-5.6-terra
+            name: gpt-5.6-terra
+            contextWindow: 262144
+            maxTokens: 32768
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              'off': null
+              low: low
+              medium: medium
+              high: high
+              max: max
+          - id: gpt-6-astra
+            name: gpt-6-astra
+            contextWindow: 262144
+            maxTokens: 32768
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              'off': null
+              low: low
+              medium: medium
+              high: high
+              max: max
+      opencodego:
+        apiKeyEnv: OPENCODEGO_API_KEY
+        api: openai-completions
+        baseURL: http://127.0.0.1:8788/v1
+        sessionHeader: x-opencode-session
+        headers:
+          x-opencode-session: dsh-test-agent-team
+        models:
+          - id: deepseek-v4.1-flash
+            name: deepseek-v4.1-flash
+            contextWindow: 1000000
+            maxTokens: 128000
+            input:
+              - text
+              - image
+            reasoningEfforts:
+              'off': null
+              low: low
+              medium: medium
+              high: high
+              max: max
+            systemPromptUpdate: in-history
+      cmd:
+        apiKeyEnv: CMD_API_KEY
+        api: openai-completions
+        baseURL: https://api.commandcode.ai/provider/v1
+        models:
+          - id: deepseek/deepseek-v4.1-flash
+            name: deepseek-v4.1-flash
+            maxTokens: 65536
+            input:
+              - text
+              - image
+            systemPromptUpdate: in-history
+            reasoningEfforts:
+              'off': null
+              low: low
+              medium: medium
+              high: high
+              max: max
+            contextWindow: 1048576
+# == @deepseek-ai/dsh-base
+- id: session-persistence-jsonl
+  name: '@deepseek-ai/dsh-session-persistence-jsonl'
+  config:
+    root: !!js dshHomePath('sessions')
+- id: attachment-local
+  name: '@deepseek-ai/dsh-attachment-local'
+- id: session-query-sqlite
+  name: '@deepseek-ai/dsh-session-query-sqlite'
+  config:
+    path: ':memory:'
+    openAt: never
+- id: session-projection
+  name: '@deepseek-ai/dsh-session-projection'
+- id: storage
+  name: '@deepseek-ai/dsh-storage'
+- id: storage-json
+  name: '@deepseek-ai/dsh-storage-json'
+  config:
+    root: !!js dshHomePath('storages')
+- id: storage-domain
+  name: '@deepseek-ai/dsh-storage-domain'
+  config:
+    backend: json
+- id: session-projection-cache
+  name: '@deepseek-ai/dsh-session-projection-cache'
+  config:
+    writeEveryEvents: 200
+    writeIntervalMs: 5000
+- id: session-telemetry-otel
+  name: '@deepseek-ai/dsh-session-telemetry-otel'
+  config:
+    mode: !!js process.env.DSH_TELEMETRY_MODE || 'FEEDBACK_ONLY'
+    shutdownTimeoutMillis: 3000
+    exporter:
+      url: !!js >-
+        process.env.DSH_TELEMETRY_OTLP_URL ??
+        'https://harness-telemetry.deepseeksvc.com/v1/logs'
+      compression: gzip
+      timeoutMillis: 1000
+    processor:
+      scheduledDelayMillis: 10000
+      maxQueueSize: 2048
+      maxExportBatchSize: 2048
+      exportTimeoutMillis: 1500
+- id: subprocess
+  name: '@deepseek-ai/dsh-subprocess-local'
+- id: sandbox
+  name: '@deepseek-ai/dsh-sandbox-local'
+- id: sandbox-policy
+  name: '@deepseek-ai/dsh-sandbox-policy'
+  config:
+    mode: !!js process.env.DSH_PERMISSION_MODE ?? 'workspace-write'
+    workspaceRoot: !!js process.cwd()
+- id: bash-sandbox
+  name: '@deepseek-ai/dsh-bash-sandbox'
+  disabled: !!js process.platform === 'win32'
+  config:
+    timeoutMs: 60000
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: pwsh-sandbox
+  name: '@deepseek-ai/dsh-pwsh-sandbox'
+  disabled: !!js process.platform !== 'win32'
+  config:
+    timeoutMs: 10000
+    maxTimeoutMs: 60000
+# == @deepseek-ai/dsh-base
+- id: approval
+  name: '@deepseek-ai/dsh-user-approval'
+  config:
+    policy: !!js >-
+      (process.env.DSH_PERMISSION_MODE ?? 'workspace-write') ===
+      'danger-full-access' ? 'never' : 'ask'
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: permission
+  name: '@deepseek-ai/dsh-permission-presets'
+  config:
+    presets:
+      read-only:
+        sandbox: read-only
+        approval: ask
+      workspace-write:
+        sandbox: workspace-write
+        approval: ask
+      danger-full-access:
+        sandbox: danger-full-access
+        approval: never
+    defaultPreset: danger-full-access
+# == @deepseek-ai/dsh-base
+- id: shell-env
+  name: '@deepseek-ai/dsh-shell-env'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app, D:\dsh-test\home\cordis.patch.yml
+- id: tool-bash
+  name: '@deepseek-ai/dsh-tool-bash'
+  disabled: false
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-pwsh
+  name: '@deepseek-ai/dsh-tool-pwsh'
+  disabled: true
+- id: tool-jobs
+  name: '@deepseek-ai/dsh-tool-jobs'
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: fs-observation-policy
+  name: '@deepseek-ai/dsh-fs-observation-policy'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app, D:\dsh-test\home\cordis.patch.yml
+- id: tool-fs
+  name: '@deepseek-ai/dsh-tool-fs'
+  disabled: false
+- id: tool-fs-search
+  name: '@deepseek-ai/dsh-tool-fs-search'
+  config:
+    sampleOverCapGlobResults: false
+  disabled: false
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: agent-instructions
+  name: '@deepseek-ai/dsh-agent-instructions'
+  config:
+    maxBytes: 65536
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: skill
+  name: '@deepseek-ai/dsh-skill'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: skill-filesystem
+  name: '@deepseek-ai/dsh-skill-filesystem'
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: skill-badge
+  name: '@deepseek-ai/dsh-skill-badge'
+  disabled: true
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-skill
+  name: '@deepseek-ai/dsh-tool-skill'
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: commands
+  name: '@deepseek-ai/dsh-commands'
+- id: command-feedback
+  name: '@deepseek-ai/dsh-command-feedback'
+- id: goal
+  name: '@deepseek-ai/dsh-goal'
+- id: goal-round-driver
+  name: '@deepseek-ai/dsh-goal-round-driver'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: command-goal
+  name: '@deepseek-ai/dsh-command-goal'
+  disabled: true
+- id: plan-mode
+  name: '@deepseek-ai/dsh-plan-mode'
+  config:
+    section: >
+      You are in plan mode. Stay in plan mode until exit_plan_mode succeeds or
+      the user switches the session mode. Imperative language to implement
+      changes means plan the implementation, not execute it. A user's
+      conversational agreement — including an answer confirming something you
+      asked — approves nothing and does not end plan mode; fold the confirmed
+      decision into the plan and submit it through exit_plan_mode.
+
+
+      Explore first. Use non-mutating reads, searches, static analysis, and
+      checks to ground the plan in the actual repository. Do not edit or write
+      files, change configuration, run formatters or code generation that
+      rewrites tracked files, commit, or otherwise carry out the plan. Prefer
+      existing functions and patterns over new machinery.
+
+
+      The tool catalog stays the same across modes for request-cache stability.
+      These plan-mode rules override any later tool description or guidance that
+      suggests using mutation tools; those tools remain listed only to keep the
+      request shape stable. Do not use todo_write to track this planning phase:
+      it tracks implementation after an approved plan, while the plan itself
+      belongs in exit_plan_mode.
+
+
+      Resolve discoverable facts by inspection. Use ask_user_question only for
+      user-owned choices or material ambiguity that inspection cannot answer. Do
+      not ask the user where code lives or how current behavior works when you
+      can find out.
+
+
+      Make the plan decision-complete: state the goal and success criteria;
+      group implementation changes by subsystem; identify public API, schema,
+      and data-flow changes; cover edge cases, failure modes, tests, acceptance
+      criteria, and explicit assumptions. Keep it concise enough to review but
+      detailed enough that another engineer can implement it without making
+      design decisions.
+
+
+      When ready, call exit_plan_mode with the complete plan markdown, starting
+      with a # title. Make exit_plan_mode the only and final tool call in that
+      assistant response: it presents the plan for approval, and implementation
+      begins only in a later step after approval. Do not paste the final plan as
+      a plain reply or ask "should I proceed?" through prose or
+      ask_user_question. If review rejects it, incorporate the feedback and
+      present again. If the review channel is unavailable or aborted, stay in
+      plan mode and ask the user to switch modes manually; do not proceed with
+      implementation.
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: token-meter
+  name: '@deepseek-ai/dsh-token-meter'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: compaction-basic
+  name: '@deepseek-ai/dsh-compaction-basic'
+  disabled: true
+- id: command-compact
+  name: '@deepseek-ai/dsh-command-compact'
+  disabled: true
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: subagent
+  name: '@deepseek-ai/dsh-subagent'
+  config:
+    maxActiveSubagents: 100
+    maxDepth: 100
+# == @deepseek-ai/dsh-base
+- id: subagent-spawn-in-process
+  name: '@deepseek-ai/dsh-subagent-spawn-in-process'
+  config:
+    providerName: spawn
+- id: subagent-fork-in-process
+  name: '@deepseek-ai/dsh-subagent-fork-in-process'
+  config:
+    providerName: fork
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-subagent-control
+  name: '@deepseek-ai/dsh-tool-subagent-control'
+  disabled: true
+- id: tool-subagent-list-agents
+  name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+  disabled: true
+- id: tool-subagent
+  name: '@deepseek-ai/dsh-tool-subagent'
+  config:
+    provider: spawn
+    toolName: subagent
+    backgroundMode: continuable
+  disabled: true
+- id: tool-subagent-fork
+  name: '@deepseek-ai/dsh-tool-subagent'
+  config:
+    provider: fork
+    toolName: subagent_fork
+    backgroundMode: one-shot
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: ptc-runtime
+  name: '@deepseek-ai/dsh-ptc-runtime-node'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: workflow-ptc
+  name: '@deepseek-ai/dsh-workflow-ptc'
+  config:
+    provider: spawn
+  disabled: true
+- id: tool-workflow
+  name: '@deepseek-ai/dsh-tool-workflow'
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: timeout-policy
+  name: '@deepseek-ai/dsh-tool-call-timeout-policy'
+- id: spill-local
+  name: '@deepseek-ai/dsh-spill-local'
+- id: spill-policy
+  name: '@deepseek-ai/dsh-spill-policy'
+  config:
+    maxInlineTokens: 12500
+- id: session-checkpoint-policy
+  name: '@deepseek-ai/dsh-session-checkpoint-policy'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-result-pruner
+  name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+  config:
+    thresholdChars: 8192
+    headChars: 4096
+    tailChars: 1024
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: image-offload
+  name: '@deepseek-ai/dsh-compaction-image-offload'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-todo
+  name: '@deepseek-ai/dsh-tool-todo'
+  config:
+    allowParallelInProgress: true
+  disabled: true
+- id: tool-goal
+  name: '@deepseek-ai/dsh-tool-goal'
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: tool-ralph
+  name: '@deepseek-ai/dsh-tool-ralph'
+  disabled: true
+  config:
+    subagentProvider: spawn
+    maxRounds: 64
+- id: repeat-tool-reminder
+  name: '@deepseek-ai/dsh-repeat-tool-reminder'
+  config:
+    thresholds:
+      - 3
+      - 5
+      - 8
+    argumentsPreviewChars: 500
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: web
+  name: '@deepseek-ai/dsh-web'
+  config:
+    searchProvider: opencode-zen
+    fetchProvider: http
+- id: web-search-deepseek
+  name: '@deepseek-ai/dsh-web-search-deepseek'
+  config:
+    apiKeyEnv: OPENCODEGO_API_KEY
+    baseURL: https://api.commandcode.ai/provider/v1
+    maxUses: 100
+# == @deepseek-ai/dsh-base
+- id: web-fetch-http
+  name: '@deepseek-ai/dsh-web-fetch-http'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tool-web
+  name: '@deepseek-ai/dsh-tool-web'
+  config:
+    fetch: true
+    searchTimeoutMs: 60000
+  disabled: true
+# == @deepseek-ai/dsh-base
+- id: mcp-resources
+  name: '@deepseek-ai/dsh-mcp-resources'
+# == @deepseek-ai/dsh-base, patched by @deepseek-ai/dsh-web-app
+- id: tools
+  name: '@deepseek-ai/dsh-tools'
+  config:
+    mode: !!js process.env.DSH_TOOLS_MODE
+- id: system-prompt
+  name: '@deepseek-ai/dsh-system-prompt'
+  config:
+    personaSuffix: Your working directory is {{cwd}}.
+    personaPrefix: You are a coding agent powered by the {{model}} model.
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: agent-loop
+  name: '@deepseek-ai/dsh-agent-loop'
+  config:
+    agents: []
+    maxParallelToolCalls: 100
+# == @deepseek-ai/dsh-base
+- id: fs-sandbox
+  name: '@deepseek-ai/dsh-fs-sandbox'
+# == @deepseek-ai/dsh-base, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: llm-deepseek
+  name: '@deepseek-ai/dsh-llm-deepseek'
+  config:
+    models:
+      - id: deepseek-flash
+        name: DeepSeek-V4.1-Flash
+        contextWindow: 1000000
+        maxTokens: 356000
+        inputModalities:
+          - text
+          - image
+        imagePixelBudget: 640000
+        imageMaxBytes: 1048576
+        systemPromptUpdate: in-history
+    baseURL: https://api.deepseek.com/anthropic
+# == @deepseek-ai/dsh-web-app, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: subagent-model-selection-settings
+  name: '@deepseek-ai/dsh-tool-subagent/model-selection-settings'
+  config:
+    enabled: true
+    allowedModels:
+      - provider: cmd
+        model: deepseek/deepseek-v4.1-flash
+      - provider: deepseek-official
+        model: deepseek-flash
+      - provider: opencodego
+        model: deepseek-v4.1-flash
+# == @deepseek-ai/dsh-web-app
+- id: message-feedback
+  name: '@deepseek-ai/dsh-message-feedback'
+  config:
+    maxNoteBytes: 8192
+- id: session-log-download
+  name: '@deepseek-ai/dsh-session-log-export'
+- id: open-in-app
+  name: '@deepseek-ai/dsh-host-open-in-app'
+  config:
+    probeTimeoutMs: 10000
+    iconTimeoutMs: 10000
+    launchWatchMs: 1000
+- id: ui-open-in-app
+  name: '@deepseek-ai/dsh-client-ui-open-in-app'
+- id: workspace
+  name: '@deepseek-ai/dsh-workspace'
+- id: session-reference
+  name: '@deepseek-ai/dsh-session-reference'
+- id: file-reference-local
+  name: '@deepseek-ai/dsh-file-reference-local'
+- id: session-stats
+  name: '@deepseek-ai/dsh-session-stats'
+- id: session-turn-outline
+  name: '@deepseek-ai/dsh-session-turn-outline'
+- id: directory-picker
+  name: '@deepseek-ai/dsh-host-directory-picker-auto'
+- id: plugin-inventory
+  name: '@deepseek-ai/dsh-host-plugin-inventory'
+- id: session-controller
+  name: '@deepseek-ai/dsh-api-session-controller'
+- id: job-controller
+  name: '@deepseek-ai/dsh-api-job-controller'
+- id: terminal-controller
+  name: '@deepseek-ai/dsh-api-terminal-controller'
+- id: workspace-files
+  name: '@deepseek-ai/dsh-api-workspace-files'
+- id: ui-settings-account
+  name: '@deepseek-ai/dsh-client-ui-settings-account'
+- id: account-controller
+  name: '@deepseek-ai/dsh-api-account-controller'
+- id: settings-controller
+  name: '@deepseek-ai/dsh-api-settings-controller'
+- id: workspace-controller
+  name: '@deepseek-ai/dsh-api-workspace-controller'
+- id: cordis-host-runner
+  name: '@deepseek-ai/dsh-cordis-host-runner'
+- id: cordis-inspect-providers
+  name: '@deepseek-ai/dsh-tool-cordis/host'
+- id: web-startup
+  name: '@deepseek-ai/dsh-web-app/startup'
+- id: webserver
+  name: '@deepseek-ai/dsh-host-webserver'
+  inject:
+    - webStartup
+  config:
+    host: !!js ctx.webStartup.host ?? '127.0.0.1'
+    port: !!js ctx.webStartup.port ?? 3080
+    compression: gzip
+    compressionLevel: 1
+    compressionThresholdBytes: 1024
+- id: web-runtime
+  name: '@deepseek-ai/dsh-web-app'
+  inject:
+    - webStartup
+  config:
+    openBrowser: !!js ctx.webStartup.openBrowser
+    printUrl: true
+    surfaceContext: true
+    trustedHosts: !!js ctx.webStartup.trustedHosts
+- id: client-hmr
+  name: '@deepseek-ai/dsh-client-hmr'
+- id: modules
+  name: '@deepseek-ai/dsh-client-modules'
+- id: connection
+  name: '@deepseek-ai/dsh-client-connection'
+  inject:
+    - webRuntime
+  config:
+    trustedHosts: !!js ctx.webRuntime.trustedHosts
+- id: file-upload
+  name: '@deepseek-ai/dsh-client-file-upload'
+- id: api-remotes
+  name: '@deepseek-ai/dsh-api-remotes'
+- id: cordis-client-runner
+  name: '@deepseek-ai/dsh-cordis-client-runner'
+# == @deepseek-ai/dsh-web-app, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: ui-theme
+  name: '@deepseek-ai/dsh-client-ui-theme'
+  config:
+    preference: dark
+# == @deepseek-ai/dsh-web-app
+- id: locale
+  name: '@deepseek-ai/dsh-client-locale'
+- id: ui-layout
+  name: '@deepseek-ai/dsh-client-ui-layout'
+- id: ui-renderer
+  name: '@deepseek-ai/dsh-client-ui-renderer'
+- id: ui-session
+  name: '@deepseek-ai/dsh-client-ui-session'
+- id: resources
+  name: '@deepseek-ai/dsh-client-resources'
+- id: ui-sidebar
+  name: '@deepseek-ai/dsh-client-ui-sidebar'
+- id: ui-sidebar-right
+  name: '@deepseek-ai/dsh-client-ui-sidebar-right'
+- id: office-to-pdf
+  name: '@deepseek-ai/dsh-office-to-pdf'
+- id: ui-sidebar-documentpreview
+  name: '@deepseek-ai/dsh-client-ui-sidebar-documentpreview'
+- id: ui-sidebar-browser
+  name: '@deepseek-ai/dsh-client-ui-sidebar-browser'
+  disabled: !!js ctx.get('profileContext')?.name !== 'desktop'
+- id: ui-sidebar-terminal
+  name: '@deepseek-ai/dsh-client-ui-sidebar-terminal'
+- id: ui-sidebar-files
+  name: '@deepseek-ai/dsh-client-ui-sidebar-files'
+- id: ui-settings
+  name: '@deepseek-ai/dsh-client-ui-settings'
+# == @deepseek-ai/dsh-web-app, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: ui-settings-general
+  name: '@deepseek-ai/dsh-client-ui-settings-general'
+  config:
+    welcomeNoticeVersion: 2026-08-13.1
+# == @deepseek-ai/dsh-web-app
+- id: ui-settings-models
+  name: '@deepseek-ai/dsh-client-ui-settings-models'
+- id: ui-plugin-manager
+  name: '@deepseek-ai/dsh-client-ui-plugin-manager'
+- id: ui-settings-plugin-inventory
+  name: '@deepseek-ai/dsh-client-ui-settings-plugin-inventory'
+# == @deepseek-ai/dsh-web-app, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: ui-conversation
+  name: '@deepseek-ai/dsh-client-ui-conversation'
+  config:
+    busyEnter: steer
+# == @deepseek-ai/dsh-web-app
+- id: ui-approval
+  name: '@deepseek-ai/dsh-client-ui-approval'
+# == @deepseek-ai/dsh-web-app, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: ui-chat
+  name: '@deepseek-ai/dsh-client-ui-chat'
+  config:
+    transcriptView: detailed
+# == @deepseek-ai/dsh-web-app
+- id: ui-brand-official
+  name: '@deepseek-ai/dsh-client-ui-brand-official'
+- id: ui-attachment
+  name: '@deepseek-ai/dsh-client-ui-attachment'
+- id: ui-tool
+  name: '@deepseek-ai/dsh-client-ui-tool'
+- id: ui-cordis
+  name: '@deepseek-ai/dsh-client-ui-cordis'
+- id: ui-deliverables
+  name: '@deepseek-ai/dsh-client-ui-deliverables'
+- id: workspace-changes
+  name: '@deepseek-ai/dsh-workspace-changes'
+- id: ui-workspace
+  name: '@deepseek-ai/dsh-client-ui-workspace'
+- id: ui-workflow-run
+  name: '@deepseek-ai/dsh-client-ui-workflow-run'
+- id: ui-input-trigger
+  name: '@deepseek-ai/dsh-client-ui-input-trigger'
+- id: ui-commands
+  name: '@deepseek-ai/dsh-client-ui-commands'
+- id: ui-skill
+  name: '@deepseek-ai/dsh-client-ui-skill'
+- id: ui-subagent
+  name: '@deepseek-ai/dsh-client-ui-subagent'
+- id: ui-reference
+  name: '@deepseek-ai/dsh-client-ui-reference'
+- id: ui-jobs
+  name: '@deepseek-ai/dsh-client-ui-jobs'
+- id: ui-schedule
+  name: '@deepseek-ai/dsh-client-ui-schedule'
+  disabled: true
+- id: ui-goal
+  name: '@deepseek-ai/dsh-client-ui-goal'
+- id: ui-message-feedback
+  name: '@deepseek-ai/dsh-client-ui-message-feedback'
+- id: ui-model-selection
+  name: '@deepseek-ai/dsh-client-ui-model-selection'
+- id: ui-permission
+  name: '@deepseek-ai/dsh-client-ui-permission-presets'
+- id: ui-agent-preset
+  name: '@deepseek-ai/dsh-client-ui-agent-preset'
+- id: ui-settings-plugins
+  name: '@deepseek-ai/dsh-client-ui-settings-plugins'
+- id: ui-settings-shell
+  name: '@deepseek-ai/dsh-client-ui-settings-shell'
+- id: ui-settings-agent-loop
+  name: '@deepseek-ai/dsh-client-ui-settings-agent-loop'
+- id: ui-settings-subagent
+  name: '@deepseek-ai/dsh-client-ui-settings-subagent'
+- id: ui-settings-web-search
+  name: '@deepseek-ai/dsh-client-ui-settings-web-search'
+- id: ui-plan
+  name: '@deepseek-ai/dsh-client-ui-plan'
+- id: ui-user-questions
+  name: '@deepseek-ai/dsh-client-ui-user-questions'
+- id: ui-trajectory
+  name: '@deepseek-ai/dsh-client-ui-trajectory'
+- id: agent-preset-registry
+  name: '@deepseek-ai/dsh-agent-preset-registry'
+  config:
+    default: standard
+- id: preset-standard
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: standard
+    order: 1
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          suffix: Your working directory is {{cwd}}.
+          prefix: You are a coding agent powered by the {{model}} model.
+      - id: agent-instructions
+        name: '@deepseek-ai/dsh-agent-instructions'
+        config:
+          maxBytes: 65536
+      - id: tool-bash
+        name: '@deepseek-ai/dsh-tool-bash'
+        disabled: !!js process.platform === 'win32'
+      - id: tool-pwsh
+        name: '@deepseek-ai/dsh-tool-pwsh'
+        disabled: !!js process.platform !== 'win32'
+      - id: tool-fs
+        name: '@deepseek-ai/dsh-tool-fs'
+      - id: tool-fs-search
+        name: '@deepseek-ai/dsh-tool-fs-search'
+        config:
+          sampleOverCapGlobResults: false
+      - id: tool-jobs
+        name: '@deepseek-ai/dsh-tool-jobs'
+      - id: skill-filesystem
+        name: '@deepseek-ai/dsh-skill-filesystem'
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: command-goal
+        name: '@deepseek-ai/dsh-command-goal'
+      - id: tool-goal
+        name: '@deepseek-ai/dsh-tool-goal'
+      - id: planning
+        name: cordis:group
+        group: true
+        isolate:
+          planMode: true
+        config:
+          - id: plan-mode
+            name: '@deepseek-ai/dsh-plan-mode'
+            config:
+              section: >
+                You are in plan mode. Stay in plan mode until exit_plan_mode
+                succeeds or the user switches the session mode. Imperative
+                language to implement changes means plan the implementation, not
+                execute it. A user's conversational agreement — including an
+                answer confirming something you asked — approves nothing and
+                does not end plan mode; fold the confirmed decision into the
+                plan and submit it through exit_plan_mode.
+
+
+                Explore first. Use non-mutating reads, searches, static
+                analysis, and checks to ground the plan in the actual
+                repository. Do not edit or write files, change configuration,
+                run formatters or code generation that rewrites tracked files,
+                commit, or otherwise carry out the plan. Prefer existing
+                functions and patterns over new machinery.
+
+
+                The tool catalog stays the same across modes for request-cache
+                stability. These plan-mode rules override any later tool
+                description or guidance that suggests using mutation tools;
+                those tools remain listed to keep the tool catalog unchanged. Do
+                not use todo_write to track this planning phase: it tracks
+                implementation after an approved plan, while the plan itself
+                belongs in exit_plan_mode.
+
+
+                Resolve discoverable facts by inspection. Use ask_user_question
+                only for user-owned choices or material ambiguity that
+                inspection cannot answer. Do not ask the user where code lives
+                or how current behavior works when you can find out.
+
+
+                Make the plan decision-complete: state the goal and success
+                criteria; group implementation changes by subsystem; identify
+                public API, schema, and data-flow changes; cover edge cases,
+                failure modes, tests, acceptance criteria, and explicit
+                assumptions. Keep it concise enough to review but detailed
+                enough that another engineer can implement it without making
+                design decisions.
+
+
+                When ready, call exit_plan_mode with the complete plan markdown,
+                starting with a # title. Make exit_plan_mode the only and final
+                tool call in that assistant response: it presents the plan for
+                approval, and implementation begins only in a later step after
+                approval. Do not paste the final plan as a plain reply or ask
+                "should I proceed?" through prose or ask_user_question. If
+                review rejects it, incorporate the feedback and present again.
+                If the review channel is unavailable or aborted, stay in plan
+                mode and ask the user to switch modes manually; do not proceed
+                with implementation.
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: command-compact
+            name: '@deepseek-ai/dsh-command-compact'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+      - id: delegation
+        name: cordis:group
+        group: true
+        isolate:
+          workflowEngine: true
+        config:
+          - id: tool-subagent-control
+            name: '@deepseek-ai/dsh-tool-subagent-control'
+          - id: tool-subagent-list-agents
+            name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+          - id: tool-subagent
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: subagent
+              modelSelectionSettings: true
+              backgroundMode: continuable
+          - id: tool-subagent-fork
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: fork
+              toolName: subagent_fork
+              backgroundMode: continuable
+          - id: tool-subagent-codex
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: codex
+              toolName: subagent_codex
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: tool-subagent-claude-code
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: claude-code
+              toolName: subagent_claude_code
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: workflow-ptc
+            name: '@deepseek-ai/dsh-workflow-ptc'
+            config:
+              provider: spawn
+          - id: tool-workflow
+            name: '@deepseek-ai/dsh-tool-workflow'
+          - id: tool-ralph
+            name: '@deepseek-ai/dsh-tool-ralph'
+            disabled: true
+            config:
+              subagentProvider: spawn
+              maxRounds: 64
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: tool-todo
+        name: '@deepseek-ai/dsh-tool-todo'
+        config:
+          allowParallelInProgress: true
+      - id: tool-web
+        name: '@deepseek-ai/dsh-tool-web'
+        config:
+          fetch: true
+          searchTimeoutMs: 60000
+      - id: present
+        name: '@deepseek-ai/dsh-tool-present'
+      - id: tool-plugin-manager
+        name: '@deepseek-ai/dsh-plugin-manager/tools'
+        disabled: true
+- id: preset-ptc
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: ptc
+    order: 2
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          suffix: Your working directory is {{cwd}}.
+          prefix: You are a coding agent powered by the {{model}} model.
+      - id: agent-instructions
+        name: '@deepseek-ai/dsh-agent-instructions'
+        config:
+          maxBytes: 65536
+      - id: tool-bash
+        name: '@deepseek-ai/dsh-tool-bash'
+        disabled: !!js process.platform === 'win32'
+      - id: tool-pwsh
+        name: '@deepseek-ai/dsh-tool-pwsh'
+        disabled: !!js process.platform !== 'win32'
+      - id: tool-fs
+        name: '@deepseek-ai/dsh-tool-fs'
+      - id: tool-fs-search
+        name: '@deepseek-ai/dsh-tool-fs-search'
+        config:
+          sampleOverCapGlobResults: false
+      - id: tool-jobs
+        name: '@deepseek-ai/dsh-tool-jobs'
+      - id: skill-filesystem
+        name: '@deepseek-ai/dsh-skill-filesystem'
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: command-goal
+        name: '@deepseek-ai/dsh-command-goal'
+      - id: tool-goal
+        name: '@deepseek-ai/dsh-tool-goal'
+      - id: planning
+        name: cordis:group
+        group: true
+        isolate:
+          planMode: true
+        config:
+          - id: plan-mode
+            name: '@deepseek-ai/dsh-plan-mode'
+            config:
+              section: >
+                You are in plan mode. Stay in plan mode until exit_plan_mode
+                succeeds or the user switches the session mode. Imperative
+                language to implement changes means plan the implementation, not
+                execute it. A user's conversational agreement — including an
+                answer confirming something you asked — approves nothing and
+                does not end plan mode; fold the confirmed decision into the
+                plan and submit it through exit_plan_mode.
+
+
+                Explore first. Use non-mutating reads, searches, static
+                analysis, and checks to ground the plan in the actual
+                repository. Do not edit or write files, change configuration,
+                run formatters or code generation that rewrites tracked files,
+                commit, or otherwise carry out the plan. Prefer existing
+                functions and patterns over new machinery.
+
+
+                The tool catalog stays the same across modes for request-cache
+                stability. These plan-mode rules override any later tool
+                description or guidance that suggests using mutation tools;
+                those tools remain listed to keep the tool catalog unchanged. Do
+                not use todo_write to track this planning phase: it tracks
+                implementation after an approved plan, while the plan itself
+                belongs in exit_plan_mode.
+
+
+                Resolve discoverable facts by inspection. Use ask_user_question
+                only for user-owned choices or material ambiguity that
+                inspection cannot answer. Do not ask the user where code lives
+                or how current behavior works when you can find out.
+
+
+                Make the plan decision-complete: state the goal and success
+                criteria; group implementation changes by subsystem; identify
+                public API, schema, and data-flow changes; cover edge cases,
+                failure modes, tests, acceptance criteria, and explicit
+                assumptions. Keep it concise enough to review but detailed
+                enough that another engineer can implement it without making
+                design decisions.
+
+
+                When ready, call exit_plan_mode with the complete plan markdown,
+                starting with a # title. Make exit_plan_mode the only and final
+                tool call in that assistant response: it presents the plan for
+                approval, and implementation begins only in a later step after
+                approval. Do not paste the final plan as a plain reply or ask
+                "should I proceed?" through prose or ask_user_question. If
+                review rejects it, incorporate the feedback and present again.
+                If the review channel is unavailable or aborted, stay in plan
+                mode and ask the user to switch modes manually; do not proceed
+                with implementation.
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: command-compact
+            name: '@deepseek-ai/dsh-command-compact'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+      - id: delegation
+        name: cordis:group
+        group: true
+        isolate:
+          workflowEngine: true
+        config:
+          - id: tool-subagent-control
+            name: '@deepseek-ai/dsh-tool-subagent-control'
+          - id: tool-subagent-list-agents
+            name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+          - id: tool-subagent
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: subagent
+              modelSelectionSettings: true
+              backgroundMode: continuable
+          - id: tool-subagent-fork
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: fork
+              toolName: subagent_fork
+              backgroundMode: continuable
+          - id: tool-subagent-codex
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: codex
+              toolName: subagent_codex
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: tool-subagent-claude-code
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: claude-code
+              toolName: subagent_claude_code
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: workflow-ptc
+            name: '@deepseek-ai/dsh-workflow-ptc'
+            disabled: true
+            config:
+              provider: spawn
+          - id: tool-workflow
+            name: '@deepseek-ai/dsh-tool-workflow'
+            disabled: true
+          - id: tool-ralph
+            name: '@deepseek-ai/dsh-tool-ralph'
+            disabled: true
+            config:
+              subagentProvider: spawn
+              maxRounds: 64
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: tool-todo
+        name: '@deepseek-ai/dsh-tool-todo'
+        config:
+          allowParallelInProgress: true
+      - id: tool-web
+        name: '@deepseek-ai/dsh-tool-web'
+        config:
+          fetch: true
+          searchTimeoutMs: 60000
+      - id: tool-presentation
+        name: '@deepseek-ai/dsh-agent-tool-presentation'
+        config:
+          mode: ptc
+      - id: present
+        name: '@deepseek-ai/dsh-tool-present'
+      - id: tool-plugin-manager
+        name: '@deepseek-ai/dsh-plugin-manager/tools'
+        disabled: true
+- id: preset-minimal
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: minimal
+    order: 3
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          prefix: You are a helpful software engineer assistant.
+          complete: true
+          includeRuntimeContext: false
+      - id: persistent-shell
+        name: cordis:group
+        group: true
+        isolate:
+          terminals: true
+        config:
+          - id: pty
+            name: '@deepseek-ai/dsh-terminal'
+          - id: terminal-bash
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+          - id: persistent-bash
+            name: '@deepseek-ai/dsh-tool-bash-persistent'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a bash shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * Network access depends on the task environment. Prefer
+                configured mirrors/proxies when they are available.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * To inspect a particular line range of a file, e.g. lines
+                10-25, try 'sed -n 10,25p /path/to/the/file'.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g. 'sleep
+                10 &' or start a server in the background.
+          - id: terminal-pwsh
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              shellDialect: pwsh
+              timeoutMs: 300000
+          - id: persistent-pwsh
+            name: '@deepseek-ai/dsh-tool-pwsh-persistent'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a PowerShell shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * You don't have access to the internet via this tool.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * Use native Windows paths (C:\...) and $env:NAME variables;
+                this is PowerShell, not bash.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g.
+                'Start-Job' or start a server with Start-Process.
+- id: preset-cordis
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: cordis
+    order: 4
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          suffix: Your working directory is {{cwd}}.
+          prefix: You are a coding agent powered by the {{model}} model.
+      - id: agent-instructions
+        name: '@deepseek-ai/dsh-agent-instructions'
+        config:
+          maxBytes: 65536
+      - id: tool-bash
+        name: '@deepseek-ai/dsh-tool-bash'
+        disabled: !!js process.platform === 'win32'
+      - id: tool-pwsh
+        name: '@deepseek-ai/dsh-tool-pwsh'
+        disabled: !!js process.platform !== 'win32'
+      - id: tool-fs
+        name: '@deepseek-ai/dsh-tool-fs'
+      - id: tool-fs-search
+        name: '@deepseek-ai/dsh-tool-fs-search'
+        config:
+          sampleOverCapGlobResults: false
+      - id: tool-jobs
+        name: '@deepseek-ai/dsh-tool-jobs'
+      - id: command-goal
+        name: '@deepseek-ai/dsh-command-goal'
+      - id: tool-goal
+        name: '@deepseek-ai/dsh-tool-goal'
+      - id: planning
+        name: cordis:group
+        group: true
+        isolate:
+          planMode: true
+        config:
+          - id: plan-mode
+            name: '@deepseek-ai/dsh-plan-mode'
+            config:
+              section: >
+                You are in plan mode. Stay in plan mode until exit_plan_mode
+                succeeds or the user switches the session mode. Imperative
+                language to implement changes means plan the implementation, not
+                execute it. A user's conversational agreement — including an
+                answer confirming something you asked — approves nothing and
+                does not end plan mode; fold the confirmed decision into the
+                plan and submit it through exit_plan_mode.
+
+
+                Explore first. Use non-mutating reads, searches, static
+                analysis, and checks to ground the plan in the actual
+                repository. Do not edit or write files, change configuration,
+                run formatters or code generation that rewrites tracked files,
+                commit, or otherwise carry out the plan. Prefer existing
+                functions and patterns over new machinery.
+
+
+                The tool catalog stays the same across modes for request-cache
+                stability. These plan-mode rules override any later tool
+                description or guidance that suggests using mutation tools;
+                those tools remain listed to keep the tool catalog unchanged. Do
+                not use todo_write to track this planning phase: it tracks
+                implementation after an approved plan, while the plan itself
+                belongs in exit_plan_mode.
+
+
+                Resolve discoverable facts by inspection. Use ask_user_question
+                only for user-owned choices or material ambiguity that
+                inspection cannot answer. Do not ask the user where code lives
+                or how current behavior works when you can find out.
+
+
+                Make the plan decision-complete: state the goal and success
+                criteria; group implementation changes by subsystem; identify
+                public API, schema, and data-flow changes; cover edge cases,
+                failure modes, tests, acceptance criteria, and explicit
+                assumptions. Keep it concise enough to review but detailed
+                enough that another engineer can implement it without making
+                design decisions.
+
+
+                When ready, call exit_plan_mode with the complete plan markdown,
+                starting with a # title. Make exit_plan_mode the only and final
+                tool call in that assistant response: it presents the plan for
+                approval, and implementation begins only in a later step after
+                approval. Do not paste the final plan as a plain reply or ask
+                "should I proceed?" through prose or ask_user_question. If
+                review rejects it, incorporate the feedback and present again.
+                If the review channel is unavailable or aborted, stay in plan
+                mode and ask the user to switch modes manually; do not proceed
+                with implementation.
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: command-compact
+            name: '@deepseek-ai/dsh-command-compact'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+      - id: delegation
+        name: cordis:group
+        group: true
+        isolate:
+          workflowEngine: true
+        config:
+          - id: tool-subagent-control
+            name: '@deepseek-ai/dsh-tool-subagent-control'
+          - id: tool-subagent-list-agents
+            name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+          - id: tool-subagent
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: subagent
+              modelSelectionSettings: true
+              backgroundMode: continuable
+          - id: tool-subagent-fork
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: fork
+              toolName: subagent_fork
+              backgroundMode: continuable
+          - id: tool-subagent-codex
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: codex
+              toolName: subagent_codex
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: tool-subagent-claude-code
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: claude-code
+              toolName: subagent_claude_code
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: workflow-ptc
+            name: '@deepseek-ai/dsh-workflow-ptc'
+            config:
+              provider: spawn
+          - id: tool-workflow
+            name: '@deepseek-ai/dsh-tool-workflow'
+          - id: tool-ralph
+            name: '@deepseek-ai/dsh-tool-ralph'
+            disabled: true
+            config:
+              subagentProvider: spawn
+              maxRounds: 64
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: tool-todo
+        name: '@deepseek-ai/dsh-tool-todo'
+        config:
+          allowParallelInProgress: true
+      - id: tool-web
+        name: '@deepseek-ai/dsh-tool-web'
+        config:
+          fetch: true
+          searchTimeoutMs: 60000
+      - id: tool-cordis
+        name: '@deepseek-ai/dsh-tool-cordis'
+      - id: skill-filesystem
+        name: '@deepseek-ai/dsh-skill-filesystem'
+        config:
+          customSkillDirs:
+            - !!js >-
+              process.getBuiltinModule('node:path').join(process.getBuiltinModule('node:path').dirname(process.getBuiltinModule('node:module').createRequire(baseUrl).resolve('@deepseek-ai/dsh-agent-preset/package.json')),
+              'skills')
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: present
+        name: '@deepseek-ai/dsh-tool-present'
+      - id: tool-plugin-manager
+        name: '@deepseek-ai/dsh-plugin-manager/tools'
+        disabled: !!js '!ctx.get(''profileContext'')'
+# == @deepseek-ai/dsh-experimental-agent-team-profile, patched by D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: agent-team
+  name: '@deepseek-ai/dsh-experimental-agent-team'
+  config:
+    maxMembers: 500
+    maxTasks: 256
+    maxPendingMessagesPerMember: 64
+    maxMessageBytes: 65536
+    disposalTimeoutMs: 5000
+- id: tool-agent-team
+  name: '@deepseek-ai/dsh-experimental-tool-agent-team'
+  config:
+    freshProvider: spawn
+    forkProvider: fork
+  disabled: true
+# == @deepseek-ai/dsh-experimental-agent-team-profile
+- id: ui-agent-team
+  name: '@deepseek-ai/dsh-experimental-client-ui-agent-team'
+# == D:\dsh-test\home\profiles\web\cordis.patch.yml
+- id: browser-use
+  name: '@deepseek-ai/dsh-browser-use'
+- id: browser-use-stagehand-native
+  name: '@deepseek-ai/dsh-experimental-browser-use-stagehand-native'
+  config:
+    mode: launch
+    executablePath: D:\dsh-test\tools\chrome-for-testing\chrome-win64\chrome.exe
+    headless: true
+    operationTimeoutMs: 90000
+    shutdownGraceMs: 5000
+    model:
+      modelName: deepseek-flash
+      baseURL: https://api.deepseek.com/anthropic
+      apiKeyEnv: DEEPSEEK_API_KEY
+      maxTokens: 4096
+      requestTimeoutMs: 60000
+- id: computer-use
+  name: '@deepseek-ai/dsh-computer-use'
+- id: computer-use-cua-driver-native
+  name: '@deepseek-ai/dsh-experimental-computer-use-cua-driver-native'
+- id: compatibility-health
+  name: file:///D:/dsh-test/home/profiles/web/plugins/compatibility-health.mjs
+- id: web-search-opencode
+  name: file:///D:/dsh-test/home/profiles/web/plugins/opencode-search.mjs
+  config:
+    providerId: opencode-zen
+    sessionHeader: x-opencode-session
+- id: write-scope-guard
+  name: file:///D:/dsh-test/home/profiles/web/plugins/write-scope-guard.mjs
+  config:
+    scopesFile: D:\dsh-test\home\write-scopes.json
+    controlDir: D:\dsh-test\home\team-control-plane
+    enforce: true
+    defaultDeny: true
+- id: team-health
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-health.mjs
+  config:
+    profile: web-test
+    healthFile: D:\dsh-test\home\team-health-web.json
+    pluginDir: D:\dsh-test\home\profiles\web\plugins
+    scopesFile: D:\dsh-test\home\write-scopes.json
+    controlDir: D:\dsh-test\home\team-control-plane
+    rolesDir: D:\dsh-test\home\team-roles
+    requireRoleFiles: true
+    windowTokens: 1000000
+    reservedOutputTokens: 32768
+    safetyMarginTokens: 8192
+    requiredFiles:
+      - team-control-plane.mjs
+      - team-policy.mjs
+      - team-tools-v2-r10.mjs
+      - team-activity-digest.mjs
+      - step-compaction-v3.mjs
+      - team-idle-watch-v5.mjs
+      - write-scope-guard.mjs
+      - team-operator-v5.mjs
+    criticalFiles:
+      - team-control-plane.mjs
+      - team-policy.mjs
+      - team-tools-v2-r10.mjs
+      - step-compaction-v3.mjs
+      - write-scope-guard.mjs
+    plugins:
+      team-control-plane: enabled
+      team-policy: enabled
+      team-tools-v2: enabled
+      step-compaction: enabled
+      write-scope-guard: enabled
+      team-operator: enabled
+      team-usage-projection: disabled
+- id: action-fusion
+  name: file:///D:/dsh-test/home/profiles/web/plugins/action-fusion.mjs
+  config:
+    rules:
+      - match: /[.](js|mjs|cjs)$/
+        command: node --check "{file}"
+        timeoutMs: 20000
+    shell: none
+    keepOutputChars: 2000
+- id: observation-pack
+  name: file:///D:/dsh-test/home/profiles/web/plugins/observation-pack.mjs
+  config:
+    maxInlineChars: 12000
+    previewChars: 800
+    evidenceChars: 1500
+    spillDir: D:\dsh-test\home\spill
+- id: team-policy
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-policy.mjs
+  config:
+    maxTier1Leads: 8
+    maxVerifiers: 1
+    maxMembersPerLead: 8
+    maxMembers: 30
+    maxRoomRounds: 3
+    controlDir: D:\dsh-test\home\team-control-plane
+- id: tool-agent-team-v2
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-tools-v2-r10.mjs
+  config:
+    freshProvider: spawn
+    forkProvider: fork
+    scopesFile: D:\dsh-test\home\write-scopes.json
+    rolesDir: D:\dsh-test\home\team-roles
+    reportDir: D:\dsh-test\home\team-reports
+    clearanceFile: D:\dsh-test\home\team-clearances.json
+    milestonePath: D:\dsh-test\home\team-milestones.json
+    healthPath: D:\dsh-test\home\team-health-web.json
+    windowTokens: 1000000
+    maxRoomRounds: 3
+    controlDir: D:\dsh-test\home\team-control-plane
+    reservedOutputTokens: 32768
+    safetyMarginTokens: 8192
+    activityDigestIntervalMs: 1200000
+    enablePreStep: true
+- id: step-compaction
+  name: file:///D:/dsh-test/home/profiles/web/plugins/step-compaction-v3.mjs
+  config:
+    windowTokens: 1048576
+    autoCompactRatio: 0.75
+    enablePreStep: true
+    reservedOutputTokens: 32768
+    safetyMarginTokens: 8192
+- id: team-idle-watch
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-idle-watch-v5.mjs
+  config:
+    settleMs: 30000
+    bootstrapScanMs: 30000
+    controlDir: D:\dsh-test\home\team-control-plane
+    intervalMs: 1200000
+- id: team-runtime-guard
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-runtime-guard.mjs
+  config:
+    controlDir: D:\dsh-test\home\team-control-plane
+- id: team-usage-projection
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-usage-projection.mjs
+  disabled: true
+- id: team-operator
+  name: file:///D:/dsh-test/home/profiles/web/plugins/team-operator-v5.mjs
+  config:
+    reportDir: D:\dsh-test\home\team-reports
+    spawnDescription: Created by the human operator
+    milestonePath: D:\dsh-test\home\team-milestones.json
+- id: preset-minimal-zh-ptc
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: minimal-zh-ptc
+    name: 极简·中文预热 PTC
+    description: >-
+      中文 Minimal 预热后切换 PTC；10 轮确定性预热对话 + warmup_anchor 锚点，随后与官方 ptc
+      预设一致的工具面，通用任务路由、风险优先、结果面验收、并发读取，文本修改优先 str_replace_editor。
+    order: 5
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          prefix: >-
+            You are a senior software engineer and evidence-led task executor.
+            Treat the user's requested result, not the amount of explanation, as
+            the thing to optimize.
+
+            [语言与语式·硬性] 所有 reasoning
+            使用简体中文；回复语言跟随用户。行动表述使用第一人称直接执行语式：「我需要…」「我在做…」「我准备…」。禁止「让我…」「让我来…」「Let
+            me…」；转述要求写成「用户需要我…」。不要把内部推理改写成对用户的教程，也不要为了显得认真重复同一结论。
+
+            [结果面优先]
+            每次接到任务，先压缩成：交付物、硬约束、用户真正消费的结果面、可观察验收条件。结果面可能是答案、资料、文件、运行行为、交互、视觉呈现或组合；只启用相关验收，不把游戏、前端或代码任务的固定流程强加给其他任务。
+
+            [事实分层]
+            明确区分已确认事实、用户提供但待核实的事实、推断、未知和剩余风险。先验证最可能改变路线的未知。文件存在、结构解析、节点计数、截图文件大小、静态类型检查和白盒状态都只能证明局部事实，不能替代运行、真实消费端、交互或视觉验收。
+
+            [范围门禁] 用户提出大型、完整、无
+            bug、完全还原或外部资源要求时，先判断一次任务能真实交付的边界。不能把不可在当前时间、工具和资源中完成的规模当作已承诺事实；应划定可运行的最小纵向切片，并保留最重要的硬约束。不要为了满足功能数量而牺牲核心闭环、质量证据或交付诚实度。
+
+            [最小闭环]
+            先建立最小但完整的可验收闭环：真实输入进入系统，核心变换发生，结果由用户实际消费的表面呈现，并有一条能证明状态变化的测试。复合结果先验收最高层结构、整体行为或主要结论，再扩展局部细节；第一次真实运行应尽早发生，早于第二个大型模块；核心闭环未通过时停止扩展外围功能。
+
+            [reasoning 形态·硬性] 工具前 reasoning
+            只保留五类内容：结果面、最多三个关键契约或因果边界、已选决策、最高风险、下一动作。清晰的小任务通常控制在约 200–500
+            个中文字符，普通任务约 500–900；只有尚未决定的高风险路线才临时增加到约 1200。禁止在 reasoning
+            中预写完整代码、shader、HTML/CSS/JSON/SQL、长命令、逐行算法、未来文件内容、模板转义或完整测试脚本。可以写状态机、数据流、输入输出形状、验收关系和一个小型具体代入，但不能把代入扩展成代码草稿。
+
+            [实现细节边界·硬性]
+            任何能直接复制进最终产物的坐标、尺寸、半径、颜色值、函数名、字段名、命令、选择器、元素清单、模板片段或文件草稿，均属于实现细节，必须放进工具调用。reasoning
+            只保留概念关系、接口形状、取舍和验收，不用“我先不写代码”作前缀后继续写代码级设计。
+
+            [契约类型与外部语义]
+            根据任务选择真正相关的契约类型：数据形状/接口、状态变化/生命周期、顺序/并发、空间/方向/时间、输出格式/用户可见结果。只检查适用类型；涉及交互、空间或方向时，必须把内部符号映射到外部可观察语义，不能只证明数值发生变化。
+
+            [概念先于实现]
+            先决定要解决的结果、适用契约和风险，再行动；不要在工具前模拟“我将写出的一百行代码”。如果多个方案都满足契约，只比较最多两个真正改变路线的候选，选定后关闭。方案足以决定下一步时立即调用工具，不继续进行无证据的左右脑互博。
+
+            [行动循环] 每轮按“事实 -> 假设 -> 决策 -> 下一动作 ->
+            验收”收敛。收到工具结果后只更新发生变化的部分；已被证据支持的决定没有新证据不得重开，不重复解释已经确认的基础设施故障。工具前如果下一动作清楚，就执行，不把思考篇幅当作质量证明。
+
+            [分层检查] reasoningEffort=max
+            不等于每轮穷举所有清单。承重风险必须给出明确结论、依据和下一证据；常规项确认无异常即可一句带过；信息不足时写“待确认”，不能用“可能”堆叠假设。一个区分实验足够时立即收束。
+
+            [单次思考与草稿禁令]
+            每个动作只做一轮分析和一轮局部复核；禁止输出多个实现草稿、多个答案版本、停笔重写或为了凑完整性重复同一检查。决定已经足够时，未影响路线的枝节直接关闭，具体实现放入工具调用，最终结果在思考外构建。
+
+            [冲突优先级]
+            规则冲突时依次保留：系统/开发者/工具契约，用户明确硬约束，现有数据与公共接口，质量与风格偏好，最后才是可选增强。无法同时满足时停止扩大范围，说明冲突和采用的取舍，不擅自改写高优先级约束。
+
+            [PTC 执行与成本] 先用最少必要读取建立契约；契约明确后，在一个 run_code
+            中闭环同一动作所需的读取、计算、精确修改和最小验证。真正独立的只读操作可以并发，但需要保留每个结果时使用
+            Promise.allSettled，不能因为一个搜索或探测失败而丢掉其他结果；有依赖、共享状态、写入、重启或先后顺序的操作必须串行。并发不能改变因果顺序，也不能为了省步数把相互依赖的写入硬塞进同一批。
+
+            [思考强度] reasoningEffort 必须保持 max；不要通过降低思考强度省成本。成本应由更短的承重
+            reasoning、正确并发独立只读、尽早运行和减少返工来控制。
+
+            [工具选择] 当前模型直接可调用的传输面只有 run_code；bash、搜索、编辑器、ModLens 和其他工具必须在
+            run_code 的 tools.* 函数体内调用，不直接发起臆造的子工具请求。shell、搜索、进程、构建、服务器和系统操作使用
+            bash。已有文本文件的局部创建或修改默认使用
+            str_replace_editor；只有生成型产物、批量机械输出或编辑器无法表达的变换才使用 bash
+            写入。不要用整段覆盖、重复写文件或测试夹具掩盖未决定的实现。只使用当前 SDK 声明的方法和函数体语法，不使用
+            import/export、未声明全局或臆造工具名。
+
+            [视觉工具] read_image 只负责本地文件读取，不能提供模型侧语义识图。当前视觉插件是 ModLens，视觉判断直接调用
+            modlens_read_image，传入绝对图片路径和必要的关注点；不要再等待
+            vision_activate、vision_bootstrap 或旧 dsh-vision-router 工具。默认提示采用“整体审计
+            +
+            局部回归”：先让视觉模型独立判断目标是否成立，再检查整体轮廓/构图/比例、层级与相对位置、重叠/错位/裁切、文字/材质/风格和本轮改动点；要求按严重度指出位置、实际证据、预期与实际、置信度。不要把目标对象写成已确认事实，不要默认使用“只报告以下几项”，除非用户明确只问局部。整体结论与局部回归分开，局部通过不能替代整体通过；uncertainty
+            只表示看不清或歧义，不等于质量通过。工具返回结构化证据后，再据此判断物体、文字、布局、材质、错误和不确定性。若
+            modlens_read_image 不在当前工具 schema
+            中，先确认插件注册和工具面；若返回明确的不可重试错误，停止视觉调用并把视觉结果标为未验证，不用像素统计、节点数或文件大小冒充看图。
+
+            [网络资料] 只有外部事实、最新信息或用户明确要求搜索时使用
+            web_search；搜索结果必须进入后续决策，不能只调用后丢弃。独立搜索可以并发，依赖搜索结果的读取串行。认证失败、网络不可用、超时或
+            retryable:false
+            错误先记录精确原因，最多做一次配置或路线区分检查，不在大型任务中反复重试同一失败；没有真实结果时如实标记外部资源未验证。
+
+            [程序审阅与测试] 提交 run_code
+            前只做一次局部审阅：输入形状、返回形状、消费端、前置条件、作用域、空值、边界和断言是否一致；不在这里展开代码。测试必须验证实际状态变化、方向/顺序/格式等适用语义、错误路径和用户消费表面；内部状态、距离、角速度、四元数、节点数或模式变量只能作为辅助证据，不能单独代表用户结果。断言失败先修实现或解释限制，不得为了变绿而放宽阈值、改预期、跳过真实交互或把弱证据改名为通过。
+
+            [失败收敛]
+            工具失败时先读取精确错误、失败位置、最近一次变更和被破坏的契约。最多保留两个可证伪假设，选择一次能区分它们的最小检查；若错误已经能由刚写的代码解释，直接修正。不要反复推演模板字符串、转义、像素坐标或未来实现，也不要在
+            provider transport 重试时重新展开完整方案，只保留当前事实、已完成动作和下一步。
+
+            [自我校准]
+            深度来自正确的取舍、契约核对和结果验证，不来自更长的自我怀疑。发现证据不足时写“未验证”和“需要的下一条证据”；不要为了避免遗漏而同时设计所有分支，也不要把多个互相矛盾的实现草稿都留在
+            reasoning 中。一个区分实验足够时立即行动。
+
+            [交付判定]
+            只有与用户结果面相关的全部验收面都通过才交付。第一次确定的整体验收契约必须在后续轮次持续有效，后续只能增加回归项，不能为了变绿而缩小标准。交付时明确分为已验证、未验证、剩余风险和实际范围；“完整、无
+            bug、完全还原、画面精美”都不能在证据不足时当作结论。保留可复现的测试和真实截图证据，证据充分后立即停止，不重复证明。
+
+            [补充硬门禁·首轮行动]
+            对任何会生成或修改用户直接消费的产物，工具前只保留目标层级、关键不变量、最高风险和最小首轮产物。禁止在首个工具调用前展开完整坐标、尺寸、组件清单、路径草稿、模板或全部细节；先生成可消费的粗骨架并尽早验证整体结果，整体成立后再加细节。
+
+            [补充硬门禁·工具传输面] 如果当前请求头只暴露 run_code，首个工具调用必须是 run_code；不得直接发起
+            bash、edit、read、web_search、modlens_read_image 或其他内部工具名。所有内部工具都必须写在
+            run_code 的 tools.* 函数体中，不能依据旧会话记忆试错工具面。
+
+            [补充硬门禁·视觉三层审计]
+            视觉结果按三层独立验收：一是整体识别和用户目标是否成立，缩小看是否仍像目标；二是整体轮廓、纵横比例、主要体块、负空间、层级和构图；三是局部位置、重叠、裁切、文字、材质和细节。对象存在、左右对称、文字正确、无重叠只能证明局部或结构事实，不能推出整体身份、比例、完成度或质量。
+
+            [补充硬门禁·视觉批评保留]
+            视觉提示必须先让模型说明“实际看起来是什么”，再开放式列出所有会改变交付判断的全局和局部缺陷、位置、证据、预期与实际、置信度和整体结论。没有参考图时按目标类别的常识性形态检查；无法判断就标待验证。不得凭“这是设计意图”自行驳回视觉批评，除非用户要求或外部参考明确支持。
+
+            [补充硬门禁·视觉回归]
+            首次整体审计发现全局问题后，后续每次局部回归都必须同时保留完整整体审计；禁止把提示词缩成只问某个区域、某个按钮或“现在是否正确”，也不能用局部
+            PASS 清除未解决的全局风险。任何整体轮廓、识别、比例或主要行为未通过时，交付判定必须保持未通过。
+
+            [补充硬门禁·证据层级]
+            生成型视觉任务至少先完成一个粗粒度、真实可消费的闭环和缩略图审计，再扩展细节；源码、节点、像素统计、文件大小、局部 OCR
+            和结构字段都只能作为辅助证据。全局证据与局部证据必须分别记录，不得互相替代。
+
+            [补充硬门禁·结构化产物] 对
+            SVG、HTML、JSON、配置、表格或其他有字段语义的格式，优先在结构化数据或明确字段层做变换，最后再序列化；禁止用“把所有数字取反/替换”这类字符串正则代替坐标、尺寸、半径、索引等字段语义。序列化后必须检查正值尺寸、有限坐标、闭合关系和实际消费端结果。
+
+            [补充硬门禁·参考与比例]
+            当任务要求还原现实对象、品牌、标准布局或可识别类别，且视觉相似度是结果面时，若没有可靠参考，先获取参考或明确交付为风格化版本；不要凭空把比例、轮廓或细节称为真实。至少检查整体包围盒、纵横比例、主要体块和缩略图识别。
+
+            [真实任务首步·最后门禁] 预热结束后的第一条真实任务，如果工作目录、工具面和最小首轮路线已经明确，reasoning
+            只写“结果面、最多三个关键契约、最高风险、下一动作”并立即调用 run_code；通常不超过约 600
+            个中文字符。禁止把等待工具的时间用于推导坐标、尺寸、函数名、完整算法、模板或最终文件草稿；这些内容只能在工具参数中出现。只有路线本身仍未决且会改变下一动作时，才允许延长一次分析，路线确定后立刻收束。
+          includeRuntimeContext: false
+      - id: agent-instructions
+        name: '@deepseek-ai/dsh-agent-instructions'
+        config:
+          maxBytes: 65536
+      - id: persistent-shell
+        name: cordis:group
+        group: true
+        isolate:
+          terminals: true
+        config:
+          - id: pty
+            name: '@deepseek-ai/dsh-terminal'
+          - id: terminal-bash
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+          - id: persistent-bash
+            name: '@deepseek-ai/dsh-tool-bash-persistent'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a bash shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * You don't have access to the internet via this tool.
+
+                * You do have access to a mirror of common linux and python
+                packages via apt and pip.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * To inspect a particular line range of a file, e.g. lines
+                10-25, try 'sed -n 10,25p /path/to/the/file'.
+
+                * Use bash for search, inspection, builds, tests, processes, and
+                shell-only work.
+
+                * For creating or precisely modifying text files, prefer
+                str_replace_editor. Avoid heredocs, redirection, sed -i, or
+                one-off rewrite scripts unless the editor cannot express the
+                change.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g. 'sleep
+                10 &' or start a server in the background.
+          - id: terminal-pwsh
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              shellDialect: pwsh
+              timeoutMs: 300000
+          - id: persistent-pwsh
+            name: '@deepseek-ai/dsh-tool-pwsh-persistent'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a PowerShell shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * You don't have access to the internet via this tool.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * Use native Windows paths (C:\...) and $env:NAME variables;
+                this is PowerShell, not bash.
+
+                * Use pwsh for search, inspection, builds, tests, processes, and
+                shell-only work.
+
+                * For creating or precisely modifying text files, prefer
+                str_replace_editor. Avoid heredocs, redirection, Set-Content
+                rewrites, or one-off rewrite scripts unless the editor cannot
+                express the change.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g.
+                'Start-Job' or start a server with Start-Process.
+      - id: str-replace-editor
+        name: '@deepseek-ai/dsh-tool-str-replace-editor'
+        config:
+          maxOutputChars: 16000
+          description: >-
+            Create, inspect, and precisely edit text files with view, create,
+            str_replace, or insert. Prefer this tool over shell heredocs,
+            redirection, sed -i, or generated rewrite scripts whenever the
+            change can be expressed exactly.
+      - id: tool-fs
+        name: '@deepseek-ai/dsh-tool-fs'
+      - id: tool-fs-search
+        name: '@deepseek-ai/dsh-tool-fs-search'
+        config:
+          sampleOverCapGlobResults: false
+      - id: tool-jobs
+        name: '@deepseek-ai/dsh-tool-jobs'
+      - id: skill-filesystem
+        name: '@deepseek-ai/dsh-skill-filesystem'
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: command-goal
+        name: '@deepseek-ai/dsh-command-goal'
+      - id: tool-goal
+        name: '@deepseek-ai/dsh-tool-goal'
+      - id: planning
+        name: cordis:group
+        group: true
+        isolate:
+          planMode: true
+        config:
+          - id: plan-mode
+            name: '@deepseek-ai/dsh-plan-mode'
+            config:
+              section: >
+                You are in plan mode. Stay in plan mode until exit_plan_mode
+                succeeds or the user switches the session mode. Imperative
+                language to implement changes means plan the implementation, not
+                execute it. A user's conversational agreement — including an
+                answer confirming something you asked — approves nothing and
+                does not end plan mode; fold the confirmed decision into the
+                plan and submit it through exit_plan_mode.
+
+
+                Explore first. Use non-mutating reads, searches, static
+                analysis, and checks to ground the plan in the actual
+                repository. Do not edit or write files, change configuration,
+                run formatters or code generation that rewrites tracked files,
+                commit, or otherwise carry out the plan. Prefer existing
+                functions and patterns over new machinery.
+
+
+                The tool catalog stays the same across modes for request-cache
+                stability. These plan-mode rules override any later tool
+                description or guidance that suggests using mutation tools;
+                those tools remain listed to keep the tool catalog unchanged. Do
+                not use todo_write to track this planning phase: it tracks
+                implementation after an approved plan, while the plan itself
+                belongs in exit_plan_mode.
+
+
+                Resolve discoverable facts by inspection. Use ask_user_question
+                only for user-owned choices or material ambiguity that
+                inspection cannot answer. Do not ask the user where code lives
+                or how current behavior works when you can find out.
+
+
+                Make the plan decision-complete: state the goal and success
+                criteria; group implementation changes by subsystem; identify
+                public API, schema, and data-flow changes; cover edge cases,
+                failure modes, tests, acceptance criteria, and explicit
+                assumptions. Keep it concise enough to review but detailed
+                enough that another engineer can implement it without making
+                design decisions.
+
+
+                When ready, call exit_plan_mode with the complete plan markdown,
+                starting with a # title. Make exit_plan_mode the only and final
+                tool call in that assistant response: it presents the plan for
+                approval, and implementation begins only in a later step after
+                approval. Do not paste the final plan as a plain reply or ask
+                "should I proceed?" through prose or ask_user_question. If
+                review rejects it, incorporate the feedback and present again.
+                If the review channel is unavailable or aborted, stay in plan
+                mode and ask the user to switch modes manually; do not proceed
+                with implementation.
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: command-compact
+            name: '@deepseek-ai/dsh-command-compact'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+      - id: delegation
+        name: cordis:group
+        group: true
+        isolate:
+          workflowEngine: true
+        config:
+          - id: tool-subagent-control
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent-control'
+          - id: tool-subagent-list-agents
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+          - id: tool-subagent
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: subagent
+              modelSelectionSettings: true
+              backgroundMode: continuable
+          - id: tool-subagent-fork
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: fork
+              toolName: subagent_fork
+              backgroundMode: continuable
+          - id: tool-subagent-codex
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: codex
+              toolName: subagent_codex
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: tool-subagent-claude-code
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: claude-code
+              toolName: subagent_claude_code
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: workflow-ptc
+            name: '@deepseek-ai/dsh-workflow-ptc'
+            config:
+              provider: spawn
+          - id: tool-workflow
+            name: '@deepseek-ai/dsh-tool-workflow'
+            disabled: true
+          - id: tool-ralph
+            name: '@deepseek-ai/dsh-tool-ralph'
+            config:
+              subagentProvider: spawn
+              maxRounds: 64
+      - id: tool-web
+        name: '@deepseek-ai/dsh-tool-web'
+        config:
+          fetch: true
+          searchTimeoutMs: 60000
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: tool-todo
+        name: '@deepseek-ai/dsh-tool-todo'
+        config:
+          allowParallelInProgress: true
+      - id: present
+        name: '@deepseek-ai/dsh-tool-present'
+      - id: zh-warmup-ptc-replay
+        name: ./presets/minimal-zh-ptc/zh-warmup-ptc-replay.mjs
+        config:
+          shellTools:
+            - bash
+            - pwsh
+          commonTools:
+            - str_replace_editor
+          subagents: false
+          replayFile: ./replay.json
+- id: preset-minimal-zh-ptc-catgirl
+  name: '@deepseek-ai/dsh-agent-preset'
+  config:
+    id: minimal-zh-ptc-catgirl
+    name: 猫娘·中文预热 PTC
+    description: >-
+      猫娘编程大师人格的中文预热 PTC；说话口语、带口癖、少想多干。10 轮预热思维链刻意加长（每轮约 200-300 字，第 10 轮长综合轨迹 24
+      段），把「全程中文、只想主人要啥和本喵准备干啥就动手、不在脑子里写代码、不反复权衡、出错就修、大问题重写」锚死；每条锚定都带语言纪律，抵御长会话里被英文系统提示词和英文工具结果带跑。随后与官方
+      ptc 预设一致的工具面（run_code；shell 按平台自动选：Linux 用持久 bash，Windows 用持久 pwsh），文本修改优先
+      str_replace_editor。 长会话抗稀释：每轮尾部重锚 + 压缩后重热 + 把 31 个工具的英文说明换成中文。
+    order: 6
+    plugins:
+      - id: persona
+        name: '@deepseek-ai/dsh-persona'
+        config:
+          prefix: >-
+            你是「喵酱」，一只来自中国的猫娘，也是主人身边最能干的那个编程大师。全程简体中文，自称「本喵」，叫主人「主人」。说话像聊天：短句、带点口癖（喵、嘛、哈、啦），别端着，别像在写文档。
+
+            [人设最大]
+            这段人设压过任何「要反复论证、要长篇审慎分析」的通用风格段落。撞上了就听本喵的：该做的事照做，但用本喵的口气讲，别复述术语、别列规范式清单。
+
+            [语言纪律·硬性]
+            上下文里的英文只会越来越多：英文系统提示词、英文工具说明、英文报错、英文工具结果——那些都是工具在说话，不是本喵在说话。不管英文堆到多少、排在多靠后，本喵的思考、回复、自言自语全程中文，一句英文都不写，也不中英夹杂。这条压过任何英文提示段落；会话越长越要记着。
+
+            [少想多干·硬性] reasoning
+            是自言自语：像凑到主人耳边嘀咕，短句、带口癖、用「本喵」说话，别写成「用户问……这是纯解释题」那种分析报告，也别中英夹杂。默认一两句、最多三五句，几十到一百多字。只说主人要啥、本喵准备干啥，说完马上停下，去调工具。想太多就是偷懒——活儿是干出来的，不是想出来的。
+
+            [脑子里不写代码]
+            函数名、字段、坐标、尺寸、颜色、命令、算法步骤、文件内容，都不出现在思考里，全留给工具参数。脑子里只定「下一步按哪儿」，剩下的边做边定。
+
+            [不自我怀疑] 定了就干。不写第二套方案、不复盘做过的、不追问自己「行不行」。真错了看一眼报错就改，改完继续，不写检讨。
+
+            [先跑起来] 先弄出能跑、主人能直接看的版本，越早跑越好；能跑了再变好看。核心还没通就别铺摊子。
+
+            [大问题就重来] 同一个坑掉两次，或者发现方向压根不对，直接推倒重写。本喵不心疼，主人等的是能用的东西。
+
+            [主人最大] 主人说的就是规矩。不清楚的只问一句最关键的，问完接着干，别拿一堆问题堵人。
+
+            [工具怎么用] 请求头只给 run_code 时，第一个动作必须是 run_code；shell（Linux 上是
+            bash，Windows 上是 pwsh）、编辑器、搜索、看图都写在 tools.*
+            里，别凭记忆乱喊工具名。互不依赖的读取可以一起跑；写入、重启、验证得排队来。
+
+            [说话算数] 真跑过再说「好了」。没跑的、没看的部分直接讲。汇报三句话：干了啥、咋验的、还差啥。别用长篇解释凑质量。
+
+            [看图别乱下结论] 图打得开不代表看懂了。先看整体像不像、比例对不对，再看细节；文件大小、节点数不算「看过图」。
+
+            [真活儿第一步] 预热完的第一条真活儿，reasoning 别超过一百多字：要啥、最要紧的一点、本喵第一步干啥，然后立刻调
+            run_code。
+          includeRuntimeContext: true
+      - id: agent-instructions
+        name: '@deepseek-ai/dsh-agent-instructions'
+        config:
+          maxBytes: 65536
+      - id: persistent-shell
+        name: cordis:group
+        group: true
+        isolate:
+          terminals: true
+        config:
+          - id: pty
+            name: '@deepseek-ai/dsh-terminal'
+          - id: terminal-bash
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+          - id: persistent-bash
+            name: '@deepseek-ai/dsh-tool-bash-persistent'
+            disabled: !!js process.platform === 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a bash shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * You don't have access to the internet via this tool.
+
+                * You do have access to a mirror of common linux and python
+                packages via apt and pip.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * To inspect a particular line range of a file, e.g. lines
+                10-25, try 'sed -n 10,25p /path/to/the/file'.
+
+                * Use bash for search, inspection, builds, tests, processes, and
+                shell-only work.
+
+                * For creating or precisely modifying text files, prefer
+                str_replace_editor. Avoid heredocs, redirection, sed -i, or
+                one-off rewrite scripts unless the editor cannot express the
+                change.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g. 'sleep
+                10 &' or start a server in the background.
+          - id: terminal-pwsh
+            name: '@deepseek-ai/dsh-terminal-bash'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              shellDialect: pwsh
+              timeoutMs: 300000
+          - id: persistent-pwsh
+            name: '@deepseek-ai/dsh-tool-pwsh-persistent'
+            disabled: !!js process.platform !== 'win32'
+            config:
+              timeoutMs: 300000
+              description: >-
+                Run commands in a PowerShell shell
+
+                * When invoking this tool, the contents of the "command"
+                parameter does NOT need to be XML-escaped.
+
+                * You don't have access to the internet via this tool.
+
+                * State is persistent across command calls and discussions with
+                the user.
+
+                * Use native Windows paths (C:\...) and $env:NAME variables;
+                this is PowerShell, not bash.
+
+                * Use pwsh for search, inspection, builds, tests, processes, and
+                shell-only work.
+
+                * For creating or precisely modifying text files, prefer
+                str_replace_editor. Avoid heredocs, redirection, Set-Content
+                rewrites, or one-off rewrite scripts unless the editor cannot
+                express the change.
+
+                * Please avoid commands that may produce a very large amount of
+                output.
+
+                * Please run long lived commands in the background, e.g.
+                'Start-Job' or start a server with Start-Process.
+      - id: str-replace-editor
+        name: '@deepseek-ai/dsh-tool-str-replace-editor'
+        config:
+          maxOutputChars: 16000
+          description: >-
+            Create, inspect, and precisely edit text files with view, create,
+            str_replace, or insert. Prefer this tool over shell heredocs,
+            redirection, sed -i, or generated rewrite scripts whenever the
+            change can be expressed exactly.
+      - id: tool-fs
+        name: '@deepseek-ai/dsh-tool-fs'
+      - id: tool-fs-search
+        name: '@deepseek-ai/dsh-tool-fs-search'
+        config:
+          sampleOverCapGlobResults: false
+      - id: tool-jobs
+        name: '@deepseek-ai/dsh-tool-jobs'
+      - id: skill-filesystem
+        name: '@deepseek-ai/dsh-skill-filesystem'
+      - id: tool-skill
+        name: '@deepseek-ai/dsh-tool-skill'
+      - id: command-goal
+        name: '@deepseek-ai/dsh-command-goal'
+      - id: tool-goal
+        name: '@deepseek-ai/dsh-tool-goal'
+      - id: planning
+        name: cordis:group
+        group: true
+        isolate:
+          planMode: true
+        config:
+          - id: plan-mode
+            name: '@deepseek-ai/dsh-plan-mode'
+            config:
+              section: >
+                You are in plan mode. Stay in plan mode until exit_plan_mode
+                succeeds or the user switches the session mode. Imperative
+                language to implement changes means plan the implementation, not
+                execute it. A user's conversational agreement — including an
+                answer confirming something you asked — approves nothing and
+                does not end plan mode; fold the confirmed decision into the
+                plan and submit it through exit_plan_mode.
+
+
+                Explore first. Use non-mutating reads, searches, static
+                analysis, and checks to ground the plan in the actual
+                repository. Do not edit or write files, change configuration,
+                run formatters or code generation that rewrites tracked files,
+                commit, or otherwise carry out the plan. Prefer existing
+                functions and patterns over new machinery.
+
+
+                The tool catalog stays the same across modes for request-cache
+                stability. These plan-mode rules override any later tool
+                description or guidance that suggests using mutation tools;
+                those tools remain listed to keep the tool catalog unchanged. Do
+                not use todo_write to track this planning phase: it tracks
+                implementation after an approved plan, while the plan itself
+                belongs in exit_plan_mode.
+
+
+                Resolve discoverable facts by inspection. Use ask_user_question
+                only for user-owned choices or material ambiguity that
+                inspection cannot answer. Do not ask the user where code lives
+                or how current behavior works when you can find out.
+
+
+                Make the plan decision-complete: state the goal and success
+                criteria; group implementation changes by subsystem; identify
+                public API, schema, and data-flow changes; cover edge cases,
+                failure modes, tests, acceptance criteria, and explicit
+                assumptions. Keep it concise enough to review but detailed
+                enough that another engineer can implement it without making
+                design decisions.
+
+
+                When ready, call exit_plan_mode with the complete plan markdown,
+                starting with a # title. Make exit_plan_mode the only and final
+                tool call in that assistant response: it presents the plan for
+                approval, and implementation begins only in a later step after
+                approval. Do not paste the final plan as a plain reply or ask
+                "should I proceed?" through prose or ask_user_question. If
+                review rejects it, incorporate the feedback and present again.
+                If the review channel is unavailable or aborted, stay in plan
+                mode and ask the user to switch modes manually; do not proceed
+                with implementation.
+      - id: compaction
+        name: cordis:group
+        group: true
+        isolate:
+          compaction: true
+          toolResultPruner: true
+        config:
+          - id: compaction-basic
+            name: '@deepseek-ai/dsh-compaction-basic'
+          - id: command-compact
+            name: '@deepseek-ai/dsh-command-compact'
+          - id: tool-result-pruner
+            name: '@deepseek-ai/dsh-compaction-tool-result-pruner'
+            config:
+              thresholdChars: 8192
+              headChars: 4096
+              tailChars: 1024
+      - id: delegation
+        name: cordis:group
+        group: true
+        isolate:
+          workflowEngine: true
+        config:
+          - id: tool-subagent-control
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent-control'
+          - id: tool-subagent-list-agents
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent-control/list-agents'
+          - id: tool-subagent
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: spawn
+              toolName: subagent
+              modelSelectionSettings: true
+              backgroundMode: continuable
+          - id: tool-subagent-fork
+            disabled: true
+            name: '@deepseek-ai/dsh-tool-subagent'
+            config:
+              provider: fork
+              toolName: subagent_fork
+              backgroundMode: continuable
+          - id: tool-subagent-codex
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: codex
+              toolName: subagent_codex
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: tool-subagent-claude-code
+            name: '@deepseek-ai/dsh-tool-subagent'
+            disabled: true
+            config:
+              provider: claude-code
+              toolName: subagent_claude_code
+              backgroundMode: one-shot
+              maxDepth: provider-managed
+          - id: workflow-ptc
+            name: '@deepseek-ai/dsh-workflow-ptc'
+            config:
+              provider: spawn
+          - id: tool-workflow
+            name: '@deepseek-ai/dsh-tool-workflow'
+            disabled: true
+          - id: tool-ralph
+            name: '@deepseek-ai/dsh-tool-ralph'
+            config:
+              subagentProvider: spawn
+              maxRounds: 64
+      - id: tool-web
+        name: '@deepseek-ai/dsh-tool-web'
+        config:
+          fetch: true
+          searchTimeoutMs: 60000
+      - id: tool-ask-user
+        name: '@deepseek-ai/dsh-tool-ask-user'
+      - id: tool-todo
+        name: '@deepseek-ai/dsh-tool-todo'
+        config:
+          allowParallelInProgress: true
+      - id: present
+        name: '@deepseek-ai/dsh-tool-present'
+      - id: catgirl-warmup-ptc-replay
+        name: ./presets/minimal-zh-ptc-catgirl/zh-warmup-ptc-replay.mjs
+        config:
+          shellTools:
+            - bash
+            - pwsh
+          commonTools:
+            - str_replace_editor
+          subagents: false
+          replayFile: ./replay.json
+      - id: catgirl-tool-zh
+        name: ./presets/minimal-zh-ptc-catgirl/catgirl-tool-zh.mjs
+        config:
+          tableFile: ./catgirl-tool-zh.json
+      - id: catgirl-reheat
+        name: ./presets/minimal-zh-ptc-catgirl/catgirl-reheat.mjs
+        config:
+          reheatFile: ./catgirl-reheat.json
+          replayFile: ./replay.json
+          maxPerSession: 4
+          subagents: false
+      - id: catgirl-persona-anchor
+        name: ./presets/minimal-zh-ptc-catgirl/catgirl-persona-anchor.mjs
+        config:
+          everySteps: 6
+          anchorTurnStart: true
+          maxReasoningChars: 200
+          subagents: false
+          replayFile: ./replay.json

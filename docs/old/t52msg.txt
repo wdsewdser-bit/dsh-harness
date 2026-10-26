@@ -1,0 +1,8 @@
+task-52: 提交读数完整形态（三条 + HEAD 是会移动的别名 + 依赖集不可凭直觉列举）
+        + 框 = 域 × 单位 × 依赖集
+
+- (a) 扫描域内 porcelain 为空；(b) 点名文件 hash-object == rev-parse <被点名 revision>:<f>；
+  (c) 同一次调用内断言 rev-parse HEAD == 被点名 revision。
+- 命名陷阱：rev-parse HEAD:<f> 的 HEAD 是会移动的别名 => 静默替换成被点名 revision（t52 包的 major 正是它）。
+- 依赖集不可凭直觉列举：守护器跨文件判定（proto 例 / world 例）=> 依赖图覆盖整个域。
+- 框 = 域 × 单位 × 依赖集（lead-rig 第五次同类自纠：域只测了一半）。

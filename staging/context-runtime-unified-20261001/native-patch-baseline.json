@@ -1,0 +1,298 @@
+{
+  "acceptedAt": "2026-10-23T14:46:59.804Z",
+  "reason": "Native-driver-disarms-host-policy-failures-without-forging-convergence-proof",
+  "summary": {
+    "manifestPackages": 22,
+    "carriedByPnpmPatch": 4,
+    "carriedByStagingCopyOnly": 18,
+    "registeredButNotInManifest": 6,
+    "unregisteredPatchFiles": 10,
+    "upstreamVersions": [
+      "0.1.7-rc.2",
+      "1.0.5",
+      "4.0.4"
+    ]
+  },
+  "packages": [
+    {
+      "package": "@deepseek-ai/cordis",
+      "upstreamVersion": "4.0.4",
+      "files": 2,
+      "newFiles": 1,
+      "stagedDirectories": [
+        "cordis-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/cordis-plugin-loader",
+      "upstreamVersion": "1.0.5",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "cordis-plugin-loader-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-agent",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 2,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-agent-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-agent-loop",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 3,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-agent-loop"
+      ],
+      "channel": "pnpm-patch",
+      "patch": "patches/@deepseek-ai__dsh-agent-loop@0.1.7-rc.2.patch",
+      "patchVersion": "0.1.7-rc.2",
+      "patchFilePresent": true,
+      "patchVersionMatchesInstalled": true
+    },
+    {
+      "package": "@deepseek-ai/dsh-api-session-controller",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 7,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-api-session-controller"
+      ],
+      "channel": "pnpm-patch",
+      "patch": "patches/@deepseek-ai__dsh-api-session-controller@0.1.7-rc.2.patch",
+      "patchVersion": "0.1.7-rc.2",
+      "patchFilePresent": true,
+      "patchVersionMatchesInstalled": true
+    },
+    {
+      "package": "@deepseek-ai/dsh-client-ui-chat",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 2,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-client-ui-chat"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-client-ui-conversation",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-client-ui-conversation"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-compaction-basic",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 2,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-compaction-basic"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-compaction-tool-result-pruner",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 5,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-compaction-tool-result-pruner-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-goal",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 6,
+      "newFiles": 2,
+      "stagedDirectories": [
+        "dsh-goal"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-goal-round-driver",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-goal-round-driver-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-sandbox-local",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-sandbox-local-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-scope",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-scope-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 5,
+      "newFiles": 1,
+      "stagedDirectories": [
+        "dsh-session"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-format-v3-to-v4",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-session-format-v3-to-v4"
+      ],
+      "channel": "pnpm-patch",
+      "patch": "patches/@deepseek-ai__dsh-session-format-v3-to-v4@0.1.7-rc.2.patch",
+      "patchVersion": "0.1.7-rc.2",
+      "patchFilePresent": true,
+      "patchVersionMatchesInstalled": true
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-log-deepseek",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 2,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-session-log-deepseek"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-persistence-jsonl",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 2,
+      "newFiles": 1,
+      "stagedDirectories": [
+        "dsh-session-persistence-jsonl"
+      ],
+      "channel": "pnpm-patch",
+      "patch": "patches/@deepseek-ai__dsh-session-persistence-jsonl@0.1.7-rc.2.patch",
+      "patchVersion": "0.1.7-rc.2",
+      "patchFilePresent": true,
+      "patchVersionMatchesInstalled": true
+    },
+    {
+      "package": "@deepseek-ai/dsh-subagent",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 6,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-subagent-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-system-prompt",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-system-prompt-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-token-meter",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 5,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-token-meter"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-tool-goal",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 1,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-tool-goal-v15"
+      ],
+      "channel": "staging-copy"
+    },
+    {
+      "package": "@deepseek-ai/dsh-tools",
+      "upstreamVersion": "0.1.7-rc.2",
+      "files": 3,
+      "newFiles": 0,
+      "stagedDirectories": [
+        "dsh-tools"
+      ],
+      "channel": "staging-copy"
+    }
+  ],
+  "registeredButNotInManifest": [
+    {
+      "package": "@deepseek-ai/dsh-experimental-agent-team",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-experimental-agent-team@0.1.7-rc.2.patch"
+    },
+    {
+      "package": "@deepseek-ai/dsh-ptc-runtime-node",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-ptc-runtime-node@0.1.7-rc.2.patch"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-format-v0-to-v1",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-session-format-v0-to-v1@0.1.7-rc.2.patch"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-query",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-session-query@0.1.7-rc.2.patch"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-query-sqlite",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-session-query-sqlite@0.1.7-rc.2.patch"
+    },
+    {
+      "package": "@deepseek-ai/dsh-session-title",
+      "version": "0.1.7-rc.2",
+      "patch": "patches/@deepseek-ai__dsh-session-title@0.1.7-rc.2.patch"
+    }
+  ],
+  "unregisteredPatchFiles": [
+    "@deepseek-ai__dsh-session-format-v0-to-v1@0.1.7-alpha.1.patch",
+    "@deepseek-ai__dsh-session-format-v0-to-v1@0.1.7-alpha.2.patch",
+    "@deepseek-ai__dsh-session-format-v0-to-v1@0.1.7-rc.1.patch",
+    "@deepseek-ai__dsh-session-format-v3-to-v4@0.1.7-alpha.1.patch",
+    "@deepseek-ai__dsh-session-format-v3-to-v4@0.1.7-alpha.2.patch",
+    "@deepseek-ai__dsh-session-format-v3-to-v4@0.1.7-rc.1.patch",
+    "@deepseek-ai__dsh-session-persistence-jsonl@0.1.7-alpha.1.patch",
+    "@deepseek-ai__dsh-session-persistence-jsonl@0.1.7-alpha.2.patch",
+    "@deepseek-ai__dsh-session-persistence-jsonl@0.1.7-rc.1.patch",
+    "@deepseek-ai__dsh-tool-fs@0.1.7-rc.2.patch"
+  ]
+}

@@ -1,0 +1,5 @@
+docs: 落 B-123 + 条款 66（清关键与严重度是两个独立门禁）
+
+- 依据 B-102 的第一手拒绝串 verifier-found-a-major，判定两个门禁独立
+- 不采纳「不传 commit」的建议：commit 是 no-verifier-clearance 的授权键
+- 报告侧纪律：含 blocker/major 时不得把 commit 写进 cleared_commits

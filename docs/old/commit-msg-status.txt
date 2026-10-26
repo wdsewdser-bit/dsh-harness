@@ -1,0 +1,3 @@
+docs(STATUS): 更正过期条目 —— t51 已 CLEARED 并 accepted，不再欠包或裁决
+
+按「耐久记录必须可复核」与 lead-world 的 id 序列约定，把仍写「t51 仍欠包与裁决」的那行改为最终状态 + 三条 minor 的处置。

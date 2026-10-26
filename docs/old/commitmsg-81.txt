@@ -1,0 +1,13 @@
+task-81: §5.14-44 四次收窄 —— 排除项 (i) 用本仓既有规范形态 + 类扫描必须报分区与恒等式
+
+- 排除项 (i) 不应重新发明：守卫文件已有 QUOTE_MARKER="原引" / QUOTE_WINDOW=120 /
+  QUOTE_PRESENT_SIDE=["现值","现为","现:","现："] / fn is_quoted；规则 = 同一行 ∧ Unicode 标量距离 ≤120 ∧
+  token 在标记之后且两者间出现切换词之一 ⇒ 不豁免。
+  ⇒ 我三次收窄里写的「±120 字符内出现 反例/文档化/禁止/不递归/静默」作废：
+     「字符」是未具名的单位（字节/标量/字素），且自造了本仓已有的机制。
+- 排除集必须含「该扫描自身的描述字段」（class/predicate/exclusions[*]/finding），否则残差非零（实测 E4=2）；
+  原因与 §5.14-34 同源：描述该类的字段本身就是该类的实例。
+- raw 是被写文档自身的函数 ⇒ 不可能稳定；只有 after_exclusions 稳定（r12=18 / r14=32 / r15=30）。
+- 取代「三个数」：必须报分区 raw / Σexcluded / unclassified{count,paths} / after，
+  且强制恒等式 raw == Σexcluded + unclassified + after；读数绑定 measured_on。
+  实证：r15 报 32/24/0 ⇒ 8 处无归属 ⇒ 自动作废，改为 30 == 15+8+4+2+1+0。

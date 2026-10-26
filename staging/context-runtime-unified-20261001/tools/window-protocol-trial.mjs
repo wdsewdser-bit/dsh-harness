@@ -6,13 +6,27 @@ import { windowHash } from '../home/profiles/web/plugins/team-v15-window-checkpo
 const sha = value => createHash('sha256').update(value).digest('hex')
 const fail = code => { throw Object.assign(new Error(code), { code }) }
 export function createProtocolTrialEvidence(binding, sessionId, now = Date.now(), { nativeSurface = false } = {}) {
-  if (!binding?.sdkSha256 || binding.schemaCount !== 75 || typeof sessionId !== 'string') fail('LAB_PROTOCOL_BINDING_REQUIRED')
+  const hashes = binding?.schemaHashes, digest = value => typeof value === 'string' && /^[a-f0-9]{64}$/.test(value)
+  // Optional registered tools change catalog size. Bind the actual server capture,
+  // not a historical count, and reject incoherent or foreign certificates.
+  if (typeof sessionId !== 'string' || binding?.source !== 'loaded-agent-ptc-services'
+    || binding.labSessionId !== sessionId || binding.pid !== process.pid
+    || binding.agentPreset !== 'ptc' || binding.runtimeKind !== 'dsh-ptc-runtime-node' || binding.language !== 'typescript'
+    || typeof binding.sdkText !== 'string' || !digest(binding.sdkSha256) || sha(binding.sdkText) !== binding.sdkSha256
+    || !Number.isSafeInteger(binding.schemaCount) || binding.schemaCount < 1
+    || !hashes || typeof hashes !== 'object' || Array.isArray(hashes)
+    || Object.keys(hashes).length !== binding.schemaCount || !Object.values(hashes).every(digest)
+    || !digest(binding.schemasSha256) || !digest(hashes.context_manage)
+    || binding.toolsSchemaBindings?.context_manage !== hashes.context_manage
+    || !binding.contextParameters || typeof binding.contextParameters !== 'object'
+    || sha(JSON.stringify(binding.contextParameters)) !== hashes.context_manage
+    || binding.route?.provider !== 'opencodego' || binding.route?.model !== 'deepseek-v4.1-flash') fail('LAB_PROTOCOL_BINDING_REQUIRED')
   const paths = {
     projection: ['../home/profiles/web/plugins/team-v15-window-projection.mjs', '1fa23c04cc6fbb9ae6c0d36234f571bf34cc4a3a421d087971a364aca458bb64'],
-    requestProjection: ['../home/profiles/web/plugins/request-message-projection.mjs', '4af4102b89dd878b6c0f695eaa0fa2aaab25afee605a0d0f93f4f88a2800e4e7'],
-    protocol: ['../home/profiles/web/plugins/team-v15-window-protocol.mjs', '4b05a283cf95368e2ed2a10e31d5cfdc04e4694b99d9e795fa7f1890954fe054'],
-    collector: ['../home/profiles/web/plugins/team-v15-window-collector.mjs', '9dadee3d597627c9bd3e1dbee8c358b75ecf46bf011324916167ab30eaacff8d'],
-    historyRecall: ['../home/profiles/web/plugins/team-v15-history-recall.mjs', '9d3fe6985e88b66c29148a448b5850cb34c3ca9b7b4906baa22048a6a29e9463'],
+    requestProjection: ['../home/profiles/web/plugins/request-message-projection.mjs', '7ecf041e6aa4248eae78b8c979aaa679dd01f58f1e3f67ae5812527a4db8013a'],
+    protocol: ['../home/profiles/web/plugins/team-v15-window-protocol.mjs', 'a1bfafabede1e2df38e3fd67f0ad688ef1ac3be2799c951d348ac0b461d57939'],
+    collector: ['../home/profiles/web/plugins/team-v15-window-collector.mjs', '4e08bb7fb0ee96b14e637a50dacebe0e9e7e61cdf6d463eada9b6783c6030aeb'],
+    historyRecall: ['../home/profiles/web/plugins/team-v15-history-recall.mjs', 'bba278f9614722b6b318bb08fd65079f8fdc4f0a583fa419b463e4e4e883acc8'],
     usageLedger: ['../home/profiles/web/plugins/request-usage-ledger.mjs', 'f19d86fa4cfc45b6f650480b01de5819bf9b56674c5033e63a3ef02755b63680'],
     windowEconomicsRuntime: ['../home/profiles/web/plugins/team-v15-window-economics-runtime.mjs', '18a0cb95f47682ef9f48eeffcf5a2eb15cc39c2c0f78bff7c2982e4f8c287c86'],
   }
@@ -49,22 +63,22 @@ export function createProtocolTrialEvidence(binding, sessionId, now = Date.now()
     ['fileProtection','../home/profiles/web/plugins/team-v15-window-file-protection.mjs','4db63d07bf3720b1898075cc9c0f841fc4c5b37bb2de5743f74e37dc9984f97a'],
     ['transition','../home/profiles/web/plugins/team-v15-window-transition.mjs','765918ee52854d2ff3a32b2fa1743099600f5b61022e42b19b33eacec5390135'],
     ['participation','../home/profiles/web/plugins/team-v15-window-participation.mjs','3113ac5a8a3a2443aa148a120dcec57eef4e264b2a0c801cf9e9e8e79e519f86'],
-    ['control','../home/profiles/web/plugins/team-control-plane.mjs','105b00d39f756abc7691948082bb1dc5a823cbaa1bb8660cf72207622a834f43'],
-    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','482a2fc7f3cadce5ebafa670212da81303b206571012550d00e1dee04828cabf'],
+    ['control','../home/profiles/web/plugins/team-control-plane.mjs','c7507fb327a6020298035949e7b2bf477265430ae02abd6c912e3e1137301eda'],
+    ['teamRuntime','../home/profiles/web/plugins/team-v12-runtime.mjs','d33ceb9c7b768cf7097ffd8d374d2e1ca3257ea399380e76f90ea66063f89310'],
     ['goalDelivery','../home/profiles/web/plugins/team-v15-goal-delivery.mjs','49dc27d5900e222b5c7de8c7305f579814fb0781b320e9a95f4ef07d9db0c7fb'],
     ['goalDomain','../app/node_modules/@deepseek-ai/dsh-goal/lib/index.js','6bb5985f65c987193c4dda95d4a0b4e3b84b082f3ca0087a135a6b575140c104'],
     ['nativeSession','../app/node_modules/@deepseek-ai/dsh-session/lib/index.js','e6b9e61986c73286b4b35167214bbb3218202bf92e26fcc7b89ce19d876ff8a8'],
     ['nativeBridge','../app/node_modules/@deepseek-ai/dsh-session/lib/native-bridge.js','87122a1536428079812a2d56b34333160dd19ae32ba2210be86ff762d47924fe'],
     ['agentLifecycle','../app/node_modules/@deepseek-ai/dsh-agent-v15/lib/index.js','957ae90d11c99b68e42508b737222c94f958d16c4b53f04fbbfd7aab6e8f512e'],
-    ['instantDriver','../app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js','b55034743be0f046db5de6456c21a72b85d35ae6721492fc39681825c841e056'],
+    ['instantDriver','../app/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js','02ecad527152acd7c7822af9833fb6cd694955cd48561b352b17e39c3a8c4e2c'],
     ['subagentDurable','../app/node_modules/@deepseek-ai/dsh-subagent-v15/lib/index.js','566accb62b480beb54930bdab0ede88231e64424c1588c3eb01f23497bbe3b2e'],
     ['instantApi','../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/index.js','ebf99f58c2bde6620cb4412ad5ea516d0f93751a7dbf2659e1d31748b3d92954'],
     ['instantClient','../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/client.js','da5ae37ba208bb70104ad891c3ca6c6062bed37afc7e7d9eeb47ae90ffa41b71'],
     ['instantUi','../app/node_modules/@deepseek-ai/dsh-client-ui-chat/lib/client.js','b8185386194422f55e7c1b1bb1f7637dfdad916e219460ed5655ac32e1448ffa'],
     ['instantHostCodec','../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/typert.host.js','170d12f104796da8dd288ee15e2f9a104e130a38fafdd8d853284c48263f8eb5'],
     ['instantRemoteCodec','../app/node_modules/@deepseek-ai/dsh-api-session-controller/lib/typert.remote-client.js','817df1e6e484c78eddc8bafde358b38985c06deb78ed5f827120d2fbeb553c51'],
-    ['liveBarrier','../app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/window-barrier.js','91efc8a9953e36c664e509d08a0852f43f08b16d97581f5e6102f23dbbeaf76f'],
-    ['jsonlBackend','../app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js','18070a88a63600ee7fbc922400a1ab0fdadec07fa27542e678045fb970fca9f6'],
+    ['liveBarrier','../app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/window-barrier.js','03e6370e7e47eaf0e6f34b154002b208992426cc554f41af392d55c72e23a2bb'],
+    ['jsonlBackend','../app/node_modules/@deepseek-ai/dsh-session-persistence-jsonl/lib/index.js','edb08ba7a22bd649d752826094823c614d5ba7385b42a67970da1f7130eb3aca'],
   ]) {
     const current=sha(readFileSync(new URL(path,import.meta.url)))
     if(current!==expected)fail('LAB_NATIVE_SURFACE_SOURCE_DRIFT')

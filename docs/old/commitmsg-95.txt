@@ -1,0 +1,9 @@
+task-95: 第四轮复测续 —— B-45/B-43 原始反例转绿（落盘）+ B-42 委托待回 + 纪律二第二个实例
+
+- B-45：以 task-94（kind=discussion / writeScopes=[]）为载体，创建 → claim → complete 全部成功 ⇒ 零写范围不再被 scope-required 拒绝。
+- B-43：同一张卡以 commit_sha:null 完成并被接受 ⇒ 非产品证据可以无 commit 完成。
+  两条共用同一张复测载体卡，不承载产品语义，不得引用为交付物。
+- B-42：纯祖先 worktree 分支自动 fast-forward —— tier 0 只能布局组长、不能布局成员，故复现只能由组长执行；
+  已发 action 给 lead-world（反例载体：三个 world 成员各 52 0、rig-diff 152 0、member-codec 241 0）并要逐字回报。回报前记为未复测，里程碑不 tick。
+- 纪律二第二个实例（批准者侧）：t77 的 write_scopes 漏了根 Cargo.lock ⇒ 执行者走 plan 替换 + 复批。
+  新增可执行要求：凡交付物要求「A 依赖 B」的卡，write_scopes 必须显式包含锁文件。

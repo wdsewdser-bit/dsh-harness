@@ -1,0 +1,6 @@
+docs: 二次更正条款验收命令（git clone 会触发 CRLF 物化 ⇒ 假红）+ 两条新条款（workspace 级构建门禁 / 判据必须在默认环境下成立）
+
+★ 我的条款命令第二次被同一手法打脸：上一版改用「git clone --no-hardlinks 真检出」，而本仓无 .gitattributes 且系统 core.autocrlf=true ⇒ clone 本身就把 LF 物化成 CRLF ⇒ 触发 must-be-LF-only 守卫 ⇒ G1 对每个 Windows 贡献者假红。改为加 -c core.autocrlf=false，并把根因修法（加 .gitattributes）与「flag 只作附加保险」写成条款。
+- 新条款：跨组枚举增长是破坏性变更；必须有一条 workspace 级构建门禁持有它 ⇒ 并入 main 前必须取得 cargo check --workspace --locked RC=0（tier 0 执行，组长在组分支并入时也跑）；未取得必须在披露里写明，不得默认绿。
+- 新条款：判据必须在默认环境下成立；环境差异要消进仓库而不是靠记得某个 flag。
+- 配套安全阀：加 .gitattributes 后必须验证未产生大规模重规范化 diff，若有则停下报告。

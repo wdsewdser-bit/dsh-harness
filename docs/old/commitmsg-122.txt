@@ -1,0 +1,6 @@
+docs: grp/world 合入 main（0deb52c，并集已核）+ 纪律「0 命中三种成因」+ 第 8 例 live 复测更正
+
+- 合并以 ignore_untracked 重试成功；并集逐项核：t59/t62/fixtures 均在，GOVERNANCE 1751 / PLATFORM-DEFECTS 603 行未丢。
+- 纪律：0 命中 = 不存在 / 不可见 / 查询键不完整；第三条不报错且最易漏。tier 0 认错（立了同族纪律却没应用）。
+- 拒绝串第 8 例修复已 live 复测通过（报文带出脏文件清单）。
+- 门禁 citation_integrity 绿。

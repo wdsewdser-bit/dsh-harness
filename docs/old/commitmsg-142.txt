@@ -1,0 +1,6 @@
+docs: 收编「引用必须路径限定：裸 basename 在解析域含同名文件时是歧义的」+ 裁定 t91 走具名例外契约修订
+
+- verifier 给出真因：裸 basename 引用在解析域含未跟踪文件时判 AMBIG；guard 的处置语即答案（改路径限定）。
+- ambiguous 与 unregistered 是两个不同的红，处置不同。
+- t91：4 个无载体 token 写成可重访的具名例外（含具名域与重查条件），并要求把并入后的域与判据重新记入 acceptance。
+- 门禁 citation_integrity 绿。

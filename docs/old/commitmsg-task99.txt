@@ -1,0 +1,8 @@
+docs: task-99 evidence 短形态引用清扫（37 处 / 4 文件 → 0）—— 27 个 B 类短 id 全部回填为完整 UUID
+
+- 域：docs/GOVERNANCE.md / docs/STATUS.md / docs/PLATFORM-DEFECTS.md / docs/WORKAROUND-REVERT.md；改前短形态 37 处（23/7/5/2），改后 0。
+- 方法②：本批 27 个唯一 token 全为 B 类（8-hex）⇒ 按行内 evidenceId 字段解析；A 类（16-hex）按行内 id 字段（本批 0 个）。用错字段会把可解析的 B 类误判为 0。
+- 解析信道：直读控制面存储文件（15,803,190 B）按 evidenceId 唯一匹配；每个 token 恰 1 个候选，否则整批不写（本次 27/27 唯一）。
+- 只改形态不改主张：把完整 UUID 归一化折回前 8 hex 后，改前/改后逐行逐字相等（纯形式变换）。
+- 锚定：因短形态是完整 UUID 的前缀，朴素字面替换会破坏已完整形态 ⇒ 每次替换锚定「token + 其后一个字符」。
+- citation_integrity 4 passed / 0 failed。

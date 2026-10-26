@@ -1,0 +1,12 @@
+task-68: 更正 task-67 理由 ②（该断言在本目录上未获证实）+ 落 §5.14-37/38
+
+- docs/STATUS.md §⑥：理由 ② 按实测收窄 —— 守卫文件的 FROZEN_PATH_EXCEPTION_KEYS 恰 3 键、全在 fixture 内的 token 载体、对本目录命中 0。
+  并写入更强也更准的理由：不该删的理由不是「它会触发断言」，而是「它不会触发断言」——
+  删一个子目录 = 改动冻结快照，而代理断言覆盖不到这个目录 ⇒ 该改动完全不被察觉。
+  裁定「不开卡」不变（理由 ① 与 ③ 各自独立成立）。附「理由 ② 的更正」条目（具名成因 + 三方独立复测）。
+- docs/GOVERNANCE.md：新增 §5.14-37（代理断言保护不到它未具名的部分；「断言没有触发」不是「没有改动」的证据）
+  与 §5.14-38（放行条件必须指向一个可测量且存在的对象），各带具名实测；
+  另收编 lead-world 两条配套（包内计数只放提交绑定的；行数仪器恒等式）。
+
+三方独立复测一致：verifier（r8 nit）· lead-proto（r6 owner_evidence 源头自认）· lead-rig（r7 报告更正）。
+门禁：cargo test --locked -p mc-proto-schema --test citation_integrity -- --nocapture ⇒ 3 passed / unregistered=0 / dead=0。

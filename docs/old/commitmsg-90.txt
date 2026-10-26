@@ -1,0 +1,8 @@
+task-90: 收编四条 —— milestone 前置条件可以等 / 假 tick / 「已登记」不蕴含「已判定为缺陷」 / 读路径须取自 show --name-only
+
+- §5.6 附则（lead-world 精化）：外部依赖写成 stage 的「前置条件」，不得写进 done_when 的合取 ——
+  done_when 是本人的折叠判据，而前置条件可以等（等不到就登记等待，不要把折叠点一起冻住）。
+  「假 tick」：只有在真到边界时才 tick；为触发折叠而提前 tick 是假完成声明。两者是同一条的两面。
+- 「已登记」不蕴含「已判定为缺陷」：FAILCLASS|total=61|total_ambiguous=57|total_empty=4 ⇒ 61 条已登记例外里 57 条本就是 P2 AMBIG。
+- 读路径必须取自 git show --name-only 的原始输出，不得凭记忆拼名（verifier 第五处仪器错误）。
+- 测试读数必须带条件与时点：cargo test -p mc-sim 两次运行 4 passed/2 failed 与 6 passed/0 failed 而两次工作树都干净。

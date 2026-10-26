@@ -1,0 +1,8 @@
+task-86: §5.9 附则二/三 —— 「创建者 ≠ 所有者」是平台默认 + 移交自己名下的卡必须先 release
+
+- 附则二：team_task_create 不会把创建者设为 owner，plan-propose/approve 也不会 ⇒ 凡「组长建卡给组员」的流程，
+  owner 必须是一次显式动作；任何把 owner 当默认值的流程都会漏（lead-world 在同一遗漏上违反第 169 条两次）。
+  可执行顺序：create → 立刻 reassign → 再 propose/approve → 收尾从板面读回 owner；可机检判据 noOwnerCount == 0。
+- 附则三：t66 建卡时 owner 即 lead-world ⇒ reassign 被拒 [reassign-active-owner]；
+  正确路径 = 先 release（清掉自己的 owner，status → pending）再 reassign。该拒绝的补救是 release，不是 interrupt。
+  与 B-69 同族：持有所有权挡住了移交 —— 又一个「前一个状态位挡住后一个动作」。

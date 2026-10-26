@@ -1,0 +1,7 @@
+task-98: 落「git add + commit 提交整个索引 ⇒ 必须 commit --only -- <paths>」+「在移动的树上不能复现静止读数」
+
+- 第 33 处错（共享索引事故）：只 add 2 个文件，但 commit 提交整个索引，把 member-world-anvil 在飞的 7 个文件一并提交进 660434c。
+  纪律：共享检出上必须 git commit --only -- <paths>，或提交前用 git diff --cached --name-only 与本卡 scope 比对。
+  处置：不做历史重写（§5.8 禁止共享主检出改写 HEAD），保留提交 + 具名披露 + 通知受影响成员。
+  检测到它的正是「提交身份校验」（show --name-only 必须等于本卡 scope）—— 第一次实战拦截。
+- 在移动的树上不能复现静止读数：t79 绿侧绑 349842f 而 t77 正在改写 crates/mc-sim ⇒ 必须 git worktree add --detach 到当时那棵树。

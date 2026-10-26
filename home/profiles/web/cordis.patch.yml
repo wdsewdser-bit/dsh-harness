@@ -10,6 +10,8 @@
       name: './plugins/request-message-projection.mjs'
       config:
         maxAuditRecords: 64
+    - id: constraint-ledger
+      name: './plugins/constraint-ledger.mjs'
     - id: ptc-sdk-retention
       name: './plugins/ptc-sdk-retention.mjs'
       config:
@@ -376,7 +378,7 @@
         pluginDir: 'D:\dsh-test\home\profiles\web\plugins'
         controlDir: 'D:\dsh-test\home\team-control-plane'
         windowTokens: 1048576
-        contextPackMaxTokens: 32000
+        contextPackMaxTokens: 80000
         # The root's pack and the mid-turn delta used to default to 6000 and 2500 tokens. The identity alone is a
         # few thousand, so a changed task contract on top of it did not fit and the turn ended as blocked.
         tier0ContextPackMaxTokens: 16000
@@ -1462,3 +1464,11 @@
     maxInputLines: 3000
     controlDir: D:\dsh-test\home\team-control-plane
     controlPlaneEnabled: true
+
+# Verified v16 capability bridge. Collector scope remains unchanged.
+- insert:
+    - id: team-v16-capabilities-runtime
+      name: ./plugins/team-v16-capabilities-runtime.mjs
+      config:
+        controlDir: D:/dsh-test/home/team-control-plane
+        sdkCoreProjection: false

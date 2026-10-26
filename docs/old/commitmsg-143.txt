@@ -1,0 +1,6 @@
+docs: 收编「独立验证有两个维度：独立于作者 × 能执行」+ 门禁绿须具名工作树状态
+
+- verifier 无法执行所审 commit（只在成员/组分支，共享工作树在 main ⇒ 0 tests）⇒ 对账退化为静态读源码 + 采信 owner 读数。
+- 要求：verifier 布置 detached 检出到被审 commit 并真跑卡面命令；否则包内逐条声明读数来源。
+- 配套：门禁读数不是 commit 的函数（域是文件系统而非提交面）。
+- 门禁 citation_integrity 绿。

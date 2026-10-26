@@ -1,0 +1,3 @@
+docs(STATUS): t17 已收口（rev16/completed/55e91ef40）⇒ 下游 t19/t21 放行；里程碑条件③达成，仅余外部条件②
+
+实测读数：t19 = rev11 in_progress plan-approved；t21 = rev4 in_progress；ready_queue = runnable 2 / active 1 / stalled 4 / blocked 4。

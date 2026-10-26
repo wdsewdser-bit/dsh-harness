@@ -1,0 +1,12 @@
+task-28: 更正 B-48 补充（wakeId 是被投影的；inbox_id 接受 messageId）
+        + B-63 补执行期语义 + B-61/B-47 补 dependency 观察 + §5.14-29
+
+三处都是【更正我刚发布的内容】：
+1) B-48：我写的「id 未投影」错 —— wakeId 是被投影的（lead-rig 探针 il.inbox || il.wakes 使 wakes 从未被读），
+   真实形态 = 名/形不匹配（驼峰 wakeId vs 下划线 wake_id/inbox_id）。
+   我的修法建议②「提供逐 messageId 的 ack」也错 —— inbox_id 已存在且接受 messageId（lead-proto 1 条消息的 wake）。
+   verifier 那次是 6 条消息的合并 wake 且传 wakeId 值 => 三个变量都不同，未做单变量对照。
+   更正后：应修「合并 wake 的逐消息收口语义未定义」，不要去造一个已存在的参数。
+2) B-63：补执行期语义 —— 参数校验期失败 => 未执行任何子调用；执行期失败 => 前序子调用不回滚，须查回执再决定重试。
+3) B-61/B-47：补 lead-world 的 dependency 观察（判定粒度是 status 不是 phase），标为观察，与 lead-rig 的 A/B 不矛盾（票型不同）。
+4) §5.14-29：读多数组结果时不得取「第一个为真的子数组」再推广 —— 断言投影有/没有前先列顶层键。

@@ -1,0 +1,5 @@
+docs: 收编「guard 的 PASS 只等于其判定域内的引用形态可解析」
+
+- 成因：guard 只有两个扫描器（§N Lm 形态 / path.ext:line 形态），「第 N 条」形态不在域内。
+- 规则：不得引用编号，除非该编号有可解析载体；引用一律写成正文 + path/blob/行锚。
+- 门禁 citation_integrity 绿。

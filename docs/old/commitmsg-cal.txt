@@ -1,0 +1,4 @@
+docs: B-85 补充的记录校准 —— tier 0 那次被拒是 task-phase 拒绝，不测试 scope 边界，不得读成「scope 检查生效」
+
+- 校准：tier 0 的 team_plan_approve 被拒逐字 = [task-phase] cannot advance from execution to plan-approved ⇒ 阶段拒绝，不是越界拒绝 ⇒ 未测试该 scope 边界。唯一一次在 plan-proposed 阶段的批准调用是组长的，且成功。⇒ 没有任何一次尝试证明该 scope 边界会触发。
+- 配套纪律（记录面）：拒绝串的「类别」必须逐字记录 —— 「阶段拒绝」与「越界拒绝」同属 team policy refusal，只记「被拒」不记类别，会把未测试的边界读成已验证的边界。

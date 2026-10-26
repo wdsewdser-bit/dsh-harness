@@ -23,6 +23,7 @@ import { apply as applyTeamRuntime } from '../home/profiles/web/plugins/team-v12
 import { ToolRuntime } from '../app/node_modules/@deepseek-ai/dsh-tools/lib/index.js'
 import { createServerWindowSurface } from '../home/profiles/web/plugins/team-v15-window-surface.mjs'
 import { nativeHostBinding } from '../home/profiles/web/plugins/team-v15-window-participation.mjs'
+import { createContextWorkspaceService } from '../home/profiles/web/plugins/context-workspace.mjs'
 const require = createRequire(new URL('../app/package.json', import.meta.url))
 const load = name => import(pathToFileURL(require.resolve('@deepseek-ai/' + name)))
 const { Context, Service, getHostLifecycleGate } = await load('cordis')
@@ -62,6 +63,11 @@ async function fixture(t, limits = {}) {
       listMembers() { return [{ id: session.id, name: 'root', tier }] }
     }
     new Teams(ctx)
+    let memoClock = 100000
+    const memo = limits.installMemo ? createContextWorkspaceService(ctx, {
+      directory: join(root, 'memo'), controlDir: join(root, 'control'), now: () => memoClock,
+    }) : null
+    if (memo) ctx.provide('contextWorkspace', memo)
     const control = controlPlaneForMember(ctx, agent, { directory: join(root, 'control') })
     const ref = (name, body) => { const path = join(root, name); writeFileSync(path, body); return { path, sha256: sha(body) } }
     const roles = join(root, 'roles'); mkdirSync(roles)
@@ -90,7 +96,7 @@ async function fixture(t, limits = {}) {
     stopMilestones = applyCompactionMilestones(ctx, { milestonePath })
     session.append('turn/start', { turn: 1 })
     session.append('step/start', { turn: 1, step: 1 })
-    session.append('user/message', message('old-user', 'user', 'completed but raw original '.repeat(limits.historyRepeats ?? 80)), { surfaceOp: 'append' })
+    session.append('user/message', message('old-user', 'user', 'completed but raw original '.repeat(limits.historyRepeats ?? 80) + (limits.historySuffix ?? '')), { surfaceOp: 'append' })
     const oldAnswer = message('old-answer', 'assistant', 'past answer')
     if (limits.signedReasoning === true) {
       oldAnswer.content.unshift({ type: 'reasoning', text: 'fixture completed reasoning' })
@@ -137,6 +143,7 @@ async function fixture(t, limits = {}) {
     const request = () => official.markAgentLoopRequest({ provider: 'fixture', model: 'fixture', sessionId: session.id, purpose: 'conversation',
       signal: new AbortController().signal, messages: session.deriveMessages() })
     return { root, ctx, session, agent, service, request, control, config, captured, llm, projection, planRef,backend,
+      memo, advanceMemoClock: delta => { memoClock += delta },
       closeHandle:()=>handle.close(),
       beforeCleanup:callback=>{beforeCleanup=callback},
       revoke: () => { membership = false }, changeTier: () => { tier = 2 }, restoreRoster: () => { membership = true; tier = 0 },
@@ -146,12 +153,13 @@ async function fixture(t, limits = {}) {
 }
 
 async function surfaceFixture(t, fault, options = {}) {
-  const f=await fixture(t,{installNativeRuntime:true,historyRepeats:4000,protocolCertificateHash:'native-fixture-only'})
+  const { fixtureConfig = {}, ...surfaceOptions } = options
+  const f=await fixture(t,{installNativeRuntime:true,historyRepeats:4000,protocolCertificateHash:'native-fixture-only',...fixtureConfig})
   await f.service.retainCompletedTurns(f.session.id)
   const source=f.service.authorityForSurface(f.session.id).capture(f.session.id).source
   const routes=[{provider:'fixture',model:'fixture',protocol:'dsh-v1',certificateHash:'native-fixture-only',
     configFingerprint:source.configFingerprint,expiresAt:Date.now()+60000}]
-  const surface=await createServerWindowSurface(f.ctx,{collector:f.service,sessionId:f.session.id,routes,fault,...options})
+  const surface=await createServerWindowSurface(f.ctx,{collector:f.service,sessionId:f.session.id,routes,fault,...surfaceOptions})
   // A route certificate is issued for one config fingerprint; after the host changed it has to be issued again.
   const refreshRoutes=()=>{routes[0].configFingerprint=f.service.authorityForSurface(f.session.id).capture(f.session.id).source.configFingerprint}
   return {...f,surface,refreshRoutes}
@@ -182,6 +190,8 @@ async function reconstructSurfaceHost(t,f,{withoutMilestones=false}={}) {
     ctx.agents.enter(agent,{dispose:async()=>{}});agent.wakeDriver=()=>{}
     ctx.provide('agentTeams',{tryMembership:current=>current===agent?{id:'window-team',name:'root',tier:0,root:agent}:undefined,
       listMembers:()=>[{id:agent.id,name:'root',tier:0}]})
+    const memo = f.memo ? createContextWorkspaceService(ctx, { directory: join(f.root, 'memo'), controlDir: join(f.root, 'control') }) : null
+    if (memo) ctx.provide('contextWorkspace', memo)
     applyTeamRuntime(ctx,{controlDir:join(f.root,'control'),pluginDir:f.root,rolesDir:join(f.root,'roles'),
       activeIdentity:{enabled:true,allowedRoots:[f.root]},windowHostParticipation:true,windowOsFileProtection:true,windowIsolatedSessions:[session.id]})
     if(!withoutMilestones)applyCompactionMilestones(ctx,{milestonePath:join(f.root,'milestones.json')})
@@ -192,7 +202,7 @@ async function reconstructSurfaceHost(t,f,{withoutMilestones=false}={}) {
     }())
     const projection=installRequestMessageProjection(llm,official);ctx.provide('requestMessageProjection',projection)
     const collector=createServerWindowCollector(ctx,f.config)
-    return {ctx,session,agent,llm,captured,collector,projection,disk}
+    return {ctx,session,agent,llm,captured,collector,projection,disk,memo}
   })
   const source=rebuilt.collector.authorityForSurface(rebuilt.session.id).capture(rebuilt.session.id).source
   const surface=await createServerWindowSurface(ctx,{collector:rebuilt.collector,sessionId:rebuilt.session.id,
@@ -418,6 +428,152 @@ test('fsynced/readback original artifacts enable exact spans; restore is own-ses
   assert.throws(() => restored.readRecovery(f.session.id, retained.receipts[0]), /ROOT_ONLY/)
   f.restoreRoster(); f.changeTier()
   assert.throws(() => restored.capture(f.request()), /ROOT_ONLY/)
+})
+
+test('durable original events do not stand in for retention of context memo references', async t => {
+  const f = await fixture(t)
+  await f.service.retainCompletedTurns(f.session.id)
+  const locator = 'context://' + 'a'.repeat(24) + '/working@1/' + 'b'.repeat(64)
+  await f.control.mutateHot('fixture/required-memo', {}, f.agent, state => {
+    state.v12Requirements.requirements.r1.text = 'Required recovery source ' + locator
+  }, { deferMs: 0 })
+  const captured = f.service.capture(f.request())
+  assert.equal(captured.source.completedSpans.length, 0)
+  assert.ok(captured.checkpoint.recovery.memoryDebt.some(row => row.kind === 'context-retention-required' && row.locator === locator))
+  const cold = createServerWindowCollector(f.ctx, f.config)
+  assert.equal(cold.capture(f.request()).source.completedSpans.length, 0)
+  assert.deepEqual((await f.diskEvents()), f.session.snapshotEvents())
+})
+
+test('retention preparation automatically pins the final memo dependency closure while previews stay pure', async t => {
+  const f = await fixture(t, { installMemo: true })
+  const row = f.memo.manage(f.agent, { action: 'memo_put', input: { sourceId: 'recovery', expectedRevision: 0, text: 'must recover exactly', ttlMs: 10 } })
+  assert.equal(row.ok, true, JSON.stringify(row))
+  await f.control.mutateHot('fixture/retained-memo', {}, f.agent, state => {
+    state.v12Requirements.requirements.r1.text = 'Required recovery source ' + row.locator
+  }, { deferMs: 0 })
+  assert.equal(f.service.capture(f.request()).source.completedSpans.length, 0)
+  const retained = await f.service.retainCompletedTurns(f.session.id)
+  assert.equal(retained.memoReceipts.length, 1)
+  const captured = f.service.capture(f.request())
+  assert.equal(captured.source.completedSpans.length, 1)
+  assert.deepEqual(captured.checkpoint.recovery.memoRetentionReceipts, retained.memoReceipts)
+  const files = f.memo.retentionFiles(f.agent), before = files.map(path => readFileSync(path, 'utf8'))
+  f.advanceMemoClock(11)
+  assert.equal(createServerWindowCollector(f.ctx, f.config).capture(f.request()).source.completedSpans.length, 1)
+  assert.deepEqual(files.map(path => readFileSync(path, 'utf8')), before)
+  assert.ok(files.every(path => f.service.protectionFiles(f.session.id).includes(path)))
+  f.memo.releaseRecovery(f.agent, retained.memoReceipts[0])
+  const refused = f.service.capture(f.request())
+  assert.equal(refused.source.completedSpans.length, 0)
+  assert.ok(refused.checkpoint.recovery.memoryDebt.some(debt => debt.kind === 'context-retention-required'))
+})
+
+test('a newly eligible unretained step stays raw without blocking older fully retained spans', async t => {
+  const f = await fixture(t)
+  f.session.append('step/start', { turn: 2, step: 1 })
+  f.session.append('assistant/message', { turn: 2, step: 1, stream: [], message: {
+    ...message('recent-call', 'assistant', 'a recent tool call'),
+    content: [{ type: 'tool-call', id: 'recent-tool', name: 'fixture_read', arguments: '{}' }],
+  } }, { surfaceOp: 'append' })
+  f.session.append('tool/result', { turn: 2, step: 1, message: { id: 'recent-result', role: 'tool', toolCallId: 'recent-tool',
+    source: { kind: 'tool', callId: 'recent-tool' }, content: [{ type: 'text', text: 'keep the unretained result raw' }] } }, { surfaceOp: 'append' })
+  f.session.append('step/end', { turn: 2, step: 1 })
+  f.session.append('step/start', { turn: 2, step: 2 })
+  f.session.append('assistant/message', { turn: 2, step: 2, stream: [], message: message('recent-final', 'assistant', 'final recent answer') }, { surfaceOp: 'append' })
+  f.session.append('step/end', { turn: 2, step: 2 }); f.session.append('turn/end', { turn: 2, reason: { kind: 'completed' } })
+  await f.service.retainCompletedTurns(f.session.id)
+  f.session.append('turn/start', { turn: 3 })
+  f.session.append('user/message', message('new-user', 'user', 'new turn shifts the protected tail'), { surfaceOp: 'append' })
+  const captured = f.service.capture(f.request())
+  assert.ok(captured.source.completedSpans.length > 0, JSON.stringify(captured.checkpoint.recovery))
+  assert.ok(captured.source.completedSpans.some(span => span.messageIds.includes('old-user')))
+  assert.ok(captured.source.completedSpans.every(span => !span.messageIds.includes('recent-call') && !span.messageIds.includes('recent-result')))
+  assert.ok(captured.checkpoint.recovery.deferredCompletedTurnRetention.some(row => row.turn === 2))
+  assert.equal(captured.checkpoint.recovery.memoryDebt.length, 0)
+})
+
+test('the actual native commit fence protects retained memo content and permits revocation after release', async t => {
+  let f, pin, row, releaseError, attempted = false
+  f = await surfaceFixture(t, stage => {
+    if (stage !== 'prepared-durable' || attempted) return
+    attempted = true
+    try { f.memo.releaseRecovery(f.agent, pin) } catch (error) { releaseError = error }
+  }, { fixtureConfig: { installMemo: true } })
+  row = f.memo.manage(f.agent, { action: 'memo_put', input: { sourceId: 'fenced', expectedRevision: 0, text: 'durable fenced body', ttlMs: 10 } })
+  assert.equal(row.ok, true, JSON.stringify(row))
+  await f.control.mutateHot('fixture/fenced-memo', {}, f.agent, state => {
+    state.v12Requirements.requirements.r1.text = 'Need exact recovery ' + row.locator
+  }, { deferMs: 0 })
+  const retained = await f.service.retainCompletedTurns(f.session.id)
+  pin = retained.memoReceipts[0]
+  f.advanceMemoClock(11)
+  f.refreshRoutes()
+  const receipt = await f.surface.commit()
+  assert.equal(receipt.state, 'COMMITTED')
+  assert.equal(attempted, true)
+  assert.ok(releaseError, 'the real fence must reject the concurrent durable replacement')
+  assert.equal(f.memo.readRecovery(f.agent, pin).sources[0].text, 'durable fenced body')
+  assert.deepEqual(await f.diskEvents(), f.session.snapshotEvents())
+  const revoked = f.memo.manage(f.agent, { action: 'memo_put', input: { sourceId: 'fenced', expectedRevision: 1, deleted: true } })
+  assert.equal(revoked.ok, true, JSON.stringify(revoked))
+  assert.throws(() => f.memo.readRecovery(f.agent, pin), /SOURCE_DELETED/)
+  assert.ok(f.service.authorityForSurface(f.session.id).capture(f.session.id).checkpoint.recovery.memoryDebt.some(debt => debt.kind === 'context-retention-required'))
+})
+
+test('preparation renews live pins and automatically retires only superseded unreferenced owners', async t => {
+  const f = await fixture(t, { installMemo: true })
+  const note = id => f.memo.manage(f.agent, { action: 'memo_put', input: { sourceId: id, expectedRevision: 0, text: id, ttlMs: 10 } })
+  const a = note('a'), b = note('b')
+  const requireSource = row => f.control.mutateHot('fixture/recovery-owner', {}, f.agent, state => {
+    state.v12Requirements.requirements.r1.text = row.locator
+  }, { deferMs: 0 })
+  await requireSource(a)
+  const first = await f.service.retainCompletedTurns(f.session.id)
+  assert.equal(first.memoReceipts.length, 1)
+  assert.deepEqual((await f.service.retainCompletedTurns(f.session.id)).memoReceipts, first.memoReceipts)
+  await requireSource(b)
+  const second = await f.service.retainCompletedTurns(f.session.id)
+  assert.deepEqual(second.retiredMemoReceiptIds, [first.memoReceipts[0].id])
+  assert.throws(() => f.memo.readRecovery(f.agent, first.memoReceipts[0]), /RECOVERY_PIN_UNAVAILABLE/)
+  f.advanceMemoClock(11)
+  assert.equal(f.memo.manage(f.agent, { action: 'memo_get', input: { locator: a.locator } }).code, 'SOURCE_EXPIRED')
+  assert.equal(f.memo.readRecovery(f.agent, second.memoReceipts[0]).sources[0].text, 'b')
+})
+
+test('a committed window keeps its exact memo retention through native host and JSONL reconstruction', async t => {
+  const f = await surfaceFixture(t, undefined, { fixtureConfig: { installMemo: true } })
+  const row = f.memo.manage(f.agent, { action: 'memo_put', input: { sourceId: 'committed', expectedRevision: 0, text: 'checkpoint original body', ttlMs: 10 } })
+  await f.control.mutateHot('fixture/committed-memo', {}, f.agent, state => {
+    state.v12Requirements.requirements.r1.text = row.locator
+  }, { deferMs: 0 })
+  const retained = await f.service.retainCompletedTurns(f.session.id), pin = retained.memoReceipts[0]
+  f.advanceMemoClock(11)
+  f.refreshRoutes()
+  assert.equal((await f.surface.commit()).state, 'COMMITTED')
+  const restored = await reconstructSurfaceHost(t, f)
+  assert.equal(restored.memo.readRecovery(restored.agent, pin).sources[0].text, 'checkpoint original body')
+  assert.equal((await restored.surface.recover()).state, 'committed')
+  const retainedAgain = await restored.collector.retainCompletedTurns(restored.session.id)
+  assert.ok(!retainedAgain.retiredMemoReceiptIds.includes(pin.id))
+  assert.deepEqual(restored.memo.readRecovery(restored.agent, pin).receipt, pin)
+})
+
+for (const kind of ['no-memo', 'folded-memo', 'settled-only-memo']) test('live recovery dependency closure: ' + kind, async t => {
+  const locator = 'context://' + 'a'.repeat(24) + '/working@1/' + 'b'.repeat(64)
+  const f = await fixture(t, { authorityDetail: 'live', historySuffix: kind === 'folded-memo' ? locator : '' })
+  await f.service.retainCompletedTurns(f.session.id)
+  if (kind === 'settled-only-memo') await f.control.mutateHot('fixture/settled-memo', {}, f.agent, state => {
+    state.boards.global.tasks.settled = { id: 'settled', ownerName: 'root', revision: 1, status: 'completed', notes: locator }
+  }, { deferMs: 0 })
+  for (const collector of [f.service, createServerWindowCollector(f.ctx, f.config)]) {
+    const captured = collector.capture(f.request())
+    assert.equal(JSON.stringify(captured.source.authority).includes(locator), false)
+    const memoDebt = captured.checkpoint.recovery.memoryDebt.filter(row => row.kind === 'context-retention-required')
+    assert.equal(captured.source.completedSpans.length, kind === 'folded-memo' ? 0 : 1)
+    assert.equal(memoDebt.length, kind === 'folded-memo' ? 1 : 0)
+  }
+  assert.deepEqual(await f.diskEvents(), f.session.snapshotEvents())
 })
 
 test('actual immutable preparation/dispatch keeps every raw message; preview/uniterated calls create no dispatch receipt', async t => {

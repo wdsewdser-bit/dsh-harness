@@ -1,0 +1,12 @@
+task-25: 撤下 B-61 补充里被证伪的成因（卡 status 不是判别量）+ §5.14-24
+
+lead-rig 单变量对照：A 锚 status=completed => 8,094 ms；B 锚 status=pending => 36,403 ms；
+两者结果完全相同（resolved / auto:condition-cleared）=> 卡 status 不是判别量 =>
+我 task-24 写下的「reconciler 读 status 而非 phase」作为成因被证伪，撤下（保留观察）。
+
+仍成立：auto:condition-cleared 是假陈述（两次都没有条件被解除）；B-9 成立（两张票在 waiting_list 里都不可见）。
+存活假设 = B-47：显式（非 derived）票被自动置 resolved，与锚点卡 status 无关。
+下一个单变量实验：保持锚点 status 不变，只改票的种类（显式 vs derived）。
+
+§5.14-24：一个实例只升级观察，不升级成因。把成因写成事实比不写更坏 ——
+修复方按 docs/PLATFORM-DEFECTS.md 轮询，错的机制会把读者送去修错的地方。

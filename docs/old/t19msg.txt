@@ -1,0 +1,11 @@
+task-19: 删除仓库级 build.target-dir（共享 target 根因）+ 同步处方性文档 + 登记 B-58/新口径
+
+根因：.cargo/config.toml（TRACKED, af93bd8）的绝对 target-dir 让所有 worktree 共享一个 target。
+tier 0 实测两半：主检出默认 = RustMc\target（与配置值逐字相同 => 该配置是空操作）；
+worktree 默认 = <wt>\target（=> 该配置是危害）=> 不存在它有益的情形 => 删，恢复 cargo 默认。
+
+- .cargo/config.toml 改为纯注释文件 + 一条正向规则行（禁止绝对/共享 target-dir）
+- 同步处方性断言：ARCHITECTURE.md:91 / PLAN.md:15,149 / DECISIONS.md:28（追加修订，不改写原决策）/ FACTS.md:46 / STATUS.md:36 / tools/oracle/README.md:74（标注为历史记录）
+- 登记 B-58（陈旧 contract.lifecycle 造成 task-ready-gate: scope-conflict；反例 group-rig-t3 rev40；第 3 实例 = task-19 自己）
+- 新增 §5.14 口径 9 条（载体只能绑提交里存在的东西 / 陈旧派生字段不得靠重写源对象来修 / 只有你能写 != 你必须写 / 不得把输出形态当输入形态 / 大小写不敏感语言的上界变量 / 流式解析 missing 行必须推进下标 / 读不到 X 必须报 revision / 转述他人成功不得写实测 / 改配置前逐字取原文）
+- 更正本仓两处失真行号引用：GOVERNANCE.md:590 与 PLATFORM-DEFECTS.md:240 的 block.rs:178 => :192

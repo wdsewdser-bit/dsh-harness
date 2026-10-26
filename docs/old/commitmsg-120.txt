@@ -1,0 +1,7 @@
+docs: 第七轮修复结果 —— B-74 live 转绿（tier 0 重放）/ B-73 症状消失但未重放成功 / 拒绝串族 7-8 例结案 / B-75 归类更正为非平台缺陷
+
+- B-74：missingConfirmations 由 confirmations 派生；tier 0 在 live 快照实测 missing=[] 且 3 条确认一致。
+- B-73：live unresolved 现为 0；如实标注「无对象可重放」而非「重放成功」。
+- 拒绝串族第 7/8 例已修（source-worktree-dirty 给 path+branch+脏文件；destination-worktree-invalid 给 path+detail）。
+- B-75 归因为 harness 生命周期，非 plugin 可修；Start-Process 绕行确认有效。
+- 门禁 citation_integrity 绿。

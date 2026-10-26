@@ -1,0 +1,4 @@
+docs: B-116 记为平台侧已修（verifier_report 新增 cleared_commits / clearedCommits）
+
+- 接口面旁证：正是 B-116 修法建议 ①（一个槽承载两种语义 ⇒ 改为集合）
+- 边界：非 live 重放原始反例，不得写成 live 转绿；请 verifier 在下次双对象清关中第一手使用

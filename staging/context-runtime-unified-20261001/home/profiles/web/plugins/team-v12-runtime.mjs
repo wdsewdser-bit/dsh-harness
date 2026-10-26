@@ -23,7 +23,7 @@ const { teamKeyOf } = teamPolicy
 const controlPlaneForMember = controlPlane.controlPlaneForMember ?? ((ctx, agent, config) =>
   controlPlane.controlPlaneFor(teamKeyOf(ctx, agent), config))
 import { activeTask, buildContextDelivery, committedContextCursor, committedContextEpoch, completeContextBaseline, compactReceipt, durableContextVersions, identitySource, installContextDispatchObserver, messageText, nativeMessageIds, parseContextManifest, taskContext } from './team-v14-context-delivery.mjs'
-import { confirmPlanReadDispatch, currentTaskPlanRefs, installPlanReadDispatchObserver, planReadBodyHash, readTaskPlanRef, recordPlanRead } from './team-v15-plan-refs.mjs'
+import { confirmPlanReadDispatch, createPlanReadDispatchCandidate, currentTaskPlanRefs, installPlanReadDispatchObserver, readTaskPlanRef, recordPlanRead } from './team-v15-plan-refs.mjs'
 import { createPlanRegistry } from './team-v15-plan-registry.mjs'
 import { createDeliveryService, registerDeliveryService, deliveryPlanRequired } from './team-v15-delivery-service.mjs'
 import { collectDeliveryContext } from './team-v15-delivery-source.mjs'
@@ -174,6 +174,7 @@ const V12_POLICY = 'Agent Team v14 is active through team_v12. Dynamic requireme
 
 const V12_DOC_PATH = 'D:/dsh-test/docs/agent-team-v12-architecture-improvement-plan.md'
 const V12_LEDGER_PATH = 'D:/dsh-test/docs/agent-team-v12-implementation-ledger.md'
+const PLAN_DELIVERY_COMMIT_INPUT = 'plan_delivery_commit input is {planId,idempotencyKey,expectedPlanRevision:preview.planRevision,expectedPlanHash:preview.planHash,sourceIdentity:preview.sourceIdentity,coverageMatrixHash:preview.coverageMatrixHash,sourceRevisionVector:preview.sourceRevisionVector}. Use sourceRevisionVector, not expectedSourceRevisionVector; previewToken alone is not a normal commit binding.'
 const V12_ACTION_CAPABILITIES = Object.freeze({
   runtime_facts: 'runtime.facts',
   capability_matrix: 'capability.matrix',
@@ -963,6 +964,82 @@ export function taskRequirementVisibleTo(task, member, boardId, canReadBoard = (
 function contextSummary(value, max = 240) {
   const valueText = text(value)
   return valueText.length <= max ? valueText : valueText.slice(0, Math.max(0, max - 3)) + '...'
+}
+
+// Summary form of a requirement or decision row: what tier 0 receives in full, and the
+// compact fallback that tier >=1 sources carry for the context budget.
+function requirementContextSummary(row, fetch) {
+  return {
+    requirementId: row.requirementId, revision: row.revision, status: row.status,
+    scope: row.scope, taskIds: row.taskIds,
+    summary: contextSummary(row.text ?? row.quote),
+    acceptanceSummary: Array.isArray(row.acceptance) && row.acceptance.length > 0
+      ? row.acceptance.length + ' acceptance criteria; fetch the full ledger before acting'
+      : undefined,
+    fetch,
+  }
+}
+
+// Dispatch states that are over; mirrors TERMINAL_DISPATCH_STATES in the control plane, which does not export it.
+const FINISHED_DISPATCH_STATES = new Set(['completed', 'delivery-failed', 'run-failed', 'timed-out', 'cancelled', 'expired'])
+const FINISHED_TASK_PHASES = new Set(['accepted', 'cancelled', 'expired'])
+
+/**
+ * Which task ids a member is working on right now, and which are over. A task id in neither set is
+ * neutral. In use: an active task the member owns, an unfinished dispatch targeting the member, or the
+ * member's active lease. A task awaiting acceptance is in use for every member: its latest packet is a
+ * group-acceptance with no later verifier-review. Packets carry no target, so that rule is member-independent.
+ */
+export function memberTaskUse({ tasks = [], dispatches = {}, leases = {}, packets = {} } = {}, memberName) {
+  const rows = (value) => (Array.isArray(value) ? value : Object.values(value ?? {}))
+  const inUse = new Set()
+  const ended = new Set()
+  // Accepted, cancelled or deleted: nothing more will happen to it. A submitted task reads status completed
+  // while its phase is still under review, so status alone does not close it.
+  const closed = new Set()
+  for (const task of rows(tasks)) {
+    const id = text(task?.id)
+    if (!id) continue
+    if (FINISHED_TASK_PHASES.has(text(task.phase).toLowerCase()) || ['deleted', 'cancelled'].includes(text(task.status).toLowerCase())) closed.add(id)
+    // A phase of accepted/cancelled/expired ends the task even while its status still reads in_progress.
+    if (!activeTask(task) || FINISHED_TASK_PHASES.has(text(task.phase).toLowerCase())) ended.add(id)
+    else if (text(task.ownerName ?? task.contract?.owner) === memberName) inUse.add(id)
+  }
+  for (const dispatch of rows(dispatches)) {
+    if (text(dispatch?.target) === memberName && dispatch.taskId != null && !FINISHED_DISPATCH_STATES.has(text(dispatch.status))) {
+      inUse.add(text(dispatch.taskId))
+    }
+  }
+  for (const lease of rows(leases)) {
+    if (text(lease?.member) === memberName && lease.status === 'active' && lease.taskId != null) inUse.add(text(lease.taskId))
+  }
+  // Order by createdAt, which packetPut stamps on every row; object insertion order breaks ties and
+  // covers rows without one (Array.prototype.sort is stable). A closed task never waits.
+  const latest = new Map()
+  for (const packet of rows(packets).map((row, index) => ({ row, index }))
+    .sort((a, b) => (Number(a.row?.createdAt) || 0) - (Number(b.row?.createdAt) || 0) || a.index - b.index).map((item) => item.row)) {
+    for (const id of Array.isArray(packet?.taskIds) ? packet.taskIds : []) latest.set(text(id), packet.kind)
+  }
+  for (const [id, kind] of latest) if (kind === 'group-acceptance' && !closed.has(id)) inUse.add(id)
+  for (const id of inUse) ended.delete(id)
+  return { inUse, ended }
+}
+
+/** 0: the member is using it, keep it in full. 2: every task it names is over, compact it first. 1: otherwise. */
+export function requirementCompactRank(taskIds, use) {
+  const ids = Array.isArray(taskIds) ? taskIds.map(String) : []
+  if (ids.some((id) => use?.inUse?.has(id))) return 0
+  return ids.length > 0 && ids.every((id) => use?.ended?.has(id)) ? 2 : 1
+}
+
+function decisionContextSummary(row, fetch) {
+  return {
+    decisionId: row.decisionId, revision: row.revision, status: row.status,
+    scope: row.scope, taskIds: row.taskIds,
+    choice: contextSummary(row.choice ?? row.title),
+    rationale: contextSummary(row.rationale),
+    fetch,
+  }
 }
 
 function mirrorTaskRequirement(state, taskId, contract, source = 'task-contract') {
@@ -1811,7 +1888,28 @@ function install(agent, ctx, config, identityFor) {
       }
       return ctx.tools.captureProofCancellation(exec)
     } })
-  const requiresPlan = () => deliveryPlanRequired(agent) || (Number(member()?.tier) === 0 && config.deliveryPolicy?.requirePlan === true)
+  // Every ordinary session is a tier 0 Team lead, so the switch only binds a root that has teammates. The roster is the
+  // Team journal projection over the root's own session log, so it also holds after a cold restore. A teammate that is
+  // still provisioning or failed does not count: the marker below can never be taken back.
+  const hasTeammates = () => {
+    try {
+      return (ctx.agentTeams.listMembers?.(agent) ?? []).some(row => row?.role !== 'lead' && String(row?.id) !== String(agent.id)
+        && text(row?.name) !== memberName() && !['provisioning', 'failed'].includes(text(row?.status)))
+    } catch { return false }
+  }
+  const requiresPlan = () => deliveryPlanRequired(agent) || (Number(member()?.tier) === 0 && config.deliveryPolicy?.requirePlan === true && hasTeammates())
+  // The GoalService reads this native marker at completion. Written at most once, because requiresPlan() is already
+  // true from the first marker on.
+  const ensurePlanMarker = () => {
+    try {
+      if (deliveryPlanRequired(agent) || !requiresPlan()) return false
+      agent.session.append('native/goal-policy-required', { version: 1, sessionId: agent.session.id, policy: 'delivery', requiresPlan: true })
+      return true
+    } catch (error) {
+      ctx.logger?.warn?.('strict plan marker write failed: ' + String(error?.message ?? error))
+      return false
+    }
+  }
   const deliveryService = createDeliveryService({ control: deliveryControl, readDurable: () => controlPlane.readControlPlaneSnapshot(cp().file),
     registry: planRegistry, collectContext: collectDelivery, requiresPlan, agent })
   register(registerDeliveryService(ctx, agent, deliveryService))
@@ -1833,9 +1931,16 @@ function install(agent, ctx, config, identityFor) {
   const goalGate = Number(member()?.tier) === 0 && typeof ctx.goals?.registerCompletionGate === 'function'
     ? createGoalDeliveryGate({ agent, authority: deliveryService.authority, readDurable: readDeliveryState,
       getGoal: () => ctx.goals.get(agent), flush: () => ctx.sessions.flush(agent.session),
-      required: () => requiresPlan() || Object.keys(readDeliveryState().v15PlanDelivery?.plans ?? {}).length > 0, requiresPlan }) : undefined
+      required: () => { ensurePlanMarker(); return requiresPlan() || Object.keys(readDeliveryState().v15PlanDelivery?.plans ?? {}).length > 0 }, requiresPlan }) : undefined
   if (requiresPlan() && !goalGate) refuse('GOAL_DELIVERY_BRIDGE_UNAVAILABLE', 'strict delivery requires the native completion gate')
-  if (goalGate) register(ctx.goals.registerCompletionGate(agent, goalGate))
+  if (goalGate) { ensurePlanMarker(); register(ctx.goals.registerCompletionGate(agent, goalGate)) }
+  // The first teammate of this root turns the strict switch on for it. Observers run inside the append that publishes
+  // the Team event, and the marker is a second append, so it waits for that one to return.
+  if (goalGate) register(ctx.on('session/event', async (session, event) => {
+    if (event?.type !== 'team/member' || text(session?.id) !== text(agent.session?.id)) return
+    await Promise.resolve()
+    if (ensurePlanMarker()) await ctx.sessions.flush(agent.session).catch(error => ctx.logger?.warn?.('strict plan marker flush failed: ' + String(error?.message ?? error)))
+  }))
   const goalRecovery = goalGate ? createGoalOutboxRecovery(goalGate, text(agent.session?.id)) : undefined
   if (goalGate) {
     const deliveryPresentation = installDeliveryPresentation(scoped, agent, deliveryService, () => ctx.sessions.flush(agent.session))
@@ -2018,6 +2123,22 @@ function install(agent, ctx, config, identityFor) {
     name: 'team:v12',
     order: scoped.systemPrompt.getSectionOrder('TEAM_POLICY') + 1,
     text: () => V12_POLICY,
+  }))
+  register(scoped.systemPrompt.section({
+    name: 'team:plan-registration',
+    order: scoped.systemPrompt.getSectionOrder('TEAM_POLICY') + 2,
+    text: () => {
+      if (Number(member()?.tier) !== 0 || !requiresPlan()) return ''
+      if (Object.keys(cp().view({ history: false }).v15PlanDelivery?.plans ?? {}).length) return ''
+      return 'DELIVERY_PLAN_REQUIRED: this root has no registered complete requirement plan. Per-task team_plan_propose/team_plan_approve plans are not the complete requirement plan. '
+        + 'Create the full canonical source through authorized file tools in an approved documentation scope, using JSON.stringify(contract,null,2), not a guessed subset of the current board. '
+        + 'The source is {"kind":"dsh-plan-contract","version":1,"planId":"<id>","scope":["<workspace-relative-path>"],"items":[{"requirementId":"<id>","taskRefs":[{"boardId":"<exact-board>","taskId":"<actual-id>"}],"requiredDimensions":["implemented","tested"],"implementationRefs":["<proof-id>"],"testEvidenceRefs":["<proof-id>"]}]}. '
+        + 'Replace placeholders with ALL mandatory requested requirements and actual task/proof refs; retain any requested enablement/acceptance dimensions and user constraints. '
+        + 'Read/hash the entire file, then call team_v12(action:"plan_register",input:{planId,ref:{path,sha256},expectedPlanRevision:0}); updates use the exact current plan revision. '
+        + 'Independent authorized preparation may continue; registration does not grant product write scopes or leases. After real implementation and quality evidence, use plan_delivery_preview and plan_delivery_commit with their exact current vector. '
+        + PLAN_DELIVERY_COMMIT_INPUT + ' '
+        + 'A cleared board, assistant completion text, task plans or context receipts cannot replace this plan or its durable delivery receipt.'
+    },
   }))
 
   const acknowledgeCommittedMessage = async (session, message, stateOverride, dispatch) => {
@@ -2209,7 +2330,7 @@ function install(agent, ctx, config, identityFor) {
 
   register(scoped.tools.register(defineTool({
     name: 'team_v12',
-    description: 'Agent Team v12 aggregate control/read tool. Use it for runtime facts, capability gates, task contracts, ready queues, run leases, Room recovery, inbox acknowledgement, compaction state, evidence reuse, merge recovery, context packs, timelines and replay fixtures. Omit action to return compact runtime facts. plan_register is root-only: input {planId,ref:{path,sha256},expectedPlanRevision} reads the complete canonical dsh-plan-contract v1 from an authorized file; items/scope/proofs in tool input are rejected. plan_refs returns registered current-task refs; plan_ref_get requires its exact version and referenceIndex. leases shows the caller\'s own run leases; tier 0 may inspect any member and a group lead may inspect its own group through input {member}. waiting_list returns active tickets by default; input {includeClosed:true} also returns closurePolicy, closedReason, closedAt and closedBy; use input {ticketId,taskId,offset,limit} for exact or paged reads. hypothesis_bind persists own-task intent for one registered tool; ordinary tool arguments remain unchanged. hypothesis_status reads own bindings and final observations; hypothesis_clear requires toolName, expectedGeneration and reason and never resets history. failure_memory_status inspects one call signature; failure_memory_clear requires action_fingerprint plus reason and evidence. For inbox_ack, call inbox_list first and pass either the exact top-level wake_id or inbox_id; bulk/all acknowledgement is not supported. reuse_receipt_put (lead or tier 0) stores an explicit reuse receipt so review_package and verification_plan may count older passed evidence for a different task/requirement; input {id?,source:{evidenceId,fingerprint,taskId,boardId,requirementId},target:{taskId,boardId,requirementId,...exact current binding},reason,affectedFiles,expiresAt} is validated against the current evidence and task before it is stored and is refused with a stable code otherwise. reuse_receipt_status lists receipts and how many times each one was reused.',
+    description: 'Agent Team v12 aggregate control/read tool. Use it for runtime facts, capability gates, task contracts, ready queues, run leases, Room recovery, inbox acknowledgement, compaction state, evidence reuse, merge recovery, context packs, timelines and replay fixtures. Omit action to return compact runtime facts. plan_register is root-only: input {planId,ref:{path,sha256},expectedPlanRevision} reads the complete canonical dsh-plan-contract v1 from an authorized file; items/scope/proofs in tool input are rejected. plan_refs returns registered current-task refs; plan_ref_get requires its exact version and referenceIndex. leases shows the caller\'s own run leases; tier 0 may inspect any member and a group lead may inspect its own group through input {member}. waiting_list returns active tickets by default; input {includeClosed:true} also returns closurePolicy, closedReason, closedAt and closedBy; use input {ticketId,taskId,offset,limit} for exact or paged reads. hypothesis_bind persists own-task intent for one registered tool; ordinary tool arguments remain unchanged. hypothesis_status reads own bindings and final observations; hypothesis_clear requires toolName, expectedGeneration and reason and never resets history. failure_memory_status inspects one call signature; failure_memory_clear requires action_fingerprint plus reason and evidence. For inbox_ack, call inbox_list first and pass either the exact top-level wake_id or inbox_id; bulk/all acknowledgement is not supported. reuse_receipt_put (lead or tier 0) stores an explicit reuse receipt so review_package and verification_plan may count older passed evidence for a different task/requirement; input {id?,source:{evidenceId,fingerprint,taskId,boardId,requirementId},target:{taskId,boardId,requirementId,...exact current binding},reason,affectedFiles,expiresAt} is validated against the current evidence and task before it is stored and is refused with a stable code otherwise. reuse_receipt_status lists receipts and how many times each one was reused. ' + PLAN_DELIVERY_COMMIT_INPUT,
     parameters: {
       action: { type: 'string', enum: [
         'runtime_facts', 'capability_matrix', 'upgrade_gate',
@@ -2367,7 +2488,7 @@ function install(agent, ctx, config, identityFor) {
           return recordPlanRead(latest, result.readReceipt)
         }, { deferMs: 0 })
         if (exec?.callId) {
-          pendingPlanReads.set(exec.callId, { receiptId: result.readReceipt.id, bodyHash: planReadBodyHash(result) })
+          pendingPlanReads.set(exec.callId, createPlanReadDispatchCandidate(result, exec))
           if (pendingPlanReads.size > 128) pendingPlanReads.delete(pendingPlanReads.keys().next().value)
         }
         return result
@@ -2946,6 +3067,17 @@ function install(agent, ctx, config, identityFor) {
           const doc = v12RoomState(latest)
           const verdict = handleWakeBatch(doc, requestedWakeId, ackInput)
           latest.v12RoomWake = doc
+          if (verdict.ok === true) {
+            for (const messageId of verdict.messageIds ?? []) {
+              const retired = acknowledgeInboxEntry(latest, {
+                target: mine.name,
+                inboxId: messageId,
+                input: args.input ?? {},
+                allowOtherTarget: tier === 0,
+              })
+              if (retired.ok !== true) refuse(retired.reason, messageId)
+            }
+          }
           return verdict
         }, { panelCache: true })
         return result
@@ -3604,41 +3736,36 @@ function install(agent, ctx, config, identityFor) {
       })
       const requirements = scopedContextRequirements(state, mine)
       const contextRequirements = requirements
+      // What the member is working on decides which rows keep their full text under budget pressure.
+      const taskUse = memberTaskUse({ tasks: boardTasks(state), dispatches: state.dispatches, leases: state.leases, packets: state.packets }, mine.name)
+      const relevance = (row) => {
+        const compactRank = requirementCompactRank(row.taskIds, taskUse)
+        return { compactRank, ...(compactRank === 0 ? { wantFull: true } : {}) }
+      }
       for (const row of contextRequirements.requirements) {
         const taskId = Array.isArray(row.taskIds) && row.taskIds.length > 0 ? String(row.taskIds[0]) : null
         const fetch = { action: 'requirements_snapshot', input: taskId ? { taskId } : {} }
-        const content = Number(mine.tier) === 0
-          ? {
-              requirementId: row.requirementId, revision: row.revision, status: row.status,
-              scope: row.scope, taskIds: row.taskIds,
-              summary: contextSummary(row.text ?? row.quote),
-              acceptanceSummary: Array.isArray(row.acceptance) && row.acceptance.length > 0
-                ? row.acceptance.length + ' acceptance criteria; fetch the full ledger before acting'
-                : undefined,
-              fetch,
-            }
-          : { ...row, history: undefined }
+        const summary = requirementContextSummary(row, fetch)
+        const tier0 = Number(mine.tier) === 0
         sources.push({
           id: 'requirement:' + row.requirementId, revision: row.revision, priority: 8, required: true,
-          content: JSON.stringify(content),
+          content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
+          // Tier >=1 keeps the full row; the summary is the compact form the budget may fall back to.
+          ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
+          ...relevance(row),
           metadata: { fetch },
         })
       }
       for (const row of contextRequirements.decisions) {
         const taskId = Array.isArray(row.taskIds) && row.taskIds.length > 0 ? String(row.taskIds[0]) : null
         const fetch = { action: 'requirements_snapshot', input: taskId ? { taskId } : {} }
-        const content = Number(mine.tier) === 0
-          ? {
-              decisionId: row.decisionId, revision: row.revision, status: row.status,
-              scope: row.scope, taskIds: row.taskIds,
-              choice: contextSummary(row.choice ?? row.title),
-              rationale: contextSummary(row.rationale),
-              fetch,
-            }
-          : { ...row, history: undefined }
+        const summary = decisionContextSummary(row, fetch)
+        const tier0 = Number(mine.tier) === 0
         sources.push({
           id: 'decision:' + row.decisionId, revision: row.revision, priority: 9, required: true,
-          content: JSON.stringify(content),
+          content: JSON.stringify(tier0 ? summary : { ...row, history: undefined }),
+          ...(tier0 ? {} : { compactContent: JSON.stringify(summary) }),
+          ...relevance(row),
           metadata: { fetch },
         })
       }
@@ -3667,7 +3794,10 @@ function install(agent, ctx, config, identityFor) {
             metadata: { roomId, messageId: row.messageId, fetch: roomFetch } })
         }
       }
-      for (const row of Object.values(doc.inbox ?? {})) {
+      const pendingInbox = typeof cp().inboxPending === 'function'
+        ? cp().inboxPending({ target: mine.name, member: mine.name, nativeIds: [...nativeIds] })
+        : Object.values(doc.inbox ?? {})
+      for (const row of pendingInbox) {
         if (row.target !== mine.name || ['handled', 'rejected'].includes(row.status) || nativeIds.has(row.messageId)) continue
         const originalText = String(row.originalText ?? '').trim()
         if (originalText.length === 0) continue
@@ -3732,6 +3862,8 @@ function install(agent, ctx, config, identityFor) {
       // mid-turn and does not fit in it must still be delivered: spend the full pack budget on it rather than end
       // the turn as blocked, which the member cannot see the reason for and may never be woken from.
       if (delivery.failClosed && !fullBudget) delivery = build(tierCap)
+      if (delivery.compacted.length) ctx.logger?.info?.('team-v14 context delivery compacted '
+        + delivery.compacted.length + ' required source(s) for ' + mine.name + ': ' + delivery.compacted.join(', '))
       if (delivery.failClosed) {
         const debt = delivery.debtItems.map((row) => row.id + (row.fetch ? ' via ' + JSON.stringify(row.fetch) : ''))
         const reason = 'team-context-safety-debt: required identity or task contract was omitted; fetch it before continuing: '

@@ -1,0 +1,7 @@
+task-72: 落 §5.9 附则 —— 「派发完成」必须由谓词定义（noOwnerCount 必须为 0）
+
+实测：G-WORLD M11 组件 1 的 t63/t64/t65 只走了 create + plan，漏了 owner；
+  tier 0 独立实读三张均 status=pending / phase=execution / ownerName=undefined，team_delivery_check 同报 no-owner ×3。
+  lead-world 已 reassign 补齐（t63→member-world-block / t64→member-world-chunk / t65→member-world-anvil）。
+一般形态：「派发完成」是名字不是规格；其谓词 = 每张卡有 owner（= 实际执行者）+ 依赖已声明 + 计划已批准 + 卡面义务已写明 + 等待票有责任人。
+可机检判据：派发后立刻 team_delivery_check，noOwnerCount 必须为 0。

@@ -621,7 +621,7 @@ test('inbox brief rows have fixed fields and exact paged retrieval, while inject
 })
 
 // --- Step ranges inside a completed turn ---------------------------------------------------------------------------
-const workingTurn = (f, n, steps, between = {}) => {
+const workingTurn = (f, n, steps, between = {}, { queuedAt = [], end = 'completed' } = {}) => {
   f.session.append('turn/start', { turn: n })
   f.session.append('user/message', message('u' + n, 'user', 'do the work, and keep this constraint'), { surfaceOp: 'append' })
   for (let step = 1; step <= steps; step++) {
@@ -630,11 +630,13 @@ const workingTurn = (f, n, steps, between = {}) => {
     f.session.append('assistant/message', { turn: n, step, stream: [], message: { id: 'a' + n + '-' + step, role: 'assistant',
       source: { kind: 'model', provider: 'fixture', model: 'fixture' }, content: [{ type: 'tool-call', id: callId, name: 'read', arguments: '{}' }] } }, { surfaceOp: 'append' })
     const call = f.session.append('tool/call', { turn: n, step, callId, name: 'read', arguments: '{}' }).seq
+    if (queuedAt.includes(step)) f.session.append('team/message/queued', { message: { id: 'queued-' + n + '-' + step, senderId: 'worker', senderName: 'worker', targetId: 'root', content: 'mail' } })
     f.session.append('tool/result', { turn: n, step, message: JSON.parse(JSON.stringify(official.createToolResultMessage({ callId, content: [{ type: 'text', text: ('result of step ' + step + ' ').repeat(2500) }] }))) },
       { surfaceOp: 'append', sourceEventSeqs: [call] })
     f.session.append('step/end', { turn: n, step })
     if (between[step]) f.session.append('user/message', { ...message(between[step].id, 'user', between[step].id + ' text'), source: between[step].source }, { surfaceOp: 'append' })
   }
+  if (end !== 'completed') { f.session.append('turn/end', { turn: n, reason: { kind: end } }); return }
   f.session.append('step/start', { turn: n, step: steps + 1 })
   f.session.append('assistant/message', { turn: n, step: steps + 1, stream: [], message: message('a' + n + '-final', 'assistant', 'final answer of the working turn') }, { surfaceOp: 'append' })
   f.session.append('step/end', { turn: n, step: steps + 1 }); f.session.append('turn/end', { turn: n, reason: { kind: 'completed' } })
@@ -718,4 +720,47 @@ test('multiple step ranges share one atomic checkpoint and keep human inputs, te
   for await (const _ of f.llm.stream(f.request())) {}
   assert.equal(f.captured.length, 1)
   await assert.rejects(handle.commit(), /WINDOW_NO_COMPLETED_SPAN/, 'the folded steps are not proposed again')
+})
+
+test('a Team mail queued between a tool call and its result is not conversation and does not break the step', async t => {
+  const f = await fixture(t, { historyRepeats: 5 })
+  workingTurn(f, 3, 6, {}, { queuedAt: [1, 3, 4] })
+  assert.equal(f.session.deriveMessages().filter(row => /^a3-\d+$/.test(row.id)).length, 6)
+  const handle = await f.install()
+  assert.equal((await handle.commit()).state, 'COMMITTED')
+  const left = f.session.deriveMessages(), ids = left.map(row => row.id)
+  assert.deepEqual(ids.filter(id => /^a3-\d+$/.test(id)), [], 'every step is folded, the ones with a queue record inside included')
+  assert.equal(left.filter(row => row.role === 'tool').length, 0)
+  assert.ok(ids.includes('u3') && ids.includes('a3-final'))
+  for await (const _ of f.llm.stream(f.request())) {}
+  assert.equal(f.captured.length, 1, 'the next request is admitted')
+})
+
+for (const end of ['error', 'interrupted']) {
+  test('the finished steps of a turn that ended with ' + end + ' are folded once a later turn has completed; its input stays', async t => {
+    const f = await fixture(t, { historyRepeats: 5 })
+    workingTurn(f, 3, 6, {}, { end })
+    workingTurn(f, 4, 0)
+    assert.equal(f.session.deriveMessages().filter(row => /^a3-\d+$/.test(row.id)).length, 6)
+    const handle = await f.install()
+    assert.equal((await handle.commit()).state, 'COMMITTED')
+    const ids = f.session.deriveMessages().map(row => row.id)
+    assert.deepEqual(ids.filter(id => /^a3-\d+$/.test(id)), [], 'its finished steps are folded')
+    assert.ok(ids.includes('u3'), 'what was asked in that turn is still in the conversation')
+    assert.ok(ids.includes('u4') && ids.includes('a4-final'), 'the turn after it is untouched')
+    for await (const _ of f.llm.stream(f.request())) {}
+    assert.equal(f.captured.length, 1, 'the next request is admitted')
+  })
+}
+
+test('a turn that ended with an error and is still the last turn stays whole', async t => {
+  const f = await fixture(t, { historyRepeats: 5 })
+  workingTurn(f, 3, 6, {}, { end: 'error' })
+  const before = f.session.deriveMessages().map(row => row.id)
+  const handle = await f.install()
+  await handle.commit().catch(() => {})
+  const after = f.session.deriveMessages().map(row => row.id)
+  const protectedIds = before.filter(id => /^(u3|a3-\d+)$/.test(id))
+  assert.equal(protectedIds.length, 7, 'the input and all six steps participate in the preservation check')
+  for (const id of protectedIds) assert.ok(after.includes(id), id + ' is still in the conversation')
 })
