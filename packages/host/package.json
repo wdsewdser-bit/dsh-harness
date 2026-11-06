@@ -1,0 +1,16 @@
+{
+  "name": "@dsh-v2/host",
+  "version": "0.1.0-m1a",
+  "private": true,
+  "description": "Team host skeleton: ownership, lifecycle state machine, session routing and the command gateway interface (M1a)",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "license": "MIT"
+}

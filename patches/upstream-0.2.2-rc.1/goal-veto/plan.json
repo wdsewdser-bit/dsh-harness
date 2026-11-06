@@ -1,0 +1,12 @@
+[
+  {
+    "file": "dsh-goal/lib/index.js",
+    "from": "\t\t* @param ref - expected current revision.\n\t\t* @returns the completed view.\n\t\t*/\n\t\tcomplete(agent, ref) {\n\t\t\treturn this.transition(agent, ref, \"complete\", [\n\t\t\t\t\"active\",\n\t\t\t\t\"paused\",",
+    "to": "\t\t* @param ref - expected current revision.\n\t\t* @returns the completed view.\n\t\t*/\n\t\tcompletionGuards = new Set();\n\t\t/** Register one synchronous policy; only literal true authorizes completion. */\n\t\tregisterCompletionGuard(guard) {\n\t\t\tif (typeof guard !== \"function\" || this.completionGuards.size) throw new GoalError(\"completion guard already registered or invalid\", \"GOAL_COMPLETION_GUARD_INVALID\");\n\t\t\tthis.completionGuards.add(guard);\n\t\t\treturn () => { this.completionGuards.delete(guard); };\n\t\t}\n\t\tcomplete(agent, ref) {\n\t\t\tif (this.completionGuards.size) {\n\t\t\t\tthis.assertLive(agent);\n\t\t\t\tconst current = this.expectCurrent(this.state(agent.session), ref).goal;\n\t\t\t\tlet accepted = false;\n\t\t\t\ttry {\n\t\t\t\t\taccepted = [...this.completionGuards][0](Object.freeze({ agentId: agent.id, sessionId: agent.session.id, goal: Object.freeze({ ...current }) })) === true;\n\t\t\t\t} catch {}\n\t\t\t\tif (!accepted) throw new GoalError(\"goal completion vetoed\", \"GOAL_COMPLETION_VETOED\");\n\t\t\t}\n\t\t\treturn this.transition(agent, ref, \"complete\", [\n\t\t\t\t\"active\",\n\t\t\t\t\"paused\","
+  },
+  {
+    "file": "dsh-goal/lib/types/index.d.ts",
+    "from": "     * @returns the completed view.\n     */\n    complete(agent: Agent, ref: GoalRef): GoalView;\n    /**\n     * Mark an active goal blocked and disarm it.\n     * @param agent - owning live agent.",
+    "to": "     * @returns the completed view.\n     */\n    complete(agent: Agent, ref: GoalRef): GoalView;\n    /** One synchronous, read-only policy. Only literal true allows; exceptions deny.\n     * Unregister only during controlled shutdown/default fallback, never Team admission.\n     */\n    registerCompletionGuard(guard: (input: Readonly<{ agentId: Agent['id']; sessionId: Agent['session']['id']; goal: Readonly<Pick<GoalView, 'id' | 'revision' | 'objective' | 'phase' | 'maxGoalRounds'>> }>) => boolean): () => void;\n    private completionGuards;\n    /**\n     * Mark an active goal blocked and disarm it.\n     * @param agent - owning live agent."
+  }
+]

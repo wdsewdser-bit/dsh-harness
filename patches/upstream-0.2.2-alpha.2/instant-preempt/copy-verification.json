@@ -1,0 +1,8 @@
+{
+  "source": "<path-to-dsh-upstream-0.2.2-alpha.2>/install",
+  "build": "<path-to-dsh-c1-build-0.2.2>",
+  "sourceLinks": [],
+  "sourceFiles": 71251,
+  "verifiedFiles": 71251,
+  "method": "fs.cpSync dereference:true; every destination lstat/realpath confined and sha256 compared"
+}

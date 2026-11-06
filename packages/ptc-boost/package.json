@@ -1,0 +1,22 @@
+{
+  "name": "dsh-ptc-boost",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DSH PTC overlay: batching guidance, output truncation with refs, read dedup",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./lib/*": "./lib/*"
+  },
+  "files": [
+    "index.js",
+    "lib",
+    "DESIGN.md",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test \"test/**/*.test.js\""
+  },
+  "license": "MIT"
+}

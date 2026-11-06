@@ -1,0 +1,22 @@
+{
+  "$comment": "Copy this file to build/builds.json and replace every <path-to-...> placeholder with the matching directory on your machine. build/builds.json is ignored by git and is required only by the suites that run against a prepared upstream build.",
+  "default": "<path-to-dsh-c1-build-0.2.2-rc.1>",
+  "builds": {
+    "0.2.2-alpha.2": {
+      "c1": "<path-to-dsh-c1-build-0.2.2>",
+      "c2": "<path-to-dsh-c2-build-0.2.2>"
+    },
+    "0.2.2-rc.1": {
+      "c1": "<path-to-dsh-c1-build-0.2.2-rc.1>",
+      "c2": "<path-to-dsh-c2-build-0.2.2-rc.1>"
+    }
+  },
+  "pristine": {
+    "0.2.2-alpha.2": "<path-to-dsh-upstream-0.2.2-alpha.2>/install/node_modules/@deepseek-ai/",
+    "0.2.2-rc.1": "<path-to-dsh-upstream-0.2.2-rc.1>/install/node_modules/@deepseek-ai/"
+  },
+  "borrow": {
+    "release": "0.2.2-rc.1"
+  },
+  "patches": "upstream-0.2.2-rc.1"
+}

@@ -1,0 +1,38 @@
+{
+  "run": "<path-to-dsh-v2>\\patches\\upstream-0.2.2-rc.1/runs/1793951641494",
+  "failed": false,
+  "results": [
+    {
+      "label": "instant",
+      "status": 0
+    },
+    {
+      "label": "goal-c1",
+      "status": 0
+    },
+    {
+      "label": "goal-c2",
+      "status": 0
+    },
+    {
+      "label": "layout",
+      "status": 0
+    },
+    {
+      "label": "web",
+      "status": 0
+    },
+    {
+      "label": "pixels",
+      "status": 0
+    },
+    {
+      "label": "roundtrip",
+      "status": 0
+    },
+    {
+      "label": "ports",
+      "status": 0
+    }
+  ]
+}

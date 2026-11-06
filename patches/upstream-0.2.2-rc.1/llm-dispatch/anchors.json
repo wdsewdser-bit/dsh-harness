@@ -1,0 +1,128 @@
+{
+  "build": "<path-to-dsh-upstream-0.2.2-rc.1>/install/node_modules/@deepseek-ai/",
+  "contract": "team-dispatch/2",
+  "files": {
+    "dsh-llm/lib/index.js": {
+      "preimage": "8e541fc98a11897706a122fde1db42f8b2a41b3b354ba3fcb932e9a16929ac6a",
+      "postimage": "a9bbff5ca270edabc8b91ad361ff9c1c13857d8889d3c60e7d80cd3d8d402785"
+    },
+    "dsh-llm-deepseek/lib/index.js": {
+      "preimage": "955dc7bc7ca6c857ff4a7e373b87c143b96a4c43fc80325b67dc0982600dcc75",
+      "postimage": "73e3f27522c3fdc5b4b2592d14498ba68148c19cfd191908e3a935dbae067105"
+    }
+  },
+  "anchors": [
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.import-crypto",
+      "count": 1,
+      "text": "import { createRequire } from \"node:module\";",
+      "postText": "import { createRequire } from \"node:module\";\nimport { createHash } from \"node:crypto\";",
+      "line": 1
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.dispatch-registry",
+      "count": 1,
+      "text": "let LlmRuntime = (() => {",
+      "postText": "/**\n* Whether an adapter has joined the send-started contract.\n*\n* An adapter that never reports send-started can still have sent the request and thrown: its counter is zero either\n* way, so a zero counter alone proves nothing. Only an adapter that declares the contract may be reported as\n* failed(notSent); for every other adapter the attempt stays unconfirmed, which is the truth the host can act on.\n*/\nfunction declaresDispatchPhase(adapter) {\n\tif (adapter === null || typeof adapter !== \"object\") return false;\n\treturn adapter.dispatchContract === DISPATCH_CONTRACT;\n}\n//#region lib/types/dispatch-phase.js\n/**\n* The dispatch-phase contract (contract \"team-dispatch/2\").\n*\n* An attempt is minted once per adapterStream, on the *final* options object, and published as \"prepared\"; the\n* provider reports \"send-started\" immediately before its fetch and \"committed\" after the awaited fetch returns a\n* Response. The WeakMap is the identity channel: the same options object reaches the adapter unchanged, so a provider\n* recovers its attempt with dispatchAttemptOf(options) without adding a field that could be serialized onto the wire.\n* A WeakMap only works when both packages resolve the same module instance; a second copy of dsh-llm has its own\n* table and the build audit reports patch-missing rather than silently degrading.\n*/\nconst DISPATCH_CONTRACT = \"team-dispatch/2\";\nconst dispatchAttempts = /* @__PURE__ */ new WeakMap();\nlet dispatchAttemptSerial = 0;\n/** Recursively sorted JSON: the host uses the same normalization for its own digest. */\nfunction dispatchCanonical(value) {\n\tif (Array.isArray(value)) return \"[\" + value.map(dispatchCanonical).join(\",\") + \"]\";\n\tif (value !== null && typeof value === \"object\") return \"{\" + Object.keys(value).sort().map((key) => JSON.stringify(key) + \":\" + dispatchCanonical(value[key])).join(\",\") + \"}\";\n\treturn JSON.stringify(value);\n}\n/** sha256(canonical({ role, content })): the id and the source never enter the digest. */\nfunction dispatchDigest(message) {\n\treturn createHash(\"sha256\").update(dispatchCanonical({\n\t\trole: message.role,\n\t\tcontent: message.content\n\t})).digest(\"hex\");\n}\nfunction dispatchSummarize(messages) {\n\treturn messages.map((message) => ({\n\t\tid: typeof message.id === \"string\" ? message.id : null,\n\t\trole: message.role,\n\t\tdigest: dispatchDigest(message),\n\t\tchars: dispatchCanonical(message.content).length\n\t}));\n}\n/** The attempt one final adapter options object belongs to, or undefined. */\nfunction dispatchAttemptOf(options) {\n\treturn options !== null && typeof options === \"object\" ? dispatchAttempts.get(options) : void 0;\n}\n/**\n* Publish one phase without letting an observer change the request. cordis emits synchronously and never awaits a\n* listener, so every listener runs inside its own try/catch, a thenable result gets a rejection handler, and nothing\n* here is awaited or rethrown: an observer must not be able to turn a request into a failure chunk.\n*/\nfunction publishDispatch(service, event) {\n\tlet listeners;\n\ttry {\n\t\tlisteners = service.ctx.events.dispatch(\"emit\", [\"llm/dispatch\", event]);\n\t} catch {\n\t\treturn;\n\t}\n\tfor (const listener of listeners) try {\n\t\tconst returned = listener(event);\n\t\tif (returned != null && typeof returned.then === \"function\") Promise.resolve(returned).then(void 0, (error) => warnDispatchListener(service, error));\n\t} catch (error) {\n\t\twarnDispatchListener(service, error);\n\t}\n}\nfunction warnDispatchListener(service, error) {\n\ttry {\n\t\tservice.ctx.logger?.warn?.(\"llm: an llm/dispatch listener failed\");\n\t\tservice.ctx.logger?.warn?.(error);\n\t} catch {}\n}\n/**\n* Mint the attempt for one adapterStream and publish \"prepared\". The final options object is the key; the event never\n* means \"sent\" - only \"committed\" (a Response came back) may ever become visible evidence.\n*/\nfunction mintDispatchAttempt(service, request, finalOptions, adapter) {\n\tconst attempt = {\n\t\tid: \"dispatch:\" + ++dispatchAttemptSerial,\n\t\tsendStartedCount: 0,\n\t\tdeclaresPhases: declaresDispatchPhase(adapter),\n\t\tsendStartedAt: /* @__PURE__ */ new Map(),\n\t\tbase: null,\n\t\tphase(name, extra = {}) {\n\t\t\tif (this.base === null) return;\n\t\t\tconst transmission = Number.isSafeInteger(extra.transmission) ? extra.transmission : null;\n\t\t\tif (name === \"send-started\") {\n\t\t\t\tthis.sendStartedCount++;\n\t\t\t\tthis.sendStartedAt.set(transmission, Number.isFinite(extra.sendStartedAt) ? extra.sendStartedAt : Date.now());\n\t\t\t}\n\t\t\tpublishDispatch(service, {\n\t\t\t\tcontract: DISPATCH_CONTRACT,\n\t\t\t\tphase: name,\n\t\t\t\tattempt: this.id,\n\t\t\t\t...this.base,\n\t\t\t\ttransmission,\n\t\t\t\tsendStartedAt: transmission === null ? null : this.sendStartedAt.get(transmission) ?? null,\n\t\t\t\tat: Date.now(),\n\t\t\t\taccepted: extra.accepted ?? null,\n\t\t\t\thttpStatus: Number.isInteger(extra.httpStatus) ? extra.httpStatus : null,\n\t\t\t\treason: typeof extra.reason === \"string\" ? extra.reason : null\n\t\t\t});\n\t\t}\n\t};\n\tconst sessionId = request.sessionId;\n\t// Without a sessionId the event could never be routed; the attempt is still minted so the adapter can look it up.\n\tif (typeof sessionId === \"string\" && sessionId.length > 0) {\n\t\tattempt.base = {\n\t\t\tsessionId: String(sessionId),\n\t\t\tkind: isAgentLoopRequest(request) && request.purpose === void 0 ? \"main\" : \"auxiliary\",\n\t\t\tpurpose: request.purpose ?? null,\n\t\t\tprovider: request.provider,\n\t\t\tmodel: request.model,\n\t\t\tmessages: dispatchSummarize(finalOptions.messages)\n\t\t};\n\t}\n\tdispatchAttempts.set(finalOptions, attempt);\n\tattempt.phase(\"prepared\", {});\n\treturn attempt;\n}\n//#endregion\nlet LlmRuntime = (() => {",
+      "line": 1760
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.adapterStream-head",
+      "count": 1,
+      "text": "\t\tasync *adapterStream(options, prepared) {\n\t\t\tlet iterator;\n\t\t\ttry {",
+      "postText": "\t\tasync *adapterStream(options, prepared) {\n\t\t\tlet iterator;\n\t\t\tlet attempt;\n\t\t\ttry {",
+      "line": 2314
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.dispatch-call",
+      "count": 1,
+      "text": "\t\t\t\titerator = dispatch(this.forAdapter(projectedOptions, adapter))[Symbol.asyncIterator]();",
+      "postText": "\t\t\t\tconst finalOptions = this.forAdapter(projectedOptions, adapter);\n\t\t\t\tattempt = mintDispatchAttempt(this, options, finalOptions, adapter);\n\t\t\t\titerator = dispatch(finalOptions)[Symbol.asyncIterator]();",
+      "line": 2354
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.adapterStream-catch",
+      "count": 1,
+      "text": "\t\t\t} catch (error) {\n\t\t\t\tyield adapterFailureChunk(error, options.signal);\n\t\t\t\treturn;\n\t\t\t}",
+      "postText": "\t\t\t} catch (error) {\n\t\t\t\t// A failure before any send-started is the only case that proves \"not sent\"; after a send-started the attempt\n\t\t\t\t// stays unconfirmed instead of being reported as not dispatched.\n\t\t\t\tif (attempt !== void 0 && attempt.sendStartedCount === 0 && attempt.declaresPhases) attempt.phase(\"failed\", {\n\t\t\t\t\treason: error?.code ?? error?.message ?? \"dispatch-failed\"\n\t\t\t\t});\n\t\t\t\tyield adapterFailureChunk(error, options.signal);\n\t\t\t\treturn;\n\t\t\t}",
+      "line": 2355
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.iteration-catch",
+      "count": 1,
+      "text": "\t\t\t\t\t} catch (error) {\n\t\t\t\t\t\tcompleted = true;\n\t\t\t\t\t\tyield adapterFailureChunk(error, options.signal);\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}",
+      "postText": "\t\t\t\t\t} catch (error) {\n\t\t\t\t\t\tcompleted = true;\n\t\t\t\t\t\t// A throw from the adapter before any send-started is the adapter's own pre-fetch failure\n\t\t\t\t\t\t// (throwIfAborted, image preparation, authentication, serialization): nothing was sent, so this is the\n\t\t\t\t\t\t// one failure that may be reported as failed(notSent). After a send-started it stays unconfirmed.\n\t\t\t\t\t\tif (attempt !== void 0 && attempt.sendStartedCount === 0 && attempt.declaresPhases) attempt.phase(\"failed\", {\n\t\t\t\t\t\t\treason: error?.code ?? error?.message ?? \"dispatch-failed\"\n\t\t\t\t\t\t});\n\t\t\t\t\t\tyield adapterFailureChunk(error, options.signal);\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}",
+      "line": 2369
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.exports",
+      "count": 1,
+      "text": "export { ACCOUNT_QUOTA_EXCEEDED_CODE, APP_IDENTITY,",
+      "postText": "export { ACCOUNT_QUOTA_EXCEEDED_CODE, APP_IDENTITY, DISPATCH_CONTRACT, dispatchAttemptOf,",
+      "line": 2434
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.import-llm",
+      "count": 1,
+      "text": "import { APP_IDENTITY, IMAGE_OFFLOAD_REQUIRED_CODE, LlmAdapter, LlmError, ProviderRequestId,",
+      "postText": "import { APP_IDENTITY, IMAGE_OFFLOAD_REQUIRED_CODE, LlmAdapter, LlmError, DISPATCH_CONTRACT, dispatchAttemptOf, ProviderRequestId,",
+      "line": 4
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.request-head",
+      "count": 1,
+      "text": "\tasync *request(options, connection, signal, activity) {\n\t\tsignal.throwIfAborted();",
+      "postText": "\tasync *request(options, connection, signal, activity) {\n\t\tlet transmission = 0;\n\t\tsignal.throwIfAborted();",
+      "line": 2182
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.send-started",
+      "count": 1,
+      "text": "\t\t\t\tconst response = await fetch(`${messagesApiRoot(connection.baseURL)}/messages`, {",
+      "postText": "\t\t\t\ttransmission += 1;\n\t\t\t\tconst sendStartedAt = Date.now();\n\t\t\t\tthis.dependencies.onDispatchPhase?.(options, \"send-started\", {\n\t\t\t\t\ttransmission,\n\t\t\t\t\tsendStartedAt\n\t\t\t\t});\n\t\t\t\tconst response = await fetch(`${messagesApiRoot(connection.baseURL)}/messages`, {",
+      "line": 2231
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.committed",
+      "count": 1,
+      "text": "\t\t\t\t});\n\t\t\t\tif (!response.ok) {\n\t\t\t\t\tconst text = await response.text();",
+      "postText": "\t\t\t\t});\n\t\t\t\t// Committed: the endpoint answered with response headers. Reading the body happens after this line and can\n\t\t\t\t// no longer change whether the request arrived.\n\t\t\t\tthis.dependencies.onDispatchPhase?.(options, \"committed\", {\n\t\t\t\t\ttransmission,\n\t\t\t\t\thttpStatus: response.status\n\t\t\t\t});\n\t\t\t\tif (!response.ok) {\n\t\t\t\t\tconst text = await response.text();",
+      "line": 2247
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.provider-wiring",
+      "count": 1,
+      "text": "\tconst adapter = new DeepSeekAdapter({\n\t\t...dependencies,\n\t\tresolveUserId: () => userId ??= getOrCreateAnonymousUserId(),",
+      "postText": "\tconst adapter = new DeepSeekAdapter({\n\t\t...dependencies,\n\t\t// The phase callback is the adapter's only route back to the attempt: it looks the attempt up in the WeakMap of\n\t\t// the dsh-llm module this build resolves, so a second module instance surfaces as patch-missing.\n\t\tonDispatchPhase: (options, phase, extra) => dispatchAttemptOf(options)?.phase(phase, extra),\n\t\tresolveUserId: () => userId ??= getOrCreateAnonymousUserId(),",
+      "line": 2707
+    },
+    {
+      "file": "dsh-llm/lib/index.js",
+      "name": "llm.adapter-declaration",
+      "count": 1,
+      "text": "var LlmAdapter = class {",
+      "postText": "var LlmAdapter = class {\n\t/** The dispatch-phase contract this adapter implements; null until the adapter joins it. */\n\tdispatchContract = null;",
+      "line": 1670
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "name": "deepseek.adapter-declaration",
+      "count": 1,
+      "text": "var DeepSeekAdapter = class extends LlmAdapter {",
+      "postText": "var DeepSeekAdapter = class extends LlmAdapter {\n\tdispatchContract = DISPATCH_CONTRACT;",
+      "line": 2096
+    }
+  ]
+}

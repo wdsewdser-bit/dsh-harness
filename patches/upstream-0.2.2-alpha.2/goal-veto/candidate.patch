@@ -1,0 +1,40 @@
+--- a/dsh-goal/lib/index.js
++++ b/dsh-goal/lib/index.js
+@@ -708,7 +708,23 @@ let GoalService = (() => {
+ 		* @param ref - expected current revision.
+ 		* @returns the completed view.
+ 		*/
++		completionGuards = new Set();
++		/** Register one synchronous policy; only literal true authorizes completion. */
++		registerCompletionGuard(guard) {
++			if (typeof guard !== "function" || this.completionGuards.size) throw new GoalError("completion guard already registered or invalid", "GOAL_COMPLETION_GUARD_INVALID");
++			this.completionGuards.add(guard);
++			return () => { this.completionGuards.delete(guard); };
++		}
+ 		complete(agent, ref) {
++			if (this.completionGuards.size) {
++				this.assertLive(agent);
++				const current = this.expectCurrent(this.state(agent.session), ref).goal;
++				let accepted = false;
++				try {
++					accepted = [...this.completionGuards][0](Object.freeze({ agentId: agent.id, sessionId: agent.session.id, goal: Object.freeze({ ...current }) })) === true;
++				} catch {}
++				if (!accepted) throw new GoalError("goal completion vetoed", "GOAL_COMPLETION_VETOED");
++			}
+ 			return this.transition(agent, ref, "complete", [
+ 				"active",
+ 				"paused",
+--- a/dsh-goal/lib/types/index.d.ts
++++ b/dsh-goal/lib/types/index.d.ts
+@@ -113,6 +113,11 @@ export declare class GoalService extends TypertRemoteService {
+      * @returns the completed view.
+      */
+     complete(agent: Agent, ref: GoalRef): GoalView;
++    /** One synchronous, read-only policy. Only literal true allows; exceptions deny.
++     * Unregister only during controlled shutdown/default fallback, never Team admission.
++     */
++    registerCompletionGuard(guard: (input: Readonly<{ agentId: Agent['id']; sessionId: Agent['session']['id']; goal: Readonly<Pick<GoalView, 'id' | 'revision' | 'objective' | 'phase' | 'maxGoalRounds'>> }>) => boolean): () => void;
++    private completionGuards;
+     /**
+      * Mark an active goal blocked and disarm it.
+      * @param agent - owning live agent.

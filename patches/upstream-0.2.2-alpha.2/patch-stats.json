@@ -1,0 +1,17 @@
+{
+  "instant-preempt": {
+    "hunks": 11,
+    "added": 204,
+    "removed": 4
+  },
+  "team-layout": {
+    "hunks": 11,
+    "added": 20,
+    "removed": 8
+  },
+  "goal-veto": {
+    "hunks": 2,
+    "added": 21,
+    "removed": 0
+  }
+}

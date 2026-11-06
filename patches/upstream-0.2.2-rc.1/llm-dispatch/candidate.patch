@@ -1,0 +1,255 @@
+--- a/dsh-llm/lib/index.js
++++ b/dsh-llm/lib/index.js
+@@ -1,4 +1,5 @@
+ import { createRequire } from "node:module";
++import { createHash } from "node:crypto";
+ import { Remote, RemoteError, TypertRemoteService } from "@deepseek-ai/dsh-typert-protocol";
+ import { assertNever, deepFreeze, snapshotJsonValue } from "@deepseek-ai/dsh-util-values";
+ import { randomUUID } from "@deepseek-ai/dsh-util-crypto";
+@@ -1668,6 +1669,8 @@ function assertUsableApiKey(raw, pkg, ref) {
+ * DeepSeek and library-backed pi-ai adapters meet this contract through different internals.
+ */
+ var LlmAdapter = class {
++	/** The dispatch-phase contract this adapter implements; null until the adapter joins it. */
++	dispatchContract = null;
+ 	/**
+ 	* Describe one provider route owned by this adapter.
+ 	* @param provider - a route passed to `registerAdapter()` for this instance.
+@@ -1757,6 +1760,130 @@ var LlmAdapter = class {
+ * The abstract `llm` service: an adapter registry plus a streaming model-call
+ * API, interceptable via the `llm/stream` waterfall.
+ */
++/**
++* Whether an adapter has joined the send-started contract.
++*
++* An adapter that never reports send-started can still have sent the request and thrown: its counter is zero either
++* way, so a zero counter alone proves nothing. Only an adapter that declares the contract may be reported as
++* failed(notSent); for every other adapter the attempt stays unconfirmed, which is the truth the host can act on.
++*/
++function declaresDispatchPhase(adapter) {
++	if (adapter === null || typeof adapter !== "object") return false;
++	return adapter.dispatchContract === DISPATCH_CONTRACT;
++}
++//#region lib/types/dispatch-phase.js
++/**
++* The dispatch-phase contract (contract "team-dispatch/2").
++*
++* An attempt is minted once per adapterStream, on the *final* options object, and published as "prepared"; the
++* provider reports "send-started" immediately before its fetch and "committed" after the awaited fetch returns a
++* Response. The WeakMap is the identity channel: the same options object reaches the adapter unchanged, so a provider
++* recovers its attempt with dispatchAttemptOf(options) without adding a field that could be serialized onto the wire.
++* A WeakMap only works when both packages resolve the same module instance; a second copy of dsh-llm has its own
++* table and the build audit reports patch-missing rather than silently degrading.
++*/
++const DISPATCH_CONTRACT = "team-dispatch/2";
++const dispatchAttempts = /* @__PURE__ */ new WeakMap();
++let dispatchAttemptSerial = 0;
++/** Recursively sorted JSON: the host uses the same normalization for its own digest. */
++function dispatchCanonical(value) {
++	if (Array.isArray(value)) return "[" + value.map(dispatchCanonical).join(",") + "]";
++	if (value !== null && typeof value === "object") return "{" + Object.keys(value).sort().map((key) => JSON.stringify(key) + ":" + dispatchCanonical(value[key])).join(",") + "}";
++	return JSON.stringify(value);
++}
++/** sha256(canonical({ role, content })): the id and the source never enter the digest. */
++function dispatchDigest(message) {
++	return createHash("sha256").update(dispatchCanonical({
++		role: message.role,
++		content: message.content
++	})).digest("hex");
++}
++function dispatchSummarize(messages) {
++	return messages.map((message) => ({
++		id: typeof message.id === "string" ? message.id : null,
++		role: message.role,
++		digest: dispatchDigest(message),
++		chars: dispatchCanonical(message.content).length
++	}));
++}
++/** The attempt one final adapter options object belongs to, or undefined. */
++function dispatchAttemptOf(options) {
++	return options !== null && typeof options === "object" ? dispatchAttempts.get(options) : void 0;
++}
++/**
++* Publish one phase without letting an observer change the request. cordis emits synchronously and never awaits a
++* listener, so every listener runs inside its own try/catch, a thenable result gets a rejection handler, and nothing
++* here is awaited or rethrown: an observer must not be able to turn a request into a failure chunk.
++*/
++function publishDispatch(service, event) {
++	let listeners;
++	try {
++		listeners = service.ctx.events.dispatch("emit", ["llm/dispatch", event]);
++	} catch {
++		return;
++	}
++	for (const listener of listeners) try {
++		const returned = listener(event);
++		if (returned != null && typeof returned.then === "function") Promise.resolve(returned).then(void 0, (error) => warnDispatchListener(service, error));
++	} catch (error) {
++		warnDispatchListener(service, error);
++	}
++}
++function warnDispatchListener(service, error) {
++	try {
++		service.ctx.logger?.warn?.("llm: an llm/dispatch listener failed");
++		service.ctx.logger?.warn?.(error);
++	} catch {}
++}
++/**
++* Mint the attempt for one adapterStream and publish "prepared". The final options object is the key; the event never
++* means "sent" - only "committed" (a Response came back) may ever become visible evidence.
++*/
++function mintDispatchAttempt(service, request, finalOptions, adapter) {
++	const attempt = {
++		id: "dispatch:" + ++dispatchAttemptSerial,
++		sendStartedCount: 0,
++		declaresPhases: declaresDispatchPhase(adapter),
++		sendStartedAt: /* @__PURE__ */ new Map(),
++		base: null,
++		phase(name, extra = {}) {
++			if (this.base === null) return;
++			const transmission = Number.isSafeInteger(extra.transmission) ? extra.transmission : null;
++			if (name === "send-started") {
++				this.sendStartedCount++;
++				this.sendStartedAt.set(transmission, Number.isFinite(extra.sendStartedAt) ? extra.sendStartedAt : Date.now());
++			}
++			publishDispatch(service, {
++				contract: DISPATCH_CONTRACT,
++				phase: name,
++				attempt: this.id,
++				...this.base,
++				transmission,
++				sendStartedAt: transmission === null ? null : this.sendStartedAt.get(transmission) ?? null,
++				at: Date.now(),
++				accepted: extra.accepted ?? null,
++				httpStatus: Number.isInteger(extra.httpStatus) ? extra.httpStatus : null,
++				reason: typeof extra.reason === "string" ? extra.reason : null
++			});
++		}
++	};
++	const sessionId = request.sessionId;
++	// Without a sessionId the event could never be routed; the attempt is still minted so the adapter can look it up.
++	if (typeof sessionId === "string" && sessionId.length > 0) {
++		attempt.base = {
++			sessionId: String(sessionId),
++			kind: isAgentLoopRequest(request) && request.purpose === void 0 ? "main" : "auxiliary",
++			purpose: request.purpose ?? null,
++			provider: request.provider,
++			model: request.model,
++			messages: dispatchSummarize(finalOptions.messages)
++		};
++	}
++	dispatchAttempts.set(finalOptions, attempt);
++	attempt.phase("prepared", {});
++	return attempt;
++}
++//#endregion
+ let LlmRuntime = (() => {
+ 	let _classSuper = TypertRemoteService;
+ 	let _instanceExtraInitializers = [];
+@@ -2313,6 +2440,7 @@ let LlmRuntime = (() => {
+ 		*/
+ 		async *adapterStream(options, prepared) {
+ 			let iterator;
++			let attempt;
+ 			try {
+ 				const registration = prepared?.registration ?? this.registration(options.provider);
+ 				const adapter = registration.adapter;
+@@ -2351,8 +2479,15 @@ let LlmRuntime = (() => {
+ 					};
+ 					if (Object.isFrozen(resolvedOptions)) deepFreeze(projectedOptions);
+ 				}
+-				iterator = dispatch(this.forAdapter(projectedOptions, adapter))[Symbol.asyncIterator]();
++				const finalOptions = this.forAdapter(projectedOptions, adapter);
++				attempt = mintDispatchAttempt(this, options, finalOptions, adapter);
++				iterator = dispatch(finalOptions)[Symbol.asyncIterator]();
+ 			} catch (error) {
++				// A failure before any send-started is the only case that proves "not sent"; after a send-started the attempt
++				// stays unconfirmed instead of being reported as not dispatched.
++				if (attempt !== void 0 && attempt.sendStartedCount === 0 && attempt.declaresPhases) attempt.phase("failed", {
++					reason: error?.code ?? error?.message ?? "dispatch-failed"
++				});
+ 				yield adapterFailureChunk(error, options.signal);
+ 				return;
+ 			}
+@@ -2368,6 +2503,12 @@ let LlmRuntime = (() => {
+ 						};
+ 					} catch (error) {
+ 						completed = true;
++						// A throw from the adapter before any send-started is the adapter's own pre-fetch failure
++						// (throwIfAborted, image preparation, authentication, serialization): nothing was sent, so this is the
++						// one failure that may be reported as failed(notSent). After a send-started it stays unconfirmed.
++						if (attempt !== void 0 && attempt.sendStartedCount === 0 && attempt.declaresPhases) attempt.phase("failed", {
++							reason: error?.code ?? error?.message ?? "dispatch-failed"
++						});
+ 						yield adapterFailureChunk(error, options.signal);
+ 						return;
+ 					}
+@@ -2431,4 +2572,4 @@ function detachDirectoryEntry(entry) {
+ 	};
+ }
+ //#endregion
+-export { ACCOUNT_QUOTA_EXCEEDED_CODE, APP_IDENTITY, AssistantStreamAccumulator, BlockAssembler, CONTEXT_SUMMARY_MAX_CHARS, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, HarnessError, IMAGE_OFFLOAD_REQUIRED_CODE, INVALID_CREDENTIAL_CODE, LlmAdapter, LlmAttemptId, LlmError, LlmRuntime, LlmRuntime as default, MessageId, ProviderRequestId, QUOTA_EXCEEDED_CODE, ReasoningEffortId, RetryPolicySchema, ToolCallId, assembleAssistantStream, assertUsableApiKey, assistantStreamChunks, assistantStreamFirstTokenTime, assistantStreamHasVisibleContent, assistantStreamHasVisibleText, attributionHeaders, boundContextSummary, callConfigEquals, chunkHasVisibleText, contentHasFile, contentHasImage, createAssistantMessage, createDeveloperMessage, createMessage, createSystemMessage, createToolResultMessage, createUserMessage, errorChain, expandAssistantStream, fileHandleText, freezeMessage, isAgentLoopRequest, isContextWindowExceededError, isHarnessError, isQuotaExceededError, isTokenDelta, isVisibleChunk, joinAssistantStreamText, lastAssistantStreamChunk, markAgentLoopRequest, normalizeApiKey, offloadedImageText, projectFilesToText, projectImagesForTextModel, projectOffloadedImages, projectToolUpdates, requestImageHandleText, requiredImageOffload, resolveImageAttachmentAccess, resolveRetryPolicy, runFirstTokenTime, runFirstVisibleTime, textOnlyImageText, userAgent };
++export { ACCOUNT_QUOTA_EXCEEDED_CODE, APP_IDENTITY, DISPATCH_CONTRACT, dispatchAttemptOf, AssistantStreamAccumulator, BlockAssembler, CONTEXT_SUMMARY_MAX_CHARS, CONTEXT_WINDOW_EXCEEDED_CODE, EMPTY_RESPONSE_CODE, HarnessError, IMAGE_OFFLOAD_REQUIRED_CODE, INVALID_CREDENTIAL_CODE, LlmAdapter, LlmAttemptId, LlmError, LlmRuntime, LlmRuntime as default, MessageId, ProviderRequestId, QUOTA_EXCEEDED_CODE, ReasoningEffortId, RetryPolicySchema, ToolCallId, assembleAssistantStream, assertUsableApiKey, assistantStreamChunks, assistantStreamFirstTokenTime, assistantStreamHasVisibleContent, assistantStreamHasVisibleText, attributionHeaders, boundContextSummary, callConfigEquals, chunkHasVisibleText, contentHasFile, contentHasImage, createAssistantMessage, createDeveloperMessage, createMessage, createSystemMessage, createToolResultMessage, createUserMessage, errorChain, expandAssistantStream, fileHandleText, freezeMessage, isAgentLoopRequest, isContextWindowExceededError, isHarnessError, isQuotaExceededError, isTokenDelta, isVisibleChunk, joinAssistantStreamText, lastAssistantStreamChunk, markAgentLoopRequest, normalizeApiKey, offloadedImageText, projectFilesToText, projectImagesForTextModel, projectOffloadedImages, projectToolUpdates, requestImageHandleText, requiredImageOffload, resolveImageAttachmentAccess, resolveRetryPolicy, runFirstTokenTime, runFirstVisibleTime, textOnlyImageText, userAgent };
+--- a/dsh-llm-deepseek/lib/index.js
++++ b/dsh-llm-deepseek/lib/index.js
+@@ -1,7 +1,7 @@
+ import z from "@deepseek-ai/schemastery";
+ import { isVolatile } from "@deepseek-ai/cosmokit";
+ import { assertNever, deepEqualJson } from "@deepseek-ai/dsh-util-values";
+-import { APP_IDENTITY, IMAGE_OFFLOAD_REQUIRED_CODE, LlmAdapter, LlmError, ProviderRequestId, ReasoningEffortId, RetryPolicySchema, ToolCallId, attributionHeaders, contentHasImage, errorChain, isContextWindowExceededError, isQuotaExceededError, offloadedImageText, projectOffloadedImages, requestImageHandleText, requiredImageOffload, resolveImageAttachmentAccess, resolveRetryPolicy, textOnlyImageText } from "@deepseek-ai/dsh-llm";
++import { APP_IDENTITY, IMAGE_OFFLOAD_REQUIRED_CODE, LlmAdapter, LlmError, DISPATCH_CONTRACT, dispatchAttemptOf, ProviderRequestId, ReasoningEffortId, RetryPolicySchema, ToolCallId, attributionHeaders, contentHasImage, errorChain, isContextWindowExceededError, isQuotaExceededError, offloadedImageText, projectOffloadedImages, requestImageHandleText, requiredImageOffload, resolveImageAttachmentAccess, resolveRetryPolicy, textOnlyImageText } from "@deepseek-ai/dsh-llm";
+ import { MAX_TIMER_DELAY_MS, deadline, idleWatchdog, timeoutOf } from "@deepseek-ai/dsh-timeout";
+ import { ImageVariantId, longEdgeDimensions, requestImageDimensions } from "@deepseek-ai/dsh-attachment";
+ import { createHash } from "node:crypto";
+@@ -2094,6 +2094,7 @@ var __disposeResources = (function(SuppressedError) {
+ });
+ /** DeepSeek provider using Messages content and native thinking replay. */
+ var DeepSeekAdapter = class extends LlmAdapter {
++	dispatchContract = DISPATCH_CONTRACT;
+ 	dependencies;
+ 	files;
+ 	imageAccess = (ref) => {
+@@ -2180,6 +2181,7 @@ var DeepSeekAdapter = class extends LlmAdapter {
+ 		}
+ 	}
+ 	async *request(options, connection, signal, activity) {
++		let transmission = 0;
+ 		signal.throwIfAborted();
+ 		const { messages, versions } = await prepareImages(options.messages, connection, options.model, this.dependencies.resolveAttachments?.(), this.imageAccess, signal);
+ 		const auth = await this.dependencies.resolveAuth(connection);
+@@ -2228,6 +2230,12 @@ var DeepSeekAdapter = class extends LlmAdapter {
+ 				});
+ 				signal.throwIfAborted();
+ 				const betas = [...fileIds !== void 0 && fileIds.size > 0 ? [MESSAGES_FILES_BETA] : [], ...body.messages.some((message) => message.content.some((block) => block.type === "tool_addition" || block.type === "tool_removal")) ? [MESSAGES_TOOL_CHANGES_BETA] : []];
++				transmission += 1;
++				const sendStartedAt = Date.now();
++				this.dependencies.onDispatchPhase?.(options, "send-started", {
++					transmission,
++					sendStartedAt
++				});
+ 				const response = await fetch(`${messagesApiRoot(connection.baseURL)}/messages`, {
+ 					method: "POST",
+ 					signal,
+@@ -2245,6 +2253,12 @@ var DeepSeekAdapter = class extends LlmAdapter {
+ 						...requestIdentity.purpose === "compaction" ? { "x-deepseek-harness-compact": "1" } : {}
+ 					}
+ 				});
++				// Committed: the endpoint answered with response headers. Reading the body happens after this line and can
++				// no longer change whether the request arrived.
++				this.dependencies.onDispatchPhase?.(options, "committed", {
++					transmission,
++					httpStatus: response.status
++				});
+ 				if (!response.ok) {
+ 					const text = await response.text();
+ 					let raw;
+@@ -2706,6 +2720,9 @@ function registerDeepSeekProvider(ctx, provider, dependencies) {
+ 	const unacceptedRoutes = /* @__PURE__ */ new Set();
+ 	const adapter = new DeepSeekAdapter({
+ 		...dependencies,
++		// The phase callback is the adapter's only route back to the attempt: it looks the attempt up in the WeakMap of
++		// the dsh-llm module this build resolves, so a second module instance surfaces as patch-missing.
++		onDispatchPhase: (options, phase, extra) => dispatchAttemptOf(options)?.phase(phase, extra),
+ 		resolveUserId: () => userId ??= getOrCreateAnonymousUserId(),
+ 		onReplayDegrade: ({ provider, model, reason }) => {
+ 			const key = `${provider}/${model}\u0000${reason}`;

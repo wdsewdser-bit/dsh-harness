@@ -1,0 +1,41 @@
+{
+  "root": "<path-to-dsh-v2>\\patches\\upstream-0.2.2-alpha.2\\team-layout/web-runs/1793198558050",
+  "pixels": [
+    {
+      "file": "main-1440x900.png",
+      "size": "1440x900",
+      "diffPixels": 0,
+      "domEqual": true
+    },
+    {
+      "file": "main-480x900.png",
+      "size": "480x900",
+      "diffPixels": 0,
+      "domEqual": true
+    },
+    {
+      "file": "right-1440x900.png",
+      "size": "1440x900",
+      "diffPixels": 0,
+      "domEqual": true
+    },
+    {
+      "file": "right-480x900.png",
+      "size": "480x900",
+      "diffPixels": 0,
+      "domEqual": true
+    },
+    {
+      "file": "settings-1440x900.png",
+      "size": "1440x900",
+      "diffPixels": 0,
+      "domEqual": true
+    },
+    {
+      "file": "settings-480x900.png",
+      "size": "480x900",
+      "diffPixels": 0,
+      "domEqual": true
+    }
+  ]
+}

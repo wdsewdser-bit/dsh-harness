@@ -1,0 +1,7 @@
+{
+  "dsh-client-ui-sidebar/lib/client.js": "0a0a32382391acee1a692cf7d2529a2669cc8cc23d4d83b446f6247c3c4562c4",
+  "dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts": "e70c655272d9340d76bc77c3d0382744ab965add723530ec4c74fdd8a27cca06",
+  "dsh-client-ui-conversation/lib/client.js": "9a37949cc76603ea3a965ce4d0d6ca65885de4a9808345c38748e595ac396378",
+  "dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts": "fe8bd913f4ebcbeedad7b017b9690df014c080fcabc2c05dd408ba25a64e727f",
+  "dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1"
+}

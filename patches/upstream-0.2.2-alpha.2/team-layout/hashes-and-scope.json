@@ -1,0 +1,27 @@
+[
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "before": "49c4879aa750e9c1df7371353a40bbec3e1abf0089f9475c242ed0ffa1832b35",
+    "after": "7edbe1058849aaefb08554f84216375302f74a1a3a0aad1d97a6865c0e42c760"
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+    "before": "dafd60ef289d1fc0b57253dee7cfa30167586e7170ef5a83131abc812c7feee7",
+    "after": "dcdac94b5eb56d36d6f202cbac4bd16d743b5e961c625e177706323afce6817c"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/client.js",
+    "before": "b43d3e2a95017c48c8629f4bf3531f0aba281c84731d64e5174c47561b6a595f",
+    "after": "f1b79a7b708090477805067a49354e61f08d2d7f70a0611f6d00c4df20840ccc"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+    "before": "4c1c75400a1b5fad9f84dee7fc1d5e7e4dc42f1a6d6affed029e16f734d5065d",
+    "after": "bcb24787895822ee50f0342b6369682c7da838fff5f672e872d516e07f95dfca"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+    "before": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1",
+    "after": "2c30471396f5c252f140aeb61bf6c1da269d3f995ed9e8d6ac5dd92d8b3e6f19"
+  }
+]

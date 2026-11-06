@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "suites": [
+    {
+      "id": "fixture/many",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/orphan-many.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": false,
+      "timeoutMs": 30000,
+      "resources": [
+        "exclusive"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "from": "\t\tfunction SidebarRoot({ collapsed, width, drawer, startSession, toggleSidebar, selectPanel, setPinned, trackEntryClick, useRemoteAccess, usePanels, useEntryPins, useEntryActions, useShortcuts, usePanelInfo, t, renderSlot }) {\n\t\t\tconst panels = usePanels((snapshot) => snapshot);\n\t\t\tconst unpinned = useEntryPins((ids) => ids);\n\t\t\tconst activePanelId = usePanelInfo((info) => info.activePanelId);\n\t\t\tconst hasEntryActions = useEntryActions((registered) => registered);",
+    "to": "\t\tfunction SidebarRoot({ collapsed, width, drawer, startSession, toggleSidebar, selectPanel, setPinned, trackEntryClick, useRemoteAccess, usePanels, useEntryPins, useEntryActions, useBodyWrapper, useShortcuts, usePanelInfo, t, renderSlot }) {\n\t\t\tconst panels = usePanels((snapshot) => snapshot);\n\t\t\tconst unpinned = useEntryPins((ids) => ids);\n\t\t\tconst activePanelId = usePanelInfo((info) => info.activePanelId);\n\t\t\tconst hasEntryActions = useEntryActions((registered) => registered);\n\t\t\tconst hasBodyWrapper = useBodyWrapper((registered) => registered);"
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "from": "\t\t\t\t\t\tchildren: renderSlot(\"sidebar.workspaces\", {\n\t\t\t\t\t\t\twide,\n\t\t\t\t\t\t\texpandSidebar: () => {\n\t\t\t\t\t\t\t\tif (collapsed) toggleSidebar();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t})",
+    "to": "\t\t\t\t\t\tchildren: ((workspaces) => hasBodyWrapper ? renderSlot(\"sidebar.body.wrapper\", { wide, collapsed, children: workspaces }) : workspaces)(renderSlot(\"sidebar.workspaces\", {\n\t\t\t\t\t\t\twide,\n\t\t\t\t\t\t\texpandSidebar: () => {\n\t\t\t\t\t\t\t\tif (collapsed) toggleSidebar();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}))"
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "from": "\t\t\t\tgetSnapshot: () => ctx.slots.entriesOfSlot(\"sidebar.panellist.actions\").length > 0,\n\t\t\t\tsubscribe: (listener) => ctx.slots.subscribe(\"sidebar.panellist.actions\", listener)\n\t\t\t};\n\t\t\tconst injectProps = () => ({\n\t\t\t\tstartSession: (workspaceId) => {\n\t\t\t\t\tworkspaceNavigation.startSession(workspaceId);",
+    "to": "\t\t\t\tgetSnapshot: () => ctx.slots.entriesOfSlot(\"sidebar.panellist.actions\").length > 0,\n\t\t\t\tsubscribe: (listener) => ctx.slots.subscribe(\"sidebar.panellist.actions\", listener)\n\t\t\t};\n\t\t\tconst bodyWrapper = { getSnapshot: () => ctx.slots.entriesOfSlot(\"sidebar.body.wrapper\").length > 0, subscribe: (listener) => ctx.slots.subscribe(\"sidebar.body.wrapper\", listener) };\n\t\t\tconst injectProps = () => ({\n\t\t\t\tstartSession: (workspaceId) => {\n\t\t\t\t\tworkspaceNavigation.startSession(workspaceId);"
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "from": "\t\t\t\t\tpanels,\n\t\t\t\t\tshortcuts: ctx.shortcuts.catalog,\n\t\t\t\t\tentryPins: panelPins.unpinned,\n\t\t\t\t\tentryActions\n\t\t\t\t}\n\t\t\t});\n\t\t\tctx.slots.inject(\"sidebar\", () => ctx.slots.register({",
+    "to": "\t\t\t\t\tpanels,\n\t\t\t\t\tshortcuts: ctx.shortcuts.catalog,\n\t\t\t\t\tentryPins: panelPins.unpinned,\n\t\t\t\t\tentryActions,\n\t\t\t\t\tbodyWrapper\n\t\t\t\t}\n\t\t\t});\n\t\t\tctx.slots.inject(\"sidebar\", () => ctx.slots.register({"
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/client.js",
+    "from": "\t\t\t\t\t\tkind: \"list\",\n\t\t\t\t\t\tscope: \"root\"\n\t\t\t\t\t},\n\t\t\t\t\t\"sidebar.workspaces\": {\n\t\t\t\t\t\tkind: \"single\",\n\t\t\t\t\t\tscope: \"root\"",
+    "to": "\t\t\t\t\t\tkind: \"list\",\n\t\t\t\t\t\tscope: \"root\"\n\t\t\t\t\t},\n\t\t\t\t\t\"sidebar.body.wrapper\": { kind: \"single\", scope: \"root\" },\n\t\t\t\t\t\"sidebar.workspaces\": {\n\t\t\t\t\t\tkind: \"single\",\n\t\t\t\t\t\tscope: \"root\""
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+    "from": "            scope: 'root';\n            owner: SidebarSectionOwnerProps;\n        };\n        /**\n         * The settings seat at the sidebar foot. Declared by this package's\n         * 'sidebar' entry; ui-settings registers its trigger row + modal panel.",
+    "to": "            scope: 'root';\n            owner: SidebarSectionOwnerProps;\n        };\n        /** Optional body wrapper (C2 team-layout); no registrant renders `sidebar.workspaces` unchanged. */\n        'sidebar.body.wrapper': { kind: 'single'; scope: 'root'; owner: { wide: boolean; collapsed: boolean; children: import('react').ReactNode } };\n        /**\n         * The settings seat at the sidebar foot. Declared by this package's\n         * 'sidebar' entry; ui-settings registers its trigger row + modal panel."
+  },
+  {
+    "file": "dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+    "from": "        entryPins: ObservableSnapshot<readonly string[]>;\n        /** Whether `sidebar.panellist.actions` has registrations. */\n        entryActions: ObservableSnapshot<boolean>;\n    };\n};\n/**",
+    "to": "        entryPins: ObservableSnapshot<readonly string[]>;\n        /** Whether `sidebar.panellist.actions` has registrations. */\n        entryActions: ObservableSnapshot<boolean>;\n        /** Whether `sidebar.body.wrapper` has registrations. */\n        bodyWrapper: ObservableSnapshot<boolean>;\n    };\n};\n/**"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/client.js",
+    "from": "\t\t* @param props - main-slot inputs and the declared Conversation renderer.\n\t\t* @returns the Conversation subtree.\n\t\t*/\n\t\tfunction ConversationPanel({ renderSlot }) {\n\t\t\treturn renderSlot(\"main.conversation\", {});\n\t\t}\n\t\t//#endregion\n\t\t//#region lib/types/client/skeleton/ConversationHeader.js",
+    "to": "\t\t* @param props - main-slot inputs and the declared Conversation renderer.\n\t\t* @returns the Conversation subtree.\n\t\t*/\n\t\tfunction ConversationPanel({ renderSlot, useFrame }) {\n\t\t\tconst conversation = renderSlot(\"main.conversation\", {});\n\t\t\treturn useFrame((registered) => registered) ? renderSlot(\"main.conversation.frame\", { children: conversation }) : conversation;\n\t\t}\n\t\t//#endregion\n\t\t//#region lib/types/client/skeleton/ConversationHeader.js"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/client.js",
+    "from": "\t\t\t\tyield slots.register({\n\t\t\t\t\tname: \"main\",\n\t\t\t\t\tkey: \"conversation\",\n\t\t\t\t\tchildren: { \"main.conversation\": {\n\t\t\t\t\t\tkind: \"single\",\n\t\t\t\t\t\tscope: \"session-maybe\"\n\t\t\t\t\t} }",
+    "to": "\t\t\t\tyield slots.register({\n\t\t\t\t\tname: \"main\",\n\t\t\t\t\tkey: \"conversation\",\n\t\t\t\t\tinject: () => ({ hooks: { frame: { getSnapshot: () => slots.entriesOfSlot(\"main.conversation.frame\").length > 0, subscribe: (listener) => slots.subscribe(\"main.conversation.frame\", listener) } } }),\n\t\t\t\t\tchildren: { \"main.conversation.frame\": { kind: \"single\", scope: \"session-maybe\" }, \"main.conversation\": {\n\t\t\t\t\t\tkind: \"single\",\n\t\t\t\t\t\tscope: \"session-maybe\"\n\t\t\t\t\t} }"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+    "from": "                };\n            };\n        };\n        /** Conversation shell beneath its root-scoped main-panel entry. */\n        'main.conversation': {\n            kind: 'single';",
+    "to": "                };\n            };\n        };\n        /** Optional frame around the native conversation (C2 team-layout); no registrant renders it unchanged. */\n        'main.conversation.frame': { kind: 'single'; scope: 'session-maybe'; owner: { children: import('react').ReactNode } };\n        /** Conversation shell beneath its root-scoped main-panel entry. */\n        'main.conversation': {\n            kind: 'single';"
+  },
+  {
+    "file": "dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+    "from": " * @param props - main-slot inputs and the declared Conversation renderer.\n * @returns the Conversation subtree.\n */\nexport declare function ConversationPanel({ renderSlot }: PropsRuntime<'main'> & PropsRenderSlots<'main.conversation'>): import(\"react\").ReactNode;\n//# sourceMappingURL=ConversationPanel.d.ts.map",
+    "to": " * @param props - main-slot inputs and the declared Conversation renderer.\n * @returns the Conversation subtree.\n */\nexport declare function ConversationPanel({ renderSlot, useFrame }: PropsRuntime<'main'> & PropsRenderSlots<'main.conversation' | 'main.conversation.frame'> & { useFrame: <T>(select: (registered: boolean) => T) => T }): import(\"react\").ReactNode;\n//# sourceMappingURL=ConversationPanel.d.ts.map"
+  }
+]

@@ -1,0 +1,775 @@
+{
+  "$comment": [
+    "WP-0 of docs/refactor-20261026/20-M5-plan.md: the 35 suites of verification/run-all.mjs, transcribed 1:1.",
+    "entry is the EFFECTIVE argv run-all spawns: for --test suites it includes the --test-concurrency=1 that run-all injects at index 1.",
+    "root: null = no root; scratch = a new dir under verification/.scratch; runs-scratch = a new dir under runs/.test-scratch-* (rootBase 'runs').",
+    "timeoutMs keeps the current runner value (one value for every suite) so this file records today's behaviour; per-layer timeouts arrive in WP-1.",
+    "baseline counts live in verification/parity-baseline.json, keyed by id. Do not edit both files by hand.",
+    "resources: runs-root = needs a root under runs/, shares the copied budget ledger (serial phase);",
+    "exclusive = binds ports 40290-40299 or asserts about the operating system, so it must not race (serial phase).",
+    "Every other suite runs in the parallel phase, up to --jobs.",
+    "per-suite timeouts: 600s everywhere except profiles (300s). profiles carries no mutation/matrix tests: WP-4 split",
+    "them into profiles-retention and profiles-mutation, both marked \"deep\": true.",
+    "deep suites are not part of npm test; run.mjs skips them unless --only names them, and npm run test:deep runs only",
+    "the deep suites through the same runner and records the verdict in verification/.scratch/test-deep.json."
+  ],
+  "timeoutMs": 600000,
+  "suites": [
+    {
+      "id": "driver-surface",
+      "layer": "static",
+      "entry": [
+        "verification/unit/check-driver-surface.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "driver surface: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "m1b-profile-e2e",
+      "layer": "e2e",
+      "entry": [
+        "verification/e2e/m1b-profile-e2e.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "m1b-profile-e2e: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "adapter-build",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/unit/build-target.test.mjs",
+        "verification/unit/driver-surface.test.mjs",
+        "verification/unit/failure-diagnostics.test.mjs",
+        "verification/unit/context-budget.test.mjs",
+        "verification/unit/context-budget-transport.test.mjs",
+        "verification/unit/p4-web-poll.test.mjs",
+        "verification/unit/timing-metrics.test.mjs",
+        "verification/unit/real-dispose.test.mjs",
+        "verification/unit/test-cleanup.test.mjs",
+        "verification/runner/orphans.test.mjs",
+        "verification/unit/process-runner-contract.test.mjs",
+        "verification/unit/stop-errors.test.mjs",
+        "verification/unit/mailbox-late-delivery.test.mjs",
+        "verification/unit/turn-alert.test.mjs",
+        "verification/unit/decision-renewal.test.mjs",
+        "verification/unit/git-bash-build-patch.test.mjs",
+        "packages/delivery/test/fix2.test.mjs",
+        "packages/delivery/test/readback.test.mjs",
+        "packages/delivery/test/worktree-base.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "superagent-borrow",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/unit/superagent-borrow-p0.test.mjs",
+        "verification/unit/superagent-borrow-p0-contract.test.mjs",
+        "verification/unit/superagent-borrow-probe.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "superagent-borrow-p5",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/unit/superagent-borrow-p5.test.mjs",
+        "verification/unit/superagent-borrow-p5-review.test.mjs",
+        "verification/unit/superagent-borrow-acceptance.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "superagent-borrow-performance",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/unit/superagent-borrow-performance.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "superagent-borrow-profile-e2e",
+      "layer": "e2e",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/e2e/superagent-borrow-profile-e2e.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "real/session-state",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/real/session-state.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "ui",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "packages/ui",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "core",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "packages/core",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "profiles",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "test/autonomy-off-baseline.test.mjs",
+        "test/borrow-integration.test.mjs",
+        "test/decision-settled.test.mjs",
+        "test/execution-closeout.test.mjs",
+        "test/execution-entry.test.mjs",
+        "test/execution-finish.test.mjs",
+        "test/execution-properties.test.mjs",
+        "test/execution-scope.test.mjs",
+        "test/host-cycle-context.test.mjs",
+        "test/mailbox-observation.test.mjs",
+        "test/mailbox-visibility.test.mjs",
+        "test/process-tree.test.mjs",
+        "test/runtime-execution-entries.test.mjs",
+        "test/shell-bash-pin.test.mjs",
+        "test/stop-in-process-e2e.test.mjs",
+        "test/stop-in-process.test.mjs",
+        "test/stop-rebind.test.mjs",
+        "test/superagent-borrow-provider-capacity.test.mjs",
+        "test/superagent-borrow-s2.test.mjs",
+        "test/superagent-borrow-s2-review.test.mjs",
+        "test/superagent-borrow-s3-boundary.test.mjs",
+        "test/superagent-borrow-s4-owner.test.mjs",
+        "test/temp-roots.test.mjs",
+        "test/usage-observation.test.mjs",
+        "test/wake-contract.test.mjs"
+      ],
+      "cwd": "packages/profiles",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 300000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "profiles-retention",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "test/borrow-evidence-retention.test.mjs",
+        "test/borrow-evidence-retention-mutants.test.mjs",
+        "test/borrow-evidence-retention-readers.test.mjs",
+        "test/borrow-projection-lifecycle.test.mjs",
+        "test/borrow-projection-retention.test.mjs"
+      ],
+      "cwd": "packages/profiles",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ],
+      "deep": true
+    },
+    {
+      "id": "profiles-mutation",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "test/borrow-support-matrix.test.mjs",
+        "test/superagent-borrow-s2-mutation.test.mjs",
+        "test/superagent-borrow-s4-mutation.test.mjs"
+      ],
+      "cwd": "packages/profiles",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ],
+      "deep": true
+    },
+    {
+      "id": "host",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1"
+      ],
+      "cwd": "packages/host",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "p2-context",
+      "layer": "integration",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p2-context",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "p2-context: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "p2-faults",
+      "layer": "integration",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p2-faults",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "p2-faults: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "domain/p3-core",
+      "layer": "domain",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p3-core",
+        "--profile",
+        "team",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "p3-core: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "domain/p3-model-contracts",
+      "layer": "domain",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p3-model-contracts",
+        "--profile",
+        "team",
+        "--scenario",
+        "cross-peer-dependency",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "p3-model-contracts: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/preempt-copy",
+      "layer": "unit",
+      "entry": [
+        "verification/real/preempt-copy-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "instant preempt copy PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "real/safety-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/safety-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "safety PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/tool-contract-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/tool-contract-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "tool contract tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/collab-contract-test",
+      "layer": "domain",
+      "entry": [
+        "verification/real/collab-contract-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "collab contract tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/deadline-protocol-test",
+      "layer": "domain",
+      "entry": [
+        "verification/real/deadline-protocol-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "deadline\\/protocol recovery tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/workload-guard-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/workload-guard-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "workload guard tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/concurrency-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/concurrency-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "concurrency\\/budget gate PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/tool-output-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/tool-output-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "tool-output tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/self-test",
+      "layer": "unit",
+      "entry": [
+        "verification/real/self-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "budget fake provider PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "real/dispatch-phase-test",
+      "layer": "integration",
+      "entry": [
+        "verification/real/dispatch-phase-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "dispatch phase tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "p4-retention-current",
+      "layer": "unit",
+      "entry": [
+        "verification/unit/p4-retention-current.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "retained PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "p4-retention-late",
+      "layer": "unit",
+      "entry": [
+        "verification/unit/p4-retention-late.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "scratch",
+      "expect": [
+        "PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    },
+    {
+      "id": "p3-team",
+      "layer": "e2e",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p3-team",
+        "--profile",
+        "team",
+        "--faults",
+        "all",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "p3-team: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "domain/p3-regressions",
+      "layer": "domain",
+      "entry": [
+        "verification/integration/run.mjs",
+        "p3-regressions",
+        "--profile",
+        "team",
+        "--families",
+        "A-K",
+        "--root",
+        "{root}",
+        "--report",
+        "{report}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "p3-regressions: PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "p4-projections",
+      "layer": "e2e",
+      "entry": [
+        "verification/e2e/p4-run.mjs",
+        "p4-projections",
+        "--root",
+        "{root}",
+        "--profile",
+        "team"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "p4-projections: PASS"
+      ],
+      "ports": true,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root",
+        "exclusive"
+      ]
+    },
+    {
+      "id": "real/full-test",
+      "layer": "integration",
+      "entry": [
+        "verification/real/full-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "PASS: .*real ledger unchanged"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "real/collab-test",
+      "layer": "integration",
+      "entry": [
+        "verification/real/collab-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "PASS: collaboration stage offline"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "real/performance-study",
+      "layer": "integration",
+      "entry": [
+        "verification/real/performance-study-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "performance study PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "real/turn-limit-test",
+      "layer": "integration",
+      "entry": [
+        "verification/real/turn-limit-test.mjs",
+        "{root}"
+      ],
+      "cwd": ".",
+      "root": "runs-scratch",
+      "expect": [
+        "turn limit tests PASS"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": [
+        "runs-root"
+      ]
+    },
+    {
+      "id": "check-parity",
+      "layer": "unit",
+      "entry": [
+        "--test",
+        "--test-concurrency=1",
+        "verification/unit/check-parity.test.mjs",
+        "verification/unit/check-parity-markers.test.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass [1-9]\\d*",
+        "fail 0"
+      ],
+      "ports": false,
+      "timeoutMs": 600000,
+      "resources": []
+    }
+  ]
+}

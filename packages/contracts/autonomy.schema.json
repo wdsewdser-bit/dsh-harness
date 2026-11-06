@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Team Autonomy Config v1",
+  "description": "P0 of the team-autonomy design (docs/decisions/team-autonomy-design.md §10). Contracts and switches only: no behaviour reads these values yet, and every default reproduces today's behaviour. Unknown keys and out-of-range values are INVALID_CONFIG (contracts/autonomy.mjs).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "autonomy": {
+      "enum": ["off", "on"],
+      "default": "off",
+      "description": "off = the product as it is today (current behaviour). on = the autonomy packages (P1-P6) are enabled."
+    },
+    "goalGate": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "strict": {
+          "type": "boolean",
+          "default": false,
+          "description": "false = the F2 status: the chain root is the first accepted delivery's base. The design's target state (true) is a later milestone, not the default."
+        },
+        "legacy": {
+          "const": "adopt-tail",
+          "default": "adopt-tail",
+          "description": "The one migration stance the design adopts (§5.2.4, §12 U5); the rejected stance has no implementation and therefore no value."
+        }
+      }
+    },
+    "stopGraceMs": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 600000,
+      "default": 5000,
+      "description": "Grace period before the hard kill of a process tree (§7.2.3)."
+    },
+    "stopProofTimeoutMs": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 600000,
+      "default": 10000,
+      "description": "Second budget: how long the stop proof may take after the hard kill before the stop counts as unverified (§7.2.3)."
+    },
+    "decisionTtlMs": {
+      "type": "integer",
+      "minimum": 60000,
+      "maximum": 86400000,
+      "default": 900000,
+      "description": "How long a decision row stays open before it expires (§12 U8: 15 minutes by default, configurable). Expiry never means approval."
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unknownUsage": {
+          "enum": ["continue", "stop"],
+          "default": "continue",
+          "description": "§12 U2: an unmeasured token count does not halt the team; it is recorded as unknown and escalated after unknownGraceMs."
+        },
+        "unknownGraceMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400000,
+          "default": 1800000,
+          "description": "How long usage may stay unmeasured before a budget-unknown decision row is opened (§8.2.3)."
+        }
+      }
+    },
+    "pricing": {
+      "type": ["object", "null"],
+      "default": null,
+      "additionalProperties": false,
+      "required": ["currency", "perInputToken", "perOutputToken"],
+      "description": "Optional, display only (§8.2.4): no reducer reads a price. Without it the projection carries no cost field.",
+      "properties": {
+        "currency": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "perInputToken": { "type": "number", "minimum": 0 },
+        "perOutputToken": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

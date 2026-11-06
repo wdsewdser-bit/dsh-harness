@@ -1,0 +1,205 @@
+{
+  "<path-to-dsh-c1-build>": {
+    "version": "old",
+    "source": "<path-to-dsh-upstream-0.2.1-rc.4>/install",
+    "baseFiles": 63759,
+    "files": 63759,
+    "changed": [
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "before": "cfbd9fd95b0509f7c93a22a62a67ebc10481c8eda611704ea50c2e195b9a5a69",
+        "after": "543a9630db68578b6cf9d0312e8667c9a7598bfc7b97adfe5fd57a44ef155b62"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+        "before": "aff91529d92e0ecbe4645763fb1b19b571dec9d802abf1ae043dd48498d6e9e1",
+        "after": "6fceec6bc2ee80337701cdf5e971559fce9396b2e8db563ffa1633b622ee155c"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+        "before": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1",
+        "after": "2c30471396f5c252f140aeb61bf6c1da269d3f995ed9e8d6ac5dd92d8b3e6f19"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "before": "1de0b5c9b49b78fcc6d7cdf6cbe5d5f278f13bbc064799f38f0c58a7b7c95022",
+        "after": "ed8e625aac0759b040c989fbc6f3ac00bffe2ebfa8fb4db46af63890f8dc2a97"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+        "before": "dafd60ef289d1fc0b57253dee7cfa30167586e7170ef5a83131abc812c7feee7",
+        "after": "dcdac94b5eb56d36d6f202cbac4bd16d743b5e961c625e177706323afce6817c"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/index.js",
+        "before": "8ec52107ead3d31f4d8ca95894c851046a2cbbd1b2033a0ea22fedf17c043ae4",
+        "after": "89b622b15cd8c2650a6412ce92eeab761023cb8cd0e0d315533e2945048c2119"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/types/index.d.ts",
+        "before": "cfcc5af9e23e1e6af1062d7b601d0f7344500c6847016a1aebf0c8329ad159d7",
+        "after": "be1bee60be379dc598797d33cd6410c47d4796ea76f04783dbee2e011fff355a"
+      }
+    ],
+    "added": [],
+    "missing": []
+  },
+  "<path-to-dsh-c2-build>": {
+    "version": "old",
+    "source": "<path-to-dsh-upstream-0.2.1-rc.4>/install",
+    "baseFiles": 63759,
+    "files": 63759,
+    "changed": [
+      {
+        "file": "node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+        "before": "cf57e3ecd487ac5c2553455aaa5cef2c6fb41e6bd61be5aa455675d1d7193033",
+        "after": "a37d1b2111f44db2b9f9b160eecd66d7809338826e7e9942615540ae11ec8880"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts",
+        "before": "906f202b859b11f7b0a399d8c4921c47384dd6177c990d59b8a93026a9875e8e",
+        "after": "7b903f60304df1cc7ead9e86c915e82764d7462191f11005b7596d7f610d9a43"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "before": "cfbd9fd95b0509f7c93a22a62a67ebc10481c8eda611704ea50c2e195b9a5a69",
+        "after": "543a9630db68578b6cf9d0312e8667c9a7598bfc7b97adfe5fd57a44ef155b62"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+        "before": "aff91529d92e0ecbe4645763fb1b19b571dec9d802abf1ae043dd48498d6e9e1",
+        "after": "6fceec6bc2ee80337701cdf5e971559fce9396b2e8db563ffa1633b622ee155c"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+        "before": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1",
+        "after": "2c30471396f5c252f140aeb61bf6c1da269d3f995ed9e8d6ac5dd92d8b3e6f19"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "before": "1de0b5c9b49b78fcc6d7cdf6cbe5d5f278f13bbc064799f38f0c58a7b7c95022",
+        "after": "ed8e625aac0759b040c989fbc6f3ac00bffe2ebfa8fb4db46af63890f8dc2a97"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+        "before": "dafd60ef289d1fc0b57253dee7cfa30167586e7170ef5a83131abc812c7feee7",
+        "after": "dcdac94b5eb56d36d6f202cbac4bd16d743b5e961c625e177706323afce6817c"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/index.js",
+        "before": "8ec52107ead3d31f4d8ca95894c851046a2cbbd1b2033a0ea22fedf17c043ae4",
+        "after": "89b622b15cd8c2650a6412ce92eeab761023cb8cd0e0d315533e2945048c2119"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/types/index.d.ts",
+        "before": "cfcc5af9e23e1e6af1062d7b601d0f7344500c6847016a1aebf0c8329ad159d7",
+        "after": "be1bee60be379dc598797d33cd6410c47d4796ea76f04783dbee2e011fff355a"
+      }
+    ],
+    "added": [],
+    "missing": []
+  },
+  "<path-to-dsh-c1-build-0.2.2-rc.1>": {
+    "version": "new",
+    "source": "<path-to-dsh-upstream-0.2.2-rc.1>/install",
+    "baseFiles": 70168,
+    "files": 70168,
+    "changed": [
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "before": "9a37949cc76603ea3a965ce4d0d6ca65885de4a9808345c38748e595ac396378",
+        "after": "b0ddc4933faacf46ece630863bb58d4732b885eb2a8d4e3678576dcb1a9cc81d"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+        "before": "fe8bd913f4ebcbeedad7b017b9690df014c080fcabc2c05dd408ba25a64e727f",
+        "after": "fd579cd4e17a7384ebbd1403e5561f3ea312f07cab527e1cbde8e979cbd96d92"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+        "before": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1",
+        "after": "2c30471396f5c252f140aeb61bf6c1da269d3f995ed9e8d6ac5dd92d8b3e6f19"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "before": "0a0a32382391acee1a692cf7d2529a2669cc8cc23d4d83b446f6247c3c4562c4",
+        "after": "64a706b91835b5c16428f170998aa39dbda3390ded6ea95f043a1682c4dc3447"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+        "before": "e70c655272d9340d76bc77c3d0382744ab965add723530ec4c74fdd8a27cca06",
+        "after": "cf99c387ae4f4e23ca1eabc1d48b9d2f3d4ce58e761ca4549a8347d58368dcbd"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/index.js",
+        "before": "e17dc2886e1bc3c265fa9406ed4a101dd000ed66f8d8cc43f3075346434729cc",
+        "after": "183e98def70c5e03b0234e28c5affaf4bd21645b943d681ea9c746dd4ba29de1"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/types/index.d.ts",
+        "before": "d62fd22fd88054d8c062916e8fff5c54f7b36594d87799a7ba1de1f1cb2a7bea",
+        "after": "ca531fc8e880a14058434f843ee2971681b45a1fe5fbe685810c30bd559a9f1d"
+      }
+    ],
+    "added": [],
+    "missing": []
+  },
+  "<path-to-dsh-c2-build-0.2.2-rc.1>": {
+    "version": "new",
+    "source": "<path-to-dsh-upstream-0.2.2-rc.1>/install",
+    "baseFiles": 70168,
+    "files": 70170,
+    "changed": [
+      {
+        "file": "node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+        "before": "a6fa8e0c7c90191caf5f4a3bb5c624a86e9845cf3c79d020b71420d0e20ae4c1",
+        "after": "b322925f52697e4dd92e4e64f47f75e4037b0014f3981ecf5a9db159c6c29f2a"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts",
+        "before": "950ac8fd8c6d69cd990a5a30957ead11919e4b8d8a62b32393607a116218e205",
+        "after": "e59baf60981ff773cdf30681504ea3c0e2a37fb6f7e3ac41a5592df702c05193"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+        "before": "9a37949cc76603ea3a965ce4d0d6ca65885de4a9808345c38748e595ac396378",
+        "after": "b0ddc4933faacf46ece630863bb58d4732b885eb2a8d4e3678576dcb1a9cc81d"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts",
+        "before": "fe8bd913f4ebcbeedad7b017b9690df014c080fcabc2c05dd408ba25a64e727f",
+        "after": "fd579cd4e17a7384ebbd1403e5561f3ea312f07cab527e1cbde8e979cbd96d92"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts",
+        "before": "7002294a437df34e05b4a916d0c2376e812008a340d6c2f6737fa2cfe35be6c1",
+        "after": "2c30471396f5c252f140aeb61bf6c1da269d3f995ed9e8d6ac5dd92d8b3e6f19"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/client.js",
+        "before": "0a0a32382391acee1a692cf7d2529a2669cc8cc23d4d83b446f6247c3c4562c4",
+        "after": "64a706b91835b5c16428f170998aa39dbda3390ded6ea95f043a1682c4dc3447"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts",
+        "before": "e70c655272d9340d76bc77c3d0382744ab965add723530ec4c74fdd8a27cca06",
+        "after": "cf99c387ae4f4e23ca1eabc1d48b9d2f3d4ce58e761ca4549a8347d58368dcbd"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/index.js",
+        "before": "e17dc2886e1bc3c265fa9406ed4a101dd000ed66f8d8cc43f3075346434729cc",
+        "after": "183e98def70c5e03b0234e28c5affaf4bd21645b943d681ea9c746dd4ba29de1"
+      },
+      {
+        "file": "node_modules/@deepseek-ai/dsh-goal/lib/types/index.d.ts",
+        "before": "d62fd22fd88054d8c062916e8fff5c54f7b36594d87799a7ba1de1f1cb2a7bea",
+        "after": "ca531fc8e880a14058434f843ee2971681b45a1fe5fbe685810c30bd559a9f1d"
+      }
+    ],
+    "added": [
+      "node_modules/@deepseek-ai/dsh-tool-executor-preempt/lib/index.js",
+      "node_modules/@deepseek-ai/dsh-tool-executor-preempt/package.json"
+    ],
+    "missing": []
+  }
+}

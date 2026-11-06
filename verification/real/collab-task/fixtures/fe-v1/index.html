@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Tagged todos</title>
+<style>body{font-family:system-ui;margin:2rem}li{margin:.3rem 0}.tag{display:inline-block;padding:0 .4rem;border-radius:.4rem;color:#fff;font-size:.8rem}</style>
+</head>
+<body>
+<h1>Tagged todos</h1>
+<form id="add"><input id="title" placeholder="What to do"><input id="tags" placeholder="tag, tag:color"><button>Add</button></form>
+<ul id="list"></ul>
+<script>
+const API = 'http://127.0.0.1:8781/api/todos';
+const list = document.getElementById('list');
+function tagChip(tag) {
+  const span = document.createElement('span');
+  span.className = 'tag';
+  span.textContent = tag.name;
+  return span;
+}
+async function refresh() {
+  const rows = await (await fetch(API)).json();
+  list.textContent = '';
+  for (const row of rows) {
+    const item = document.createElement('li');
+    const box = document.createElement('input');
+    box.type = 'checkbox'; box.checked = row.done;
+    box.onchange = async () => { await fetch(API + '/' + encodeURIComponent(row.id), { method: 'PATCH', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ done: box.checked }) }); refresh(); };
+    const del = document.createElement('button');
+    del.textContent = 'delete';
+    del.onclick = async () => { await fetch(API + '/' + encodeURIComponent(row.id), { method: 'DELETE' }); refresh(); };
+    item.append(box, ' ', row.title, ' ', del);
+    for (const tag of row.tags || []) item.append(' ', tagChip(tag));
+    list.append(item);
+  }
+}
+document.getElementById('add').onsubmit = async event => {
+  event.preventDefault();
+  const title = document.getElementById('title').value;
+  const raw = document.getElementById('tags').value.split(',').map(x => x.trim()).filter(Boolean);
+  const tags = raw.map(x => { const [name, color] = x.split(':'); return { name, color: color ? '#' + color : undefined }; });
+  await fetch(API, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ title, tags }) });
+  document.getElementById('title').value = ''; document.getElementById('tags').value = '';
+  refresh();
+};
+refresh();
+</script>
+</body>
+</html>

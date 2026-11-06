@@ -1,0 +1,3 @@
+import {GoalReconciler} from './goal-reconciler.mjs';
+export const name='c1-trusted-team';export const inject=['goals'];
+export function apply(ctx,config){const reconciler=new GoalReconciler({ledgerPath:config.ledgerPath,alarm:v=>ctx.emit('team/goal-violation',v)});reconciler.attach(ctx);const off=ctx.goals.registerCompletionGuard(()=>false);ctx.on('dispose',off);ctx.provide('c1TeamRuntime',{reconciler,defaultPolicy:'deny-until-P3b-coordinator-registers-policy'});}

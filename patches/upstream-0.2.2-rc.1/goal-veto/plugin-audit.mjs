@@ -1,0 +1,3 @@
+// Call before opening Team admission; call again at each admission after loader changes.
+export function auditPluginTree(ctx,allowlist){const loaded=[...ctx.loader.entries()].map(e=>({id:e.options.id,name:e.options.name,state:e.fiber?.status}));const unknown=loaded.filter(e=>!allowlist.includes(e.name));if(unknown.length){const error=new Error('UNTRUSTED_PLUGIN: '+unknown.map(e=>e.name).join(', '));error.code='UNTRUSTED_PLUGIN';error.loaded=loaded;throw error}return loaded;}
+export async function admitTeam(ctx,allowlist,start){try{const loaded=auditPluginTree(ctx,allowlist);await start(loaded);return loaded}catch(e){await ctx.fiber.dispose();throw e}}

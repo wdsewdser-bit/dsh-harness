@@ -1,0 +1,122 @@
+--- a/dsh-client-ui-sidebar/lib/client.js
++++ b/dsh-client-ui-sidebar/lib/client.js
+@@ -289,11 +289,12 @@ window.__ModuleLoader__.load({
+ 		* @param props - composed slot props (runtime share + injected callbacks, contract/slots.ts).
+ 		* @returns the sidebar element tree.
+ 		*/
+-		function SidebarRoot({ collapsed, width, drawer, startSession, toggleSidebar, selectPanel, setPinned, trackEntryClick, useRemoteAccess, usePanels, useEntryPins, useEntryActions, useShortcuts, usePanelInfo, t, renderSlot }) {
++		function SidebarRoot({ collapsed, width, drawer, startSession, toggleSidebar, selectPanel, setPinned, trackEntryClick, useRemoteAccess, usePanels, useEntryPins, useEntryActions, useBodyWrapper, useShortcuts, usePanelInfo, t, renderSlot }) {
+ 			const panels = usePanels((snapshot) => snapshot);
+ 			const unpinned = useEntryPins((ids) => ids);
+ 			const activePanelId = usePanelInfo((info) => info.activePanelId);
+ 			const hasEntryActions = useEntryActions((registered) => registered);
++			const hasBodyWrapper = useBodyWrapper((registered) => registered);
+ 			const shortcut = useShortcuts((rows) => rows.find((row) => row.id === "sidebar.left.toggle"));
+ 			const newShortcut = useShortcuts((rows) => rows.find((row) => row.id === "session.new"));
+ 			const canStartSession = useRemoteAccess("session/create");
+@@ -540,12 +541,12 @@ window.__ModuleLoader__.load({
+ 					}),
+ 					(0, react_jsx_runtime.jsx)("div", {
+ 						className: SidebarRoot_module_css_default.regionArea,
+-						children: renderSlot("sidebar.workspaces", {
++						children: ((workspaces) => hasBodyWrapper ? renderSlot("sidebar.body.wrapper", { wide, collapsed, children: workspaces }) : workspaces)(renderSlot("sidebar.workspaces", {
+ 							wide,
+ 							expandSidebar: () => {
+ 								if (collapsed) toggleSidebar();
+ 							}
+-						})
++						}))
+ 					}),
+ 					copiedToast !== null && (0, react_jsx_runtime.jsx)(_deepseek_ai_dsh_client_ui_primitives.Toast, {
+ 						tone: "success",
+@@ -709,6 +710,7 @@ window.__ModuleLoader__.load({
+ 				getSnapshot: () => ctx.slots.entriesOfSlot("sidebar.panellist.actions").length > 0,
+ 				subscribe: (listener) => ctx.slots.subscribe("sidebar.panellist.actions", listener)
+ 			};
++			const bodyWrapper = { getSnapshot: () => ctx.slots.entriesOfSlot("sidebar.body.wrapper").length > 0, subscribe: (listener) => ctx.slots.subscribe("sidebar.body.wrapper", listener) };
+ 			const injectProps = () => ({
+ 				startSession: (workspaceId) => {
+ 					workspaceNavigation.startSession(workspaceId);
+@@ -727,7 +729,8 @@ window.__ModuleLoader__.load({
+ 					panels,
+ 					shortcuts: ctx.shortcuts.catalog,
+ 					entryPins: panelPins.unpinned,
+-					entryActions
++					entryActions,
++					bodyWrapper
+ 				}
+ 			});
+ 			ctx.slots.inject("sidebar", () => ctx.slots.register({
+@@ -754,6 +757,7 @@ window.__ModuleLoader__.load({
+ 						kind: "list",
+ 						scope: "root"
+ 					},
++					"sidebar.body.wrapper": { kind: "single", scope: "root" },
+ 					"sidebar.workspaces": {
+ 						kind: "single",
+ 						scope: "root"
+--- a/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts
++++ b/dsh-client-ui-sidebar/lib/types/client/contract/slots.d.ts
+@@ -66,6 +66,8 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
+             scope: 'root';
+             owner: SidebarSectionOwnerProps;
+         };
++        /** Optional body wrapper (C2 team-layout); no registrant renders `sidebar.workspaces` unchanged. */
++        'sidebar.body.wrapper': { kind: 'single'; scope: 'root'; owner: { wide: boolean; collapsed: boolean; children: import('react').ReactNode } };
+         /**
+          * The settings seat at the sidebar foot. Declared by this package's
+          * 'sidebar' entry; ui-settings registers its trigger row + modal panel.
+@@ -196,6 +198,8 @@ export type SidebarRootInjected = {
+         entryPins: ObservableSnapshot<readonly string[]>;
+         /** Whether `sidebar.panellist.actions` has registrations. */
+         entryActions: ObservableSnapshot<boolean>;
++        /** Whether `sidebar.body.wrapper` has registrations. */
++        bodyWrapper: ObservableSnapshot<boolean>;
+     };
+ };
+ /**
+--- a/dsh-client-ui-conversation/lib/client.js
++++ b/dsh-client-ui-conversation/lib/client.js
+@@ -20620,8 +20620,9 @@ window.__ModuleLoader__.load({
+ 		* @param props - main-slot inputs and the declared Conversation renderer.
+ 		* @returns the Conversation subtree.
+ 		*/
+-		function ConversationPanel({ renderSlot }) {
+-			return renderSlot("main.conversation", {});
++		function ConversationPanel({ renderSlot, useFrame }) {
++			const conversation = renderSlot("main.conversation", {});
++			return useFrame((registered) => registered) ? renderSlot("main.conversation.frame", { children: conversation }) : conversation;
+ 		}
+ 		//#endregion
+ 		//#region lib/types/client/skeleton/ConversationHeader.js
+@@ -23103,7 +23104,8 @@ window.__ModuleLoader__.load({
+ 				yield slots.register({
+ 					name: "main",
+ 					key: "conversation",
+-					children: { "main.conversation": {
++					inject: () => ({ hooks: { frame: { getSnapshot: () => slots.entriesOfSlot("main.conversation.frame").length > 0, subscribe: (listener) => slots.subscribe("main.conversation.frame", listener) } } }),
++					children: { "main.conversation.frame": { kind: "single", scope: "session-maybe" }, "main.conversation": {
+ 						kind: "single",
+ 						scope: "session-maybe"
+ 					} }
+--- a/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts
++++ b/dsh-client-ui-conversation/lib/types/client/contract/slots.d.ts
+@@ -217,6 +217,8 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
+                 };
+             };
+         };
++        /** Optional frame around the native conversation (C2 team-layout); no registrant renders it unchanged. */
++        'main.conversation.frame': { kind: 'single'; scope: 'session-maybe'; owner: { children: import('react').ReactNode } };
+         /** Conversation shell beneath its root-scoped main-panel entry. */
+         'main.conversation': {
+             kind: 'single';
+--- a/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts
++++ b/dsh-client-ui-conversation/lib/types/client/skeleton/ConversationPanel.d.ts
+@@ -5,5 +5,5 @@ import type { PropsRenderSlots, PropsRuntime } from '@deepseek-ai/dsh-client-ui-
+  * @param props - main-slot inputs and the declared Conversation renderer.
+  * @returns the Conversation subtree.
+  */
+-export declare function ConversationPanel({ renderSlot }: PropsRuntime<'main'> & PropsRenderSlots<'main.conversation'>): import("react").ReactNode;
++export declare function ConversationPanel({ renderSlot, useFrame }: PropsRuntime<'main'> & PropsRenderSlots<'main.conversation' | 'main.conversation.frame'> & { useFrame: <T>(select: (registered: boolean) => T) => T }): import("react").ReactNode;
+ //# sourceMappingURL=ConversationPanel.d.ts.map
+\ No newline at end of file

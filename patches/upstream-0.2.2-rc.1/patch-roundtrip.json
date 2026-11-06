@@ -1,0 +1,17 @@
+[
+  {
+    "name": "instant-preempt",
+    "files": 2,
+    "ok": true
+  },
+  {
+    "name": "team-layout",
+    "files": 5,
+    "ok": true
+  },
+  {
+    "name": "goal-veto",
+    "files": 2,
+    "ok": true
+  }
+]

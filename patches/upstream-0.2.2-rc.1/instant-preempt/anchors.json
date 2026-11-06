@@ -1,0 +1,270 @@
+{
+  "build": "<path-to-dsh-upstream-0.2.2-rc.1>/install",
+  "target": "<path-to-dsh-upstream-0.2.2-rc.1>/install/node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+  "types": "<path-to-dsh-upstream-0.2.2-rc.1>/install/node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts",
+  "preimage": {
+    "indexJs": "a6fa8e0c7c90191caf5f4a3bb5c624a86e9845cf3c79d020b71420d0e20ae4c1",
+    "typesDts": "950ac8fd8c6d69cd990a5a30957ead11919e4b8d8a62b32393607a116218e205"
+  },
+  "checklistProbes": {
+    "streamRead": [
+      881
+    ],
+    "stepEntry": [],
+    "preStepDispatch": [
+      685
+    ],
+    "abortSurface": [
+      92,
+      189,
+      455,
+      488,
+      495,
+      496,
+      506,
+      565,
+      566,
+      568,
+      579,
+      584,
+      591,
+      599,
+      605,
+      611,
+      615,
+      616,
+      618,
+      620,
+      627,
+      669,
+      684,
+      698,
+      727,
+      728,
+      740,
+      756,
+      789,
+      795,
+      801,
+      804,
+      828,
+      836,
+      837,
+      848,
+      878,
+      882,
+      885,
+      889,
+      923,
+      937,
+      999,
+      1011,
+      1076,
+      1177,
+      1184,
+      1216,
+      1224,
+      1225,
+      1226,
+      1227,
+      1228,
+      1230,
+      1232,
+      1234,
+      1236,
+      1239,
+      1240,
+      1241,
+      1244,
+      1246,
+      1449,
+      1452,
+      1459,
+      1460,
+      1461,
+      1464,
+      1466,
+      1467,
+      1476,
+      1477,
+      1478,
+      1486,
+      1525,
+      1539,
+      1550,
+      1551,
+      1556,
+      1558,
+      1574,
+      1579,
+      1587,
+      1637,
+      1665,
+      1682,
+      1707,
+      1719,
+      1721,
+      1723,
+      1725,
+      1733,
+      1737
+    ]
+  },
+  "checklistNote": "The checklist step probe expected a generator (async *step) or step(agent); this build declares async step(decision), so that probe matches nothing. The candidate therefore anchors on the verified declaration shapes recorded in anchors, each confirmed unique or exactly doubled.",
+  "anchors": {
+    "stepMethod": [
+      833
+    ],
+    "stepBodyHead": [
+      836
+    ],
+    "streamReadLoop": [
+      881
+    ],
+    "interruptedSettlement": [
+      889
+    ],
+    "turnStepCall": [
+      767
+    ],
+    "configSchema": [
+      1308
+    ],
+    "loopConfigBuild": [
+      1330
+    ],
+    "phaseField": [
+      518
+    ],
+    "cancelAbort": [
+      584
+    ],
+    "cancelMethod": [
+      579
+    ],
+    "phaseInit": [
+      547
+    ],
+    "preStepWaterfall": [
+      685
+    ],
+    "streamAttemptClass": [
+      354
+    ],
+    "finishLine": [
+      922
+    ],
+    "typesConfigField": [
+      71
+    ],
+    "typesConfigDoc": [
+      84
+    ],
+    "typesStaticConfig": [
+      90
+    ]
+  },
+  "problems": [],
+  "blocks": {
+    "stepBodyHead": {
+      "file": "index",
+      "start": 836,
+      "end": 837,
+      "occurrences": 1,
+      "text": "\t\tconst { turn, step, abort: { signal } } = this.phase;\n\t\tsignal.throwIfAborted();"
+    },
+    "streamLoop": {
+      "file": "index",
+      "start": 877,
+      "end": 885,
+      "occurrences": 1,
+      "text": "\t\t\t\tconst stream = preparedCall?.stream(request) ?? this.loopCtx.llm.stream(request);\n\t\t\t\tsignal.throwIfAborted();\n\t\t\t\tlive.start();\n\t\t\t\tstarted = true;\n\t\t\t\tfor await (const chunk of stream) {\n\t\t\t\t\tsignal.throwIfAborted();\n\t\t\t\t\tlive.push(chunk);\n\t\t\t\t}\n\t\t\t\tsignal.throwIfAborted();"
+    },
+    "streamCatch": {
+      "file": "index",
+      "start": 886,
+      "end": 889,
+      "occurrences": 1,
+      "text": "\t\t\t} catch (error) {\n\t\t\t\tif (!started) throw error;\n\t\t\t\ttry {\n\t\t\t\t\tif (signal.aborted) {"
+    },
+    "turnStepCall": {
+      "file": "index",
+      "start": 767,
+      "end": 768,
+      "occurrences": 1,
+      "text": "\t\t\t\t\t\tconst stepEnd = await this.step(decision);\n\t\t\t\t\t\tif (turnEnds === null || turnEnds.kind !== \"max-tokens\") turnEnds = stepEnd;"
+    },
+    "configField": {
+      "file": "index",
+      "start": 1309,
+      "end": 1309,
+      "occurrences": 1,
+      "text": "\t\tmaxParallelToolCalls: z.number().step(1).min(1).default(10).volatile(),"
+    },
+    "loopConfig": {
+      "file": "index",
+      "start": 1330,
+      "end": 1333,
+      "occurrences": 1,
+      "text": "\t\tthis.config = {\n\t\t\tagents: applyLauncherIdentities(config.agents, ctx.get(CONFIGURED_AGENT_IDENTITIES_KEY)),\n\t\t\tmaxParallelToolCalls: config.maxParallelToolCalls\n\t\t};"
+    },
+    "phaseField": {
+      "file": "index",
+      "start": 518,
+      "end": 518,
+      "occurrences": 1,
+      "text": "\tphase;"
+    },
+    "cancelAbort": {
+      "file": "index",
+      "start": 584,
+      "end": 584,
+      "occurrences": 1,
+      "text": "\t\tif (this.phase.kind !== \"idle\") this.phase.abort.abort(cause);"
+    },
+    "cancelMethod": {
+      "file": "index",
+      "start": 579,
+      "end": 579,
+      "occurrences": 1,
+      "text": "\tcancel(cause, options = {}) {"
+    },
+    "finishLine": {
+      "file": "index",
+      "start": 922,
+      "end": 922,
+      "occurrences": 1,
+      "text": "\t\t\t\tconst finish = live.finish;"
+    },
+    "finishOpen": {
+      "file": "index",
+      "start": 921,
+      "end": 922,
+      "occurrences": 1,
+      "text": "\t\t\ttry {\n\t\t\t\tconst finish = live.finish;"
+    },
+    "typesDoc": {
+      "file": "types",
+      "start": 84,
+      "end": 84,
+      "occurrences": 1,
+      "text": "/** Concrete agent factory and driver service. */"
+    },
+    "typesConfigField": {
+      "file": "types",
+      "start": 71,
+      "end": 71,
+      "occurrences": 1,
+      "text": "    maxParallelToolCalls: Volatile<number>;"
+    },
+    "typesStaticConfig": {
+      "file": "types",
+      "start": 90,
+      "end": 90,
+      "occurrences": 1,
+      "text": "        maxParallelToolCalls?: number;"
+    }
+  },
+  "missingBlocks": [],
+  "nonUnique": []
+}

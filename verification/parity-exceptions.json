@@ -1,0 +1,8 @@
+{
+  "$comment": [
+    "Approved coverage losses for verification/check-parity.mjs. Every entry needs suite, field, from, to and a non-empty",
+    "reason; an entry only covers the exact delta it names. Use it when a work package legitimately removes assertions,",
+    "and say why in the commit message too."
+  ],
+  "exceptions": []
+}

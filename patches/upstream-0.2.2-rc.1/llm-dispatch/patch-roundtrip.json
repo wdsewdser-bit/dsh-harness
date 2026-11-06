@@ -1,0 +1,16 @@
+{
+  "candidate": "llm-dispatch",
+  "build": "<path-to-dsh-v2>\\runs\\m1b-build-1793943630888",
+  "roundtrip": [
+    {
+      "file": "dsh-llm/lib/index.js",
+      "ok": true,
+      "sha256": "a9bbff5ca270edabc8b91ad361ff9c1c13857d8889d3c60e7d80cd3d8d402785"
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "ok": true,
+      "sha256": "73e3f27522c3fdc5b4b2592d14498ba68148c19cfd191908e3a935dbae067105"
+    }
+  ]
+}

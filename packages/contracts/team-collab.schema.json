@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Team Collaboration Switch v1",
+  "description": "The A/B switch for the three proactive-collaboration mechanisms (intent before implement, formal assumptions, decision log). Default \"off\" reproduces today's behaviour byte for byte.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["collab"],
+  "properties": {
+    "collab": {
+      "enum": ["off", "on"],
+      "default": "off",
+      "description": "off = no new tools, no guard, no snapshot block (current behaviour). on = intent guard, team_assume, team_decision, and the dependency-filtered decision block in the pre-step snapshot."
+    },
+    "decisionLimit": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 20,
+      "default": 5,
+      "description": "How many recent decisions of dependency-related teammates the snapshot carries. Trimmed further whenever the snapshot budget would be exceeded."
+    },
+    "assumptionDeadline": {
+      "type": "string",
+      "minLength": 1,
+      "default": "PT10M",
+      "description": "Deadline attached to the delivery a team_assume raise makes to the owner it names."
+    }
+  }
+}

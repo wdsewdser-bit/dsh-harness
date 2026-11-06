@@ -1,0 +1,6 @@
+node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js
+a6fa8e0c7c90191caf5f4a3bb5c624a86e9845cf3c79d020b71420d0e20ae4c1
+9ad8c02d131c7f69bc512c0f773b3d237b8b4d15f93cd84c6c5fd4cf2074b3a8
+node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts
+950ac8fd8c6d69cd990a5a30957ead11919e4b8d8a62b32393607a116218e205
+e59baf60981ff773cdf30681504ea3c0e2a37fb6f7e3ac41a5592df702c05193

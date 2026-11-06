@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "P2 Context Config v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "profile",
+    "W",
+    "R",
+    "M",
+    "truncateChars",
+    "fold"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "profile": {
+      "const": "default"
+    },
+    "W": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Verified effective provider/model window"
+    },
+    "R": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "M": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "truncateChars": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 8192
+    },
+    "fold": {
+      "const": false,
+      "default": false
+    }
+  }
+}

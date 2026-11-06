@@ -1,0 +1,297 @@
+--- a/dsh-agent-loop/lib/index.js
++++ b/dsh-agent-loop/lib/index.js
+@@ -508,6 +508,39 @@ function abortedCancelCause(signal) {
+ 	}
+ }
+ /** Drives one session through turn and step boundaries. */
++/** Race result meaning "a step-scoped preemption won"; a symbol so no chunk or error can be mistaken for it. */
++const PREEMPTED = Symbol("instant-preempt");
++/**
++* Close a stream the loop is abandoning. Calling return() is mandatory: it is what releases the adapter's
++* connection and it propagates through dsh-llm's own iterator cleanup. A pending next() can make return()
++* wait on the provider, so the close is bounded instead of stalling the turn that is switching course.
++*/
++async function closeStream(iterator) {
++	if (typeof iterator.return !== "function") return;
++	// for-await swallows a return() failure on abrupt completion; the original error is the one that matters.
++	try { await iterator.return(); } catch {}
++}
++/**
++* Preemption-only close. return() is still called — that is what releases the adapter's connection and
++* propagates through dsh-llm's own iterator cleanup — but it is NOT awaited on this path. Awaiting it is what
++* makes a preemption cost the abandoned request's own latency: with a real provider the pending next() cannot
++* settle until the response arrives, so the step that was supposed to switch course waits for the request it
++* just abandoned (measured: exactly the 2s bound, on every preempted delivery). The release still happens, one
++* microtask later; it is raced against a short unref'd timer only so a provider that never answers cannot pin
++* the process, and the race itself is not awaited either.
++*/
++function closePreemptedStream(iterator) {
++	if (typeof iterator.return !== "function") return;
++	const closing = Promise.resolve().then(() => iterator.return()).catch(() => {});
++	const bounded = new Promise((resolve) => {
++		const timer = setTimeout(resolve, 2000);
++		timer.unref?.();
++	});
++	// Swallowed on purpose: the stream is already abandoned, so a failure to close it cannot become an error of
++	// the step that continued past it.
++	Promise.race([closing, bounded]).catch(() => {});
++}
++// boundary-wake/1: wakeDriver reserves running independently of instantInterrupt.
+ var ReactLoopAgent = class {
+ 	loopCtx;
+ 	id;
+@@ -516,6 +549,18 @@ var ReactLoopAgent = class {
+ 	model;
+ 	inbox;
+ 	phase;
++	/** Live step-scoped preempt latch; undefined outside a step or when the candidate is disabled. */
++	preempt;
++	/** Counters for the verification metric surface; never inferred from timing. */
++	preemptStats = {
++		fired: 0,
++		discardedPartialItems: 0,
++		extraRequests: 0,
++		extraInputTokens: 0,
++		extraOutputTokens: 0
++	};
++	/** Whether the next settled request is one that a preemption made necessary. */
++	preemptCausedNext = false;
+ 	activityDone = Promise.resolve();
+ 	/** The agent-scoped registration boundary; the lifecycle owner unwinds it after the driver exits. */
+ 	scope;
+@@ -576,6 +621,105 @@ var ReactLoopAgent = class {
+ 	inject(input) {
+ 		this.send(input, "next-step", false);
+ 	}
++	/** Arm one step-scoped preempt latch; undefined when the candidate is disabled or no step is running. */
++	beginPreempt() {
++		// The flag lives on the agent-loop service, which is the context this driver was built from.
++		if (this.loopCtx.agentLoop.config.instantInterrupt !== true || this.phase.kind !== "running") return void 0;
++		const armed = Promise.withResolvers();
++		const guard = {
++			turn: this.phase.turn,
++			step: this.phase.step,
++			reason: null,
++			controller: new AbortController(),
++			next: armed.promise,
++			armed: true
++		};
++		guard.listener = () => armed.resolve(PREEMPTED);
++		guard.controller.signal.addEventListener("abort", guard.listener, { once: true });
++		this.preempt = guard;
++		return guard;
++	}
++	/**
++	* Disarm the latch at its step boundary. The controller is left aborted on purpose: a plugin still holding
++	* the signal observes a closed step instead of waiting forever, including after cancel or dispose.
++	*/
++	endPreempt(guard) {
++		if (guard === void 0) return;
++		guard.armed = false;
++		guard.controller.signal.removeEventListener("abort", guard.listener);
++		if (!guard.controller.signal.aborted) guard.controller.abort("step-end");
++		if (this.preempt === guard) this.preempt = void 0;
++	}
++	/**
++	* Request one preemption of the current step from trusted plugin code. At most one per step and never the
++	* turn: the driver re-enters pre-step and claims whatever the caller queued in the meantime.
++	* @param reason - evidence label for the trigger; it becomes the latch signal's abort reason.
++	* @returns whether a live latch accepted the request.
++	*/
++	preemptStep(reason = "preempted") {
++		if (this.phase.kind !== "running" || this.phase.abort.signal.aborted) return false;
++		const guard = this.preempt;
++		if (guard === void 0 || !guard.armed || guard.controller.signal.aborted) return false;
++		guard.reason = reason;
++		guard.controller.abort(reason);
++		return true;
++	}
++	/** The live step's preempt signal, or undefined outside a step. */
++	get preemptSignal() {
++		return this.preempt === void 0 ? void 0 : this.preempt.controller.signal;
++	}
++	/**
++	* Settle a preempted attempt as an attempt, never as a message. An open text or reasoning block would be a
++	* truncated item, and a partial reasoning signature is rejected on the next request, so nothing partial
++	* becomes model-visible content; items completed by earlier steps are already durable and untouched.
++	*/
++	settlePreempt(live, turn, step, request) {
++		const kept = [];
++		for (const index of live.assembler.order) {
++			const partial = live.assembler.partials.get(index);
++			if (partial.block === void 0) {
++				this.preemptStats.discardedPartialItems++;
++				continue;
++			}
++			// A tool call is never kept: it was not dispatched, and keeping it would demand a fabricated output.
++			if (partial.block.type !== "text" && partial.block.type !== "reasoning") continue;
++			if (partial.block.text.trim() === "") continue;
++			kept.push(partial.block);
++		}
++		this.preemptStats.fired++;
++		this.preemptCausedNext = true;
++		// Closed items keep their exact bytes and reasoning signature; open ones are dropped, never truncated.
++		if (kept.length > 0) live.settle("assistant/message", () => this.session.append("assistant/message", {
++			turn,
++			step,
++			message: createAssistantMessage({
++				content: kept,
++				source: {
++					provider: request.provider,
++					model: request.model
++				}
++			}),
++			interrupted: true,
++			...live.usage === void 0 ? {} : { usage: live.usage },
++			stream: live.stream
++		}, { surfaceOp: "append" }).seq);
++		else live.settle("assistant/attempt", () => this.session.append("assistant/attempt", {
++			turn,
++			step,
++			stream: live.stream
++		}).seq);
++	}
++	/** Charge the next request, which exists only because this step was preempted, so its cost is measured. */
++	attributePreempt(usage) {
++		if (!this.preemptCausedNext) return;
++		this.preemptCausedNext = false;
++		const stats = this.preemptStats;
++		stats.extraRequests++;
++		if (usage !== void 0) {
++			stats.extraInputTokens += usage.inputTokens ?? 0;
++			stats.extraOutputTokens += usage.outputTokens ?? 0;
++		}
++	}
+ 	cancel(cause, options = {}) {
+ 		if (!options.keepInbox) {
+ 			this.inbox.clear();
+@@ -831,10 +975,21 @@ var ReactLoopAgent = class {
+ 		return true;
+ 	}
+ 	async step(decision) {
++		const guard = this.beginPreempt();
++		try {
++			return await this.runStep(decision);
++		} finally {
++			this.endPreempt(guard);
++		}
++	}
++	/** One step body; the candidate changes how an interrupted stream settles and how tools stop starting. */
++	async runStep(decision) {
+ 		/* v8 ignore next -- private callers establish the running phase before executing a step */
+ 		if (this.phase.kind !== "running") throw new Error(`agent "${this.id}": step outside running phase`);
+ 		const { turn, step, abort: { signal } } = this.phase;
+ 		signal.throwIfAborted();
++
++		let preempted = false;
+ 		const { assembly } = decision;
+ 		const renderedPrompt = renderPrompt(assembly);
+ 		let firstAttempt = true;
+@@ -878,11 +1033,32 @@ var ReactLoopAgent = class {
+ 				signal.throwIfAborted();
+ 				live.start();
+ 				started = true;
+-				for await (const chunk of stream) {
++				const latch = this.preempt;
++				const iterator = stream[Symbol.asyncIterator]();
++				let drained = false;
++				try {
++					while (true) {
++						const read = iterator.next();
++						// A losing next() may still reject after the preemption wins; contain it so it is never unhandled.
++						read.catch(() => {});
++						const next = latch === void 0 ? await read : await Promise.race([read, latch.next]);
++						if (next === PREEMPTED) {
++							preempted = true;
++							break;
++						}
++						if (next.done) {
++							drained = true;
++							break;
++						}
++						signal.throwIfAborted();
++						live.push(next.value);
++					}
+ 					signal.throwIfAborted();
+-					live.push(chunk);
++				} finally {
++					// Same contract as for-await: close the iterator unless it reported done, so a turn abort,
++					// a push failure and a preemption all release the adapter stream instead of leaking it.
++					if (!drained) await (preempted ? closePreemptedStream(iterator) : closeStream(iterator));
+ 				}
+-				signal.throwIfAborted();
+ 			} catch (error) {
+ 				if (!started) throw error;
+ 				try {
+@@ -918,7 +1094,12 @@ var ReactLoopAgent = class {
+ 				}
+ 				throw error;
+ 			}
++			if (preempted) {
++				this.settlePreempt(live, turn, step, request);
++				return null;
++			}
+ 			try {
++				this.attributePreempt(live.usage);
+ 				const finish = live.finish;
+ 				if (finish.kind === "error" || finish.kind === "aborted") {
+ 					live.settle("assistant/attempt", () => this.session.append("assistant/attempt", {
+@@ -1307,6 +1488,7 @@ var AgentLoop = class extends Service {
+ 	/** Runtime schema for declarative agents. */
+ 	static Config = z.object({
+ 		maxParallelToolCalls: z.number().step(1).min(1).default(10).volatile(),
++		instantInterrupt: z.boolean().default(false),
+ 		agents: z.array(z.object({
+ 			id: z.string().required(),
+ 			sessionId: z.string().min(1),
+@@ -1329,7 +1511,8 @@ var AgentLoop = class extends Service {
+ 		super(ctx, "agentLoop");
+ 		this.config = {
+ 			agents: applyLauncherIdentities(config.agents, ctx.get(CONFIGURED_AGENT_IDENTITIES_KEY)),
+-			maxParallelToolCalls: config.maxParallelToolCalls
++			maxParallelToolCalls: config.maxParallelToolCalls,
++			instantInterrupt: config.instantInterrupt === true
+ 		};
+ 		validateConfiguredAgents(this.config.agents);
+ 		this.ownership = new FactoryOwnership(ctx.fiber);
+--- a/dsh-agent-loop/lib/types/index.d.ts
++++ b/dsh-agent-loop/lib/types/index.d.ts
+@@ -69,6 +69,8 @@ export interface Config {
+      * omission defaults to {@link DEFAULT_MAX_PARALLEL_TOOL_CALLS}.
+      */
+     maxParallelToolCalls: Volatile<number>;
++    /** Opt-in step-scoped preemption (instant-preempt candidate). Default off keeps upstream behaviour. */
++    instantInterrupt?: boolean;
+     /** Agents created or resumed at plugin startup; a resumed agent records its configured route as the Session's model selection. */
+     agents: (AgentOptions & {
+         /** Stable config label used in logs and as the fresh combined-id prefix. */
+@@ -81,6 +83,21 @@ export interface Config {
+         resumeSessionId?: SessionId;
+     })[];
+ }
++/** Step-scoped preemption surface exposed by the instant-preempt candidate build. */
++export interface AgentPreemptSurface {
++    /** Request one preemption of the current step; false when no latch is armed, already fired, or outside a step. */
++    preemptStep(reason?: string): boolean;
++    /** The live step's preempt signal, or undefined outside a step or when the candidate is disabled. */
++    readonly preemptSignal: AbortSignal | undefined;
++    /** Counters the verification metric surface reports; they are never inferred from timing. */
++    readonly preemptStats: {
++        fired: number;
++        discardedPartialItems: number;
++        extraRequests: number;
++        extraInputTokens: number;
++        extraOutputTokens: number;
++    };
++}
+ /** Concrete agent factory and driver service. */
+ export declare class AgentLoop extends Service implements AgentFactory {
+     static inject: string[];
+@@ -88,6 +105,7 @@ export declare class AgentLoop extends Service implements AgentFactory {
+     static Config: z<{
+         agents?: Config['agents'];
+         maxParallelToolCalls?: number;
++        instantInterrupt?: boolean;
+     }, Config>;
+     /** Validated configuration owned by the agent-loop service. */
+     readonly config: Config;

@@ -1,0 +1,45 @@
+{
+  "candidate": "instant-preempt-0.2.2-rc.1",
+  "build": "<path-to-dsh-c2-build-0.2.2-rc.1>",
+  "base": "<path-to-dsh-upstream-0.2.2-rc.1>/install",
+  "applied": {
+    "index": [
+      "phaseField",
+      "stepMethod",
+      "stepBodyHead",
+      "streamLoop",
+      "finishOpen",
+      "finishLine",
+      "sentinel",
+      "cancelMethod",
+      "configField",
+      "loopConfig"
+    ],
+    "types": [
+      "typesConfigField",
+      "typesStaticConfig",
+      "typesDoc"
+    ]
+  },
+  "preimage": {
+    "indexJs": "a6fa8e0c7c90191caf5f4a3bb5c624a86e9845cf3c79d020b71420d0e20ae4c1",
+    "typesDts": "950ac8fd8c6d69cd990a5a30957ead11919e4b8d8a62b32393607a116218e205"
+  },
+  "postimage": {
+    "indexJs": "b322925f52697e4dd92e4e64f47f75e4037b0014f3981ecf5a9db159c6c29f2a",
+    "typesDts": "e59baf60981ff773cdf30681504ea3c0e2a37fb6f7e3ac41a5592df702c05193"
+  },
+  "changed": [
+    {
+      "path": "node_modules/@deepseek-ai/dsh-agent-loop/lib/index.js",
+      "sha256Before": "a6fa8e0c7c90191caf5f4a3bb5c624a86e9845cf3c79d020b71420d0e20ae4c1",
+      "sha256After": "b322925f52697e4dd92e4e64f47f75e4037b0014f3981ecf5a9db159c6c29f2a"
+    },
+    {
+      "path": "node_modules/@deepseek-ai/dsh-agent-loop/lib/types/index.d.ts",
+      "sha256Before": "950ac8fd8c6d69cd990a5a30957ead11919e4b8d8a62b32393607a116218e205",
+      "sha256After": "e59baf60981ff773cdf30681504ea3c0e2a37fb6f7e3ac41a5592df702c05193"
+    }
+  ],
+  "at": "2026-11-06T05:33:37.491Z"
+}

@@ -1,0 +1,6 @@
+import fs from 'node:fs';import path from 'node:path';import {spawnSync} from 'node:child_process';import {fileURLToPath} from 'node:url';
+import { C2 } from './paths.mjs';
+const root=path.dirname(fileURLToPath(import.meta.url)),run=root+'/runs/'+Date.now();fs.mkdirSync(run,{recursive:true});let failed=false;const results=[];
+const tests=[['instant','instant-preempt/run.mjs',{}],['goal-c1','goal-veto/run.mjs',{}],['goal-c2','goal-veto/run.mjs',{DSH_GOAL_TEST_BUILD:C2}],['layout','team-layout/probe.mjs',{}],['web','team-layout/web-parity.mjs',{}],['pixels','team-layout/verify-pixels.mjs',{}],['roundtrip','verify-patches.mjs',{}],['ports','check-ports.mjs',{}]];
+for(const [label,file,env]of tests){const r=spawnSync(process.execPath,[root+'/'+file],{encoding:'utf8',env:{...process.env,...env},timeout:300000});const text=(r.stdout??'')+(r.stderr??'');fs.writeFileSync(run+'/'+label+'.log',text);results.push({label,status:r.status});if(r.status!==0)failed=true;console.log(label+' exit='+r.status);console.log(text.split('\n').filter(l=>/^PASS |^TASK_TERMINAL|layout pixel|^Error|^Assertion/.test(l)).join('\n'));}
+fs.writeFileSync(root+'/latest-run.json',JSON.stringify({run,failed,results},null,2));console.log('TASK_TERMINAL: '+(failed?'failed':'completed'));process.exitCode=failed?1:0;

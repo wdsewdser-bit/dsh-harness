@@ -1,0 +1,1349 @@
+{
+  "$comment": [
+    "WP-0 baseline of docs/refactor-20261026/20-M5-plan.md; write with node verification/check-parity.mjs --write.",
+    "files/asserts/fileAsserts/markers are checked by check-parity; tests is recorded only.",
+    "tests = node:test \"# pass N\" of one green TAP run per node:test suite; null for script suites (markers instead).",
+    "added: a net-new coverage entry recorded by WP-2 (packages/delivery/test -> adapter-build); net-new means it is listed here instead of being counted against an old baseline, not a checked field."
+  ],
+  "totals": {
+    "suites": 36,
+    "asserts": 9646,
+    "files": 444
+  },
+  "suites": {
+    "driver-surface": {
+      "layer": "static",
+      "files": [
+        "verification/check-driver-surface.mjs"
+      ],
+      "fileAsserts": {
+        "verification/check-driver-surface.mjs": 0
+      },
+      "asserts": 0,
+      "markers": [
+        "driver surface: PASS"
+      ],
+      "tests": null
+    },
+    "m1b-profile-e2e": {
+      "layer": "e2e",
+      "files": [
+        "packages/host/test/profile-routing.test.mjs",
+        "verification/m1b-profile-e2e.mjs"
+      ],
+      "fileAsserts": {
+        "packages/host/test/profile-routing.test.mjs": 8,
+        "verification/m1b-profile-e2e.mjs": 0
+      },
+      "asserts": 8,
+      "markers": [
+        "m1b-profile-e2e: PASS"
+      ],
+      "tests": null
+    },
+    "adapter-build": {
+      "layer": "unit",
+      "files": [
+        "packages/delivery/test/fix2.test.mjs",
+        "packages/delivery/test/readback.test.mjs",
+        "packages/delivery/test/worktree-base.test.mjs",
+        "packages/host/test-support/cleanup.mjs",
+        "packages/host/test-support/profile.mjs",
+        "verification/build-target.test.mjs",
+        "verification/check-driver-surface.mjs",
+        "verification/context-budget.test.mjs",
+        "verification/decision-renewal.test.mjs",
+        "verification/driver-surface.test.mjs",
+        "verification/failure-diagnostics.mjs",
+        "verification/failure-diagnostics.test.mjs",
+        "verification/git-bash-build-patch.mjs",
+        "verification/git-bash-build-patch.test.mjs",
+        "verification/mailbox-late-delivery.test.mjs",
+        "verification/p4-web-poll.mjs",
+        "verification/p4-web-poll.test.mjs",
+        "verification/real-dispose.test.mjs",
+        "verification/real/budget.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/transport.mjs",
+        "verification/runner/diagnostics.mjs",
+        "verification/runner/guard.mjs",
+        "verification/runner/job.mjs",
+        "verification/runner/manifest.mjs",
+        "verification/runner/orphans.test.mjs",
+        "verification/runner/run.mjs",
+        "verification/stop-errors.test.mjs",
+        "verification/test-cleanup.test.mjs",
+        "verification/timing-metrics.test.mjs",
+        "verification/turn-alert.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/host/test-support/cleanup.mjs": 0,
+        "packages/host/test-support/profile.mjs": 0,
+        "verification/build-target.test.mjs": 11,
+        "verification/check-driver-surface.mjs": 0,
+        "verification/context-budget.test.mjs": 104,
+        "verification/decision-renewal.test.mjs": 22,
+        "verification/driver-surface.test.mjs": 12,
+        "verification/failure-diagnostics.mjs": 0,
+        "verification/failure-diagnostics.test.mjs": 4,
+        "verification/git-bash-build-patch.mjs": 0,
+        "verification/git-bash-build-patch.test.mjs": 47,
+        "verification/mailbox-late-delivery.test.mjs": 5,
+        "verification/p4-web-poll.mjs": 0,
+        "verification/p4-web-poll.test.mjs": 15,
+        "verification/real-dispose.test.mjs": 16,
+        "verification/real/budget.mjs": 0,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/timing.mjs": 0,
+        "verification/real/transport.mjs": 0,
+        "verification/runner/diagnostics.mjs": 0,
+        "verification/runner/guard.mjs": 0,
+        "verification/runner/job.mjs": 0,
+        "verification/runner/manifest.mjs": 0,
+        "verification/runner/orphans.test.mjs": 50,
+        "verification/runner/run.mjs": 0,
+        "verification/stop-errors.test.mjs": 6,
+        "verification/test-cleanup.test.mjs": 17,
+        "verification/timing-metrics.test.mjs": 23,
+        "verification/turn-alert.test.mjs": 44,
+        "packages/delivery/test/fix2.test.mjs": 7,
+        "packages/delivery/test/readback.test.mjs": 23,
+        "packages/delivery/test/worktree-base.test.mjs": 5
+      },
+      "added": {
+        "packages/delivery/test": true
+      },
+      "asserts": 411,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 56
+    },
+    "superagent-borrow": {
+      "layer": "unit",
+      "files": [
+        "packages/host/test-support/profile.mjs",
+        "packages/profiles/test-support/temp-roots.mjs",
+        "verification/superagent-borrow-p0.test.mjs",
+        "verification/superagent-borrow-probe.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/host/test-support/profile.mjs": 0,
+        "packages/profiles/test-support/temp-roots.mjs": 0,
+        "verification/superagent-borrow-p0.test.mjs": 94,
+        "verification/superagent-borrow-probe.test.mjs": 17
+      },
+      "asserts": 111,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 17
+    },
+    "superagent-borrow-p5": {
+      "layer": "unit",
+      "files": [
+        "verification/superagent-borrow-acceptance.test.mjs",
+        "verification/superagent-borrow-p5.test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/superagent-borrow-acceptance.test.mjs": 20,
+        "verification/superagent-borrow-p5.test.mjs": 151
+      },
+      "asserts": 171,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 18
+    },
+    "superagent-borrow-performance": {
+      "layer": "unit",
+      "files": [
+        "verification/superagent-borrow-performance.test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/superagent-borrow-performance.test.mjs": 22
+      },
+      "asserts": 22,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 1
+    },
+    "superagent-borrow-profile-e2e": {
+      "layer": "e2e",
+      "files": [
+        "verification/superagent-borrow-profile-e2e.test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/superagent-borrow-profile-e2e.test.mjs": 58
+      },
+      "asserts": 58,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 2
+    },
+    "real/session-state": {
+      "layer": "unit",
+      "files": [
+        "verification/real/collab-session.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/product-workload.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/scenario.mjs",
+        "verification/real/session-state.test.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/tool-output.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/collab-session.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/product-workload.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/scenario.mjs": 0,
+        "verification/real/session-state.test.mjs": 22,
+        "verification/real/timing.mjs": 0,
+        "verification/real/tool-output.mjs": 0
+      },
+      "asserts": 22,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 5
+    },
+    "ui": {
+      "layer": "unit",
+      "files": [
+        "packages/ui/test/borrow.test.mjs",
+        "packages/ui/test/commands.test.mjs",
+        "packages/ui/test/frozen.test.mjs",
+        "packages/ui/test/model.test.mjs",
+        "packages/ui/test/receipt-status.test.mjs",
+        "packages/ui/test/retention-resync.test.mjs",
+        "packages/ui/test/v3visual.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/ui/test/borrow.test.mjs": 75,
+        "packages/ui/test/commands.test.mjs": 87,
+        "packages/ui/test/frozen.test.mjs": 36,
+        "packages/ui/test/model.test.mjs": 215,
+        "packages/ui/test/receipt-status.test.mjs": 6,
+        "packages/ui/test/retention-resync.test.mjs": 7,
+        "packages/ui/test/v3visual.test.mjs": 67
+      },
+      "asserts": 493,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 68
+    },
+    "core": {
+      "layer": "unit",
+      "files": [
+        "packages/core/test-support/capacity-worker.mjs",
+        "packages/core/test-support/execution.mjs",
+        "packages/core/test-support/p7-rows.mjs",
+        "packages/core/test/autonomy-completion-tool.test.mjs",
+        "packages/core/test/autonomy-decisions.test.mjs",
+        "packages/core/test/autonomy-owner.test.mjs",
+        "packages/core/test/certified-queue.test.mjs",
+        "packages/core/test/collab-protocol.test.mjs",
+        "packages/core/test/drain-budget.test.mjs",
+        "packages/core/test/lifecycle.test.mjs",
+        "packages/core/test/mailbox-admission.test.mjs",
+        "packages/core/test/mailbox-unknown-slot.test.mjs",
+        "packages/core/test/p2-workspace.test.mjs",
+        "packages/core/test/p7-projection.test.mjs",
+        "packages/core/test/p7-retention.test.mjs",
+        "packages/core/test/p9-projection-stream.test.mjs",
+        "packages/core/test/preempt.test.mjs",
+        "packages/core/test/provider-capacity.test.mjs",
+        "packages/core/test/ready-order.test.mjs",
+        "packages/core/test/receipt-entry.test.mjs",
+        "packages/core/test/reducer-contract.test.mjs",
+        "packages/core/test/stop-authority.test.mjs",
+        "packages/core/test/superagent-borrow-s1-mutation.test.mjs",
+        "packages/core/test/superagent-borrow-s1.test.mjs",
+        "packages/core/test/superagent-borrow-s3-mutation.test.mjs",
+        "packages/core/test/superagent-borrow-s3.test.mjs",
+        "packages/core/test/superagent-borrow-s4.test.mjs",
+        "packages/core/test/target-queues.test.mjs",
+        "packages/core/test/team-goal-migration.test.mjs",
+        "packages/core/test/team-goal.test.mjs",
+        "packages/core/test/usage-budget.test.mjs",
+        "packages/profiles/test/superagent-borrow-s3-boundary.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/core/test-support/capacity-worker.mjs": 1,
+        "packages/core/test-support/execution.mjs": 0,
+        "packages/core/test-support/p7-rows.mjs": 0,
+        "packages/core/test/autonomy-completion-tool.test.mjs": 26,
+        "packages/core/test/autonomy-decisions.test.mjs": 71,
+        "packages/core/test/autonomy-owner.test.mjs": 40,
+        "packages/core/test/certified-queue.test.mjs": 6,
+        "packages/core/test/collab-protocol.test.mjs": 139,
+        "packages/core/test/drain-budget.test.mjs": 10,
+        "packages/core/test/lifecycle.test.mjs": 33,
+        "packages/core/test/mailbox-admission.test.mjs": 13,
+        "packages/core/test/mailbox-unknown-slot.test.mjs": 22,
+        "packages/core/test/p2-workspace.test.mjs": 37,
+        "packages/core/test/p7-projection.test.mjs": 48,
+        "packages/core/test/p7-retention.test.mjs": 24,
+        "packages/core/test/p9-projection-stream.test.mjs": 36,
+        "packages/core/test/preempt.test.mjs": 90,
+        "packages/core/test/provider-capacity.test.mjs": 53,
+        "packages/core/test/ready-order.test.mjs": 24,
+        "packages/core/test/receipt-entry.test.mjs": 7,
+        "packages/core/test/reducer-contract.test.mjs": 75,
+        "packages/core/test/stop-authority.test.mjs": 56,
+        "packages/core/test/superagent-borrow-s1-mutation.test.mjs": 8,
+        "packages/core/test/superagent-borrow-s1.test.mjs": 245,
+        "packages/core/test/superagent-borrow-s3-mutation.test.mjs": 11,
+        "packages/core/test/superagent-borrow-s3.test.mjs": 115,
+        "packages/core/test/superagent-borrow-s4.test.mjs": 105,
+        "packages/core/test/target-queues.test.mjs": 3,
+        "packages/core/test/team-goal-migration.test.mjs": 66,
+        "packages/core/test/team-goal.test.mjs": 31,
+        "packages/core/test/usage-budget.test.mjs": 46,
+        "packages/profiles/test/superagent-borrow-s3-boundary.test.mjs": 49
+      },
+      "asserts": 1490,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 233
+    },
+    "profiles": {
+      "layer": "unit",
+      "files": [
+        "packages/profiles/test-support/borrow-matrix-fixture.mjs",
+        "packages/profiles/test-support/borrow-support-matrix.mjs",
+        "packages/profiles/test-support/controlled-run.mjs",
+        "packages/profiles/test-support/process-tree.mjs",
+        "packages/profiles/test-support/retention-graph.mjs",
+        "packages/profiles/test-support/temp-roots.mjs",
+        "packages/profiles/test/autonomy-off-baseline.test.mjs",
+        "packages/profiles/test/borrow-evidence-retention.test.mjs",
+        "packages/profiles/test/borrow-integration.test.mjs",
+        "packages/profiles/test/borrow-projection-lifecycle.test.mjs",
+        "packages/profiles/test/borrow-projection-retention.test.mjs",
+        "packages/profiles/test/borrow-support-matrix.test.mjs",
+        "packages/profiles/test/decision-settled.test.mjs",
+        "packages/profiles/test/execution-closeout.test.mjs",
+        "packages/profiles/test/execution-entry.test.mjs",
+        "packages/profiles/test/execution-finish.test.mjs",
+        "packages/profiles/test/execution-properties.test.mjs",
+        "packages/profiles/test/execution-scope.test.mjs",
+        "packages/profiles/test/host-cycle-context.test.mjs",
+        "packages/profiles/test/mailbox-observation.test.mjs",
+        "packages/profiles/test/process-tree.test.mjs",
+        "packages/profiles/test/runtime-execution-entries.test.mjs",
+        "packages/profiles/test/shell-bash-pin.test.mjs",
+        "packages/profiles/test/stop-in-process-e2e.test.mjs",
+        "packages/profiles/test/stop-in-process.test.mjs",
+        "packages/profiles/test/stop-rebind.test.mjs",
+        "packages/profiles/test/superagent-borrow-provider-capacity.test.mjs",
+        "packages/profiles/test/superagent-borrow-s2-mutation.test.mjs",
+        "packages/profiles/test/superagent-borrow-s2.test.mjs",
+        "packages/profiles/test/superagent-borrow-s3-boundary.test.mjs",
+        "packages/profiles/test/superagent-borrow-s4-mutation.test.mjs",
+        "packages/profiles/test/superagent-borrow-s4-owner.test.mjs",
+        "packages/profiles/test/temp-roots.test.mjs",
+        "packages/profiles/test/usage-observation.test.mjs",
+        "packages/profiles/test/wake-contract.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/profiles/test-support/borrow-matrix-fixture.mjs": 0,
+        "packages/profiles/test-support/borrow-support-matrix.mjs": 84,
+        "packages/profiles/test-support/controlled-run.mjs": 0,
+        "packages/profiles/test-support/process-tree.mjs": 0,
+        "packages/profiles/test-support/retention-graph.mjs": 4,
+        "packages/profiles/test-support/temp-roots.mjs": 0,
+        "packages/profiles/test/autonomy-off-baseline.test.mjs": 8,
+        "packages/profiles/test/borrow-evidence-retention.test.mjs": 202,
+        "packages/profiles/test/borrow-integration.test.mjs": 24,
+        "packages/profiles/test/borrow-projection-lifecycle.test.mjs": 34,
+        "packages/profiles/test/borrow-projection-retention.test.mjs": 41,
+        "packages/profiles/test/borrow-support-matrix.test.mjs": 46,
+        "packages/profiles/test/decision-settled.test.mjs": 11,
+        "packages/profiles/test/execution-closeout.test.mjs": 11,
+        "packages/profiles/test/execution-entry.test.mjs": 22,
+        "packages/profiles/test/execution-finish.test.mjs": 31,
+        "packages/profiles/test/execution-properties.test.mjs": 3,
+        "packages/profiles/test/execution-scope.test.mjs": 42,
+        "packages/profiles/test/host-cycle-context.test.mjs": 8,
+        "packages/profiles/test/mailbox-observation.test.mjs": 11,
+        "packages/profiles/test/process-tree.test.mjs": 45,
+        "packages/profiles/test/runtime-execution-entries.test.mjs": 84,
+        "packages/profiles/test/shell-bash-pin.test.mjs": 29,
+        "packages/profiles/test/stop-in-process-e2e.test.mjs": 29,
+        "packages/profiles/test/stop-in-process.test.mjs": 67,
+        "packages/profiles/test/stop-rebind.test.mjs": 10,
+        "packages/profiles/test/superagent-borrow-provider-capacity.test.mjs": 32,
+        "packages/profiles/test/superagent-borrow-s2-mutation.test.mjs": 8,
+        "packages/profiles/test/superagent-borrow-s2.test.mjs": 164,
+        "packages/profiles/test/superagent-borrow-s3-boundary.test.mjs": 49,
+        "packages/profiles/test/superagent-borrow-s4-mutation.test.mjs": 12,
+        "packages/profiles/test/superagent-borrow-s4-owner.test.mjs": 56,
+        "packages/profiles/test/temp-roots.test.mjs": 9,
+        "packages/profiles/test/usage-observation.test.mjs": 29,
+        "packages/profiles/test/wake-contract.test.mjs": 17
+      },
+      "asserts": 1222,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 158
+    },
+    "host": {
+      "layer": "unit",
+      "files": [
+        "packages/host/test-support/cleanup.mjs",
+        "packages/host/test-support/execution.mjs",
+        "packages/host/test-support/guard-world.mjs",
+        "packages/host/test-support/helpers.mjs",
+        "packages/host/test-support/profile.mjs",
+        "packages/host/test-support/real.mjs",
+        "packages/host/test-support/retention-graph.mjs",
+        "packages/host/test/adjudication-f1.test.mjs",
+        "packages/host/test/autonomy-config-forwarding.test.mjs",
+        "packages/host/test/core-access.test.mjs",
+        "packages/host/test/cycle.test.mjs",
+        "packages/host/test/decision-settled.test.mjs",
+        "packages/host/test/delivery.test.mjs",
+        "packages/host/test/drain-inputs.test.mjs",
+        "packages/host/test/drain.test.mjs",
+        "packages/host/test/effect-capabilities.test.mjs",
+        "packages/host/test/effect-wait-stop.test.mjs",
+        "packages/host/test/effect-wait.test.mjs",
+        "packages/host/test/effects.test.mjs",
+        "packages/host/test/evidence-maintenance.test.mjs",
+        "packages/host/test/execution-closeout-production.test.mjs",
+        "packages/host/test/f1-round10.test.mjs",
+        "packages/host/test/f1-round11.test.mjs",
+        "packages/host/test/f1-round4.test.mjs",
+        "packages/host/test/f1-round5.test.mjs",
+        "packages/host/test/f1-round6.test.mjs",
+        "packages/host/test/f1-round7.test.mjs",
+        "packages/host/test/f1-round8.test.mjs",
+        "packages/host/test/f1-round9.test.mjs",
+        "packages/host/test/gateway.test.mjs",
+        "packages/host/test/gc.test.mjs",
+        "packages/host/test/heartbeat.test.mjs",
+        "packages/host/test/host-faults.test.mjs",
+        "packages/host/test/identity.test.mjs",
+        "packages/host/test/inflight-binding.test.mjs",
+        "packages/host/test/io-reclaim.test.mjs",
+        "packages/host/test/isolation.test.mjs",
+        "packages/host/test/lifecycle.test.mjs",
+        "packages/host/test/mailbox-effect-closeout.test.mjs",
+        "packages/host/test/mailbox-lifecycle.test.mjs",
+        "packages/host/test/mailbox-restart.test.mjs",
+        "packages/host/test/mailbox-turn-binding.test.mjs",
+        "packages/host/test/main-request.test.mjs",
+        "packages/host/test/member-workspace.test.mjs",
+        "packages/host/test/owner-observation.test.mjs",
+        "packages/host/test/ownership.multiprocess.test.mjs",
+        "packages/host/test/ownership.test.mjs",
+        "packages/host/test/p2-budget-config.test.mjs",
+        "packages/host/test/p2-workspace.test.mjs",
+        "packages/host/test/profile-auth.test.mjs",
+        "packages/host/test/profile-driver.test.mjs",
+        "packages/host/test/profile-manager.test.mjs",
+        "packages/host/test/profile-pricing.test.mjs",
+        "packages/host/test/profile-routing.test.mjs",
+        "packages/host/test/profile-safety.test.mjs",
+        "packages/host/test/projection-maintenance-status.test.mjs",
+        "packages/host/test/reconcile-command.test.mjs",
+        "packages/host/test/recovery.test.mjs",
+        "packages/host/test/registry.test.mjs",
+        "packages/host/test/safety.test.mjs",
+        "packages/host/test/session-minting.test.mjs",
+        "packages/host/test/sessions.test.mjs",
+        "packages/host/test/state-machine.test.mjs",
+        "packages/host/test/stop-proof-cancel.test.mjs",
+        "packages/host/test/stop-proof-closeout.test.mjs",
+        "packages/host/test/stop-proof-windows.test.mjs",
+        "packages/host/test/stop-proof.test.mjs",
+        "packages/host/test/stop-races.test.mjs",
+        "packages/host/test/store-version.test.mjs",
+        "packages/host/test/superagent-borrow-s4-io.test.mjs",
+        "packages/host/test/teams.test.mjs",
+        "packages/host/test/tool-guard-forgery.test.mjs",
+        "packages/host/test/tool-guard-native-paths.test.mjs",
+        "packages/host/test/tool-guard-paths.test.mjs",
+        "packages/host/test/tool-guard-workspace.test.mjs",
+        "packages/host/test/visibility-errors.test.mjs",
+        "packages/host/test/visibility-retention.test.mjs",
+        "packages/host/test/visibility.test.mjs"
+      ],
+      "fileAsserts": {
+        "packages/host/test-support/cleanup.mjs": 0,
+        "packages/host/test-support/execution.mjs": 0,
+        "packages/host/test-support/guard-world.mjs": 0,
+        "packages/host/test-support/helpers.mjs": 0,
+        "packages/host/test-support/profile.mjs": 0,
+        "packages/host/test-support/real.mjs": 0,
+        "packages/host/test-support/retention-graph.mjs": 3,
+        "packages/host/test/adjudication-f1.test.mjs": 4,
+        "packages/host/test/autonomy-config-forwarding.test.mjs": 6,
+        "packages/host/test/core-access.test.mjs": 128,
+        "packages/host/test/cycle.test.mjs": 36,
+        "packages/host/test/decision-settled.test.mjs": 9,
+        "packages/host/test/delivery.test.mjs": 55,
+        "packages/host/test/drain-inputs.test.mjs": 15,
+        "packages/host/test/drain.test.mjs": 21,
+        "packages/host/test/effect-capabilities.test.mjs": 93,
+        "packages/host/test/effect-wait-stop.test.mjs": 7,
+        "packages/host/test/effect-wait.test.mjs": 15,
+        "packages/host/test/effects.test.mjs": 78,
+        "packages/host/test/evidence-maintenance.test.mjs": 54,
+        "packages/host/test/execution-closeout-production.test.mjs": 41,
+        "packages/host/test/f1-round10.test.mjs": 39,
+        "packages/host/test/f1-round11.test.mjs": 34,
+        "packages/host/test/f1-round4.test.mjs": 24,
+        "packages/host/test/f1-round5.test.mjs": 35,
+        "packages/host/test/f1-round6.test.mjs": 50,
+        "packages/host/test/f1-round7.test.mjs": 21,
+        "packages/host/test/f1-round8.test.mjs": 34,
+        "packages/host/test/f1-round9.test.mjs": 65,
+        "packages/host/test/gateway.test.mjs": 40,
+        "packages/host/test/gc.test.mjs": 43,
+        "packages/host/test/heartbeat.test.mjs": 12,
+        "packages/host/test/host-faults.test.mjs": 25,
+        "packages/host/test/identity.test.mjs": 30,
+        "packages/host/test/inflight-binding.test.mjs": 18,
+        "packages/host/test/io-reclaim.test.mjs": 8,
+        "packages/host/test/isolation.test.mjs": 52,
+        "packages/host/test/lifecycle.test.mjs": 66,
+        "packages/host/test/mailbox-effect-closeout.test.mjs": 20,
+        "packages/host/test/mailbox-lifecycle.test.mjs": 20,
+        "packages/host/test/mailbox-restart.test.mjs": 14,
+        "packages/host/test/mailbox-turn-binding.test.mjs": 83,
+        "packages/host/test/main-request.test.mjs": 6,
+        "packages/host/test/member-workspace.test.mjs": 16,
+        "packages/host/test/owner-observation.test.mjs": 19,
+        "packages/host/test/ownership.multiprocess.test.mjs": 15,
+        "packages/host/test/ownership.test.mjs": 42,
+        "packages/host/test/p2-budget-config.test.mjs": 9,
+        "packages/host/test/p2-workspace.test.mjs": 25,
+        "packages/host/test/profile-auth.test.mjs": 10,
+        "packages/host/test/profile-driver.test.mjs": 34,
+        "packages/host/test/profile-manager.test.mjs": 11,
+        "packages/host/test/profile-pricing.test.mjs": 7,
+        "packages/host/test/profile-routing.test.mjs": 8,
+        "packages/host/test/profile-safety.test.mjs": 8,
+        "packages/host/test/projection-maintenance-status.test.mjs": 12,
+        "packages/host/test/reconcile-command.test.mjs": 6,
+        "packages/host/test/recovery.test.mjs": 166,
+        "packages/host/test/registry.test.mjs": 32,
+        "packages/host/test/safety.test.mjs": 67,
+        "packages/host/test/session-minting.test.mjs": 5,
+        "packages/host/test/sessions.test.mjs": 31,
+        "packages/host/test/state-machine.test.mjs": 18,
+        "packages/host/test/stop-proof-cancel.test.mjs": 35,
+        "packages/host/test/stop-proof-closeout.test.mjs": 54,
+        "packages/host/test/stop-proof-windows.test.mjs": 8,
+        "packages/host/test/stop-proof.test.mjs": 50,
+        "packages/host/test/stop-races.test.mjs": 36,
+        "packages/host/test/store-version.test.mjs": 21,
+        "packages/host/test/superagent-borrow-s4-io.test.mjs": 117,
+        "packages/host/test/teams.test.mjs": 16,
+        "packages/host/test/tool-guard-forgery.test.mjs": 6,
+        "packages/host/test/tool-guard-native-paths.test.mjs": 30,
+        "packages/host/test/tool-guard-paths.test.mjs": 16,
+        "packages/host/test/tool-guard-workspace.test.mjs": 5,
+        "packages/host/test/visibility-errors.test.mjs": 7,
+        "packages/host/test/visibility-retention.test.mjs": 101,
+        "packages/host/test/visibility.test.mjs": 173
+      },
+      "asserts": 2520,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 494
+    },
+    "p2-context": {
+      "layer": "integration",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p2-context: PASS"
+      ],
+      "tests": null
+    },
+    "p2-faults": {
+      "layer": "integration",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p2-faults: PASS"
+      ],
+      "tests": null
+    },
+    "p3-core": {
+      "layer": "domain",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p3-core: PASS"
+      ],
+      "tests": null
+    },
+    "p3-model-contracts": {
+      "layer": "domain",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p3-model-contracts: PASS"
+      ],
+      "tests": null
+    },
+    "real/preempt-copy": {
+      "layer": "unit",
+      "files": [
+        "verification/real/budget.mjs",
+        "verification/real/collab-session.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/preempt-copy-test.mjs",
+        "verification/real/preempt-product-test.mjs",
+        "verification/real/preempt-transport-test.mjs",
+        "verification/real/product-workload.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/scenario.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/tool-output.mjs",
+        "verification/real/transport.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/budget.mjs": 0,
+        "verification/real/collab-session.mjs": 0,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/preempt-copy-test.mjs": 10,
+        "verification/real/preempt-product-test.mjs": 15,
+        "verification/real/preempt-transport-test.mjs": 21,
+        "verification/real/product-workload.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/scenario.mjs": 0,
+        "verification/real/timing.mjs": 0,
+        "verification/real/tool-output.mjs": 0,
+        "verification/real/transport.mjs": 0
+      },
+      "asserts": 46,
+      "markers": [
+        "instant preempt copy PASS"
+      ],
+      "tests": null
+    },
+    "real/safety-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/budget.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/run.mjs",
+        "verification/real/safety-test.mjs",
+        "verification/real/scope.mjs",
+        "verification/real/stop.mjs",
+        "verification/real/transport.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/budget.mjs": 0,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/run.mjs": 0,
+        "verification/real/safety-test.mjs": 68,
+        "verification/real/scope.mjs": 0,
+        "verification/real/stop.mjs": 0,
+        "verification/real/transport.mjs": 0
+      },
+      "asserts": 68,
+      "markers": [
+        "safety PASS"
+      ],
+      "tests": null
+    },
+    "real/tool-contract-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/tool-contract-test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/tool-contract-test.mjs": 81
+      },
+      "asserts": 81,
+      "markers": [
+        "tool contract tests PASS"
+      ],
+      "tests": null
+    },
+    "real/collab-contract-test": {
+      "layer": "domain",
+      "files": [
+        "verification/real/collab-contract-test.mjs",
+        "verification/real/native-host.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/collab-contract-test.mjs": 141,
+        "verification/real/native-host.mjs": 0
+      },
+      "asserts": 141,
+      "markers": [
+        "collab contract tests PASS"
+      ],
+      "tests": null
+    },
+    "real/deadline-protocol-test": {
+      "layer": "domain",
+      "files": [
+        "verification/real/deadline-protocol-test.mjs",
+        "verification/real/protocol-metrics.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/deadline-protocol-test.mjs": 63,
+        "verification/real/protocol-metrics.mjs": 0
+      },
+      "asserts": 63,
+      "markers": [
+        "deadline\\/protocol recovery tests PASS"
+      ],
+      "tests": null
+    },
+    "real/workload-guard-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/product-workload.mjs",
+        "verification/real/protocol-metrics.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/tool-output.mjs",
+        "verification/real/workload-guard-test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/product-workload.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0,
+        "verification/real/timing.mjs": 0,
+        "verification/real/tool-output.mjs": 0,
+        "verification/real/workload-guard-test.mjs": 54
+      },
+      "asserts": 54,
+      "markers": [
+        "workload guard tests PASS"
+      ],
+      "tests": null
+    },
+    "real/concurrency-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/budget.mjs",
+        "verification/real/concurrency-test.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/metrics.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/protocol-metrics.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/budget.mjs": 0,
+        "verification/real/concurrency-test.mjs": 41,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/metrics.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0
+      },
+      "asserts": 41,
+      "markers": [
+        "concurrency\\/budget gate PASS"
+      ],
+      "tests": null
+    },
+    "real/tool-output-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/tool-output-test.mjs",
+        "verification/real/tool-output.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/tool-output-test.mjs": 5,
+        "verification/real/tool-output.mjs": 0
+      },
+      "asserts": 5,
+      "markers": [
+        "tool-output tests PASS"
+      ],
+      "tests": null
+    },
+    "real/self-test": {
+      "layer": "unit",
+      "files": [
+        "verification/real/budget.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/metrics.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/protocol-metrics.mjs",
+        "verification/real/self-test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/budget.mjs": 0,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/metrics.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0,
+        "verification/real/self-test.mjs": 16
+      },
+      "asserts": 16,
+      "markers": [
+        "budget fake provider PASS"
+      ],
+      "tests": null
+    },
+    "real/dispatch-phase-test": {
+      "layer": "integration",
+      "files": [
+        "verification/real/budget.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/dispatch-phase-test.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/transport.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/budget.mjs": 0,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/dispatch-phase-test.mjs": 46,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/transport.mjs": 0
+      },
+      "asserts": 46,
+      "markers": [
+        "dispatch phase tests PASS"
+      ],
+      "tests": null
+    },
+    "p4-retention-current": {
+      "layer": "unit",
+      "files": [
+        "verification/p4-retention-current.mjs"
+      ],
+      "fileAsserts": {
+        "verification/p4-retention-current.mjs": 9
+      },
+      "asserts": 9,
+      "markers": [
+        "retained PASS"
+      ],
+      "tests": null
+    },
+    "p4-retention-late": {
+      "layer": "unit",
+      "files": [
+        "verification/p4-retention-late.mjs"
+      ],
+      "fileAsserts": {
+        "verification/p4-retention-late.mjs": 5
+      },
+      "asserts": 5,
+      "markers": [
+        "PASS"
+      ],
+      "tests": null
+    },
+    "p3-team": {
+      "layer": "e2e",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p3-team: PASS"
+      ],
+      "tests": null
+    },
+    "p3-regressions": {
+      "layer": "domain",
+      "files": [
+        "verification/fault-worker.mjs",
+        "verification/faults.mjs",
+        "verification/harness/fake-provider.mjs",
+        "verification/kill-worker.mjs",
+        "verification/p3-closure.mjs",
+        "verification/p3-edge-cases.mjs",
+        "verification/p3-source-replay.mjs",
+        "verification/p3-tests.mjs",
+        "verification/p3b-host.mjs",
+        "verification/p3b-model.mjs",
+        "verification/p3b-tests.mjs",
+        "verification/p3b-worker.mjs",
+        "verification/planner-properties.mjs",
+        "verification/run.mjs",
+        "verification/surface-cold.mjs"
+      ],
+      "fileAsserts": {
+        "verification/fault-worker.mjs": 0,
+        "verification/faults.mjs": 34,
+        "verification/harness/fake-provider.mjs": 3,
+        "verification/kill-worker.mjs": 0,
+        "verification/p3-closure.mjs": 41,
+        "verification/p3-edge-cases.mjs": 10,
+        "verification/p3-source-replay.mjs": 14,
+        "verification/p3-tests.mjs": 49,
+        "verification/p3b-host.mjs": 4,
+        "verification/p3b-model.mjs": 1,
+        "verification/p3b-tests.mjs": 36,
+        "verification/p3b-worker.mjs": 0,
+        "verification/planner-properties.mjs": 8,
+        "verification/run.mjs": 10,
+        "verification/surface-cold.mjs": 2
+      },
+      "asserts": 212,
+      "markers": [
+        "p3-regressions: PASS"
+      ],
+      "tests": null
+    },
+    "p4-projections": {
+      "layer": "e2e",
+      "files": [
+        "verification/failure-diagnostics.mjs",
+        "verification/p4-certificate-binding.mjs",
+        "verification/p4-commands.mjs",
+        "verification/p4-projections.mjs",
+        "verification/p4-retention-test.mjs",
+        "verification/p4-run.mjs",
+        "verification/p4-web-poll.mjs",
+        "verification/p4-web.mjs",
+        "verification/runner/diagnostics.mjs",
+        "verification/runner/guard.mjs"
+      ],
+      "fileAsserts": {
+        "verification/failure-diagnostics.mjs": 0,
+        "verification/p4-certificate-binding.mjs": 10,
+        "verification/p4-commands.mjs": 31,
+        "verification/p4-projections.mjs": 53,
+        "verification/p4-retention-test.mjs": 6,
+        "verification/p4-run.mjs": 0,
+        "verification/p4-web-poll.mjs": 0,
+        "verification/p4-web.mjs": 25,
+        "verification/runner/diagnostics.mjs": 0,
+        "verification/runner/guard.mjs": 0
+      },
+      "asserts": 125,
+      "markers": [
+        "p4-projections: PASS"
+      ],
+      "tests": null
+    },
+    "real/full-test": {
+      "layer": "integration",
+      "files": [
+        "verification/failure-diagnostics.mjs",
+        "verification/real/budget.mjs",
+        "verification/real/collab-backend-test.mjs",
+        "verification/real/collab-contract-test.mjs",
+        "verification/real/collab-fake.mjs",
+        "verification/real/collab-metrics.mjs",
+        "verification/real/collab-session.mjs",
+        "verification/real/collab-snapshot-delta.mjs",
+        "verification/real/collab-stage.mjs",
+        "verification/real/collab-task/brief.mjs",
+        "verification/real/collab-task/hidden-set/backend.mjs",
+        "verification/real/collab-test.mjs",
+        "verification/real/concurrency-test.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/deadline-protocol-test.mjs",
+        "verification/real/dry-test.mjs",
+        "verification/real/full-test.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/metrics.mjs",
+        "verification/real/native-host.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/product-workload.mjs",
+        "verification/real/protocol-metrics.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/run.mjs",
+        "verification/real/safety-test.mjs",
+        "verification/real/scenario.mjs",
+        "verification/real/scope.mjs",
+        "verification/real/self-test.mjs",
+        "verification/real/stop.mjs",
+        "verification/real/test-support/worker-result-child.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/tool-contract-test.mjs",
+        "verification/real/tool-output-test.mjs",
+        "verification/real/tool-output.mjs",
+        "verification/real/transport.mjs",
+        "verification/real/turn-limit-test.mjs",
+        "verification/real/worker-result.mjs",
+        "verification/real/workload-guard-test.mjs",
+        "verification/runner/diagnostics.mjs",
+        "verification/runner/guard.mjs"
+      ],
+      "fileAsserts": {
+        "verification/failure-diagnostics.mjs": 0,
+        "verification/real/budget.mjs": 0,
+        "verification/real/collab-backend-test.mjs": 21,
+        "verification/real/collab-contract-test.mjs": 141,
+        "verification/real/collab-fake.mjs": 0,
+        "verification/real/collab-metrics.mjs": 0,
+        "verification/real/collab-session.mjs": 0,
+        "verification/real/collab-snapshot-delta.mjs": 4,
+        "verification/real/collab-stage.mjs": 0,
+        "verification/real/collab-task/brief.mjs": 0,
+        "verification/real/collab-task/hidden-set/backend.mjs": 0,
+        "verification/real/collab-test.mjs": 107,
+        "verification/real/concurrency-test.mjs": 41,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/deadline-protocol-test.mjs": 63,
+        "verification/real/dry-test.mjs": 6,
+        "verification/real/full-test.mjs": 137,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/metrics.mjs": 0,
+        "verification/real/native-host.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/product-workload.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/run.mjs": 0,
+        "verification/real/safety-test.mjs": 68,
+        "verification/real/scenario.mjs": 0,
+        "verification/real/scope.mjs": 0,
+        "verification/real/self-test.mjs": 16,
+        "verification/real/stop.mjs": 0,
+        "verification/real/test-support/worker-result-child.mjs": 0,
+        "verification/real/timing.mjs": 0,
+        "verification/real/tool-contract-test.mjs": 81,
+        "verification/real/tool-output-test.mjs": 5,
+        "verification/real/tool-output.mjs": 0,
+        "verification/real/transport.mjs": 0,
+        "verification/real/turn-limit-test.mjs": 31,
+        "verification/real/worker-result.mjs": 0,
+        "verification/real/workload-guard-test.mjs": 54,
+        "verification/runner/diagnostics.mjs": 0,
+        "verification/runner/guard.mjs": 0
+      },
+      "asserts": 775,
+      "markers": [
+        "PASS: .*real ledger unchanged"
+      ],
+      "tests": null
+    },
+    "real/collab-test": {
+      "layer": "integration",
+      "files": [
+        "verification/real/collab-backend-test.mjs",
+        "verification/real/collab-contract-test.mjs",
+        "verification/real/collab-fake.mjs",
+        "verification/real/collab-metrics.mjs",
+        "verification/real/collab-session.mjs",
+        "verification/real/collab-snapshot-delta.mjs",
+        "verification/real/collab-stage.mjs",
+        "verification/real/collab-task/brief.mjs",
+        "verification/real/collab-task/hidden-set/backend.mjs",
+        "verification/real/collab-test.mjs",
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/metrics.mjs",
+        "verification/real/native-host.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/product-workload.mjs",
+        "verification/real/protocol-metrics.mjs",
+        "verification/real/protocol.mjs",
+        "verification/real/run.mjs",
+        "verification/real/scenario.mjs",
+        "verification/real/scope.mjs",
+        "verification/real/stop.mjs",
+        "verification/real/timing.mjs",
+        "verification/real/tool-output.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/collab-backend-test.mjs": 21,
+        "verification/real/collab-contract-test.mjs": 141,
+        "verification/real/collab-fake.mjs": 0,
+        "verification/real/collab-metrics.mjs": 0,
+        "verification/real/collab-session.mjs": 0,
+        "verification/real/collab-snapshot-delta.mjs": 4,
+        "verification/real/collab-stage.mjs": 0,
+        "verification/real/collab-task/brief.mjs": 0,
+        "verification/real/collab-task/hidden-set/backend.mjs": 0,
+        "verification/real/collab-test.mjs": 107,
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/metrics.mjs": 0,
+        "verification/real/native-host.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/product-workload.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0,
+        "verification/real/protocol.mjs": 0,
+        "verification/real/run.mjs": 0,
+        "verification/real/scenario.mjs": 0,
+        "verification/real/scope.mjs": 0,
+        "verification/real/stop.mjs": 0,
+        "verification/real/timing.mjs": 0,
+        "verification/real/tool-output.mjs": 0
+      },
+      "asserts": 273,
+      "markers": [
+        "PASS: collaboration stage offline"
+      ],
+      "tests": null
+    },
+    "real/performance-study": {
+      "layer": "integration",
+      "files": [
+        "verification/real/performance-study-test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/performance-study-test.mjs": 11
+      },
+      "asserts": 11,
+      "markers": [
+        "performance study PASS"
+      ],
+      "tests": null
+    },
+    "real/turn-limit-test": {
+      "layer": "integration",
+      "files": [
+        "verification/real/concurrency.mjs",
+        "verification/real/config.mjs",
+        "verification/real/loop-guard.mjs",
+        "verification/real/metrics.mjs",
+        "verification/real/performance.mjs",
+        "verification/real/protocol-metrics.mjs",
+        "verification/real/run.mjs",
+        "verification/real/scope.mjs",
+        "verification/real/turn-limit-test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/real/concurrency.mjs": 0,
+        "verification/real/config.mjs": 0,
+        "verification/real/loop-guard.mjs": 0,
+        "verification/real/metrics.mjs": 0,
+        "verification/real/performance.mjs": 0,
+        "verification/real/protocol-metrics.mjs": 0,
+        "verification/real/run.mjs": 0,
+        "verification/real/scope.mjs": 0,
+        "verification/real/turn-limit-test.mjs": 31
+      },
+      "asserts": 31,
+      "markers": [
+        "turn limit tests PASS"
+      ],
+      "tests": null
+    },
+    "check-parity": {
+      "layer": "unit",
+      "files": [
+        "verification/check-parity.test.mjs"
+      ],
+      "fileAsserts": {
+        "verification/check-parity.test.mjs": 56
+      },
+      "asserts": 56,
+      "markers": [
+        "fail 0",
+        "pass [1-9]\\d*"
+      ],
+      "tests": 14
+    }
+  }
+}

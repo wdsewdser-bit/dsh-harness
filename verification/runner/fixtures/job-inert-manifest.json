@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "suites": [
+    {
+      "id": "fixture/inert",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/inert-suite.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": false,
+      "timeoutMs": 30000,
+      "resources": [
+        "exclusive"
+      ]
+    }
+  ]
+}

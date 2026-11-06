@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "suites": [
+    {
+      "id": "fixture/port",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/orphan-port.mjs",
+        "40290"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": true,
+      "timeoutMs": 30000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "fixture/sleeper",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/orphan-sleeper-parent.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": false,
+      "timeoutMs": 30000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "fixture/inherit",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/orphan-inherit.mjs"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": false,
+      "timeoutMs": 30000,
+      "resources": [
+        "exclusive"
+      ]
+    },
+    {
+      "id": "fixture/timeout",
+      "layer": "unit",
+      "entry": [
+        "verification/runner/fixtures/interrupt-parent.mjs",
+        "40290"
+      ],
+      "cwd": ".",
+      "root": null,
+      "expect": [
+        "pass 1"
+      ],
+      "ports": true,
+      "timeoutMs": 4000,
+      "resources": [
+        "exclusive"
+      ]
+    }
+  ]
+}

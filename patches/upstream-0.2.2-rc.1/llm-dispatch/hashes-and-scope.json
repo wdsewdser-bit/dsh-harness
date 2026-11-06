@@ -1,0 +1,20 @@
+{
+  "candidate": "llm-dispatch",
+  "contract": "team-dispatch/2",
+  "build": "<path-to-dsh-v2>\\runs\\m1b-build-1793943630888",
+  "at": "2026-11-06T05:41:01.272Z",
+  "files": [
+    {
+      "file": "dsh-llm/lib/index.js",
+      "status": "applied",
+      "before": "8e541fc98a11897706a122fde1db42f8b2a41b3b354ba3fcb932e9a16929ac6a",
+      "after": "a9bbff5ca270edabc8b91ad361ff9c1c13857d8889d3c60e7d80cd3d8d402785"
+    },
+    {
+      "file": "dsh-llm-deepseek/lib/index.js",
+      "status": "applied",
+      "before": "955dc7bc7ca6c857ff4a7e373b87c143b96a4c43fc80325b67dc0982600dcc75",
+      "after": "73e3f27522c3fdc5b4b2592d14498ba68148c19cfd191908e3a935dbae067105"
+    }
+  ]
+}

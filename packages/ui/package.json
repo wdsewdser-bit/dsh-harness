@@ -1,0 +1,28 @@
+{
+  "name": "@dsh-v2/client-team",
+  "version": "0.1.0-p4",
+  "description": "DSH Team UI (P4 stage 1): read-only Team projection views over mock or HTTP/SSE projection sources",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-sidebar",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/model.test.mjs test/model-frames.test.mjs"
+  },
+  "license": "MIT"
+}

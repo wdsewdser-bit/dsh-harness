@@ -1,0 +1,260 @@
+{
+  "$comment": [
+    "File moves for the parity gate (20-M5-plan.md WP-0 / WP-2 / WP-3).",
+    "Each entry maps a baseline path to where it lives now: {\"from\": \"verification/x.mjs\", \"to\": \"verification/y.mjs\"}.",
+    "A split lists every part: {\"from\": \"a.mjs\", \"to\": [\"b.mjs\", \"c.mjs\"]}; the parts must add up to the original.",
+    "Without an entry a move reads as a deletion and check:parity fails. Entries stay after --write records the new paths;",
+    "a from that is no longer in the baseline is simply inert.",
+    "A suite split lists the parts a baseline suite became; their union must carry every file and the same assertion count.",
+    "A split whose from is no longer in the baseline is inert, exactly like a move whose from is no longer in the closure.",
+    "WP-5b: a split that keeps its original path and only adds sibling parts needs no entry here; the gate sees the original plus the added parts inside the same suite closure, and the suite total is compared as a whole."
+  ],
+  "moves": [
+    {
+      "from": "verification/check-driver-surface.mjs",
+      "to": "verification/unit/check-driver-surface.mjs"
+    },
+    {
+      "from": "verification/m1b-profile-e2e.mjs",
+      "to": "verification/e2e/m1b-profile-e2e.mjs"
+    },
+    {
+      "from": "verification/build-target.test.mjs",
+      "to": "verification/unit/build-target.test.mjs"
+    },
+    {
+      "from": "verification/context-budget.test.mjs",
+      "to": [
+        "verification/unit/context-budget.test.mjs",
+        "verification/unit/context-budget-transport.test.mjs"
+      ]
+    },
+    {
+      "from": "verification/decision-renewal.test.mjs",
+      "to": "verification/unit/decision-renewal.test.mjs"
+    },
+    {
+      "from": "verification/driver-surface.test.mjs",
+      "to": "verification/unit/driver-surface.test.mjs"
+    },
+    {
+      "from": "verification/failure-diagnostics.test.mjs",
+      "to": "verification/unit/failure-diagnostics.test.mjs"
+    },
+    {
+      "from": "verification/git-bash-build-patch.mjs",
+      "to": "verification/unit/git-bash-build-patch.mjs"
+    },
+    {
+      "from": "verification/git-bash-build-patch.test.mjs",
+      "to": "verification/unit/git-bash-build-patch.test.mjs"
+    },
+    {
+      "from": "verification/mailbox-late-delivery.test.mjs",
+      "to": "verification/unit/mailbox-late-delivery.test.mjs"
+    },
+    {
+      "from": "verification/p4-web-poll.mjs",
+      "to": "verification/fixtures/p4-web-poll.mjs"
+    },
+    {
+      "from": "verification/p4-web-poll.test.mjs",
+      "to": "verification/unit/p4-web-poll.test.mjs"
+    },
+    {
+      "from": "verification/real-dispose.test.mjs",
+      "to": "verification/unit/real-dispose.test.mjs"
+    },
+    {
+      "from": "verification/stop-errors.test.mjs",
+      "to": "verification/unit/stop-errors.test.mjs"
+    },
+    {
+      "from": "verification/test-cleanup.test.mjs",
+      "to": "verification/unit/test-cleanup.test.mjs"
+    },
+    {
+      "from": "verification/timing-metrics.test.mjs",
+      "to": "verification/unit/timing-metrics.test.mjs"
+    },
+    {
+      "from": "verification/turn-alert.test.mjs",
+      "to": "verification/unit/turn-alert.test.mjs"
+    },
+    {
+      "from": "verification/superagent-borrow-p0.test.mjs",
+      "to": [
+        "verification/unit/superagent-borrow-p0.test.mjs",
+        "verification/unit/superagent-borrow-p0-contract.test.mjs"
+      ]
+    },
+    {
+      "from": "verification/superagent-borrow-probe.test.mjs",
+      "to": "verification/unit/superagent-borrow-probe.test.mjs"
+    },
+    {
+      "from": "verification/superagent-borrow-acceptance.test.mjs",
+      "to": "verification/unit/superagent-borrow-acceptance.test.mjs"
+    },
+    {
+      "from": "verification/superagent-borrow-p5.test.mjs",
+      "to": [
+        "verification/unit/superagent-borrow-p5.test.mjs",
+        "verification/unit/superagent-borrow-p5-review.test.mjs",
+        "verification/unit/superagent-borrow-p5-support.mjs"
+      ]
+    },
+    {
+      "from": "verification/superagent-borrow-performance.test.mjs",
+      "to": "verification/unit/superagent-borrow-performance.test.mjs"
+    },
+    {
+      "from": "verification/superagent-borrow-profile-e2e.test.mjs",
+      "to": "verification/e2e/superagent-borrow-profile-e2e.test.mjs"
+    },
+    {
+      "from": "verification/fault-worker.mjs",
+      "to": "verification/fixtures/fault-worker.mjs"
+    },
+    {
+      "from": "verification/faults.mjs",
+      "to": "verification/integration/faults.mjs"
+    },
+    {
+      "from": "verification/kill-worker.mjs",
+      "to": "verification/fixtures/kill-worker.mjs"
+    },
+    {
+      "from": "verification/p3-closure.mjs",
+      "to": "verification/domain/p3-closure.mjs"
+    },
+    {
+      "from": "verification/p3-edge-cases.mjs",
+      "to": "verification/domain/p3-edge-cases.mjs"
+    },
+    {
+      "from": "verification/p3-source-replay.mjs",
+      "to": "verification/domain/p3-source-replay.mjs"
+    },
+    {
+      "from": "verification/p3-tests.mjs",
+      "to": "verification/domain/p3-tests.mjs"
+    },
+    {
+      "from": "verification/p3b-host.mjs",
+      "to": "verification/integration/p3b-host.mjs"
+    },
+    {
+      "from": "verification/p3b-model.mjs",
+      "to": "verification/domain/p3b-model.mjs"
+    },
+    {
+      "from": "verification/p3b-tests.mjs",
+      "to": "verification/domain/p3b-tests.mjs"
+    },
+    {
+      "from": "verification/p3b-worker.mjs",
+      "to": "verification/fixtures/p3b-worker.mjs"
+    },
+    {
+      "from": "verification/planner-properties.mjs",
+      "to": "verification/domain/planner-properties.mjs"
+    },
+    {
+      "from": "verification/run.mjs",
+      "to": "verification/integration/run.mjs"
+    },
+    {
+      "from": "verification/surface-cold.mjs",
+      "to": "verification/unit/surface-cold.mjs"
+    },
+    {
+      "from": "verification/p4-retention-current.mjs",
+      "to": "verification/unit/p4-retention-current.mjs"
+    },
+    {
+      "from": "verification/p4-retention-late.mjs",
+      "to": "verification/unit/p4-retention-late.mjs"
+    },
+    {
+      "from": "verification/p4-certificate-binding.mjs",
+      "to": "verification/e2e/p4-certificate-binding.mjs"
+    },
+    {
+      "from": "verification/p4-commands.mjs",
+      "to": "verification/e2e/p4-commands.mjs"
+    },
+    {
+      "from": "verification/p4-projections.mjs",
+      "to": "verification/e2e/p4-projections.mjs"
+    },
+    {
+      "from": "verification/p4-retention-test.mjs",
+      "to": "verification/e2e/p4-retention-test.mjs"
+    },
+    {
+      "from": "verification/p4-run.mjs",
+      "to": "verification/e2e/p4-run.mjs"
+    },
+    {
+      "from": "verification/p4-web.mjs",
+      "to": "verification/e2e/p4-web.mjs"
+    },
+    {
+      "from": "verification/check-parity.test.mjs",
+      "to": "verification/unit/check-parity.test.mjs"
+    },
+    {
+      "from": "verification/harness/fake-provider.mjs",
+      "to": "verification/fixtures/fake-provider.mjs"
+    },
+    {
+      "from": "verification/real/preempt-product-test.mjs",
+      "to": "verification/fixtures/preempt-product-test.mjs"
+    },
+    {
+      "from": "verification/real/preempt-transport-test.mjs",
+      "to": "verification/fixtures/preempt-transport-test.mjs"
+    },
+    {
+      "from": "packages/ui/src/ui.mjs",
+      "to": [
+        "packages/ui/src/ui/atoms.mjs",
+        "packages/ui/src/ui/commands.mjs",
+        "packages/ui/src/ui/situation.mjs",
+        "packages/ui/src/ui/lanes.mjs",
+        "packages/ui/src/ui/detail.mjs",
+        "packages/ui/src/ui/page.mjs",
+        "packages/ui/src/ui/frames.mjs"
+      ]
+    }
+  ],
+  "splits": [
+    {
+      "from": "profiles",
+      "to": [
+        "profiles",
+        "profiles-retention",
+        "profiles-mutation"
+      ]
+    },
+    {
+      "from": "p3-core",
+      "to": [
+        "domain/p3-core"
+      ]
+    },
+    {
+      "from": "p3-model-contracts",
+      "to": [
+        "domain/p3-model-contracts"
+      ]
+    },
+    {
+      "from": "p3-regressions",
+      "to": [
+        "domain/p3-regressions"
+      ]
+    }
+  ]
+}

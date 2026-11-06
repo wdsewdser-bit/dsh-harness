@@ -1,0 +1,17 @@
+{
+  "capturedAt": "2026-11-06T06:36:33.775Z",
+  "entries": [
+    {
+      "name": "team-1440x900.png",
+      "sha256": "b4277a3b14e1e38381b0f371f1a37aaff0e75e17cbd43f2df2f5b656896a6941",
+      "bytes": 73388,
+      "status": "updated"
+    },
+    {
+      "name": "team-480x900.png",
+      "sha256": "0e6d6f7b99fdf8155eab32c53fa2ad726ccc2fa3e85646502ad4847dc646f6c3",
+      "bytes": 28956,
+      "status": "updated"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+import net from 'node:net';import fs from 'node:fs';
+const used=[40390,40391,40398];const result=await Promise.all(used.map(port=>new Promise(resolve=>{const socket=net.connect({host:'127.0.0.1',port});let done=false;const finish=open=>{if(done)return;done=true;socket.destroy();resolve({port,open});};socket.once('connect',()=>finish(true));socket.once('error',()=>finish(false));socket.setTimeout(600,()=>finish(false));})));
+fs.writeFileSync(new URL('./ports.json',import.meta.url),JSON.stringify(result,null,2));if(result.some(r=>r.open))throw Error('PROBE_PORT_LEFT_OPEN:'+JSON.stringify(result));console.log('PASS ports: '+used.join(', ')+' all closed');

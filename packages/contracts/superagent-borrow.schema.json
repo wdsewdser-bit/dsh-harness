@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Super-agent Borrow Protocol Config v1",
+  "description": "P0 of the super-agent borrow design (docs/decisions/superagent-borrow-design.md §2, §10). Contracts, validation and fail-closed refusal only: no v1 consumer reads these values yet, every default preserves legacy behaviour, and naming v1 or an owner model without a consumer is PROTOCOL_UNSUPPORTED at start-up (contracts/superagent-borrow.mjs).",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "superagentBorrow": {
+      "enum": [
+        "off",
+        "v1"
+      ],
+      "default": "off",
+      "description": "One protocol position, never four booleans. off = the product as it is today (profile, tool surface, executor choice and budgets are HEAD's). v1 = the four borrowed mechanisms as one version; it requires team/guard/goalCheck true and autonomy/collab on, and it has no consumer before P1-P5."
+    },
+    "ownerModel": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "model"
+      ],
+      "description": "Deployment choice only (§4.2). null keeps the host's current owner model. Set without an entry that can select it, start-up fails instead of silently keeping the heavier model.",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        }
+      }
+    },
+    "intentSemantics": {
+      "enum": [
+        "undecided",
+        "root-decision-v1",
+        "silence-pass-m2b"
+      ],
+      "default": "undecided",
+      "description": "§12 records root-decision-v1 on 2026-11-01 via away-mode selection (user may revise). undecided means the deployment has not recorded its selection and blocks v1 activation. silence-pass-m2b is a parseable historical alternative, not supported v1 semantics."
+    }
+  }
+}

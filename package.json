@@ -1,0 +1,17 @@
+{
+  "name": "dsh-v2-p2",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node verification/runner/run.mjs",
+    "test:deep": "node verification/runner/test-deep.mjs",
+    "test:compare": "node verification/run-all.mjs",
+    "check:deps": "node verification/check-deps.mjs",
+    "check:size": "node verification/check-size.mjs",
+    "check:parity": "node verification/check-parity.mjs",
+    "test:browser": "node verification/browser/acceptance.mjs"
+  }
+}

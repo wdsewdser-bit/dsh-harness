@@ -1,0 +1,14 @@
+{
+  "name": "@dsh-v2/contracts",
+  "version": "0.1.0-m4",
+  "private": true,
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs",
+    "./team.mjs": "./team.mjs",
+    "./deadline.mjs": "./deadline.mjs",
+    "./team-tools.mjs": "./team-tools.mjs"
+  },
+  "license": "MIT"
+}

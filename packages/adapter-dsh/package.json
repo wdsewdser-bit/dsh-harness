@@ -1,0 +1,11 @@
+{
+  "name": "@dsh-v2/adapter-dsh",
+  "version": "0.1.0-m4",
+  "private": true,
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": {
+    ".": "./index.mjs"
+  },
+  "license": "MIT"
+}

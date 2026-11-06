@@ -1,0 +1,35 @@
+{
+  "root": "<path-to-dsh-v2>\\patches\\upstream-0.2.2-rc.1\\team-layout/web-runs/1793951662336",
+  "comparisons": [
+    {
+      "file": "main-1440x900.html",
+      "equal": true,
+      "difference": null
+    },
+    {
+      "file": "main-480x900.html",
+      "equal": true,
+      "difference": null
+    },
+    {
+      "file": "right-1440x900.html",
+      "equal": true,
+      "difference": null
+    },
+    {
+      "file": "right-480x900.html",
+      "equal": true,
+      "difference": null
+    },
+    {
+      "file": "settings-1440x900.html",
+      "equal": true,
+      "difference": null
+    },
+    {
+      "file": "settings-480x900.html",
+      "equal": true,
+      "difference": null
+    }
+  ]
+}
